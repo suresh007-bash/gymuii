@@ -14,7 +14,7 @@ export default function AddMember() {
   const save = () => {
     if (!form.name || !form.email) return;
     const avatar = form.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-    addUser({ ...form, avatar, role: 'client', trainerId: user.id, gymId: user.gymId, password: 'member123' });
+    addUser({ ...form, id: form.email, avatar, role: 'client', trainerId: user.id, gymId: user.gymId, password: '12345678', requirePasswordChange: true });
     showToast('Member added successfully!');
     setForm({ name: '', email: '', phone: '', age: '', gender: 'Male', height: '', weight: '', goal: 'Weight Loss', diet: 'Non-Veg', allergies: '' });
   };

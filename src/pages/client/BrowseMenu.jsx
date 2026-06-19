@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import DashboardLayout from '../../components/DashboardLayout';
 import { MENU_ITEMS, NUTRIENT_PACKS, CATEGORIES } from '../../data/mockMenu';
 import { useAuth } from '../../context/AuthContext';
@@ -199,7 +199,7 @@ export default function BrowseMenu() {
             <input className="form-input" style={{ paddingLeft: 38 }} placeholder="Search meals..." value={search} onChange={e => setSearch(e.target.value)} />
           </div>
           <button className="btn btn-outline" onClick={() => setShowSchedule(true)}>📅 Schedule</button>
-          <button className="btn btn-primary" onClick={() => navigate('/client/cart')} style={{ whiteSpace: 'nowrap' }}>🛒 Cart ({cartCount})</button>
+          <button className="btn btn-primary" onClick={() => navigate(`/${user?.role === 'owner' ? 'owner' : user?.role === 'trainer' ? 'trainer' : 'client'}/cart`)} style={{ whiteSpace: 'nowrap' }}>🛒 Cart ({cartCount})</button>
         </div>
 
         {/* Target Editor Modal */}
@@ -317,9 +317,89 @@ export default function BrowseMenu() {
           {CATEGORIES.map(c => (<button key={c} className={`tab ${cat === c ? 'active' : ''}`} onClick={() => setCat(c)}>{c}</button>))}
         </div>
 
+        {/* ═══ SUGGESTED FOR YOU ═══ */}
+        {cat === 'All' && !search && (() => {
+          const userGoal = user?.goal || 'Maintenance';
+          const goalConfig = {
+            'Weight Loss': { label: '🔥 Low-Cal Picks for Weight Loss', filter: (m) => m.calories <= 400 && m.protein >= 15, color: '#ef4444', bg: 'rgba(239,68,68,0.06)', border: 'rgba(239,68,68,0.15)' },
+            'Muscle Gain': { label: '💪 High-Protein for Muscle Gain', filter: (m) => m.protein >= 35, color: '#22c55e', bg: 'rgba(34,197,94,0.06)', border: 'rgba(34,197,94,0.15)' },
+            'Maintenance': { label: '⚖️ Balanced Meals for Maintenance', filter: (m) => m.calories >= 300 && m.calories <= 500, color: '#3b82f6', bg: 'rgba(59,130,246,0.06)', border: 'rgba(59,130,246,0.15)' },
+          };
+          const cfg = goalConfig[userGoal] || goalConfig['Maintenance'];
+          const suggested = MENU_ITEMS.filter(m => m.available && cfg.filter(m)).slice(0, 4);
+          if (suggested.length === 0) return null;
+          return (
+            <div style={{ marginBottom: 20 }}>
+              <div style={{
+                padding: '14px 18px', borderRadius: 14, marginBottom: 12,
+                background: cfg.bg, border: `1px solid ${cfg.border}`,
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              }}>
+                <div>
+                  <div style={{ fontWeight: 800, fontSize: 15, color: cfg.color }}>{cfg.label}</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>Based on your goal: <strong>{userGoal}</strong></div>
+                </div>
+                <span style={{ fontSize: 24 }}>🎯</span>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12 }}>
+                {suggested.map(item => {
+                  const calPct = Math.round((item.calories / targets.calories) * 100);
+                  const proPct = Math.round((item.protein / targets.protein) * 100);
+                  return (
+                    <div key={item.id} style={{
+                      borderRadius: 14, overflow: 'hidden',
+                      background: 'var(--bg-secondary)', border: `2px solid ${cfg.border}`,
+                      transition: 'all 0.2s ease',
+                    }}>
+                      <div style={{ position: 'relative', height: 100, overflow: 'hidden' }}>
+                        <img src={item.image} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <div style={{ position: 'absolute', top: 6, right: 6 }}>
+                          <span style={{
+                            fontSize: 9, fontWeight: 800, padding: '3px 8px', borderRadius: 20,
+                            background: cfg.color, color: '#fff',
+                          }}>⭐ {userGoal === 'Weight Loss' ? 'Low Cal' : userGoal === 'Muscle Gain' ? 'High Protein' : 'Balanced'}</span>
+                        </div>
+                      </div>
+                      <div style={{ padding: '10px 12px' }}>
+                        <div style={{ fontWeight: 800, fontSize: 13, marginBottom: 4 }}>{item.name}</div>
+                        {/* Target % bars */}
+                        <div style={{ marginBottom: 8 }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: 'var(--text-muted)', marginBottom: 2 }}>
+                            <span>🔥 Calories</span><span style={{ fontWeight: 700, color: '#f97316' }}>{calPct}% of target</span>
+                          </div>
+                          <div style={{ height: 4, borderRadius: 4, background: 'var(--bg-tertiary)', overflow: 'hidden' }}>
+                            <div style={{ height: '100%', width: `${Math.min(calPct, 100)}%`, borderRadius: 4, background: '#f97316', transition: 'width 0.5s ease' }} />
+                          </div>
+                        </div>
+                        <div style={{ marginBottom: 8 }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: 'var(--text-muted)', marginBottom: 2 }}>
+                            <span>💪 Protein</span><span style={{ fontWeight: 700, color: '#22c55e' }}>{proPct}% of target</span>
+                          </div>
+                          <div style={{ height: 4, borderRadius: 4, background: 'var(--bg-tertiary)', overflow: 'hidden' }}>
+                            <div style={{ height: '100%', width: `${Math.min(proPct, 100)}%`, borderRadius: 4, background: '#22c55e', transition: 'width 0.5s ease' }} />
+                          </div>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span style={{ fontWeight: 900, fontSize: 15, color: 'var(--accent-green)' }}>₹{item.price}</span>
+                          <button className="btn btn-primary btn-sm" onClick={() => addToCart(item)} style={{ fontSize: 11 }}>+ Add</button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })()}
+
         {/* Food Grid */}
         <div className="food-grid">
-          {filtered.map((item, i) => (
+          {filtered.map((item, i) => {
+            const calPct = Math.round((item.calories / targets.calories) * 100);
+            const proPct = Math.round((item.protein / targets.protein) * 100);
+            const carbPct = Math.round((item.carbs / targets.carbs) * 100);
+            const fatPct = Math.round((item.fat / targets.fat) * 100);
+            return (
             <div key={item.id} className="food-card" style={{ animationDelay: `${i * 0.05}s` }}>
               <div className="food-card-img" style={{ position: 'relative' }}>
                 <img src={item.image} alt={item.name} style={{ width: '100%', height: 160, objectFit: 'cover' }} />
@@ -330,8 +410,47 @@ export default function BrowseMenu() {
               <div className="food-card-body">
                 <div className="food-card-name">{item.name}</div>
                 <div className="food-card-macros">{item.tags.map(t => <span key={t} className="badge badge-purple" style={{ fontSize: 10 }}>{t}</span>)}</div>
-                <div style={{ display: 'flex', gap: 8, fontSize: 10, color: 'var(--text-muted)', marginBottom: 8 }}>
+                <div style={{ display: 'flex', gap: 8, fontSize: 10, color: 'var(--text-muted)', marginBottom: 6 }}>
                   <span>🔥 {item.calories} kcal</span><span>💪 {item.protein}g</span><span>🌾 {item.carbs}g</span><span>🥑 {item.fat}g</span>
+                </div>
+                {/* Target % contribution */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginBottom: 8 }}>
+                  <div style={{ padding: '4px 6px', borderRadius: 8, background: 'rgba(249,115,22,0.06)', border: '1px solid rgba(249,115,22,0.1)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: 9, color: 'var(--text-muted)' }}>🔥 Cal</span>
+                      <span style={{ fontSize: 10, fontWeight: 800, color: '#f97316' }}>{calPct}%</span>
+                    </div>
+                    <div style={{ height: 3, borderRadius: 3, background: 'var(--bg-tertiary)', marginTop: 2, overflow: 'hidden' }}>
+                      <div style={{ height: '100%', width: `${Math.min(calPct, 100)}%`, borderRadius: 3, background: '#f97316', transition: 'width 0.5s ease' }} />
+                    </div>
+                  </div>
+                  <div style={{ padding: '4px 6px', borderRadius: 8, background: 'rgba(34,197,94,0.06)', border: '1px solid rgba(34,197,94,0.1)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: 9, color: 'var(--text-muted)' }}>💪 Pro</span>
+                      <span style={{ fontSize: 10, fontWeight: 800, color: '#22c55e' }}>{proPct}%</span>
+                    </div>
+                    <div style={{ height: 3, borderRadius: 3, background: 'var(--bg-tertiary)', marginTop: 2, overflow: 'hidden' }}>
+                      <div style={{ height: '100%', width: `${Math.min(proPct, 100)}%`, borderRadius: 3, background: '#22c55e', transition: 'width 0.5s ease' }} />
+                    </div>
+                  </div>
+                  <div style={{ padding: '4px 6px', borderRadius: 8, background: 'rgba(59,130,246,0.06)', border: '1px solid rgba(59,130,246,0.1)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: 9, color: 'var(--text-muted)' }}>🌾 Carb</span>
+                      <span style={{ fontSize: 10, fontWeight: 800, color: '#3b82f6' }}>{carbPct}%</span>
+                    </div>
+                    <div style={{ height: 3, borderRadius: 3, background: 'var(--bg-tertiary)', marginTop: 2, overflow: 'hidden' }}>
+                      <div style={{ height: '100%', width: `${Math.min(carbPct, 100)}%`, borderRadius: 3, background: '#3b82f6', transition: 'width 0.5s ease' }} />
+                    </div>
+                  </div>
+                  <div style={{ padding: '4px 6px', borderRadius: 8, background: 'rgba(234,179,8,0.06)', border: '1px solid rgba(234,179,8,0.1)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: 9, color: 'var(--text-muted)' }}>🥑 Fat</span>
+                      <span style={{ fontSize: 10, fontWeight: 800, color: '#eab308' }}>{fatPct}%</span>
+                    </div>
+                    <div style={{ height: 3, borderRadius: 3, background: 'var(--bg-tertiary)', marginTop: 2, overflow: 'hidden' }}>
+                      <div style={{ height: '100%', width: `${Math.min(fatPct, 100)}%`, borderRadius: 3, background: '#eab308', transition: 'width 0.5s ease' }} />
+                    </div>
+                  </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <div className="food-card-price">₹{item.price}</div>
@@ -339,7 +458,8 @@ export default function BrowseMenu() {
                 </div>
               </div>
             </div>
-          ))}
+          );
+          })}
         </div>
         {filtered.length === 0 && <div style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)' }}>No items found</div>}
       </>)}

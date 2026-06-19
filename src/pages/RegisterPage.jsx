@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const roleMap = { client: '/client/dashboard', trainer: '/trainer/dashboard', owner: '/owner/dashboard', kitchen: '/kitchen/dashboard', delivery: '/delivery/dashboard', admin: '/admin/dashboard' };
+const roleMap = { client: '/client/dashboard', trainer: '/trainer/dashboard', owner: '/owner/menu', kitchen: '/kitchen/dashboard', delivery: '/delivery/dashboard', admin: '/admin/dashboard' };
 const roleOptions = [
   { id: 'client', icon: '🏋️', label: 'Client', desc: 'Order meals & track nutrition', color: '#f97316' },
   { id: 'trainer', icon: '💪', label: 'Trainer', desc: 'Manage clients & programs', color: '#8b5cf6' },

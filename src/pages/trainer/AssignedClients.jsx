@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DashboardLayout from '../../components/DashboardLayout';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
@@ -10,6 +10,47 @@ export default function AssignedClients() {
   const { saveDietPlan } = useOrders();
   const { showToast } = useNotifications();
   const clients = getTrainerClients(user?.id);
+
+  // Trainer Request Management
+  const [trainerRequests, setTrainerRequests] = useState(() => {
+    const saved = localStorage.getItem('trainer_requests');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // Re-read requests periodically to catch new client requests
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const saved = localStorage.getItem('trainer_requests');
+      if (saved) setTrainerRequests(JSON.parse(saved));
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const pendingRequests = trainerRequests.filter(r => r.trainerId === user?.id && r.status === 'pending');
+
+  const acceptRequest = (reqId) => {
+    const saved = localStorage.getItem('trainer_requests');
+    let allReqs = saved ? JSON.parse(saved) : [];
+    const req = allReqs.find(r => r.id === reqId);
+    if (!req) return;
+    // Update request status
+    allReqs = allReqs.map(r => r.id === reqId ? { ...r, status: 'accepted' } : r);
+    localStorage.setItem('trainer_requests', JSON.stringify(allReqs));
+    setTrainerRequests(allReqs);
+    // Assign client to this trainer
+    updateUser(req.clientId, { trainerId: user.id, gymId: user.gymId });
+    showToast(`✅ ${req.clientName} is now your client!`);
+  };
+
+  const rejectRequest = (reqId) => {
+    const saved = localStorage.getItem('trainer_requests');
+    let allReqs = saved ? JSON.parse(saved) : [];
+    allReqs = allReqs.map(r => r.id === reqId ? { ...r, status: 'rejected' } : r);
+    localStorage.setItem('trainer_requests', JSON.stringify(allReqs));
+    setTrainerRequests(allReqs);
+    const req = allReqs.find(r => r.id === reqId);
+    showToast(`Request from ${req?.clientName || 'client'} declined.`, 'info');
+  };
 
   // Diet modal state
   const [dietClient, setDietClient] = useState(null);
@@ -32,7 +73,7 @@ export default function AssignedClients() {
   const saveMember = () => {
     if (!memberForm.name || !memberForm.email) { showToast('Name and email required', 'error'); return; }
     const avatar = memberForm.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-    addUser({ ...memberForm, avatar, role: 'client', trainerId: user.id, gymId: user.gymId, password: 'member123' });
+    addUser({ ...memberForm, id: memberForm.email, avatar, role: 'client', trainerId: user.id, gymId: user.gymId, password: '12345678', requirePasswordChange: true });
     showToast(`✅ ${memberForm.name} added as a new member!`);
     setMemberForm({ name: '', email: '', phone: '', age: '', gender: 'Male', height: '', weight: '', goal: 'Weight Loss', diet: 'Non-Veg', allergies: '' });
     setShowAddMember(false);
@@ -171,6 +212,65 @@ export default function AssignedClients() {
                 onKeyDown={e => e.key === 'Enter' && sendMessage()} style={{ flex: 1 }} />
               <button className="btn btn-primary" onClick={sendMessage}>Send</button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Pending Requests Section */}
+      {pendingRequests.length > 0 && (
+        <div className="card" style={{ marginBottom: 20, border: '1px solid rgba(251,191,36,0.3)', background: 'linear-gradient(135deg, rgba(251,191,36,0.04), rgba(249,115,22,0.04))' }}>
+          <div className="card-header">
+            <h3 className="card-title" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ animation: 'pulse 2s infinite' }}>🔔</span> Pending Requests ({pendingRequests.length})
+            </h3>
+          </div>
+          <div style={{ display: 'grid', gap: 10 }}>
+            {pendingRequests.map(req => (
+              <div key={req.id} style={{
+                display: 'flex', alignItems: 'center', gap: 14, padding: 14,
+                borderRadius: 14, background: 'var(--bg-tertiary)',
+                border: '1px solid var(--border)', transition: 'all 0.2s ease',
+              }}>
+                <div style={{
+                  width: 46, height: 46, borderRadius: 14, flexShrink: 0,
+                  background: 'linear-gradient(135deg, #f97316, #fb923c)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 15, fontWeight: 800, color: '#fff',
+                  boxShadow: '0 4px 12px rgba(249,115,22,0.25)',
+                }}>{req.clientAvatar}</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 800, fontSize: 14, marginBottom: 2 }}>{req.clientName}</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-muted)', display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                    <span>📧 {req.clientEmail}</span>
+                    <span>🎯 {req.clientGoal}</span>
+                  </div>
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>
+                    ⏰ Requested {new Date(req.requestedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button
+                    className="btn btn-sm"
+                    onClick={() => acceptRequest(req.id)}
+                    style={{
+                      background: 'linear-gradient(135deg, #22c55e, #16a34a)', border: 'none',
+                      color: '#fff', fontWeight: 700, fontSize: 12, padding: '8px 16px',
+                      borderRadius: 10, cursor: 'pointer', fontFamily: 'Outfit',
+                      boxShadow: '0 3px 10px rgba(34,197,94,0.3)',
+                    }}
+                  >✅ Accept</button>
+                  <button
+                    className="btn btn-sm"
+                    onClick={() => rejectRequest(req.id)}
+                    style={{
+                      background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)',
+                      color: '#ef4444', fontWeight: 700, fontSize: 12, padding: '8px 16px',
+                      borderRadius: 10, cursor: 'pointer', fontFamily: 'Outfit',
+                    }}
+                  >❌ Decline</button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}

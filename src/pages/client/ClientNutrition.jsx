@@ -132,7 +132,7 @@ export default function ClientNutrition() {
         {todayOrders.length === 0 ? (
           <div style={{ textAlign: 'center', padding: 32, color: 'var(--text-muted)' }}>
             <div style={{ fontSize: 40, marginBottom: 8 }}>🍽️</div>
-            <p>No meals today yet. <a href="/client/menu" style={{ color: 'var(--accent-orange)', fontWeight: 700 }}>Browse Menu →</a></p>
+            <p>No meals today yet. <a href={`/${user?.role === 'owner' ? 'owner' : user?.role === 'trainer' ? 'trainer' : 'client'}/menu`} style={{ color: 'var(--accent-orange)', fontWeight: 700 }}>Browse Menu →</a></p>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>

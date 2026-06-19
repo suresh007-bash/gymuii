@@ -11,6 +11,7 @@ export default function MyCart() {
   const { placeOrder } = useOrders();
   const { showToast } = useNotifications();
   const navigate = useNavigate();
+  const rolePrefix = user?.role === 'owner' ? '/owner' : user?.role === 'trainer' ? '/trainer' : '/client';
   const [cart, setCart] = useState(() => JSON.parse(localStorage.getItem('synnoviq_cart') || '[]'));
   const [tip, setTip] = useState(0);
   const [payment, setPayment] = useState('COD');
@@ -58,8 +59,8 @@ export default function MyCart() {
           <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Share with delivery person</div>
         </div>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 16 }}>
-          <button className="btn btn-primary btn-lg" onClick={() => navigate('/client/orders')}>📦 Track Order</button>
-          <button className="btn btn-outline btn-lg" onClick={() => navigate('/client/menu')}>🍽️ Order More</button>
+          <button className="btn btn-primary btn-lg" onClick={() => navigate(`${rolePrefix}/orders`)}>📦 Track Order</button>
+          <button className="btn btn-outline btn-lg" onClick={() => navigate(`${rolePrefix}/menu`)}>🍽️ Order More</button>
         </div>
       </div>
     </DashboardLayout>
@@ -73,8 +74,8 @@ export default function MyCart() {
           <h2 style={{ fontFamily: 'Outfit', fontSize: 24, fontWeight: 800, marginBottom: 8 }}>Your cart is empty</h2>
           <p style={{ color: 'var(--text-muted)', marginBottom: 20 }}>Browse the menu to add food items</p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
-            <button className="btn btn-primary btn-lg" onClick={() => navigate('/client/menu')}>🍽️ Browse Menu</button>
-            <button className="btn btn-outline btn-lg" onClick={() => navigate('/client/schedule')}>📅 Schedule Foods</button>
+            <button className="btn btn-primary btn-lg" onClick={() => navigate(`${rolePrefix}/menu`)}>🍽️ Browse Menu</button>
+            <button className="btn btn-outline btn-lg" onClick={() => navigate(`${rolePrefix}/schedule`)}>📅 Schedule Foods</button>
           </div>
         </div>
       ) : (
@@ -155,7 +156,7 @@ export default function MyCart() {
             </div>
 
             {/* Schedule option */}
-            <button className="btn btn-outline" style={{ width: '100%', fontSize: 13 }} onClick={() => navigate('/client/schedule')}>
+            <button className="btn btn-outline" style={{ width: '100%', fontSize: 13 }} onClick={() => navigate(`${rolePrefix}/schedule`)}>
               📅 Want to schedule for specific dates? → Schedule Foods
             </button>
           </div>

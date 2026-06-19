@@ -7,6 +7,7 @@ import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import CompleteProfile from './pages/CompleteProfile';
+import ChangePassword from './pages/ChangePassword';
 
 // Client Pages
 import ClientDashboard from './pages/client/ClientDashboard';
@@ -97,7 +98,8 @@ export default function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/complete-profile" element={<CompleteProfile />} />
+        <Route path="/complete-profile" element={<ProtectedRoute><CompleteProfile /></ProtectedRoute>} />
+        <Route path="/change-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
 
         {/* Client */}
         <Route path="/client/dashboard" element={<Navigate to="/client/menu" replace />} />
@@ -131,15 +133,22 @@ export default function App() {
         <Route path="/trainer/schedule-for-clients" element={<ProtectedRoute allowedRoles={['trainer']}><ScheduleForClients /></ProtectedRoute>} />
 
         {/* Owner */}
-        <Route path="/owner/dashboard" element={<ProtectedRoute allowedRoles={['owner']}><OwnerDashboard /></ProtectedRoute>} />
+        <Route path="/owner/dashboard" element={<Navigate to="/owner/menu" replace />} />
         <Route path="/owner/trainers" element={<ProtectedRoute allowedRoles={['owner']}><ManageTrainers /></ProtectedRoute>} />
         <Route path="/owner/members" element={<ProtectedRoute allowedRoles={['owner']}><MemberManagement /></ProtectedRoute>} />
         <Route path="/owner/add-member" element={<ProtectedRoute allowedRoles={['owner']}><AddMember /></ProtectedRoute>} />
         <Route path="/owner/analytics" element={<ProtectedRoute allowedRoles={['owner']}><OwnerAnalytics /></ProtectedRoute>} />
         <Route path="/owner/profile" element={<ProtectedRoute allowedRoles={['owner']}><OwnerProfile /></ProtectedRoute>} />
-        <Route path="/owner/menu" element={<ProtectedRoute allowedRoles={['owner']}><OwnerMenu /></ProtectedRoute>} />
-        <Route path="/owner/cart" element={<ProtectedRoute allowedRoles={['owner']}><OwnerCart /></ProtectedRoute>} />
-        <Route path="/owner/orders" element={<ProtectedRoute allowedRoles={['owner']}><OwnerOrders /></ProtectedRoute>} />
+        <Route path="/owner/menu" element={<ProtectedRoute allowedRoles={['owner']}><BrowseMenu /></ProtectedRoute>} />
+        <Route path="/owner/cart" element={<ProtectedRoute allowedRoles={['owner']}><MyCart /></ProtectedRoute>} />
+        <Route path="/owner/orders" element={<ProtectedRoute allowedRoles={['owner']}><MyOrders /></ProtectedRoute>} />
+        <Route path="/owner/schedule" element={<ProtectedRoute allowedRoles={['owner']}><ScheduleFoods /></ProtectedRoute>} />
+        <Route path="/owner/nutrition" element={<ProtectedRoute allowedRoles={['owner']}><ClientNutrition /></ProtectedRoute>} />
+        <Route path="/owner/meal-plans" element={<ProtectedRoute allowedRoles={['owner']}><ClientMealPlans /></ProtectedRoute>} />
+        <Route path="/owner/subscriptions" element={<ProtectedRoute allowedRoles={['owner']}><ClientSubscriptions /></ProtectedRoute>} />
+        <Route path="/owner/community" element={<ProtectedRoute allowedRoles={['owner']}><ClientCommunity /></ProtectedRoute>} />
+        <Route path="/owner/support" element={<ProtectedRoute allowedRoles={['owner']}><ClientSupport /></ProtectedRoute>} />
+        <Route path="/owner/settings" element={<ProtectedRoute allowedRoles={['owner']}><ClientSettings /></ProtectedRoute>} />
 
         {/* Kitchen */}
         <Route path="/kitchen/dashboard" element={<ProtectedRoute allowedRoles={['kitchen']}><KitchenDashboard /></ProtectedRoute>} />

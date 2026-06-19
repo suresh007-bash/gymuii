@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const roleMap = { client: '/client/dashboard', trainer: '/trainer/dashboard', owner: '/owner/dashboard', kitchen: '/kitchen/dashboard', delivery: '/delivery/dashboard', admin: '/admin/dashboard' };
+const roleMap = { client: '/client/dashboard', trainer: '/trainer/dashboard', owner: '/owner/menu', kitchen: '/kitchen/dashboard', delivery: '/delivery/dashboard', admin: '/admin/dashboard' };
 const roles = [
   { id: 'client', icon: '🏋️', label: 'Client' },
   { id: 'trainer', icon: '💪', label: 'Trainer' },
@@ -27,13 +27,17 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  if (user) return <Navigate to={roleMap[user.role]} replace />;
+  if (user) {
+    if (user.requirePasswordChange) return <Navigate to="/change-password" replace />;
+    return <Navigate to={roleMap[user.role]} replace />;
+  }
 
   const handleLogin = (e) => {
     e.preventDefault();
     const result = login(email, password);
     if (result.success) {
-      if (result.user.profileComplete === false) navigate('/complete-profile');
+      if (result.user.requirePasswordChange) navigate('/change-password');
+      else if (result.user.profileComplete === false) navigate('/complete-profile');
       else navigate(roleMap[result.user.role]);
     } else setError(result.error);
   };

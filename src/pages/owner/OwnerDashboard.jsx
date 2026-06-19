@@ -8,7 +8,7 @@ import { useNotifications } from '../../context/NotificationContext';
 import { MENU_ITEMS } from '../../data/mockMenu';
 
 
-const MIND_CATS = [{ label: 'Members', img: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=150&q=80' },{ label: 'Trainers', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=150&q=80' },{ label: 'Diet Plans', img: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=150&q=80' },{ label: 'Revenue', img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=150&q=80' },{ label: 'Protein', img: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=150&q=80' },{ label: 'Analytics', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=150&q=80' },{ label: 'Scheduling', img: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=150&q=80' },{ label: 'Packs', img: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=150&q=80' }];
+const MIND_CATS = [{ label: 'Members', img: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=150&q=80' },{ label: 'Trainers', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=150&q=80' },{ label: 'Browse Menu', img: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=150&q=80' },{ label: 'My Orders', img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=150&q=80' },{ label: 'Schedule', img: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=150&q=80' },{ label: 'Nutrition', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=150&q=80' },{ label: 'Meal Plans', img: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=150&q=80' },{ label: 'Analytics', img: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=150&q=80' }];
 
 export default function OwnerDashboard() {
   const { user, getOwnerClients, getOwnerTrainers, getDirectClients, updateUser } = useAuth();
@@ -63,7 +63,10 @@ export default function OwnerDashboard() {
 
       <div style={{ marginBottom: 24 }}>
         <h3 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 20, marginBottom: 16 }}>What's on your mind?</h3>
-        <div style={{ display: 'flex', gap: 16, overflowX: 'auto', paddingBottom: 8 }}>{MIND_CATS.map((cat, i) => (<Link key={i} to={i === 0 ? '/owner/members' : i === 1 ? '/owner/trainers' : '/owner/analytics'} style={{ textDecoration: 'none', textAlign: 'center', flexShrink: 0 }}><div style={{ width: 80, height: 80, borderRadius: '50%', overflow: 'hidden', marginBottom: 6, border: '2px solid #eee' }}><img src={cat.img} alt={cat.label} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div><div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-primary)' }}>{cat.label}</div></Link>))}</div>
+        <div style={{ display: 'flex', gap: 16, overflowX: 'auto', paddingBottom: 8 }}>{MIND_CATS.map((cat, i) => {
+          const paths = ['/owner/members', '/owner/trainers', '/owner/menu', '/owner/orders', '/owner/schedule', '/owner/nutrition', '/owner/meal-plans', '/owner/analytics'];
+          return (<Link key={i} to={paths[i] || '/owner/dashboard'} style={{ textDecoration: 'none', textAlign: 'center', flexShrink: 0 }}><div style={{ width: 80, height: 80, borderRadius: '50%', overflow: 'hidden', marginBottom: 6, border: '2px solid #eee' }}><img src={cat.img} alt={cat.label} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div><div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-primary)' }}>{cat.label}</div></Link>);
+        })}</div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>

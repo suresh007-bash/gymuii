@@ -40,6 +40,7 @@ export default function MyCart() {
   const { placeOrder } = useOrders();
   const { showToast } = useNotifications();
   const navigate = useNavigate();
+  const rolePrefix = user?.role === 'owner' ? '/owner' : user?.role === 'trainer' ? '/trainer' : '/client';
 
   const [step, setStep] = useState(1);
   const [selectedDates, setSelectedDates] = useState([]);
@@ -259,8 +260,8 @@ export default function MyCart() {
         </div>
         <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: 13 }}>📅 {(orderPlaced.scheduledDates || []).map(d => fmtDate(d)).join(' • ')}</p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
-          <button className="btn btn-primary btn-lg" onClick={() => navigate('/client/orders')}>📦 Track Order</button>
-          <button className="btn btn-outline btn-lg" onClick={() => navigate('/client/menu')}>🍽️ Order More</button>
+          <button className="btn btn-primary btn-lg" onClick={() => navigate(`${rolePrefix}/orders`)}>📦 Track Order</button>
+          <button className="btn btn-outline btn-lg" onClick={() => navigate(`${rolePrefix}/menu`)}>🍽️ Order More</button>
         </div>
       </div>
     </DashboardLayout>

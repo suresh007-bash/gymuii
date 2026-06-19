@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { GYMS } from '../data/mockUsers';
 
-const roleMap = { client: '/client/dashboard', trainer: '/trainer/dashboard', owner: '/owner/dashboard', kitchen: '/kitchen/dashboard', delivery: '/delivery/dashboard', admin: '/admin/dashboard' };
+const roleMap = { client: '/client/dashboard', trainer: '/trainer/dashboard', owner: '/owner/menu', kitchen: '/kitchen/dashboard', delivery: '/delivery/dashboard', admin: '/admin/dashboard' };
 
 export default function CompleteProfile() {
   const { user, updateUser, allUsers } = useAuth();

@@ -29,7 +29,7 @@ const PLANS = [
 
 export default function LandingPage() {
   const { user } = useAuth();
-  const roleMap = { client: '/client/dashboard', trainer: '/trainer/dashboard', owner: '/owner/dashboard', kitchen: '/kitchen/dashboard', delivery: '/delivery/dashboard', admin: '/admin/dashboard' };
+  const roleMap = { client: '/client/dashboard', trainer: '/trainer/dashboard', owner: '/owner/menu', kitchen: '/kitchen/dashboard', delivery: '/delivery/dashboard', admin: '/admin/dashboard' };
 
   return (
     <div style={{ fontFamily: "'Outfit', 'Inter', sans-serif", background: '#fff', color: '#1a1a1a' }}>
@@ -42,7 +42,7 @@ export default function LandingPage() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
           {NAV_LINKS.map(l => (<a key={l.label} href={l.href} style={{ color: 'rgba(255,255,255,0.85)', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>{l.label}</a>))}
           {user ? (
-            <Link to={roleMap[user.role]} style={{ padding: '10px 24px', background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 30, fontWeight: 800, fontSize: 14, textDecoration: 'none' }}>Dashboard →</Link>
+            <Link to={user.requirePasswordChange ? '/change-password' : roleMap[user.role]} style={{ padding: '10px 24px', background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 30, fontWeight: 800, fontSize: 14, textDecoration: 'none' }}>Dashboard →</Link>
           ) : (
             <Link to="/login" style={{ padding: '10px 24px', border: '2px solid #fff', color: '#fff', borderRadius: 30, fontWeight: 800, fontSize: 14, textDecoration: 'none' }}>Login / Sign Up</Link>
           )}
