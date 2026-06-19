@@ -316,3 +316,114 @@ img { max-width: 100%; display: block; }
 /* ═══ SIDEBAR OVERLAY (Mobile) ═══ */
 .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 99; }
 .sidebar-overlay.show { display: block; }
+
+/* ═══ KITCHEN KANBAN BOARD (KDS) ═══ */
+.kds-kanban-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: start;
+  margin-top: 10px;
+}
+
+.kds-column {
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+  overflow: hidden;
+}
+
+.kds-column-header {
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-heading);
+  font-size: 14px;
+}
+
+.kds-column-content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.kds-card {
+  margin: 0;
+  padding: 14px !important;
+  box-shadow: var(--shadow-sm);
+  background: var(--bg-card);
+  transition: var(--transition);
+}
+
+.kds-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.kds-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.kds-card-id {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 14px;
+}
+
+.kds-items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.kds-item {
+  font-size: 12px;
+  padding: 6px 8px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-sm);
+}
+
+.kds-instr {
+  font-size: 10px;
+  color: var(--accent-orange);
+  margin-top: 2px;
+  font-weight: 700;
+}
+
+.kds-empty {
+  text-align: center;
+  padding: 30px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-style: italic;
+}
+
+/* Responsive Helper */
+@media (max-width: 768px) {
+  .kds-kanban-grid {
+    grid-template-columns: 1fr;
+  }
+  .mobile-only {
+    display: flex !important;
+  }
+  .mobile-hidden {
+    display: none !important;
+  }
+}
+
+.mobile-only {
+  display: none;
+}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import DashboardLayout from '../../components/DashboardLayout';
 import { useOrders } from '../../context/OrderContext';
 import { useNotifications } from '../../context/NotificationContext';
@@ -6,58 +6,268 @@ import { useNotifications } from '../../context/NotificationContext';
 export default function OrderQueue() {
   const { orders, updateOrderStatus } = useOrders();
   const { showToast } = useNotifications();
-  const [tab, setTab] = useState('pending');
+  
+  // Date State: defaults to today
+  const [selectedDate, setSelectedDate] = useState(() => {
+    return new Date().toISOString().split('T')[0];
+  });
 
-  const pending = orders.filter(o => o.status === 'pending');
-  const preparing = orders.filter(o => o.status === 'preparing');
-  const ready = orders.filter(o => o.status === 'ready');
+  // Mobile column view state (on mobile we show one column at a time)
+  const [activeTab, setActiveTab] = useState('pending');
 
-  const shown = tab === 'pending' ? pending : tab === 'preparing' ? preparing : ready;
+  // Generate next 14 days for the horizontal calendar bar
+  const calendarDays = useMemo(() => {
+    const days = [];
+    const today = new Date();
+    for (let i = -2; i < 12; i++) { // Include 2 days ago to 12 days future
+      const d = new Date(today);
+      d.setDate(today.getDate() + i);
+      days.push(d.toISOString().split('T')[0]);
+    }
+    return days;
+  }, []);
 
-  const handleStatus = (id, newStatus, label) => { updateOrderStatus(id, newStatus); showToast(`Order #${id} → ${label}`); };
+  // Filter & Sort Orders
+  const filteredSortedOrders = useMemo(() => {
+    return orders
+      .filter(o => {
+        const orderDateStr = o.orderTime ? o.orderTime.split('T')[0] : '';
+        const isScheduledForDate = o.scheduledDates && o.scheduledDates.includes(selectedDate);
+        return orderDateStr === selectedDate || isScheduledForDate;
+      })
+      .sort((a, b) => {
+        // Priority Scoring: Morning orders first
+        const getScore = (o) => {
+          if (o.timing === 'morning' || (o.timeSlot && o.timeSlot.toLowerCase().includes('am'))) {
+            return 1; // High priority (morning)
+          }
+          if (o.timing === 'noon' || (o.timeSlot && o.timeSlot.toLowerCase().includes('pm') && (o.timeSlot.startsWith('12') || o.timeSlot.startsWith('1') || o.timeSlot.startsWith('2')))) {
+            return 2; // Medium priority (afternoon)
+          }
+          return 3; // Standard (evening)
+        };
+        const scoreA = getScore(a);
+        const scoreB = getScore(b);
+        if (scoreA !== scoreB) return scoreA - scoreB;
+        return new Date(a.orderTime) - new Date(b.orderTime);
+      });
+  }, [orders, selectedDate]);
+
+  const pending = filteredSortedOrders.filter(o => o.status === 'pending');
+  const preparing = filteredSortedOrders.filter(o => o.status === 'preparing');
+  const ready = filteredSortedOrders.filter(o => o.status === 'ready');
+
+  const handleStatus = (id, newStatus, label) => {
+    updateOrderStatus(id, newStatus);
+    showToast(`Order #${id} → ${label}`);
+  };
+
+  const fmtDayName = (dStr) => {
+    const date = new Date(dStr);
+    const today = new Date().toISOString().split('T')[0];
+    if (dStr === today) return 'Today';
+    return date.toLocaleDateString('en-IN', { weekday: 'short' });
+  };
+
+  const fmtDayNum = (dStr) => {
+    return new Date(dStr).getDate();
+  };
+
+  const isMorning = (o) => {
+    return o.timing === 'morning' || (o.timeSlot && o.timeSlot.toLowerCase().includes('am'));
+  };
 
   return (
     <DashboardLayout title="Order Queue">
-      <div className="stats-grid" style={{ marginBottom: 20 }}>
-        {[{ icon: '⏳', val: pending.length, label: 'Pending', color: '#f97316' }, { icon: '👨‍🍳', val: preparing.length, label: 'Preparing', color: '#3b82f6' }, { icon: '✅', val: ready.length, label: 'Ready', color: '#22c55e' }].map((s, i) => (
-          <div key={i} className="stat-card"><div className="stat-icon">{s.icon}</div><div className="stat-value" style={{ color: s.color }}>{s.val}</div><div className="stat-label">{s.label}</div></div>
-        ))}
-      </div>
+      {/* Date Selection Header */}
+      <div className="card" style={{ marginBottom: 20, padding: 16 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 12 }}>
+          <h4 style={{ margin: 0, fontFamily: 'Outfit', fontWeight: 800, fontSize: 16 }}>📅 Select Preparation Date</h4>
+          <input 
+            type="date" 
+            value={selectedDate} 
+            onChange={e => setSelectedDate(e.target.value)}
+            style={{ 
+              padding: '6px 12px', 
+              borderRadius: 10, 
+              border: '1px solid var(--border)', 
+              background: 'var(--bg-input)', 
+              color: 'var(--text-primary)',
+              fontFamily: 'Outfit',
+              fontSize: 13
+            }}
+          />
+        </div>
 
-      <div className="tabs" style={{ marginBottom: 16 }}>
-        {[['pending', `⏳ Pending (${pending.length})`], ['preparing', `👨‍🍳 Preparing (${preparing.length})`], ['ready', `✅ Ready (${ready.length})`]].map(([k, l]) => (
-          <button key={k} className={`tab ${tab === k ? 'active' : ''}`} onClick={() => setTab(k)}>{l}</button>
-        ))}
-      </div>
-
-      {shown.length === 0 ? (
-        <div className="card" style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)' }}>No {tab} orders</div>
-      ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          {shown.map(o => (
-            <div key={o.id} className="card" style={{ animation: 'fadeInUp 0.3s ease' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                <div><span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15 }}>#{o.id}</span><span style={{ marginLeft: 8, fontSize: 12, color: 'var(--text-muted)' }}>{new Date(o.orderTime).toLocaleTimeString()}</span></div>
-                <span className={`badge ${tab === 'pending' ? 'badge-orange' : tab === 'preparing' ? 'badge-blue' : 'badge-green'}`}>{tab.toUpperCase()}</span>
-              </div>
-              <div style={{ fontSize: 13, marginBottom: 6 }}>👤 {o.customerName} • 📍 {o.customerAddress}</div>
-              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
-                {o.items.map((item, i) => (
-                  <span key={i} style={{ fontSize: 12, padding: '4px 10px', background: 'var(--bg-tertiary)', borderRadius: 8 }}>{item.name} × {item.qty}{item.instructions ? ` (${item.instructions})` : ''}</span>
-                ))}
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontWeight: 700, color: 'var(--accent-green)' }}>₹{o.total} • {o.paymentMethod}</span>
-                <div style={{ display: 'flex', gap: 8 }}>
-                  {tab === 'pending' && <button className="btn btn-primary btn-sm" onClick={() => handleStatus(o.id, 'preparing', 'Preparing 👨‍🍳')}>👨‍🍳 Start Preparing</button>}
-                  {tab === 'preparing' && <button className="btn btn-success btn-sm" onClick={() => handleStatus(o.id, 'ready', 'Ready ✅')}>✅ Mark Ready</button>}
-                  {tab === 'ready' && <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Waiting for dispatch...</span>}
+        {/* Horizontal Calendar Bar */}
+        <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 6 }}>
+          {calendarDays.map(day => {
+            const isSelected = day === selectedDate;
+            return (
+              <div 
+                key={day} 
+                onClick={() => setSelectedDate(day)}
+                style={{
+                  minWidth: 64,
+                  padding: '10px 8px',
+                  borderRadius: 12,
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  border: isSelected ? '1px solid var(--accent-orange)' : '1px solid var(--border)',
+                  background: isSelected ? 'rgba(249,115,22,0.08)' : 'var(--bg-tertiary)',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <div style={{ fontSize: 10, fontWeight: 700, color: isSelected ? 'var(--accent-orange)' : 'var(--text-muted)', textTransform: 'uppercase' }}>
+                  {fmtDayName(day)}
+                </div>
+                <div style={{ fontSize: 18, fontWeight: 900, color: isSelected ? 'var(--accent-orange)' : 'var(--text-primary)', marginTop: 2 }}>
+                  {fmtDayNum(day)}
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
-      )}
+      </div>
+
+      {/* Mobile Column Select Tabs */}
+      <div className="tabs mobile-only" style={{ marginBottom: 16 }}>
+        <button className={`tab ${activeTab === 'pending' ? 'active' : ''}`} onClick={() => setActiveTab('pending')}>⏳ Queue ({pending.length})</button>
+        <button className={`tab ${activeTab === 'preparing' ? 'active' : ''}`} onClick={() => setActiveTab('preparing')}>👨‍🍳 Prep ({preparing.length})</button>
+        <button className={`tab ${activeTab === 'ready' ? 'active' : ''}`} onClick={() => setActiveTab('ready')}>✅ Ready ({ready.length})</button>
+      </div>
+
+      {/* KDS Kanban Board Grid */}
+      <div className="kds-kanban-grid">
+        {/* Column 1: Order Queue (Pending) */}
+        <div className={`kds-column ${activeTab !== 'pending' ? 'mobile-hidden' : ''}`}>
+          <div className="kds-column-header" style={{ borderTop: '4px solid var(--accent-orange)' }}>
+            <span style={{ fontSize: 16 }}>⏳</span>
+            <span style={{ fontWeight: 800 }}>Order Queue ({pending.length})</span>
+          </div>
+          <div className="kds-column-content">
+            {pending.length === 0 ? (
+              <div className="kds-empty">No orders in queue</div>
+            ) : (
+              pending.map(o => (
+                <div key={o.id} className="card kds-card" style={{ borderLeft: isMorning(o) ? '4px solid #3b82f6' : '1px solid var(--border)' }}>
+                  <div className="kds-card-header">
+                    <div>
+                      <span className="kds-card-id">#{o.id}</span>
+                      {isMorning(o) && <span className="badge badge-blue" style={{ marginLeft: 6, fontSize: 9 }}>☀️ MORNING</span>}
+                    </div>
+                    <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
+                      {o.timeSlot || new Date(o.orderTime).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
+                  <div className="kds-card-body">
+                    <div style={{ fontWeight: 700, fontSize: 13, marginBottom: 4 }}>👤 {o.customerName}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 8 }}>📍 {o.customerAddress}</div>
+                    <div className="kds-items">
+                      {o.items.map((item, i) => (
+                        <div key={i} className="kds-item">
+                          <span style={{ fontWeight: 700 }}>{item.qty}x</span> {item.name}
+                          {item.instructions && <div className="kds-instr">💡 {item.instructions}</div>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="kds-card-footer">
+                    <button className="btn btn-primary btn-sm" style={{ width: '100%' }} onClick={() => handleStatus(o.id, 'preparing', 'Preparing 👨‍🍳')}>
+                      👨‍🍳 Start Preparing
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        {/* Column 2: Preparing */}
+        <div className={`kds-column ${activeTab !== 'preparing' ? 'mobile-hidden' : ''}`}>
+          <div className="kds-column-header" style={{ borderTop: '4px solid #3b82f6' }}>
+            <span style={{ fontSize: 16 }}>👨‍🍳</span>
+            <span style={{ fontWeight: 800 }}>Preparing ({preparing.length})</span>
+          </div>
+          <div className="kds-column-content">
+            {preparing.length === 0 ? (
+              <div className="kds-empty">No meals being prepared</div>
+            ) : (
+              preparing.map(o => (
+                <div key={o.id} className="card kds-card" style={{ borderLeft: isMorning(o) ? '4px solid #3b82f6' : '1px solid var(--border)' }}>
+                  <div className="kds-card-header">
+                    <div>
+                      <span className="kds-card-id">#{o.id}</span>
+                      {isMorning(o) && <span className="badge badge-blue" style={{ marginLeft: 6, fontSize: 9 }}>☀️ MORNING</span>}
+                    </div>
+                    <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
+                      {o.timeSlot || new Date(o.orderTime).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
+                  <div className="kds-card-body">
+                    <div style={{ fontWeight: 700, fontSize: 13, marginBottom: 4 }}>👤 {o.customerName}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 8 }}>📍 {o.customerAddress}</div>
+                    <div className="kds-items">
+                      {o.items.map((item, i) => (
+                        <div key={i} className="kds-item">
+                          <span style={{ fontWeight: 700 }}>{item.qty}x</span> {item.name}
+                          {item.instructions && <div className="kds-instr">💡 {item.instructions}</div>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="kds-card-footer">
+                    <button className="btn btn-success btn-sm" style={{ width: '100%' }} onClick={() => handleStatus(o.id, 'ready', 'Ready ✅')}>
+                      ✅ Mark Ready
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        {/* Column 3: Ready */}
+        <div className={`kds-column ${activeTab !== 'ready' ? 'mobile-hidden' : ''}`}>
+          <div className="kds-column-header" style={{ borderTop: '4px solid var(--accent-green)' }}>
+            <span style={{ fontSize: 16 }}>✅</span>
+            <span style={{ fontWeight: 800 }}>Ready ({ready.length})</span>
+          </div>
+          <div className="kds-column-content">
+            {ready.length === 0 ? (
+              <div className="kds-empty">No ready orders</div>
+            ) : (
+              ready.map(o => (
+                <div key={o.id} className="card kds-card">
+                  <div className="kds-card-header">
+                    <div>
+                      <span className="kds-card-id">#{o.id}</span>
+                      {isMorning(o) && <span className="badge badge-blue" style={{ marginLeft: 6, fontSize: 9 }}>☀️ MORNING</span>}
+                    </div>
+                    <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
+                      {o.timeSlot || new Date(o.orderTime).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
+                  <div className="kds-card-body">
+                    <div style={{ fontWeight: 700, fontSize: 13, marginBottom: 4 }}>👤 {o.customerName}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 8 }}>📍 {o.customerAddress}</div>
+                    <div className="kds-items">
+                      {o.items.map((item, i) => (
+                        <div key={i} className="kds-item">
+                          <span style={{ fontWeight: 700 }}>{item.qty}x</span> {item.name}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="kds-card-footer" style={{ textAlign: 'center', fontSize: 12, color: 'var(--text-muted)', padding: '10px 0' }}>
+                    📦 Waiting for dispatch...
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
     </DashboardLayout>
   );
 }
