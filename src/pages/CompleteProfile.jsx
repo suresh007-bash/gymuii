@@ -37,9 +37,10 @@ export default function CompleteProfile() {
 
         <div style={{ background: '#fff', borderRadius: 20, padding: 28, border: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
 
-          {/* CLIENT BIO */}
-          {user.role === 'client' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {/* Health & Diet Profile (For Client, Trainer, Owner) */}
+          {(user.role === 'client' || user.role === 'trainer' || user.role === 'owner') && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14, borderBottom: (user.role === 'trainer' || user.role === 'owner') ? '1px solid #e5e7eb' : 'none', paddingBottom: (user.role === 'trainer' || user.role === 'owner') ? 20 : 0, marginBottom: (user.role === 'trainer' || user.role === 'owner') ? 20 : 0 }}>
+              <h3 style={{ fontSize: 13, fontWeight: 800, color: '#f97316', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>Health & Diet Profile</h3>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 14 }}>
                 <div><label style={lbl}>Age</label><input style={inp} type="number" value={form.age} onChange={e => upd('age', e.target.value)} placeholder="25" /></div>
                 <div><label style={lbl}>Height (cm)</label><input style={inp} type="number" value={form.height} onChange={e => upd('height', e.target.value)} placeholder="175" /></div>
@@ -57,6 +58,7 @@ export default function CompleteProfile() {
           {/* TRAINER BIO */}
           {user.role === 'trainer' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <h3 style={{ fontSize: 13, fontWeight: 800, color: '#f97316', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>Trainer Credentials</h3>
               <div><label style={lbl}>Specialization</label><input style={inp} value={form.specialization} onChange={e => upd('specialization', e.target.value)} placeholder="e.g., Strength Training, HIIT" /></div>
               <div><label style={lbl}>Certifications</label><input style={inp} value={form.certifications} onChange={e => upd('certifications', e.target.value)} placeholder="e.g., ACE, NASM, ISSA" /></div>
               <div><label style={lbl}>Select Gym</label><select style={inp} value={form.gymId} onChange={e => upd('gymId', e.target.value)}><option value="">Choose gym...</option>{GYMS.map(g => <option key={g.id} value={g.id}>{g.name} — {g.location}</option>)}</select></div>
@@ -66,6 +68,7 @@ export default function CompleteProfile() {
           {/* OWNER BIO */}
           {user.role === 'owner' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <h3 style={{ fontSize: 13, fontWeight: 800, color: '#f97316', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>Gym Business Details</h3>
               <div><label style={lbl}>Gym Name</label><input style={inp} value={form.gymName} onChange={e => upd('gymName', e.target.value)} placeholder="FitZone Pro Gym" /></div>
               <div><label style={lbl}>Gym Location</label><input style={inp} value={form.gymLocation} onChange={e => upd('gymLocation', e.target.value)} placeholder="Bangalore, Koramangala" /></div>
               <div><label style={lbl}>GST Number</label><input style={inp} value={form.gst} onChange={e => upd('gst', e.target.value)} placeholder="GST29ABCDE1234F" /></div>

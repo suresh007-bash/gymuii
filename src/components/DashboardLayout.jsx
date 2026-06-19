@@ -21,7 +21,6 @@ const roleConfig = {
     { icon: '📦', label: 'My Orders', path: '/trainer/orders' }, { icon: '📊', label: 'Nutrition', path: '/trainer/nutrition' },
     { icon: '💎', label: 'Subscriptions', path: '/trainer/subscriptions' },
     // Trainer-specific
-    { icon: '—', label: '── TRAINER TOOLS ──', path: null },
     { icon: '👥', label: 'My Clients', path: '/trainer/clients' },
     { icon: '📅', label: 'Schedule Foods to Clients', path: '/trainer/schedule-for-clients' },
     { icon: '👤', label: 'Profile', path: '/trainer/profile' },
@@ -44,16 +43,16 @@ const roleConfig = {
     { icon: '⚙️', label: 'Settings', path: '/owner/settings' },
   ]},
   kitchen: { brand: 'FitBites', sub: 'KITCHEN PORTAL', gradient: 'linear-gradient(135deg, #14b8a6, #22c55e)', links: [
-    { icon: '📊', label: 'Dashboard', path: '/kitchen/dashboard' }, { icon: '📋', label: 'Order Queue', path: '/kitchen/queue' },
+    { icon: '🏠', label: 'Home', path: '/kitchen/dashboard' }, { icon: '📋', label: 'Order Queue', path: '/kitchen/queue' },
     { icon: '🍽️', label: 'Menu', path: '/kitchen/menu' }, { icon: '🚀', label: 'Dispatch', path: '/kitchen/dispatch' },
     { icon: '⚙️', label: 'Settings', path: '/kitchen/settings' },
   ]},
   delivery: { brand: 'FitBites', sub: 'DELIVERY PORTAL', gradient: 'linear-gradient(135deg, #f97316, #14b8a6)', links: [
-    { icon: '📊', label: 'My Dashboard', path: '/delivery/dashboard' }, { icon: '📦', label: 'My Deliveries', path: '/delivery/my-deliveries' },
+    { icon: '🏠', label: 'Home', path: '/delivery/dashboard' }, { icon: '📦', label: 'My Deliveries', path: '/delivery/my-deliveries' },
     { icon: '📜', label: 'Delivery History', path: '/delivery/history' }, { icon: '👤', label: 'Profile', path: '/delivery/profile' },
   ]},
   admin: { brand: 'GymFuel', sub: 'ADMIN PORTAL', gradient: 'linear-gradient(135deg, #f97316, #22c55e)', links: [
-    { icon: '📊', label: 'Dashboard', path: '/admin/dashboard' }, { icon: '📦', label: 'Orders', path: '/admin/orders' },
+    { icon: '🏠', label: 'Home', path: '/admin/dashboard' }, { icon: '📦', label: 'Orders', path: '/admin/orders' },
     { icon: '👥', label: 'Users', path: '/admin/users' }, { icon: '🚗', label: 'Delivery', path: '/admin/delivery' },
     { icon: '📈', label: 'Analytics', path: '/admin/analytics' }, { icon: '⚙️', label: 'Settings', path: '/admin/settings' },
   ]},

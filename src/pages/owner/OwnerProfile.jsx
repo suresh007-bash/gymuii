@@ -8,7 +8,21 @@ export default function OwnerProfile() {
   const { user, updateUser, logout } = useAuth();
   const { showToast } = useNotifications();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ name: user?.name || '', email: user?.email || '', phone: user?.phone || '', gymName: user?.gymName || '', gymLocation: user?.gymLocation || '', gst: user?.gst || '' });
+  const [form, setForm] = useState({
+    name: user?.name || '',
+    email: user?.email || '',
+    phone: user?.phone || '',
+    gymName: user?.gymName || '',
+    gymLocation: user?.gymLocation || '',
+    gst: user?.gst || '',
+    age: user?.age || '',
+    gender: user?.gender || 'Male',
+    height: user?.height || '',
+    weight: user?.weight || '',
+    goal: user?.goal || 'Weight Loss',
+    diet: user?.diet || 'Non-Veg',
+    allergies: user?.allergies || ''
+  });
   const upd = (k, v) => setForm(p => ({ ...p, [k]: v }));
 
   const handleSave = () => { updateUser(user.id, { ...form, avatar: form.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) }); showToast('Profile updated! ✅'); };
@@ -26,15 +40,19 @@ export default function OwnerProfile() {
         </div>
         <div className="card" style={{ padding: 24 }}>
           <h3 className="card-title" style={{ marginBottom: 16 }}>✏️ Edit Profile</h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <div><label className="form-label">Full Name</label><input style={inp} value={form.name} onChange={e => upd('name', e.target.value)} /></div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-              <div><label className="form-label">Email</label><input style={inp} value={form.email} onChange={e => upd('email', e.target.value)} /></div>
-              <div><label className="form-label">Phone</label><input style={inp} value={form.phone} onChange={e => upd('phone', e.target.value)} /></div>
-            </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div style={{ gridColumn: '1 / -1' }}><label className="form-label">Full Name</label><input style={inp} value={form.name} onChange={e => upd('name', e.target.value)} /></div>
+            <div><label className="form-label">Email</label><input style={inp} value={form.email} onChange={e => upd('email', e.target.value)} /></div>
+            <div><label className="form-label">Phone</label><input style={inp} value={form.phone} onChange={e => upd('phone', e.target.value)} /></div>
             <div><label className="form-label">Gym Name</label><input style={inp} value={form.gymName} onChange={e => upd('gymName', e.target.value)} /></div>
             <div><label className="form-label">Gym Location</label><input style={inp} value={form.gymLocation} onChange={e => upd('gymLocation', e.target.value)} /></div>
-            <div><label className="form-label">GST Number</label><input style={inp} value={form.gst} onChange={e => upd('gst', e.target.value)} /></div>
+            <div style={{ gridColumn: '1 / -1' }}><label className="form-label">GST Number</label><input style={inp} value={form.gst} onChange={e => upd('gst', e.target.value)} /></div>
+            <div><label className="form-label">Age</label><input style={inp} type="number" value={form.age} onChange={e => upd('age', e.target.value)} /></div>
+            <div><label className="form-label">Height (cm)</label><input style={inp} type="number" value={form.height} onChange={e => upd('height', e.target.value)} /></div>
+            <div><label className="form-label">Weight (kg)</label><input style={inp} type="number" value={form.weight} onChange={e => upd('weight', e.target.value)} /></div>
+            <div><label className="form-label">Fitness Goal</label><select style={inp} value={form.goal} onChange={e => upd('goal', e.target.value)}><option>Weight Loss</option><option>Muscle Gain</option><option>Maintenance</option></select></div>
+            <div><label className="form-label">Diet</label><select style={inp} value={form.diet} onChange={e => upd('diet', e.target.value)}><option>Non-Veg</option><option>Veg</option><option>Vegan</option></select></div>
+            <div style={{ gridColumn: '1 / -1' }}><label className="form-label">Allergies</label><input style={inp} value={form.allergies} onChange={e => upd('allergies', e.target.value)} /></div>
           </div>
           <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
             <button className="btn btn-success" style={{ flex: 1 }} onClick={handleSave}>✅ Save Changes</button>
