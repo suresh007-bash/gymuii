@@ -151,8 +151,10 @@ export default function App() {
         {/* Owner */}
         <Route path="/owner/dashboard" element={<Navigate to="/owner/menu" replace />} />
         <Route path="/owner/trainers" element={<ProtectedRoute allowedRoles={['owner']}><ManageTrainers /></ProtectedRoute>} />
-        <Route path="/owner/members" element={<ProtectedRoute allowedRoles={['owner']}><MemberManagement /></ProtectedRoute>} />
-        <Route path="/owner/add-member" element={<ProtectedRoute allowedRoles={['owner']}><AddMember /></ProtectedRoute>} />
+        <Route path="/owner/members" element={<Navigate to="/owner/clients" replace />} />
+        <Route path="/owner/add-member" element={<Navigate to="/owner/clients" replace />} />
+        <Route path="/owner/clients" element={<ProtectedRoute allowedRoles={['owner']}><AssignedClients /></ProtectedRoute>} />
+        <Route path="/owner/schedule-for-clients" element={<ProtectedRoute allowedRoles={['owner']}><ScheduleForClients /></ProtectedRoute>} />
         <Route path="/owner/analytics" element={<ProtectedRoute allowedRoles={['owner']}><OwnerAnalytics /></ProtectedRoute>} />
         <Route path="/owner/profile" element={<ProtectedRoute allowedRoles={['owner']}><OwnerProfile /></ProtectedRoute>} />
         <Route path="/owner/menu" element={<ProtectedRoute allowedRoles={['owner']}><BrowseMenu /></ProtectedRoute>} />

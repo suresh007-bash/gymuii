@@ -6,10 +6,10 @@ import { useNotifications } from '../../context/NotificationContext';
 import { MENU_ITEMS } from '../../data/mockMenu';
 
 export default function AssignedClients() {
-  const { user, getTrainerClients, updateUser, addUser, allUsers } = useAuth();
+  const { user, getTrainerClients, getOwnerClients, updateUser, addUser, allUsers } = useAuth();
   const { saveDietPlan } = useOrders();
   const { showToast } = useNotifications();
-  const clients = getTrainerClients(user?.id);
+  const clients = user?.role === 'owner' ? getOwnerClients(user?.id) : getTrainerClients(user?.id);
 
   // Trainer Request Management
   const [trainerRequests, setTrainerRequests] = useState(() => {
@@ -78,7 +78,7 @@ export default function AssignedClients() {
       id: memberForm.email,
       avatar,
       role: 'client',
-      trainerId: user.id,
+      trainerId: user.role === 'trainer' ? user.id : null,
       gymId: user.gymId,
       password: '12345678',
       requirePasswordChange: true,

@@ -36,7 +36,7 @@ const Ring = ({ value, target, color, size = 72, stroke = 7, icon, label, unit }
 };
 
 export default function ScheduleForClients() {
-  const { user, getTrainerClients, updateUser, allUsers } = useAuth();
+  const { user, getTrainerClients, getOwnerClients, updateUser, allUsers } = useAuth();
   const { saveDietPlan } = useOrders();
   const { showToast } = useNotifications();
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ export default function ScheduleForClients() {
   const [search, setSearch] = useState('');
 
   // Client selection
-  const clients = getTrainerClients(user?.id);
+  const clients = user?.role === 'owner' ? getOwnerClients(user?.id) : getTrainerClients(user?.id);
   const [selectedClients, setSelectedClients] = useState([]);
   const [clientSearch, setClientSearch] = useState('');
 
@@ -57,6 +57,7 @@ export default function ScheduleForClients() {
   // Synchronize client configs when selected clients change
   useEffect(() => {
     setClientConfigs(prev => {
+      let changed = false;
       const updated = { ...prev };
       selectedClients.forEach(id => {
         if (!updated[id]) {
@@ -69,9 +70,10 @@ export default function ScheduleForClients() {
             preferredDiagram: clientObj?.preferredDiagram || 'ring',
             redirectPage: clientObj?.redirectPage || defaultPage
           };
+          changed = true;
         }
       });
-      return updated;
+      return changed ? updated : prev;
     });
   }, [selectedClients, clients]);
 
@@ -299,7 +301,7 @@ export default function ScheduleForClients() {
         <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: 12 }}>Clients can now view, edit, and order from this schedule.</p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
           <button className="btn btn-primary btn-lg" onClick={() => setAssignSuccess(null)}>📅 Assign More</button>
-          <button className="btn btn-outline btn-lg" onClick={() => navigate('/trainer/dashboard')}>🏠 Back to Home</button>
+          <button className="btn btn-outline btn-lg" onClick={() => navigate(user?.role === 'owner' ? '/owner/menu' : '/trainer/dashboard')}>🏠 Back to Home</button>
         </div>
       </div>
     </DashboardLayout>

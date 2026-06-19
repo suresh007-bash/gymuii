@@ -29,8 +29,8 @@ const roleConfig = {
   owner: { brand: 'FitSwipe', sub: 'OWNER PORTAL', gradient: 'linear-gradient(135deg, #22c55e, #4ade80)', links: [
     { icon: '🏠', label: 'Home', path: '/owner/menu' },
     { icon: '💪', label: 'Manage Trainers', path: '/owner/trainers' },
-    { icon: '👥', label: 'Members', path: '/owner/members' },
-    { icon: '➕', label: 'Add Member', path: '/owner/add-member' },
+    { icon: '👥', label: 'My Clients', path: '/owner/clients' },
+    { icon: '📅', label: 'Schedule Foods to Clients', path: '/owner/schedule-for-clients' },
     { icon: '📈', label: 'Analytics', path: '/owner/analytics' },
     { icon: '📋', label: 'Meal Plans', path: '/owner/meal-plans' },
     { icon: '🛒', label: 'My Cart', path: '/owner/cart' },
