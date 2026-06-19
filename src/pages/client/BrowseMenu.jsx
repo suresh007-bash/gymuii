@@ -1,0 +1,413 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import DashboardLayout from '../../components/DashboardLayout';
+import { MENU_ITEMS, NUTRIENT_PACKS, CATEGORIES } from '../../data/mockMenu';
+import { useAuth } from '../../context/AuthContext';
+import { useOrders } from '../../context/OrderContext';
+import { useNotifications } from '../../context/NotificationContext';
+
+// Auto-calculate nutrition targets from body data (Mifflin-St Jeor)
+function calcTargets(profile) {
+  const { weight, height, age, gender, goal, activityLevel } = profile;
+  if (!weight || !height || !age) return null;
+  // BMR
+  let bmr = 10 * weight + 6.25 * height - 5 * age;
+  bmr += gender === 'Female' ? -161 : 5;
+  // Activity multiplier
+  const actMult = { sedentary: 1.2, light: 1.375, moderate: 1.55, active: 1.725, athlete: 1.9 };
+  const tdee = bmr * (actMult[activityLevel] || 1.55);
+  // Goal adjustment
+  let calories = Math.round(tdee);
+  if (goal === 'Weight Loss') calories = Math.round(tdee * 0.8);
+  else if (goal === 'Muscle Gain') calories = Math.round(tdee * 1.15);
+  // Macro split
+  const protein = Math.round(weight * (goal === 'Muscle Gain' ? 2.2 : 1.8));
+  const fat = Math.round(calories * 0.25 / 9);
+  const carbs = Math.round((calories - protein * 4 - fat * 9) / 4);
+  return { calories, protein, carbs, fat };
+}
+
+export default function BrowseMenu() {
+  const { user } = useAuth();
+  const { getDietPlansByClient } = useOrders();
+  const { showToast } = useNotifications();
+  const navigate = useNavigate();
+  const [cat, setCat] = useState('All');
+  const [search, setSearch] = useState('');
+  const [tab, setTab] = useState('menu');
+  const [cart, setCart] = useState(() => JSON.parse(localStorage.getItem('synnoviq_cart') || '[]'));
+  const [showSchedule, setShowSchedule] = useState(false);
+  const [schedForm, setSchedForm] = useState({ dates: '', timing: 'morning', items: [] });
+  const [showTargetEditor, setShowTargetEditor] = useState(false);
+  const [targets, setTargets] = useState(() => JSON.parse(localStorage.getItem('synnoviq_targets') || 'null') || { calories: 2500, protein: 180, carbs: 280, fat: 80 });
+  const [bioForm, setBioForm] = useState({
+    weight: user?.weight || 70, height: user?.height || 170, age: user?.age || 25,
+    gender: user?.gender || 'Male', goal: user?.goal || 'Maintenance',
+    activityLevel: 'moderate',
+  });
+  const [editTargets, setEditTargets] = useState({ ...targets });
+
+  useEffect(() => { localStorage.setItem('synnoviq_targets', JSON.stringify(targets)); }, [targets]);
+
+  const autoCalcAndSet = () => {
+    const auto = calcTargets(bioForm);
+    if (auto) { setEditTargets(auto); showToast('🧮 Targets auto-calculated from your body data!'); }
+    else showToast('Fill weight, height & age first', 'error');
+  };
+
+  const saveTargets = () => {
+    setTargets({ ...editTargets });
+    setShowTargetEditor(false);
+    showToast('✅ Nutrition targets updated!');
+  };
+
+  // SVG Circular Ring component
+  const Ring = ({ value, target, color, size = 90, stroke = 8, icon, label, unit }) => {
+    const pct = Math.min((value / target) * 100, 100);
+    const r = (size - stroke) / 2;
+    const circ = 2 * Math.PI * r;
+    const offset = circ - (pct / 100) * circ;
+    const isOver = value > target;
+    return (
+      <div style={{ textAlign: 'center', position: 'relative' }}>
+        <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
+          <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="var(--bg-tertiary)" strokeWidth={stroke} />
+          <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={isOver ? '#ef4444' : color} strokeWidth={stroke}
+            strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round"
+            style={{ transition: 'stroke-dashoffset 0.8s cubic-bezier(0.4,0,0.2,1)' }} />
+        </svg>
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center' }}>
+          <div style={{ fontSize: 16 }}>{icon}</div>
+          <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 14, color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{value}</div>
+        </div>
+        <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)', marginTop: 4 }}>{label}</div>
+        <div style={{ fontSize: 9, color: isOver ? '#ef4444' : 'var(--text-muted)' }}>
+          {isOver ? `⚠️ +${value - target}` : `${target - value}`} {unit} {isOver ? 'over' : 'left'}
+        </div>
+      </div>
+    );
+  };
+
+  const filtered = MENU_ITEMS.filter(m => (cat === 'All' || m.category === cat) && m.name.toLowerCase().includes(search.toLowerCase()));
+  const myDietPlans = getDietPlansByClient(user?.id);
+
+  // Nutrient packs from all sources
+  const allPacks = [...NUTRIENT_PACKS];
+
+  const addToCart = (item) => {
+    const exists = cart.find(c => c.id === item.id);
+    let newCart;
+    if (exists) newCart = cart.map(c => c.id === item.id ? { ...c, qty: c.qty + 1 } : c);
+    else newCart = [...cart, { ...item, qty: 1 }];
+    setCart(newCart);
+    localStorage.setItem('synnoviq_cart', JSON.stringify(newCart));
+    showToast(`${item.name} added to cart! 🛒`);
+  };
+
+  const orderPack = (pack) => {
+    const packItems = pack.items.map(id => MENU_ITEMS.find(m => m.id === id)).filter(Boolean);
+    const unavailable = packItems.filter(i => !i.available);
+    if (unavailable.length > 0 && unavailable.length < packItems.length) {
+      const avail = packItems.filter(i => i.available);
+      if (window.confirm(`⚠️ ${unavailable.map(i => i.name).join(', ')} not available.\n\nOrder remaining ${avail.length} items?\n(${avail.map(i => i.name).join(', ')})`)) {
+        avail.forEach(item => addToCart(item));
+        showToast(`${avail.length} available items from "${pack.name}" added!`);
+      }
+    } else if (unavailable.length === packItems.length) {
+      showToast('All items in this pack are unavailable', 'error');
+    } else {
+      packItems.forEach(item => addToCart(item));
+      showToast(`"${pack.name}" added to cart! 🎉`);
+    }
+  };
+
+  const toggleSchedItem = (id) => setSchedForm(p => ({ ...p, items: p.items.includes(id) ? p.items.filter(x => x !== id) : [...p.items, id] }));
+
+  const cartCount = cart.reduce((a, c) => a + c.qty, 0);
+  const timeSlots = { morning: '🌅 8:00 AM', noon: '☀️ 12:30 PM', evening: '🌙 7:00 PM' };
+
+  return (
+    <DashboardLayout title="Home">
+      {/* Schedule Modal */}
+      {showSchedule && (
+        <div className="modal-overlay" onClick={() => setShowSchedule(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 520 }}>
+            <div className="modal-header"><h3 className="modal-title">📅 Schedule Meals</h3><button className="modal-close" onClick={() => setShowSchedule(false)}>✕</button></div>
+            <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16 }}>Select foods and schedule for multiple days</p>
+            <div style={{ marginBottom: 14 }}>
+              <label className="form-label">Timing</label>
+              <div style={{ display: 'flex', gap: 8 }}>
+                {Object.entries(timeSlots).map(([k, v]) => (
+                  <button key={k} className={`btn btn-sm ${schedForm.timing === k ? 'btn-primary' : 'btn-outline'}`} onClick={() => setSchedForm(p => ({ ...p, timing: k }))}>{v}</button>
+                ))}
+              </div>
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <label className="form-label">Dates (comma-separated)</label>
+              <input className="form-input" value={schedForm.dates} onChange={e => setSchedForm(p => ({ ...p, dates: e.target.value }))} placeholder="2026-06-20, 2026-06-21, 2026-06-22" />
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <label className="form-label">Select Foods</label>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, maxHeight: 200, overflowY: 'auto' }}>
+                {MENU_ITEMS.filter(m => m.available).map(item => (
+                  <div key={item.id} onClick={() => toggleSchedItem(item.id)} style={{ padding: 8, background: schedForm.items.includes(item.id) ? 'rgba(249,115,22,0.08)' : 'var(--bg-tertiary)', border: `1px solid ${schedForm.items.includes(item.id) ? 'var(--accent-orange)' : 'var(--border)'}`, borderRadius: 8, cursor: 'pointer', fontSize: 12 }}>
+                    <div style={{ fontWeight: 700 }}>{schedForm.items.includes(item.id) ? '✅ ' : ''}{item.name}</div>
+                    <div style={{ color: 'var(--text-muted)', fontSize: 10 }}>🔥{item.calories} • ₹{item.price}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <button className="btn btn-success" style={{ width: '100%' }} disabled={!schedForm.dates || schedForm.items.length === 0} onClick={() => {
+              const dateArr = schedForm.dates.split(',').map(d => d.trim()).filter(Boolean);
+              schedForm.items.forEach(id => { const item = MENU_ITEMS.find(m => m.id === id); if (item) addToCart(item); });
+              showToast(`📅 Scheduled ${schedForm.items.length} items for ${dateArr.length} day(s) — ${timeSlots[schedForm.timing]}`);
+              setShowSchedule(false);
+              setSchedForm({ dates: '', timing: 'morning', items: [] });
+            }}>📅 Schedule & Add to Cart</button>
+          </div>
+        </div>
+      )}
+
+      {/* ═══ HERO BANNER ═══ */}
+      <div style={{
+        borderRadius: 20, overflow: 'hidden', position: 'relative', marginBottom: 20,
+        background: 'linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80") center/cover',
+        padding: '48px 40px', color: '#fff',
+      }}>
+        <div style={{ fontSize: 11, fontWeight: 800, background: '#f97316', display: 'inline-block', padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}>🍽️ FOOD DELIVERY</div>
+        <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 900, lineHeight: 1.15, marginBottom: 12, maxWidth: 450 }}>
+          Order Food Online<br />in Chennai
+        </h1>
+        <p style={{ fontSize: 14, opacity: 0.85, maxWidth: 420, lineHeight: 1.6 }}>
+          Get fresh, delicious meals delivered fast — curated for your health goals and everyday cravings.
+        </p>
+      </div>
+
+      {/* Tabs: Menu / Nutrient Packs / Trainer Plans */}
+      <div className="tabs" style={{ marginBottom: 16 }}>
+        <button className={`tab ${tab === 'menu' ? 'active' : ''}`} onClick={() => setTab('menu')}>🍽️ Food Menu</button>
+        <button className={`tab ${tab === 'packs' ? 'active' : ''}`} onClick={() => setTab('packs')}>📦 Nutrient Packs</button>
+        {myDietPlans.length > 0 && <button className={`tab ${tab === 'plans' ? 'active' : ''}`} onClick={() => setTab('plans')}>💪 My Diet Plans ({myDietPlans.length})</button>}
+      </div>
+
+      {/* ═══ FOOD MENU TAB ═══ */}
+      {tab === 'menu' && (<>
+        {/* Action Bar */}
+        <div style={{ display: 'flex', gap: 12, marginBottom: 16, alignItems: 'center' }}>
+          <div style={{ flex: 1, position: 'relative' }}>
+            <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)' }}>🔍</span>
+            <input className="form-input" style={{ paddingLeft: 38 }} placeholder="Search meals..." value={search} onChange={e => setSearch(e.target.value)} />
+          </div>
+          <button className="btn btn-outline" onClick={() => setShowSchedule(true)}>📅 Schedule</button>
+          <button className="btn btn-primary" onClick={() => navigate('/client/cart')} style={{ whiteSpace: 'nowrap' }}>🛒 Cart ({cartCount})</button>
+        </div>
+
+        {/* Target Editor Modal */}
+        {showTargetEditor && (
+          <div className="modal-overlay" onClick={() => setShowTargetEditor(false)}>
+            <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 500 }}>
+              <div className="modal-header">
+                <h3 className="modal-title">🎯 Set Nutrition Targets</h3>
+                <button className="modal-close" onClick={() => setShowTargetEditor(false)}>✕</button>
+              </div>
+
+              {/* Auto Calculate */}
+              <div style={{ padding: 14, background: 'rgba(139,92,246,0.06)', borderRadius: 12, marginBottom: 16 }}>
+                <div style={{ fontWeight: 800, fontSize: 13, marginBottom: 10, color: '#8b5cf6' }}>🧮 Auto-Calculate from Body Data</div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, marginBottom: 10 }}>
+                  <div>
+                    <label style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)' }}>Weight (kg)</label>
+                    <input className="form-input" type="number" value={bioForm.weight} onChange={e => setBioForm(p => ({ ...p, weight: Number(e.target.value) }))} style={{ fontSize: 13 }} />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)' }}>Height (cm)</label>
+                    <input className="form-input" type="number" value={bioForm.height} onChange={e => setBioForm(p => ({ ...p, height: Number(e.target.value) }))} style={{ fontSize: 13 }} />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)' }}>Age</label>
+                    <input className="form-input" type="number" value={bioForm.age} onChange={e => setBioForm(p => ({ ...p, age: Number(e.target.value) }))} style={{ fontSize: 13 }} />
+                  </div>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, marginBottom: 10 }}>
+                  <div>
+                    <label style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)' }}>Gender</label>
+                    <select className="form-select" value={bioForm.gender} onChange={e => setBioForm(p => ({ ...p, gender: e.target.value }))} style={{ fontSize: 12 }}>
+                      <option>Male</option><option>Female</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)' }}>Goal</label>
+                    <select className="form-select" value={bioForm.goal} onChange={e => setBioForm(p => ({ ...p, goal: e.target.value }))} style={{ fontSize: 12 }}>
+                      <option>Weight Loss</option><option>Maintenance</option><option>Muscle Gain</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)' }}>Activity</label>
+                    <select className="form-select" value={bioForm.activityLevel} onChange={e => setBioForm(p => ({ ...p, activityLevel: e.target.value }))} style={{ fontSize: 12 }}>
+                      <option value="sedentary">Sedentary</option><option value="light">Light</option><option value="moderate">Moderate</option><option value="active">Active</option><option value="athlete">Athlete</option>
+                    </select>
+                  </div>
+                </div>
+                <button className="btn btn-outline btn-sm" style={{ width: '100%', color: '#8b5cf6' }} onClick={autoCalcAndSet}>🧮 Calculate Targets from Body Data</button>
+              </div>
+
+              {/* Manual Edit */}
+              <div style={{ marginBottom: 16 }}>
+                <div style={{ fontWeight: 800, fontSize: 13, marginBottom: 10 }}>✏️ Manual Targets (or edit calculated values)</div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                  {[
+                    { key: 'calories', label: 'Calories (kcal)', icon: '🔥', color: '#f97316' },
+                    { key: 'protein', label: 'Protein (g)', icon: '💪', color: '#22c55e' },
+                    { key: 'carbs', label: 'Carbs (g)', icon: '🌾', color: '#3b82f6' },
+                    { key: 'fat', label: 'Fat (g)', icon: '🥑', color: '#eab308' },
+                  ].map(n => (
+                    <div key={n.key}>
+                      <label style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)' }}>{n.icon} {n.label}</label>
+                      <input className="form-input" type="number" value={editTargets[n.key]}
+                        onChange={e => setEditTargets(p => ({ ...p, [n.key]: Number(e.target.value) }))}
+                        style={{ fontSize: 15, fontFamily: 'Outfit', fontWeight: 800, color: n.color }} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="modal-footer">
+                <button className="btn btn-outline" onClick={() => setShowTargetEditor(false)}>Cancel</button>
+                <button className="btn btn-success" onClick={saveTargets}>✅ Save Targets</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Animated Circular Nutrition Tracker */}
+        {(() => {
+          const cartCal = cart.reduce((a, c) => a + (c.calories || 0) * c.qty, 0);
+          const cartPro = cart.reduce((a, c) => a + (c.protein || 0) * c.qty, 0);
+          const cartCarb = cart.reduce((a, c) => a + (c.carbs || 0) * c.qty, 0);
+          const cartFat = cart.reduce((a, c) => a + (c.fat || 0) * c.qty, 0);
+          const totalPct = Math.round(((cartCal / targets.calories) * 100));
+          return (
+            <div className="card" style={{ padding: 16, marginBottom: 16 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+                <div>
+                  <span style={{ fontFamily: 'Outfit', fontSize: 15, fontWeight: 800 }}>🎯 Daily Nutrition</span>
+                  {cart.length > 0 && <span style={{ fontSize: 11, color: 'var(--text-muted)', marginLeft: 8 }}>({cart.reduce((a, c) => a + c.qty, 0)} items in cart)</span>}
+                </div>
+                <button className="btn btn-outline btn-sm" onClick={() => { setEditTargets({ ...targets }); setShowTargetEditor(true); }} style={{ fontSize: 11 }}>
+                  ⚙️ Edit Targets
+                </button>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+                <Ring value={cartCal} target={targets.calories} color="#f97316" icon="🔥" label="Calories" unit="kcal" size={100} stroke={9} />
+                <Ring value={cartPro} target={targets.protein} color="#22c55e" icon="💪" label="Protein" unit="g" />
+                <Ring value={cartCarb} target={targets.carbs} color="#3b82f6" icon="🌾" label="Carbs" unit="g" />
+                <Ring value={cartFat} target={targets.fat} color="#eab308" icon="🥑" label="Fat" unit="g" />
+              </div>
+              {cart.length > 0 && (
+                <div style={{ textAlign: 'center', marginTop: 10, fontSize: 12, color: totalPct > 100 ? '#ef4444' : 'var(--text-muted)' }}>
+                  {totalPct > 100 ? `⚠️ ${totalPct}% of daily calories — over target!` : totalPct > 80 ? `🔥 ${totalPct}% — almost at your daily target` : `📊 ${totalPct}% of daily calorie target`}
+                </div>
+              )}
+            </div>
+          );
+        })()}
+
+        {/* Category Pills */}
+        <div className="tabs" style={{ marginBottom: 20 }}>
+          {CATEGORIES.map(c => (<button key={c} className={`tab ${cat === c ? 'active' : ''}`} onClick={() => setCat(c)}>{c}</button>))}
+        </div>
+
+        {/* Food Grid */}
+        <div className="food-grid">
+          {filtered.map((item, i) => (
+            <div key={item.id} className="food-card" style={{ animationDelay: `${i * 0.05}s` }}>
+              <div className="food-card-img" style={{ position: 'relative' }}>
+                <img src={item.image} alt={item.name} style={{ width: '100%', height: 160, objectFit: 'cover' }} />
+                <div style={{ position: 'absolute', top: 8, left: 8, display: 'flex', gap: 4 }}><span className="badge badge-blue">⏱ {item.prepTime} min</span></div>
+                <div style={{ position: 'absolute', top: 8, right: 8 }}><span className="badge badge-green">⭐ {item.rating}</span></div>
+                {!item.available && <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ef4444', fontWeight: 800, fontSize: 14 }}>UNAVAILABLE</div>}
+              </div>
+              <div className="food-card-body">
+                <div className="food-card-name">{item.name}</div>
+                <div className="food-card-macros">{item.tags.map(t => <span key={t} className="badge badge-purple" style={{ fontSize: 10 }}>{t}</span>)}</div>
+                <div style={{ display: 'flex', gap: 8, fontSize: 10, color: 'var(--text-muted)', marginBottom: 8 }}>
+                  <span>🔥 {item.calories} kcal</span><span>💪 {item.protein}g</span><span>🌾 {item.carbs}g</span><span>🥑 {item.fat}g</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div className="food-card-price">₹{item.price}</div>
+                  <button className="btn btn-primary btn-sm" onClick={() => item.available && addToCart(item)} disabled={!item.available}>{item.available ? '+ Add' : 'N/A'}</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        {filtered.length === 0 && <div style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)' }}>No items found</div>}
+      </>)}
+
+      {/* ═══ NUTRIENT PACKS TAB ═══ */}
+      {tab === 'packs' && (
+        <div>
+          <p style={{ color: 'var(--text-muted)', fontSize: 13, marginBottom: 16 }}>Curated nutrient packs from kitchen, trainers & gym owners. Order a complete meal set!</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
+            {allPacks.filter(p => p.available).map(pack => {
+              const items = pack.items.map(id => MENU_ITEMS.find(m => m.id === id)).filter(Boolean);
+              const unavailCount = items.filter(i => !i.available).length;
+              return (
+                <div key={pack.id} className="card" style={{ animation: 'fadeInUp 0.4s ease' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+                    <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 16 }}>📦 {pack.name}</h3>
+                    <span className={`badge ${pack.creatorRole === 'trainer' ? 'badge-purple' : pack.creatorRole === 'owner' ? 'badge-green' : 'badge-blue'}`}>{pack.creatorRole === 'trainer' ? '💪 Trainer' : pack.creatorRole === 'owner' ? '👑 Owner' : '👨‍🍳 Kitchen'}</span>
+                  </div>
+                  <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 10 }}>{pack.description}</p>
+                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
+                    {items.map(item => (
+                      <span key={item.id} style={{ fontSize: 11, padding: '3px 8px', background: item.available ? 'rgba(34,197,94,0.08)' : 'rgba(239,68,68,0.08)', borderRadius: 6, color: item.available ? '#22c55e' : '#ef4444' }}>
+                        {item.available ? '✅' : '❌'} {item.name}
+                      </span>
+                    ))}
+                  </div>
+                  <div style={{ display: 'flex', gap: 16, marginBottom: 12, fontSize: 11, color: 'var(--text-muted)' }}>
+                    <span>🔥 {pack.totalCalories} kcal</span><span>💪 {pack.totalProtein}g protein</span>
+                  </div>
+                  {unavailCount > 0 && <div style={{ background: 'rgba(249,115,22,0.08)', border: '1px solid rgba(249,115,22,0.2)', borderRadius: 8, padding: 8, marginBottom: 10, fontSize: 11, color: '#f97316' }}>⚠️ {unavailCount} item(s) unavailable — you'll be asked to confirm</div>}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontFamily: 'Outfit', fontSize: 22, fontWeight: 900, color: 'var(--accent-green)' }}>₹{pack.price}</span>
+                    <button className="btn btn-primary btn-sm" onClick={() => orderPack(pack)}>🛒 Order Pack</button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* ═══ TRAINER DIET PLANS TAB ═══ */}
+      {tab === 'plans' && (
+        <div>
+          <p style={{ color: 'var(--text-muted)', fontSize: 13, marginBottom: 16 }}>Diet plans assigned to you by your trainer. Order directly!</p>
+          {myDietPlans.length === 0 ? <div className="card" style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)' }}>No diet plans assigned yet</div> :
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {myDietPlans.map(plan => {
+              const planItems = (plan.items || []).map(id => MENU_ITEMS.find(m => m.id === id)).filter(Boolean);
+              return (
+                <div key={plan.id} className="card">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+                    <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 16 }}>📋 {plan.name}</h3>
+                    <span className="badge badge-green">{plan.status}</span>
+                  </div>
+                  <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 10 }}>Created: {new Date(plan.createdAt).toLocaleDateString()}</p>
+                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
+                    {planItems.map(item => (
+                      <span key={item.id} style={{ fontSize: 11, padding: '4px 10px', background: 'var(--bg-tertiary)', borderRadius: 8 }}>{item.name} • ₹{item.price}</span>
+                    ))}
+                  </div>
+                  <button className="btn btn-primary btn-sm" onClick={() => { planItems.filter(i => i.available).forEach(i => addToCart(i)); showToast('Diet plan items added to cart! 🍽️'); }}>🛒 Add All to Cart</button>
+                </div>
+              );
+            })}
+          </div>}
+        </div>
+      )}
+    </DashboardLayout>
+  );
+}
