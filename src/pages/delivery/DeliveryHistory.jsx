@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import StatIcon from '../../components/StatIcon';
 import DashboardLayout from '../../components/DashboardLayout';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
@@ -23,12 +24,12 @@ export default function DeliveryHistory() {
       {/* Stats */}
       <div className="stats-grid" style={{ marginBottom: 20 }}>
         {[
-          { icon: '✅', val: completed.length, label: 'Total Deliveries', color: '#22c55e' },
-          { icon: '💰', val: `₹${totalEarnings}`, label: 'Total Earned', color: '#f97316' },
-          { icon: '📅', val: todayDeliveries.length, label: 'Today Deliveries', color: '#3b82f6' },
-          { icon: '🏍️', val: `₹${todayEarnings}`, label: 'Today Earned', color: '#8b5cf6' },
-          { icon: '💵', val: `₹${codCollected}`, label: 'COD Collected', color: '#ef4444' },
-          { icon: '⭐', val: user?.rating || '4.8', label: 'Rating', color: '#eab308' },
+          { icon: <StatIcon name="check" />, val: completed.length, label: 'Total Deliveries', color: '#22c55e' },
+          { icon: <StatIcon name="revenue" />, val: `₹${totalEarnings}`, label: 'Total Earned', color: '#f97316' },
+          { icon: <StatIcon name="calendar" />, val: todayDeliveries.length, label: 'Today Deliveries', color: '#3b82f6' },
+          { icon: <StatIcon name="bike" />, val: `₹${todayEarnings}`, label: 'Today Earned', color: '#8b5cf6' },
+          { icon: <StatIcon name="revenue" />, val: `₹${codCollected}`, label: 'COD Collected', color: '#ef4444' },
+          { icon: <StatIcon name="star" />, val: user?.rating || '4.8', label: 'Rating', color: '#eab308' },
         ].map((s, i) => (
           <div key={i} className="stat-card">
             <div className="stat-icon">{s.icon}</div>

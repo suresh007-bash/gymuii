@@ -1,31 +1,50 @@
-import { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import DashboardLayout from '../../components/DashboardLayout';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 import { useNotifications } from '../../context/NotificationContext';
-import { MENU_ITEMS, CATEGORIES } from '../../data/mockMenu';
+import { CATEGORIES } from '../../data/mockMenu';
+import { getMenuItems } from '../../data/menuHelper';
+import { gsap } from 'gsap';
 
 let slotIdCounter = 1;
 
 // SVG Circular Ring
 const Ring = ({ value, target, color, size = 72, stroke = 7, icon, label, unit }) => {
-  const pct = Math.min((value / target) * 100, 100);
+  const [displayed, setDisplayed] = React.useState(0);
+  React.useEffect(() => {
+    const start = performance.now(), from = 0, to = value, dur = 1200;
+    const ease = (t) => 1 - Math.pow(1 - t, 3);
+    let raf;
+    const step = (now) => { const p = Math.min((now - start) / dur, 1); setDisplayed(Math.round(from + (to - from) * ease(p))); if (p < 1) raf = requestAnimationFrame(step); };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [value]);
+  const pct = Math.min((displayed / target) * 100, 100);
   const r = (size - stroke) / 2;
   const circ = 2 * Math.PI * r;
   const offset = circ - (pct / 100) * circ;
   const isOver = value > target;
+  const gradId = `sr-${label}-${color.replace('#', '')}`;
+  const dotAngle = (pct / 100) * 2 * Math.PI;
   return (
     <div style={{ textAlign: 'center', position: 'relative' }}>
       <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
-        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="var(--bg-tertiary)" strokeWidth={stroke} />
-        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={isOver ? '#ef4444' : color} strokeWidth={stroke}
-          strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round"
-          style={{ transition: 'stroke-dashoffset 0.6s cubic-bezier(0.4,0,0.2,1)' }} />
+        <defs>
+          <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor={isOver ? '#ef4444' : color} />
+            <stop offset="100%" stopColor={`${isOver ? '#ef4444' : color}88`} />
+          </linearGradient>
+        </defs>
+        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={`${color}18`} strokeWidth={stroke} />
+        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={`url(#${gradId})`} strokeWidth={stroke}
+          strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round" />
+        {pct > 3 && <circle cx={size/2 + r * Math.cos(dotAngle)} cy={size/2 + r * Math.sin(dotAngle)} r={stroke/2 + 1} fill={isOver ? '#ef4444' : color} style={{ filter: `drop-shadow(0 0 3px ${isOver ? '#ef4444' : color})`, opacity: 0.8 }} />}
       </svg>
       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center' }}>
         <div style={{ fontSize: 12 }}>{icon}</div>
-        <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 11, color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{value}</div>
+        <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 11, color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{displayed}</div>
       </div>
       <div style={{ fontSize: 9, fontWeight: 700, color: 'var(--text-muted)', marginTop: 2 }}>{label}</div>
       <div style={{ fontSize: 8, color: isOver ? '#ef4444' : 'var(--text-muted)' }}>
@@ -36,6 +55,7 @@ const Ring = ({ value, target, color, size = 72, stroke = 7, icon, label, unit }
 };
 
 export default function ScheduleFoods() {
+  const MENU_ITEMS = getMenuItems();
   const { user } = useAuth();
   const { placeOrder } = useOrders();
   const { showToast } = useNotifications();
@@ -59,8 +79,101 @@ export default function ScheduleFoods() {
   const [copyTargetDates, setCopyTargetDates] = useState([]);
   const [targets] = useState(() => JSON.parse(localStorage.getItem('synnoviq_targets') || 'null') || { calories: 2500, protein: 180, carbs: 280, fat: 80 });
   const notifiedDates = useRef(new Set());
+  const calGridRef = useRef(null);
   const [foodCat, setFoodCat] = useState('All');
   const [nutriSort, setNutriSort] = useState(null); // 'highProtein','lowCal','lowFat','lowCarb'
+
+  // ═══ MagicBento effect for calendar grid ═══
+  useEffect(() => {
+    const grid = calGridRef.current;
+    if (!grid || step !== 1) return;
+
+    const GLOW_COLOR = '249, 115, 22'; // orange
+    const SPOTLIGHT_RADIUS = 200;
+    const proximity = SPOTLIGHT_RADIUS * 0.5;
+    const fadeDistance = SPOTLIGHT_RADIUS * 0.75;
+
+    // Create spotlight element
+    const spotlight = document.createElement('div');
+    spotlight.style.cssText = `position:fixed;width:600px;height:600px;border-radius:50%;pointer-events:none;
+      background:radial-gradient(circle,rgba(${GLOW_COLOR},0.12) 0%,rgba(${GLOW_COLOR},0.05) 20%,transparent 60%);
+      z-index:200;opacity:0;transform:translate(-50%,-50%);mix-blend-mode:screen;`;
+    document.body.appendChild(spotlight);
+
+    const onMove = (e) => {
+      const rect = grid.getBoundingClientRect();
+      const inside = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
+
+      if (!inside) {
+        gsap.to(spotlight, { opacity: 0, duration: 0.3 });
+        grid.querySelectorAll('.cal-magic-cell').forEach(c => c.style.setProperty('--glow-intensity', '0'));
+        return;
+      }
+
+      let minDist = Infinity;
+      grid.querySelectorAll('.cal-magic-cell').forEach(cell => {
+        const cr = cell.getBoundingClientRect();
+        const cx = cr.left + cr.width / 2, cy = cr.top + cr.height / 2;
+        const dist = Math.max(0, Math.hypot(e.clientX - cx, e.clientY - cy) - Math.max(cr.width, cr.height) / 2);
+        minDist = Math.min(minDist, dist);
+
+        let glow = 0;
+        if (dist <= proximity) glow = 1;
+        else if (dist <= fadeDistance) glow = (fadeDistance - dist) / (fadeDistance - proximity);
+
+        const rx = ((e.clientX - cr.left) / cr.width) * 100;
+        const ry = ((e.clientY - cr.top) / cr.height) * 100;
+        cell.style.setProperty('--glow-x', `${rx}%`);
+        cell.style.setProperty('--glow-y', `${ry}%`);
+        cell.style.setProperty('--glow-intensity', glow.toString());
+        cell.style.setProperty('--glow-radius', `${SPOTLIGHT_RADIUS}px`);
+      });
+
+      gsap.to(spotlight, { left: e.clientX, top: e.clientY, duration: 0.08, ease: 'power2.out' });
+      const opacity = minDist <= proximity ? 0.7 : minDist <= fadeDistance ? ((fadeDistance - minDist) / (fadeDistance - proximity)) * 0.7 : 0;
+      gsap.to(spotlight, { opacity, duration: 0.15 });
+    };
+
+    // Per-cell hover effects (tilt + magnetism)
+    const cells = grid.querySelectorAll('.cal-magic-cell');
+    const cellHandlers = [];
+    cells.forEach(cell => {
+      const enter = () => gsap.to(cell, { scale: 1.12, rotateX: 4, rotateY: 4, duration: 0.25, ease: 'power2.out', transformPerspective: 600 });
+      const leave = () => gsap.to(cell, { scale: 1, rotateX: 0, rotateY: 0, x: 0, y: 0, duration: 0.25, ease: 'power2.out' });
+      const move = (e) => {
+        const r = cell.getBoundingClientRect();
+        const x = e.clientX - r.left, y = e.clientY - r.top;
+        const cx = r.width / 2, cy = r.height / 2;
+        gsap.to(cell, { rotateX: ((y - cy) / cy) * -8, rotateY: ((x - cx) / cx) * 8, x: (x - cx) * 0.04, y: (y - cy) * 0.04, duration: 0.08, ease: 'power2.out', transformPerspective: 600 });
+      };
+      const click = (e) => {
+        const r = cell.getBoundingClientRect();
+        const x = e.clientX - r.left, y = e.clientY - r.top;
+        const maxD = Math.max(Math.hypot(x, y), Math.hypot(x - r.width, y), Math.hypot(x, y - r.height), Math.hypot(x - r.width, y - r.height));
+        const ripple = document.createElement('div');
+        ripple.style.cssText = `position:absolute;width:${maxD * 2}px;height:${maxD * 2}px;border-radius:50%;background:radial-gradient(circle,rgba(${GLOW_COLOR},0.5) 0%,rgba(${GLOW_COLOR},0.2) 40%,transparent 70%);left:${x - maxD}px;top:${y - maxD}px;pointer-events:none;z-index:50;`;
+        cell.appendChild(ripple);
+        gsap.fromTo(ripple, { scale: 0, opacity: 1 }, { scale: 1, opacity: 0, duration: 0.6, ease: 'power2.out', onComplete: () => ripple.remove() });
+      };
+      cell.addEventListener('mouseenter', enter);
+      cell.addEventListener('mouseleave', leave);
+      cell.addEventListener('mousemove', move);
+      cell.addEventListener('click', click);
+      cellHandlers.push({ cell, enter, leave, move, click });
+    });
+
+    document.addEventListener('mousemove', onMove);
+    return () => {
+      document.removeEventListener('mousemove', onMove);
+      spotlight.remove();
+      cellHandlers.forEach(({ cell, enter, leave, move, click }) => {
+        cell.removeEventListener('mouseenter', enter);
+        cell.removeEventListener('mouseleave', leave);
+        cell.removeEventListener('mousemove', move);
+        cell.removeEventListener('click', click);
+      });
+    };
+  }, [step]);
 
   // Default 3 slots for new dates
   const defaultSlots = () => [
@@ -303,7 +416,7 @@ export default function ScheduleFoods() {
         <div className="card" style={{ maxWidth: 640, margin: '0 auto' }}>
           <div className="card-header"><h3 className="card-title">📅 Step 1: Select Delivery Dates</h3></div>
           <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 14 }}>Pick dates. For each date you can add as many time slots as you need and select food for each.</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4, marginBottom: 16 }}>
+          <div className="cal-grid-magic" ref={calGridRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4, marginBottom: 16, position: 'relative' }}>
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
               <div key={d} style={{ textAlign: 'center', fontSize: 10, fontWeight: 800, color: 'var(--text-muted)', padding: 6 }}>{d}</div>
             ))}
@@ -312,11 +425,13 @@ export default function ScheduleFoods() {
               const isSelected = selectedDates.includes(dateStr);
               const isToday = dateStr === today.toISOString().split('T')[0];
               return (
-                <button key={dateStr} onClick={() => toggleDate(dateStr)} style={{
+                <button key={dateStr} onClick={() => toggleDate(dateStr)} className="cal-magic-cell" style={{
                   padding: '12px 4px', borderRadius: 10, border: isSelected ? '2px solid var(--accent-orange)' : '2px solid transparent',
                   cursor: 'pointer', fontSize: 14, fontWeight: 700, transition: 'all 0.2s',
                   background: isSelected ? 'var(--accent-orange)' : isToday ? 'rgba(249,115,22,0.08)' : 'var(--bg-tertiary)',
                   color: isSelected ? '#fff' : 'var(--text-primary)',
+                  position: 'relative', overflow: 'hidden',
+                  '--glow-x': '50%', '--glow-y': '50%', '--glow-intensity': '0', '--glow-radius': '120px',
                 }}>{new Date(dateStr).getDate()}</button>
               );
             })}

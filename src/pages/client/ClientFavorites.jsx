@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import DashboardLayout from '../../components/DashboardLayout';
-import { MENU_ITEMS } from '../../data/mockMenu';
+import { getMenuItems } from '../../data/menuHelper';
 import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationContext';
 
 export default function ClientFavorites() {
+  const MENU_ITEMS = getMenuItems();
   const { user, updateUser } = useAuth();
   const { showToast } = useNotifications();
   const [favorites, setFavorites] = useState(() => {

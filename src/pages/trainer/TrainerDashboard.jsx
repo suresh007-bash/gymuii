@@ -5,7 +5,7 @@ import FoodMarquee from '../../components/FoodMarquee';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 import { useNotifications } from '../../context/NotificationContext';
-import { MENU_ITEMS } from '../../data/mockMenu';
+import { getMenuItems } from '../../data/menuHelper';
 
 
 
@@ -21,6 +21,7 @@ const MIND_CATS = [
 ];
 
 export default function TrainerDashboard() {
+  const MENU_ITEMS = getMenuItems();
   const { user, getTrainerClients, updateUser } = useAuth();
   const { getDietPlansByTrainer, scheduledOrders } = useOrders();
   const { showToast } = useNotifications();
@@ -78,6 +79,7 @@ export default function TrainerDashboard() {
           <Link to="/trainer/diet-plans" style={{ fontSize: 11, color: 'var(--accent-green)', fontWeight: 700 }}>Create Diet Plan →</Link>
         </div>
       </div>
+
 
       {/* ═══ SCROLLING FOOD IMAGES ═══ */}
       <FoodMarquee />

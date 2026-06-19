@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { Dumbbell, Users, Crown, ChefHat, Truck, Settings } from 'lucide-react';
 
 const roleMap = { client: '/client/dashboard', trainer: '/trainer/dashboard', owner: '/owner/menu', kitchen: '/kitchen/dashboard', delivery: '/delivery/dashboard', admin: '/admin/dashboard' };
 const roleOptions = [
-  { id: 'client', icon: '🏋️', label: 'Client', desc: 'Order meals & track nutrition', color: '#f97316' },
-  { id: 'trainer', icon: '💪', label: 'Trainer', desc: 'Manage clients & programs', color: '#8b5cf6' },
-  { id: 'owner', icon: '👑', label: 'Gym Owner', desc: 'Run your gym business', color: '#22c55e' },
-  { id: 'kitchen', icon: '👨‍🍳', label: 'Kitchen', desc: 'Prepare & manage food', color: '#14b8a6' },
-  { id: 'delivery', icon: '🚗', label: 'Delivery', desc: 'Deliver orders', color: '#0ea5e9' },
-  { id: 'admin', icon: '⚙️', label: 'Admin', desc: 'System administration', color: '#64748b' },
+  { id: 'client', icon: <Dumbbell size={22} />, label: 'Client', desc: 'Order meals & track nutrition', color: '#f97316' },
+  { id: 'trainer', icon: <Users size={22} />, label: 'Trainer', desc: 'Manage clients & programs', color: '#8b5cf6' },
+  { id: 'owner', icon: <Crown size={22} />, label: 'Gym Owner', desc: 'Run your gym business', color: '#22c55e' },
+  { id: 'kitchen', icon: <ChefHat size={22} />, label: 'Kitchen', desc: 'Prepare & manage food', color: '#14b8a6' },
+  { id: 'delivery', icon: <Truck size={22} />, label: 'Delivery', desc: 'Deliver orders', color: '#0ea5e9' },
+  { id: 'admin', icon: <Settings size={22} />, label: 'Admin', desc: 'System administration', color: '#64748b' },
 ];
 
 export default function RegisterPage() {

@@ -22,7 +22,7 @@ const TRAINER_ACHIEVEMENTS = {
 export default function ClientCommunity() {
   const { user, allUsers, getUsersByRole, updateUser } = useAuth();
   const { showToast } = useNotifications();
-  const [tab, setTab] = useState('feed');
+  const [tab, setTab] = useState('trainers');
   const [newPost, setNewPost] = useState('');
   const [posts, setPosts] = useState(COMMUNITY_POSTS);
   const [likedPosts, setLikedPosts] = useState([]);
@@ -125,11 +125,7 @@ export default function ClientCommunity() {
   };
 
   return (
-    <DashboardLayout title="Community">
-      <div className="tabs" style={{ marginBottom: 20 }}>
-        <button className={`tab ${tab === 'feed' ? 'active' : ''}`} onClick={() => setTab('feed')}>📱 Feedback</button>
-        <button className={`tab ${tab === 'trainers' ? 'active' : ''}`} onClick={() => setTab('trainers')}>💪 Find Trainers</button>
-      </div>
+    <DashboardLayout title="Request for Trainer">
 
       {tab === 'feed' && (
         <div style={{ maxWidth: 600, margin: '0 auto' }}>
@@ -232,56 +228,12 @@ export default function ClientCommunity() {
                         🏢 {gym?.name || 'Gym'} <span style={{ opacity: 0.5 }}>•</span> 📍 {gym?.location || 'Location'}
                       </div>
                     </div>
-                    {/* Rating */}
-                    <div style={{ textAlign: 'center', padding: '6px 12px', borderRadius: 12, background: 'rgba(251,191,36,0.1)', border: '1px solid rgba(251,191,36,0.2)' }}>
-                      <div style={{ fontSize: 16, fontWeight: 800, color: '#fbbf24' }}>⭐ {achievements.rating}</div>
-                      <div style={{ fontSize: 9, color: 'var(--text-muted)', fontWeight: 600 }}>RATING</div>
-                    </div>
+
                   </div>
 
-                  {/* Certifications */}
-                  {trainer.certifications && (
-                    <div style={{ padding: '8px 20px 0' }}>
-                      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                        {trainer.certifications.split(', ').map((cert, i) => (
-                          <span key={i} style={{
-                            fontSize: 10, fontWeight: 700, padding: '3px 10px', borderRadius: 20,
-                            background: 'rgba(59,130,246,0.08)', color: '#3b82f6',
-                            border: '1px solid rgba(59,130,246,0.15)',
-                          }}>
-                            🏅 {cert}
-                          </span>
-                        ))}
-                        <span style={{
-                          fontSize: 10, fontWeight: 700, padding: '3px 10px', borderRadius: 20,
-                          background: 'rgba(34,197,94,0.08)', color: '#22c55e',
-                          border: '1px solid rgba(34,197,94,0.15)',
-                        }}>
-                          📅 {achievements.yearsExp} yrs exp
-                        </span>
-                      </div>
-                    </div>
-                  )}
 
-                  {/* Stats Grid */}
-                  <div style={{ padding: '14px 20px', display: 'flex', gap: 8 }}>
-                    <div style={statBox}>
-                      <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--accent-orange)' }}>{studentCount}</div>
-                      <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 600 }}>Active Students</div>
-                    </div>
-                    <div style={statBox}>
-                      <div style={{ fontSize: 20, fontWeight: 800, color: '#22c55e' }}>{achievements.transformations}</div>
-                      <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 600 }}>Transformations</div>
-                    </div>
-                    <div style={statBox}>
-                      <div style={{ fontSize: 20, fontWeight: 800, color: '#6366f1' }}>{achievements.successRate}%</div>
-                      <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 600 }}>Success Rate</div>
-                    </div>
-                    <div style={statBox}>
-                      <div style={{ fontSize: 20, fontWeight: 800, color: '#f43f5e' }}>{achievements.avgWeightLoss}</div>
-                      <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 600 }}>Avg Result</div>
-                    </div>
-                  </div>
+
+
 
                   {/* Action Button */}
                   <div style={{ padding: '0 20px 16px' }}>

@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom';
 import DashboardLayout from '../../components/DashboardLayout';
 import FoodMarquee from '../../components/FoodMarquee';
 import { useAuth } from '../../context/AuthContext';
-import { MENU_ITEMS } from '../../data/mockMenu';
+import { getMenuItems } from '../../data/menuHelper';
 
 export default function ClientDashboard() {
+  const MENU_ITEMS = getMenuItems();
   const { user } = useAuth();
 
   return (

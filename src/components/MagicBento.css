@@ -1,0 +1,80 @@
+/* ═══ MAGIC BENTO FOOD GRID ═══ */
+
+.food-grid.bento-section {
+  position: relative;
+  user-select: none;
+}
+
+/* Border glow effect on food cards */
+.food-card.magic-glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 5px;
+  background: radial-gradient(
+    var(--glow-radius, 200px) circle at var(--glow-x, 50%) var(--glow-y, 50%),
+    rgba(var(--glow-color, 249, 115, 22), calc(var(--glow-intensity, 0) * 0.8)) 0%,
+    rgba(var(--glow-color, 249, 115, 22), calc(var(--glow-intensity, 0) * 0.4)) 30%,
+    transparent 60%
+  );
+  border-radius: inherit;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.food-card.magic-glow:hover::after {
+  opacity: 1;
+}
+
+.food-card.magic-glow:hover {
+  box-shadow:
+    0 4px 20px rgba(var(--glow-color, 249, 115, 22), 0.15),
+    0 0 30px rgba(var(--glow-color, 249, 115, 22), 0.08);
+}
+
+/* Particle inside food cards */
+.food-card .particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.food-card .particle::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+/* Global spotlight */
+.global-food-spotlight {
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+  z-index: 200 !important;
+  pointer-events: none;
+}
+
+/* Click ripple effect */
+.food-card .click-ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1000;
+}

@@ -5,12 +5,13 @@ import FoodMarquee from '../../components/FoodMarquee';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 import { useNotifications } from '../../context/NotificationContext';
-import { MENU_ITEMS } from '../../data/mockMenu';
+import { getMenuItems } from '../../data/menuHelper';
 
 
 const MIND_CATS = [{ label: 'Members', img: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=150&q=80' },{ label: 'Trainers', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=150&q=80' },{ label: 'Browse Menu', img: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=150&q=80' },{ label: 'My Orders', img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=150&q=80' },{ label: 'Schedule', img: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=150&q=80' },{ label: 'Nutrition', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=150&q=80' },{ label: 'Meal Plans', img: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=150&q=80' },{ label: 'Analytics', img: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=150&q=80' }];
 
 export default function OwnerDashboard() {
+  const MENU_ITEMS = getMenuItems();
   const { user, getOwnerClients, getOwnerTrainers, getDirectClients, updateUser } = useAuth();
   const { orders, getDietPlansByTrainer } = useOrders();
   const { showToast } = useNotifications();
@@ -58,6 +59,7 @@ export default function OwnerDashboard() {
         <div className="card" style={{ borderLeft: '4px solid #f97316' }}><h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}>👥 Member Management</h4><p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>Manage your gym members, trainers, and create nutrient packs for clients.</p><Link to="/owner/members" style={{ fontSize: 11, color: 'var(--accent-orange)', fontWeight: 700 }}>Manage Members →</Link></div>
         <div className="card" style={{ borderLeft: '4px solid #22c55e' }}><h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}>📦 Nutrient Packs</h4><p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>Create curated meal packs and send to clients for easy ordering.</p><button className="btn btn-sm btn-outline" onClick={() => setShowPack(true)}>Create Pack →</button></div>
       </div>
+
 
       <FoodMarquee />
 

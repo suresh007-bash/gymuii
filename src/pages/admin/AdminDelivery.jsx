@@ -1,4 +1,5 @@
 import DashboardLayout from '../../components/DashboardLayout';
+import StatIcon from '../../components/StatIcon';
 import { MOCK_USERS } from '../../data/mockUsers';
 import { MOCK_ORDERS } from '../../data/mockOrders';
 
@@ -10,7 +11,7 @@ export default function AdminDelivery() {
     <DashboardLayout title="Delivery Management">
       {/* Stats */}
       <div className="stats-grid" style={{ marginBottom: 24 }}>
-        {[{ icon: '🚗', val: drivers.length, label: 'Total Drivers' }, { icon: '🟢', val: drivers.filter(d => d.available).length, label: 'Available' }, { icon: '📦', val: activeDeliveries.length, label: 'Active Deliveries' }, { icon: '⭐', val: '4.8', label: 'Avg Rating' }].map((s, i) => (
+        {[{ icon: <StatIcon name="truck" />, val: drivers.length, label: 'Total Drivers' }, { icon: <StatIcon name="check" />, val: drivers.filter(d => d.available).length, label: 'Available' }, { icon: <StatIcon name="orders" />, val: activeDeliveries.length, label: 'Active Deliveries' }, { icon: <StatIcon name="star" />, val: '4.8', label: 'Avg Rating' }].map((s, i) => (
           <div key={i} className="stat-card"><div className="stat-icon">{s.icon}</div><div className="stat-value">{s.val}</div><div className="stat-label">{s.label}</div></div>
         ))}
       </div>

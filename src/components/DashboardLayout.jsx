@@ -2,60 +2,85 @@ import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useNotifications } from '../context/NotificationContext';
+import {
+  Home, ClipboardList, ShoppingCart, CalendarDays, Package, BarChart3,
+  TrendingUp, Gem, Users, LifeBuoy, User, Settings, Dumbbell,
+  UtensilsCrossed, Rocket, ScrollText, Truck, ShieldCheck, Bell,
+  Search, Menu, LogOut, ChefHat, UserPlus, LayoutDashboard, CalendarClock
+} from 'lucide-react';
+
+// Icon component wrapper with animation
+function NavIcon({ icon: Icon, isActive }) {
+  return (
+    <span className={`sidebar-link-icon ${isActive ? 'icon-active' : ''}`}>
+      <Icon size={20} strokeWidth={isActive ? 2.2 : 1.8} />
+    </span>
+  );
+}
 
 const roleConfig = {
   client: { brand: 'FitBites', sub: 'GYM FOOD DELIVERY', gradient: 'linear-gradient(135deg, #f97316, #fb923c)', links: [
-    { icon: '🏠', label: 'Home', path: '/client/menu' },
-    { icon: '📋', label: 'Meal Plans', path: '/client/meal-plans' }, { icon: '🛒', label: 'My Cart', path: '/client/cart' },
-    { icon: '📅', label: 'Schedule Foods', path: '/client/schedule' },
-    { icon: '📦', label: 'My Orders', path: '/client/orders' }, { icon: '📊', label: 'Nutrition', path: '/client/nutrition' },
-    { icon: '📈', label: 'Progress', path: '/client/progress' },
-    { icon: '💎', label: 'Subscriptions', path: '/client/subscriptions' }, { icon: '👥', label: 'Community', path: '/client/community' },
-    { icon: '🆘', label: 'Support', path: '/client/support' }, { icon: '👤', label: 'Profile', path: '/client/profile' },
-    { icon: '⚙️', label: 'Settings', path: '/client/settings' },
+    { icon: Home, label: 'Home', path: '/client/menu' },
+    { icon: ClipboardList, label: 'Meal Plans', path: '/client/meal-plans' },
+    { icon: ShoppingCart, label: 'My Cart', path: '/client/cart' },
+    { icon: CalendarDays, label: 'Schedule Foods', path: '/client/schedule' },
+    { icon: Package, label: 'My Orders', path: '/client/orders' },
+    { icon: BarChart3, label: 'Nutrition', path: '/client/nutrition' },
+    { icon: TrendingUp, label: 'Progress', path: '/client/progress' },
+    { icon: Gem, label: 'Subscriptions', path: '/client/subscriptions' },
+    { icon: UserPlus, label: 'Request for Trainer', path: '/client/community' },
+    { icon: LifeBuoy, label: 'Support', path: '/client/support' },
+    { icon: User, label: 'Profile', path: '/client/profile' },
+    { icon: Settings, label: 'Settings', path: '/client/settings' },
   ]},
   trainer: { brand: 'FitBites', sub: 'TRAINER PORTAL', gradient: 'linear-gradient(135deg, #f97316, #22c55e)', links: [
-    // Client functionalities
-    { icon: '🏠', label: 'Home', path: '/trainer/home' },
-    { icon: '🛒', label: 'My Cart', path: '/trainer/cart' },
-    { icon: '📅', label: 'Schedule Foods', path: '/trainer/my-schedule' },
-    { icon: '📦', label: 'My Orders', path: '/trainer/orders' }, { icon: '📊', label: 'Nutrition', path: '/trainer/nutrition' },
-    { icon: '💎', label: 'Subscriptions', path: '/trainer/subscriptions' },
-    // Trainer-specific
-    { icon: '👥', label: 'My Clients', path: '/trainer/clients' },
-    { icon: '📅', label: 'Schedule Foods to Clients', path: '/trainer/schedule-for-clients' },
-    { icon: '👤', label: 'Profile', path: '/trainer/profile' },
+    { icon: Home, label: 'Home', path: '/trainer/home' },
+    { icon: ShoppingCart, label: 'My Cart', path: '/trainer/cart' },
+    { icon: CalendarDays, label: 'Schedule Foods', path: '/trainer/my-schedule' },
+    { icon: Package, label: 'My Orders', path: '/trainer/orders' },
+    { icon: BarChart3, label: 'Nutrition', path: '/trainer/nutrition' },
+    { icon: Gem, label: 'Subscriptions', path: '/trainer/subscriptions' },
+    { icon: Users, label: 'My Clients', path: '/trainer/clients' },
+    { icon: CalendarClock, label: 'Schedule Foods to Clients', path: '/trainer/schedule-for-clients' },
+    { icon: User, label: 'Profile', path: '/trainer/profile' },
   ]},
   owner: { brand: 'FitSwipe', sub: 'OWNER PORTAL', gradient: 'linear-gradient(135deg, #22c55e, #4ade80)', links: [
-    { icon: '🏠', label: 'Home', path: '/owner/menu' },
-    { icon: '💪', label: 'Manage Trainers', path: '/owner/trainers' },
-    { icon: '👥', label: 'My Clients', path: '/owner/clients' },
-    { icon: '📅', label: 'Schedule Foods to Clients', path: '/owner/schedule-for-clients' },
-    { icon: '📈', label: 'Analytics', path: '/owner/analytics' },
-    { icon: '📋', label: 'Meal Plans', path: '/owner/meal-plans' },
-    { icon: '🛒', label: 'My Cart', path: '/owner/cart' },
-    { icon: '📅', label: 'Schedule Foods', path: '/owner/schedule' },
-    { icon: '📦', label: 'My Orders', path: '/owner/orders' },
-    { icon: '📊', label: 'Nutrition', path: '/owner/nutrition' },
-    { icon: '💎', label: 'Subscriptions', path: '/owner/subscriptions' },
-    { icon: '👥', label: 'Community', path: '/owner/community' },
-    { icon: '🆘', label: 'Support', path: '/owner/support' },
-    { icon: '👤', label: 'Profile', path: '/owner/profile' },
-    { icon: '⚙️', label: 'Settings', path: '/owner/settings' },
+    { icon: Home, label: 'Home', path: '/owner/menu' },
+    { icon: Dumbbell, label: 'Manage Trainers', path: '/owner/trainers' },
+    { icon: Users, label: 'My Clients', path: '/owner/clients' },
+    { icon: CalendarClock, label: 'Schedule Foods to Clients', path: '/owner/schedule-for-clients' },
+    { icon: TrendingUp, label: 'Analytics', path: '/owner/analytics' },
+    { icon: ClipboardList, label: 'Meal Plans', path: '/owner/meal-plans' },
+    { icon: ShoppingCart, label: 'My Cart', path: '/owner/cart' },
+    { icon: CalendarDays, label: 'Schedule Foods', path: '/owner/schedule' },
+    { icon: Package, label: 'My Orders', path: '/owner/orders' },
+    { icon: BarChart3, label: 'Nutrition', path: '/owner/nutrition' },
+    { icon: Gem, label: 'Subscriptions', path: '/owner/subscriptions' },
+    { icon: UserPlus, label: 'Request for Trainer', path: '/owner/community' },
+    { icon: LifeBuoy, label: 'Support', path: '/owner/support' },
+    { icon: User, label: 'Profile', path: '/owner/profile' },
+    { icon: Settings, label: 'Settings', path: '/owner/settings' },
   ]},
   kitchen: { brand: 'FitBites', sub: 'KITCHEN PORTAL', gradient: 'linear-gradient(135deg, #14b8a6, #22c55e)', links: [
-    { icon: '🏠', label: 'Home', path: '/kitchen/dashboard' }, { icon: '📋', label: 'Order Queue', path: '/kitchen/queue' },
-    { icon: '🍽️', label: 'Menu', path: '/kitchen/menu' }, { icon: '🚀', label: 'Dispatch', path: '/kitchen/dispatch' },
-    { icon: '⚙️', label: 'Settings', path: '/kitchen/settings' },
+    { icon: LayoutDashboard, label: 'Home', path: '/kitchen/dashboard' },
+    { icon: ClipboardList, label: 'Order Queue', path: '/kitchen/queue' },
+    { icon: UtensilsCrossed, label: 'Menu', path: '/kitchen/menu' },
+    { icon: Rocket, label: 'Dispatch', path: '/kitchen/dispatch' },
+    { icon: Settings, label: 'Settings', path: '/kitchen/settings' },
   ]},
   delivery: { brand: 'FitBites', sub: 'DELIVERY PORTAL', gradient: 'linear-gradient(135deg, #f97316, #14b8a6)', links: [
-    { icon: '🏠', label: 'Home', path: '/delivery/dashboard' }, { icon: '📦', label: 'My Deliveries', path: '/delivery/my-deliveries' },
-    { icon: '📜', label: 'Delivery History', path: '/delivery/history' }, { icon: '👤', label: 'Profile', path: '/delivery/profile' },
+    { icon: LayoutDashboard, label: 'Home', path: '/delivery/dashboard' },
+    { icon: Package, label: 'My Deliveries', path: '/delivery/my-deliveries' },
+    { icon: ScrollText, label: 'Delivery History', path: '/delivery/history' },
+    { icon: User, label: 'Profile', path: '/delivery/profile' },
   ]},
   admin: { brand: 'GymFuel', sub: 'ADMIN PORTAL', gradient: 'linear-gradient(135deg, #f97316, #22c55e)', links: [
-    { icon: '🏠', label: 'Home', path: '/admin/dashboard' }, { icon: '📦', label: 'Orders', path: '/admin/orders' },
-    { icon: '👥', label: 'Users', path: '/admin/users' }, { icon: '🚗', label: 'Delivery', path: '/admin/delivery' },
-    { icon: '📈', label: 'Analytics', path: '/admin/analytics' }, { icon: '⚙️', label: 'Settings', path: '/admin/settings' },
+    { icon: LayoutDashboard, label: 'Home', path: '/admin/dashboard' },
+    { icon: Package, label: 'Orders', path: '/admin/orders' },
+    { icon: Users, label: 'Users', path: '/admin/users' },
+    { icon: Truck, label: 'Delivery', path: '/admin/delivery' },
+    { icon: TrendingUp, label: 'Analytics', path: '/admin/analytics' },
+    { icon: Settings, label: 'Settings', path: '/admin/settings' },
   ]},
 };
 
@@ -80,7 +105,7 @@ export default function DashboardLayout({ children, title }) {
       {/* Sidebar */}
       <aside className={`app-sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-brand">
-          <div className="sidebar-brand-icon">🍽️</div>
+          <div className="sidebar-brand-icon"><UtensilsCrossed size={22} /></div>
           <div>
             <div className="sidebar-brand-name">{config.brand}</div>
             <div className="sidebar-brand-sub">{config.sub}</div>
@@ -102,7 +127,7 @@ export default function DashboardLayout({ children, title }) {
                 <div key={i} style={{ padding: '10px 16px 4px', fontSize: 10, fontWeight: 800, color: 'var(--text-muted)', letterSpacing: 1, textTransform: 'uppercase', opacity: 0.7 }}>{link.label}</div>
               ) : (
                 <Link key={link.path} to={link.path} className={`sidebar-link ${location.pathname === link.path ? 'active' : ''}`} onClick={() => setSidebarOpen(false)}>
-                  <span className="sidebar-link-icon">{link.icon}</span>
+                  <NavIcon icon={link.icon} isActive={location.pathname === link.path} />
                   {link.label}
                 </Link>
               )
@@ -111,8 +136,8 @@ export default function DashboardLayout({ children, title }) {
         </nav>
 
         <div className="sidebar-footer">
-          <Link to="/" className="sidebar-link"><span className="sidebar-link-icon">🏠</span>Back to Home</Link>
-          <button onClick={handleLogout} className="sidebar-link" style={{ width: '100%', textAlign: 'left' }}><span className="sidebar-link-icon">🚪</span>Logout</button>
+          <Link to="/" className="sidebar-link"><span className="sidebar-link-icon"><Home size={20} strokeWidth={1.8} /></span>Back to Home</Link>
+          <button onClick={handleLogout} className="sidebar-link" style={{ width: '100%', textAlign: 'left' }}><span className="sidebar-link-icon"><LogOut size={20} strokeWidth={1.8} /></span>Logout</button>
         </div>
       </aside>
 
@@ -121,16 +146,18 @@ export default function DashboardLayout({ children, title }) {
         {/* Topbar */}
         <header className="app-topbar">
           <div className="topbar-left">
-            <button className="topbar-burger" onClick={() => setSidebarOpen(!sidebarOpen)}>☰</button>
+            <button className="topbar-burger" onClick={() => setSidebarOpen(!sidebarOpen)}>
+              <Menu size={22} />
+            </button>
             <h1 className="topbar-title">{title || 'Dashboard'}</h1>
           </div>
           <div className="topbar-right">
             <div className="topbar-search">
-              <span className="topbar-search-icon">🔍</span>
+              <span className="topbar-search-icon"><Search size={16} /></span>
               <input placeholder="Search..." />
             </div>
             <button className="topbar-btn" style={{ position: 'relative' }}>
-              🔔
+              <Bell size={20} />
               {unread > 0 && <span className="topbar-badge">{unread}</span>}
             </button>
             <div className="topbar-avatar" style={{ background: config.gradient }}>{user.avatar}</div>

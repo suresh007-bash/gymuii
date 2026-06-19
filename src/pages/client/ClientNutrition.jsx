@@ -1,20 +1,39 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import DashboardLayout from '../../components/DashboardLayout';
+import StatIcon from '../../components/StatIcon';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 
 function Ring({ val, max, color, label, unit }) {
-  const pct = Math.min(100, Math.round((val / max) * 100));
+  const [displayed, setDisplayed] = useState(0);
+  const prevVal = useRef(0);
+  useEffect(() => {
+    const start = performance.now(), from = prevVal.current, to = val, dur = 1200;
+    const ease = (t) => 1 - Math.pow(1 - t, 3);
+    let raf;
+    const step = (now) => { const p = Math.min((now - start) / dur, 1); setDisplayed(Math.round(from + (to - from) * ease(p))); if (p < 1) raf = requestAnimationFrame(step); };
+    raf = requestAnimationFrame(step);
+    return () => { prevVal.current = displayed; cancelAnimationFrame(raf); };
+  }, [val]);
+  const pct = Math.min(100, Math.round((displayed / max) * 100));
   const isOver = val > max;
   const r = 42, c = 2 * Math.PI * r, off = c - (Math.min(pct, 100) / 100) * c;
+  const gradId = `nr-${label}-${color.replace('#', '')}`;
+  const dotAngle = (Math.min(pct, 100) / 100) * 2 * Math.PI;
   return (
     <div style={{ textAlign: 'center' }}>
       <svg width="110" height="110" viewBox="0 0 110 110">
-        <circle cx="55" cy="55" r={r} fill="none" stroke="var(--bg-tertiary)" strokeWidth="9" />
-        <circle cx="55" cy="55" r={r} fill="none" stroke={isOver ? '#ef4444' : color} strokeWidth="9"
-          strokeDasharray={c} strokeDashoffset={off} strokeLinecap="round" transform="rotate(-90 55 55)"
-          style={{ transition: 'stroke-dashoffset 1s cubic-bezier(0.4,0,0.2,1)' }} />
-        <text x="55" y="50" textAnchor="middle" fontSize="20" fontWeight="900" fill={isOver ? '#ef4444' : 'var(--text-primary)'} fontFamily="Outfit">{val}</text>
+        <defs>
+          <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor={isOver ? '#ef4444' : color} />
+            <stop offset="100%" stopColor={`${isOver ? '#ef4444' : color}88`} />
+          </linearGradient>
+        </defs>
+        <circle cx="55" cy="55" r={r} fill="none" stroke={`${color}18`} strokeWidth="9" />
+        <circle cx="55" cy="55" r={r} fill="none" stroke={`url(#${gradId})`} strokeWidth="9"
+          strokeDasharray={c} strokeDashoffset={off} strokeLinecap="round" transform="rotate(-90 55 55)" />
+        {pct > 3 && <circle cx={55 + r * Math.cos(dotAngle - Math.PI/2)} cy={55 + r * Math.sin(dotAngle - Math.PI/2)} r="6" fill={isOver ? '#ef4444' : color} style={{ filter: `drop-shadow(0 0 4px ${isOver ? '#ef4444' : color})`, opacity: 0.8 }} />}
+        <text x="55" y="50" textAnchor="middle" fontSize="20" fontWeight="900" fill={isOver ? '#ef4444' : 'var(--text-primary)'} fontFamily="Outfit">{displayed}</text>
         <text x="55" y="66" textAnchor="middle" fontSize="10" fill="var(--text-muted)">{unit}</text>
       </svg>
       <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-secondary)', marginTop: 2 }}>{label}</div>
@@ -114,10 +133,10 @@ export default function ClientNutrition() {
         {user?.preferredDiagram === 'bar' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: '16px' }}>
             {[
-              { name: 'Calories', val: nutrition.calories, max: targets.calories, unit: 'kcal', color: '#f97316', icon: '🔥' },
-              { name: 'Protein', val: nutrition.protein, max: targets.protein, unit: 'g', color: '#22c55e', icon: '💪' },
-              { name: 'Carbs', val: nutrition.carbs, max: targets.carbs, unit: 'g', color: '#3b82f6', icon: '🌾' },
-              { name: 'Fat', val: nutrition.fat, max: targets.fat, unit: 'g', color: '#8b5cf6', icon: '🥑' }
+              { name: 'Calories', val: nutrition.calories, max: targets.calories, unit: 'kcal', color: '#f97316', icon: <StatIcon name="calories" /> },
+              { name: 'Protein', val: nutrition.protein, max: targets.protein, unit: 'g', color: '#22c55e', icon: <StatIcon name="protein" /> },
+              { name: 'Carbs', val: nutrition.carbs, max: targets.carbs, unit: 'g', color: '#3b82f6', icon: <StatIcon name="carbs" /> },
+              { name: 'Fat', val: nutrition.fat, max: targets.fat, unit: 'g', color: '#8b5cf6', icon: <StatIcon name="fat" /> }
             ].map(m => {
               const pct = Math.min(100, Math.round((m.val / m.max) * 100));
               return (
@@ -143,10 +162,10 @@ export default function ClientNutrition() {
         {user?.preferredDiagram === 'cards' && (
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, padding: '16px' }}>
             {[
-              { name: 'Calories', val: nutrition.calories, max: targets.calories, unit: 'kcal', color: '#f97316', icon: '🔥', desc: 'Energy intake target' },
-              { name: 'Protein', val: nutrition.protein, max: targets.protein, unit: 'g', color: '#22c55e', icon: '💪', desc: 'Muscle repair & growth' },
-              { name: 'Carbs', val: nutrition.carbs, max: targets.carbs, unit: 'g', color: '#3b82f6', icon: '🌾', desc: 'Daily energy levels' },
-              { name: 'Fat', val: nutrition.fat, max: targets.fat, unit: 'g', color: '#8b5cf6', icon: '🥑', desc: 'Hormonal support' }
+              { name: 'Calories', val: nutrition.calories, max: targets.calories, unit: 'kcal', color: '#f97316', icon: <StatIcon name="calories" />, desc: 'Energy intake target' },
+              { name: 'Protein', val: nutrition.protein, max: targets.protein, unit: 'g', color: '#22c55e', icon: <StatIcon name="protein" />, desc: 'Muscle repair & growth' },
+              { name: 'Carbs', val: nutrition.carbs, max: targets.carbs, unit: 'g', color: '#3b82f6', icon: <StatIcon name="carbs" />, desc: 'Daily energy levels' },
+              { name: 'Fat', val: nutrition.fat, max: targets.fat, unit: 'g', color: '#8b5cf6', icon: <StatIcon name="fat" />, desc: 'Hormonal support' }
             ].map(m => {
               const completed = m.val >= m.max;
               return (

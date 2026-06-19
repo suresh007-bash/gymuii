@@ -1,18 +1,20 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { MENU_ITEMS, NUTRIENT_PACKS, CATEGORIES } from '../data/mockMenu';
+import { NUTRIENT_PACKS, CATEGORIES } from '../data/mockMenu';
+import { getMenuItems } from '../data/menuHelper';
+import StatIcon from '../components/StatIcon';
 
 const NAV_LINKS = [{ label: 'Menu', href: '#menu' }, { label: 'Pricing', href: '#pricing' }, { label: 'For Gyms', href: '#gyms' }];
 
 const STATS = [{ val: '500+', label: 'Meals Delivered' }, { val: '30 min', label: 'Avg Delivery' }, { val: '4.8 ⭐', label: 'User Rating' }, { val: '50+', label: 'Gym Partners' }];
 
 const FEATURES = [
-  { icon: '🥗', title: 'Macro-Tracked Meals', desc: 'Every meal comes with precise calorie, protein, carb & fat data' },
-  { icon: '🏋️', title: 'Gym-Personalized', desc: 'Your trainer sets nutrition targets, we deliver the matching meals' },
-  { icon: '📅', title: 'Meal Scheduling', desc: 'Schedule breakfast, lunch & dinner for the entire week' },
-  { icon: '🚀', title: '30-Min Delivery', desc: 'Fresh meals delivered to your gym or home in 30 minutes' },
-  { icon: '📦', title: 'Nutrient Packs', desc: 'Curated meal packs by trainers, gym owners & nutritionists' },
-  { icon: '📊', title: 'Progress Tracking', desc: 'Track your nutrition goals with beautiful analytics' },
+  { icon: <StatIcon name="meal" size={24} />, title: 'Macro-Tracked Meals', desc: 'Every meal comes with precise calorie, protein, carb & fat data' },
+  { icon: <StatIcon name="dumbbell" size={24} />, title: 'Gym-Personalized', desc: 'Your trainer sets nutrition targets, we deliver the matching meals' },
+  { icon: <StatIcon name="calendar" size={24} />, title: 'Meal Scheduling', desc: 'Schedule breakfast, lunch & dinner for the entire week' },
+  { icon: <StatIcon name="zap" size={24} />, title: '30-Min Delivery', desc: 'Fresh meals delivered to your gym or home in 30 minutes' },
+  { icon: <StatIcon name="orders" size={24} />, title: 'Nutrient Packs', desc: 'Curated meal packs by trainers, gym owners & nutritionists' },
+  { icon: <StatIcon name="barChart" size={24} />, title: 'Progress Tracking', desc: 'Track your nutrition goals with beautiful analytics' },
 ];
 
 const TESTIMONIALS = [
@@ -28,6 +30,7 @@ const PLANS = [
 ];
 
 export default function LandingPage() {
+  const MENU_ITEMS = getMenuItems();
   const { user } = useAuth();
   const roleMap = { client: '/client/dashboard', trainer: '/trainer/dashboard', owner: '/owner/menu', kitchen: '/kitchen/dashboard', delivery: '/delivery/dashboard', admin: '/admin/dashboard' };
 
@@ -35,12 +38,12 @@ export default function LandingPage() {
     <div style={{ fontFamily: "'Outfit', 'Inter', sans-serif", background: '#fff', color: '#1a1a1a' }}>
 
       {/* ═══ NAVBAR ═══ */}
-      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000, padding: '16px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(20px)' }}>
+      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000, padding: '16px clamp(16px, 4vw, 40px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(20px)' }}>
         <div style={{ fontSize: 26, fontWeight: 900, color: '#fff' }}>
           <span style={{ color: '#22c55e' }}>Fit</span>Bites
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
-          {NAV_LINKS.map(l => (<a key={l.label} href={l.href} style={{ color: 'rgba(255,255,255,0.85)', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>{l.label}</a>))}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px, 3vw, 32px)' }}>
+          {NAV_LINKS.map(l => (<a key={l.label} href={l.href} className="mobile-hidden" style={{ color: 'rgba(255,255,255,0.85)', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>{l.label}</a>))}
           {user ? (
             <Link to={user.requirePasswordChange ? '/change-password' : roleMap[user.role]} style={{ padding: '10px 24px', background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 30, fontWeight: 800, fontSize: 14, textDecoration: 'none' }}>Dashboard →</Link>
           ) : (
@@ -50,7 +53,7 @@ export default function LandingPage() {
       </nav>
 
       {/* ═══ HERO ═══ */}
-      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '120px 40px 60px', position: 'relative', overflow: 'hidden', background: 'linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.65)), url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&q=80") center/cover no-repeat' }}>
+      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: 'clamp(100px, 15vw, 120px) clamp(16px, 4vw, 40px) clamp(40px, 6vw, 60px)', position: 'relative', overflow: 'hidden', background: 'linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.65)), url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&q=80") center/cover no-repeat' }}>
         <div style={{ fontSize: 16, fontWeight: 800, color: '#22c55e', letterSpacing: 2, marginBottom: 16 }}>
           <span style={{ color: '#22c55e' }}>Fit</span><span style={{ color: '#fff' }}>Bites</span>
         </div>
@@ -68,7 +71,7 @@ export default function LandingPage() {
         </div>
 
         {/* Stats */}
-        <div style={{ display: 'flex', gap: 48, marginTop: 48 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'clamp(20px, 4vw, 48px)', marginTop: 48, justifyContent: 'center' }}>
           {STATS.map((s, i) => (
             <div key={i} style={{ textAlign: 'center' }}>
               <div style={{ fontSize: 28, fontWeight: 900, color: '#fff' }}>{s.val}</div>
@@ -81,18 +84,18 @@ export default function LandingPage() {
       </section>
 
       {/* ═══ FEATURES ═══ */}
-      <section style={{ padding: '80px 40px', maxWidth: 1100, margin: '0 auto' }}>
+      <section style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)', maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 48 }}>
           <div style={{ fontSize: 13, fontWeight: 800, color: '#f97316', letterSpacing: 2, marginBottom: 8 }}>WHY FITBITES</div>
           <h2 style={{ fontSize: 36, fontWeight: 900, marginBottom: 12 }}>Built for Fitness Enthusiasts</h2>
           <p style={{ color: '#888', maxWidth: 500, margin: '0 auto' }}>Every feature designed to help you achieve your nutrition goals faster</p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
           {FEATURES.map((f, i) => (
             <div key={i} style={{ padding: 28, borderRadius: 20, border: '1px solid #eee', transition: 'all 0.3s', cursor: 'default' }}
               onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 40px rgba(249,115,22,0.1)'; }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'; }}>
-              <div style={{ fontSize: 36, marginBottom: 12 }}>{f.icon}</div>
+              <div style={{ marginBottom: 12 }}>{f.icon}</div>
               <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>{f.title}</h3>
               <p style={{ fontSize: 14, color: '#888', lineHeight: 1.6 }}>{f.desc}</p>
             </div>
@@ -101,7 +104,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══ MENU PREVIEW ═══ */}
-      <section id="menu" style={{ padding: '80px 40px', background: '#fafafa' }}>
+      <section id="menu" style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)', background: '#fafafa' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <div style={{ fontSize: 13, fontWeight: 800, color: '#22c55e', letterSpacing: 2, marginBottom: 8 }}>OUR MENU</div>
@@ -130,12 +133,12 @@ export default function LandingPage() {
       </section>
 
       {/* ═══ HOW IT WORKS ═══ */}
-      <section style={{ padding: '80px 40px', maxWidth: 1100, margin: '0 auto' }}>
+      <section style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)', maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 48 }}>
           <div style={{ fontSize: 13, fontWeight: 800, color: '#f97316', letterSpacing: 2, marginBottom: 8 }}>HOW IT WORKS</div>
           <h2 style={{ fontSize: 36, fontWeight: 900 }}>4 Simple Steps</h2>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 28 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 28 }}>
           {[{ step: '01', icon: '👤', title: 'Sign Up', desc: 'Create your profile with fitness goals & dietary preferences' }, { step: '02', icon: '🍽️', title: 'Browse Menu', desc: 'Explore macro-tracked meals, nutrient packs & diet plans' }, { step: '03', icon: '📦', title: 'Place Order', desc: 'Add to cart, schedule meals, choose payment method' }, { step: '04', icon: '🚀', title: 'Get Delivered', desc: 'Fresh meals delivered in 30 min with live tracking' }].map((s, i) => (
             <div key={i} style={{ textAlign: 'center' }}>
               <div style={{ width: 70, height: 70, borderRadius: '50%', background: 'linear-gradient(135deg, #f97316, #22c55e)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, margin: '0 auto 16px', color: '#fff' }}>{s.icon}</div>
@@ -148,13 +151,13 @@ export default function LandingPage() {
       </section>
 
       {/* ═══ PRICING ═══ */}
-      <section id="pricing" style={{ padding: '80px 40px', background: '#fafafa' }}>
+      <section id="pricing" style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)', background: '#fafafa' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <div style={{ fontSize: 13, fontWeight: 800, color: '#22c55e', letterSpacing: 2, marginBottom: 8 }}>PRICING</div>
             <h2 style={{ fontSize: 36, fontWeight: 900 }}>Subscription Plans</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
             {PLANS.map((p, i) => (
               <div key={i} style={{ background: '#fff', borderRadius: 20, padding: 32, border: p.popular ? '2px solid #f97316' : '1px solid #eee', position: 'relative', transition: 'transform 0.3s' }}
                 onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'} onMouseLeave={e => e.currentTarget.style.transform = 'none'}>
@@ -172,8 +175,8 @@ export default function LandingPage() {
       </section>
 
       {/* ═══ FOR GYMS ═══ */}
-      <section id="gyms" style={{ padding: '80px 40px', maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
+      <section id="gyms" style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)', maxWidth: 1100, margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'clamp(24px, 4vw, 60px)', alignItems: 'center' }}>
           <div>
             <div style={{ fontSize: 13, fontWeight: 800, color: '#22c55e', letterSpacing: 2, marginBottom: 8 }}>FOR GYM OWNERS</div>
             <h2 style={{ fontSize: 36, fontWeight: 900, marginBottom: 16 }}>Power Your Gym With FitBites</h2>
@@ -198,13 +201,13 @@ export default function LandingPage() {
       </section>
 
       {/* ═══ TESTIMONIALS ═══ */}
-      <section style={{ padding: '80px 40px', background: '#fafafa' }}>
+      <section style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)', background: '#fafafa' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <div style={{ fontSize: 13, fontWeight: 800, color: '#f97316', letterSpacing: 2, marginBottom: 8 }}>TESTIMONIALS</div>
             <h2 style={{ fontSize: 36, fontWeight: 900 }}>Loved by Fitness Community</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
             {TESTIMONIALS.map((t, i) => (
               <div key={i} style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #eee' }}>
                 <div style={{ fontSize: 14, color: '#555', lineHeight: 1.7, marginBottom: 16, fontStyle: 'italic' }}>"{t.text}"</div>
@@ -220,7 +223,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══ CTA ═══ */}
-      <section style={{ padding: '80px 40px', background: 'linear-gradient(135deg, #f97316, #22c55e)', textAlign: 'center' }}>
+      <section style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)', background: 'linear-gradient(135deg, #f97316, #22c55e)', textAlign: 'center' }}>
         <h2 style={{ fontSize: 36, fontWeight: 900, color: '#fff', marginBottom: 12 }}>Ready to Eat Healthy?</h2>
         <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 16, marginBottom: 28 }}>Join thousands of gym members who fuel their fitness with FitBites</p>
         <Link to="/register" style={{ padding: '16px 40px', background: '#fff', color: '#f97316', borderRadius: 50, fontWeight: 900, fontSize: 16, textDecoration: 'none', display: 'inline-block', boxShadow: '0 8px 32px rgba(0,0,0,0.2)' }}>Get Started — It's Free →</Link>

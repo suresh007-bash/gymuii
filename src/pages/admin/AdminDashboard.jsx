@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import StatIcon from '../../components/StatIcon';
 import DashboardLayout from '../../components/DashboardLayout';
 import FoodMarquee from '../../components/FoodMarquee';
 import { useAuth } from '../../context/AuthContext';
@@ -28,6 +29,7 @@ export default function AdminDashboard() {
         <div className="card" style={{ borderLeft: '4px solid #22c55e' }}><h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}>👥 User Management</h4><p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>{allUsers.length} registered users across all roles. Promote, edit, or manage access.</p><Link to="/admin/users" style={{ fontSize: 11, color: 'var(--accent-green)', fontWeight: 700 }}>Manage Users →</Link></div>
       </div>
 
+
       <FoodMarquee />
 
       <div style={{ marginBottom: 24 }}>
@@ -47,7 +49,7 @@ export default function AdminDashboard() {
         </div>
         <div className="card">
           <div className="card-header"><h3 className="card-title">👥 Users by Role</h3></div>
-          {[['client', '🏋️', '#f97316'], ['trainer', '💪', '#22c55e'], ['owner', '👑', '#3b82f6'], ['kitchen', '👨‍🍳', '#14b8a6'], ['delivery', '🚗', '#8b5cf6'], ['admin', '⚙️', '#64748b']].map(([role, icon, color]) => {
+          {[['client', <StatIcon name="dumbbell" />, '#f97316'], ['trainer', <StatIcon name="protein" />, '#22c55e'], ['owner', <StatIcon name="award" />, '#3b82f6'], ['kitchen', <StatIcon name="chef" />, '#14b8a6'], ['delivery', <StatIcon name="truck" />, '#8b5cf6'], ['admin', <StatIcon name="target" />, '#64748b']].map(([role, icon, color]) => {
             const count = allUsers.filter(u => u.role === role).length;
             return (<div key={role} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', borderBottom: '1px solid var(--border)' }}>
               <span style={{ fontSize: 18 }}>{icon}</span>

@@ -28,6 +28,7 @@ export default function KitchenDashboard() {
         <div className="card" style={{ borderLeft: '4px solid #22c55e' }}><h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}>🚀 Ready to Dispatch</h4><p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>{orders.filter(o => o.status === 'ready').length} orders are ready. Assign drivers for delivery.</p><Link to="/kitchen/dispatch" style={{ fontSize: 11, color: 'var(--accent-green)', fontWeight: 700 }}>Dispatch →</Link></div>
       </div>
 
+
       <FoodMarquee />
 
       <div style={{ marginBottom: 24 }}>

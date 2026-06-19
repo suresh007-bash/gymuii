@@ -1,9 +1,10 @@
 import { useState, useMemo } from 'react';
 import DashboardLayout from '../../components/DashboardLayout';
-import { MENU_ITEMS } from '../../data/mockMenu';
+import { getMenuItems } from '../../data/menuHelper';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 import { useNotifications } from '../../context/NotificationContext';
+import StatIcon from '../../components/StatIcon';
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 const MEALS = [
@@ -24,6 +25,7 @@ function getWeekDates(offset = 0) {
 }
 
 export default function FoodScheduling() {
+  const MENU_ITEMS = getMenuItems();
   const { user, getTrainerClients } = useAuth();
   const { addScheduledOrder, cancelScheduledOrder, scheduledOrders } = useOrders();
   const { showToast } = useNotifications();
@@ -202,10 +204,10 @@ export default function FoodScheduling() {
       {/* Stats */}
       <div className="stats-grid" style={{ marginBottom: 16 }}>
         {[
-          { icon: '📋', val: `${filledSlots}/${totalSlots}`, label: 'Meals Planned', color: '#22c55e' },
-          { icon: '🔥', val: totalCal.toLocaleString(), label: 'Week Calories', color: '#f97316' },
-          { icon: '👥', val: clients.length, label: 'Clients', color: '#3b82f6' },
-          { icon: '📅', val: allSchedules.length, label: 'Active Schedules', color: '#8b5cf6' },
+          { icon: <StatIcon name="clipboard" />, val: `${filledSlots}/${totalSlots}`, label: 'Meals Planned', color: '#22c55e' },
+          { icon: <StatIcon name="calories" />, val: totalCal.toLocaleString(), label: 'Week Calories', color: '#f97316' },
+          { icon: <StatIcon name="users" />, val: clients.length, label: 'Clients', color: '#3b82f6' },
+          { icon: <StatIcon name="calendar" />, val: allSchedules.length, label: 'Active Schedules', color: '#8b5cf6' },
         ].map((s, i) => (
           <div key={i} className="stat-card"><div className="stat-icon">{s.icon}</div><div className="stat-value" style={{ color: s.color }}>{s.val}</div><div className="stat-label">{s.label}</div></div>
         ))}

@@ -4,9 +4,10 @@ import DashboardLayout from '../../components/DashboardLayout';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 import { useNotifications } from '../../context/NotificationContext';
-import { MENU_ITEMS } from '../../data/mockMenu';
+import { getMenuItems } from '../../data/menuHelper';
 
 export default function ClientMealPlans() {
+  const MENU_ITEMS = getMenuItems();
   const { user } = useAuth();
   const { dietPlans, scheduledOrders, addOrder } = useOrders();
   const { showToast } = useNotifications();

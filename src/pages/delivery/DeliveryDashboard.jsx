@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import StatIcon from '../../components/StatIcon';
 import DashboardLayout from '../../components/DashboardLayout';
 import FoodMarquee from '../../components/FoodMarquee';
 import { useAuth } from '../../context/AuthContext';
@@ -24,10 +25,10 @@ export default function DeliveryDashboard() {
       {/* Stats */}
       <div className="stats-grid" style={{ marginBottom: 20 }}>
         {[
-          { icon: '⏳', val: pending.length, label: 'Pending', color: '#f97316' },
-          { icon: '🚗', val: active.length, label: 'Active', color: '#8b5cf6' },
-          { icon: '✅', val: delivered.length, label: 'Delivered', color: '#22c55e' },
-          { icon: '💰', val: `₹${earnings}`, label: 'Earned', color: '#f97316' },
+          { icon: <StatIcon name="timer" />, val: pending.length, label: 'Pending', color: '#f97316' },
+          { icon: <StatIcon name="truck" />, val: active.length, label: 'Active', color: '#8b5cf6' },
+          { icon: <StatIcon name="check" />, val: delivered.length, label: 'Delivered', color: '#22c55e' },
+          { icon: <StatIcon name="revenue" />, val: `₹${earnings}`, label: 'Earned', color: '#f97316' },
         ].map((s, i) => (
           <div key={i} className="stat-card">
             <div className="stat-icon">{s.icon}</div>
@@ -36,6 +37,7 @@ export default function DeliveryDashboard() {
           </div>
         ))}
       </div>
+
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
         <div className="card" style={{ borderLeft: '4px solid #f97316' }}>

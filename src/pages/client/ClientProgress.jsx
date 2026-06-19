@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import DashboardLayout from '../../components/DashboardLayout';
+import StatIcon from '../../components/StatIcon';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 
@@ -48,7 +49,7 @@ export default function ClientProgress() {
 
       {tab === 'overview' && (<>
         <div className="stats-grid">
-          {[{ icon: '📦', val: totalOrders, label: 'Total Orders', color: '#f97316' }, { icon: '💰', val: `₹${totalSpent.toLocaleString()}`, label: 'Total Spent', color: '#22c55e' }, { icon: '🔥', val: avgCalories, label: 'Avg Calories/Day', color: '#3b82f6' }, { icon: '🎯', val: daysOnTarget, label: 'Days On Target', color: '#8b5cf6' }].map((s, i) => (
+          {[{ icon: <StatIcon name="orders" />, val: totalOrders, label: 'Total Orders', color: '#f97316' }, { icon: <StatIcon name="revenue" />, val: `₹${totalSpent.toLocaleString()}`, label: 'Total Spent', color: '#22c55e' }, { icon: <StatIcon name="calories" />, val: avgCalories, label: 'Avg Calories/Day', color: '#3b82f6' }, { icon: <StatIcon name="target" />, val: daysOnTarget, label: 'Days On Target', color: '#8b5cf6' }].map((s, i) => (
             <div key={i} className="stat-card"><div className="stat-icon">{s.icon}</div><div className="stat-value" style={{ color: s.color }}>{s.val}</div><div className="stat-label">{s.label}</div></div>
           ))}
         </div>
@@ -144,7 +145,7 @@ export default function ClientProgress() {
           <div className="card">
             <div className="card-header"><h3 className="card-title">🏅 Achievements</h3></div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
-              {[{ icon: '🔥', title: 'First Order', desc: 'Placed your first order', done: totalOrders >= 1 }, { icon: '💪', title: '5 Orders', desc: 'Reached 5 total orders', done: totalOrders >= 5 }, { icon: '🎯', title: 'On Target', desc: 'Hit calorie target for a day', done: daysOnTarget >= 1 }, { icon: '📅', title: '7-Day Streak', desc: 'Ordered 7 consecutive days', done: dates.length >= 7 }, { icon: '🏋️', title: 'Protein King', desc: 'Hit protein target 3 times', done: dates.filter(d => byDate[d].protein >= proTarget).length >= 3 }, { icon: '⭐', title: 'Loyal Member', desc: 'Spent ₹5000+ total', done: totalSpent >= 5000 }].map((a, i) => (
+              {[{ icon: <StatIcon name="calories" />, title: 'First Order', desc: 'Placed your first order', done: totalOrders >= 1 }, { icon: <StatIcon name="protein" />, title: '5 Orders', desc: 'Reached 5 total orders', done: totalOrders >= 5 }, { icon: <StatIcon name="target" />, title: 'On Target', desc: 'Hit calorie target for a day', done: daysOnTarget >= 1 }, { icon: <StatIcon name="calendar" />, title: '7-Day Streak', desc: 'Ordered 7 consecutive days', done: dates.length >= 7 }, { icon: <StatIcon name="dumbbell" />, title: 'Protein King', desc: 'Hit protein target 3 times', done: dates.filter(d => byDate[d].protein >= proTarget).length >= 3 }, { icon: <StatIcon name="star" />, title: 'Loyal Member', desc: 'Spent ₹5000+ total', done: totalSpent >= 5000 }].map((a, i) => (
                 <div key={i} style={{ textAlign: 'center', padding: 16, background: a.done ? 'rgba(34,197,94,0.06)' : 'var(--bg-tertiary)', borderRadius: 12, border: a.done ? '1px solid rgba(34,197,94,0.3)' : '1px solid var(--border)', opacity: a.done ? 1 : 0.5 }}>
                   <div style={{ fontSize: 28, marginBottom: 6 }}>{a.icon}</div>
                   <div style={{ fontWeight: 700, fontSize: 13 }}>{a.title}</div>

@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import DashboardLayout from '../../components/DashboardLayout';
-import { MENU_ITEMS } from '../../data/mockMenu';
+import { getMenuItems } from '../../data/menuHelper';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 import { useNotifications } from '../../context/NotificationContext';
 
 export default function DietPlans() {
+  const MENU_ITEMS = getMenuItems();
   const { user, getTrainerClients } = useAuth();
   const { saveDietPlan, getDietPlansByTrainer } = useOrders();
   const { showToast } = useNotifications();

@@ -1,4 +1,5 @@
 import DashboardLayout from '../../components/DashboardLayout';
+import StatIcon from '../../components/StatIcon';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 
@@ -15,7 +16,7 @@ export default function OwnerAnalytics() {
     <DashboardLayout title="Analytics">
       <div className="hero-banner" style={{ background: 'linear-gradient(135deg, #22c55e, #4ade80)' }}><div className="hero-tag">ANALYTICS</div><div className="hero-title">Business Insights</div><div className="hero-subtitle">{user?.gymName}</div></div>
       <div className="stats-grid">
-        {[{ icon: '👥', val: members.length, label: 'Members', color: '#3b82f6' }, { icon: '💪', val: trainers.length, label: 'Trainers', color: '#22c55e' }, { icon: '📦', val: memberOrders.length, label: 'Member Orders', color: '#f97316' }, { icon: '💰', val: `₹${memberRevenue.toLocaleString()}`, label: 'Gym Revenue', color: '#8b5cf6' }].map((s, i) => (
+        {[{ icon: <StatIcon name="users" />, val: members.length, label: 'Members', color: '#3b82f6' }, { icon: <StatIcon name="protein" />, val: trainers.length, label: 'Trainers', color: '#22c55e' }, { icon: <StatIcon name="orders" />, val: memberOrders.length, label: 'Member Orders', color: '#f97316' }, { icon: <StatIcon name="revenue" />, val: `₹${memberRevenue.toLocaleString()}`, label: 'Gym Revenue', color: '#8b5cf6' }].map((s, i) => (
           <div key={i} className="stat-card"><div className="stat-icon">{s.icon}</div><div className="stat-value" style={{ color: s.color }}>{s.val}</div><div className="stat-label">{s.label}</div></div>
         ))}
       </div>

@@ -1,23 +1,24 @@
 import { useState } from 'react';
 import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { Dumbbell, Users, Crown, ChefHat, Truck, Settings } from 'lucide-react';
 
-const roleMap = { client: '/client/dashboard', trainer: '/trainer/dashboard', owner: '/owner/menu', kitchen: '/kitchen/dashboard', delivery: '/delivery/dashboard', admin: '/admin/dashboard' };
+const roleMap = { client: '/client/menu', trainer: '/trainer/home', owner: '/owner/menu', kitchen: '/kitchen/dashboard', delivery: '/delivery/dashboard', admin: '/admin/dashboard' };
 const roles = [
-  { id: 'client', icon: '🏋️', label: 'Client' },
-  { id: 'trainer', icon: '💪', label: 'Trainer' },
-  { id: 'owner', icon: '👑', label: 'Owner' },
-  { id: 'kitchen', icon: '👨‍🍳', label: 'Kitchen' },
-  { id: 'delivery', icon: '🚗', label: 'Delivery' },
-  { id: 'admin', icon: '⚙️', label: 'Admin' },
+  { id: 'client', icon: <Dumbbell size={18} color="#f97316" />, label: 'Client' },
+  { id: 'trainer', icon: <Users size={18} color="#22c55e" />, label: 'Trainer' },
+  { id: 'owner', icon: <Crown size={18} color="#eab308" />, label: 'Owner' },
+  { id: 'kitchen', icon: <ChefHat size={18} color="#14b8a6" />, label: 'Kitchen' },
+  { id: 'delivery', icon: <Truck size={18} color="#3b82f6" />, label: 'Delivery' },
+  { id: 'admin', icon: <Settings size={18} color="#8b5cf6" />, label: 'Admin' },
 ];
 const demoCredentials = [
-  { role: 'Client', email: 'ravi@email.com', pass: 'ravi123', icon: '🏋️' },
-  { role: 'Trainer', email: 'marcus@email.com', pass: 'marcus123', icon: '💪' },
-  { role: 'Owner', email: 'suresh@email.com', pass: 'suresh123', icon: '👑' },
-  { role: 'Kitchen', email: 'rajesh@email.com', pass: 'rajesh123', icon: '👨‍🍳' },
-  { role: 'Delivery', email: 'amit@email.com', pass: 'amit123', icon: '🚗' },
-  { role: 'Admin', email: 'admin@synnoviq.com', pass: 'admin123', icon: '⚙️' },
+  { role: 'Client', email: 'ravi@email.com', pass: 'ravi123', icon: <Dumbbell size={16} color="#f97316" /> },
+  { role: 'Trainer', email: 'marcus@email.com', pass: 'marcus123', icon: <Users size={16} color="#22c55e" /> },
+  { role: 'Owner', email: 'suresh@email.com', pass: 'suresh123', icon: <Crown size={16} color="#eab308" /> },
+  { role: 'Kitchen', email: 'rajesh@email.com', pass: 'rajesh123', icon: <ChefHat size={16} color="#14b8a6" /> },
+  { role: 'Delivery', email: 'amit@email.com', pass: 'amit123', icon: <Truck size={16} color="#3b82f6" /> },
+  { role: 'Admin', email: 'admin@synnoviq.com', pass: 'admin123', icon: <Settings size={16} color="#8b5cf6" /> },
 ];
 
 export default function LoginPage() {
@@ -74,7 +75,7 @@ export default function LoginPage() {
         {/* Demo Credentials */}
         <div style={{ background: '#fff', border: '1px solid rgba(0,0,0,0.06)', borderRadius: 16, padding: 16, marginTop: 16, boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
           <p style={{ fontSize: 11, fontWeight: 800, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10, textAlign: 'center' }}>Quick Demo Login</p>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: 6 }}>
             {demoCredentials.map(d => (
               <button key={d.role} onClick={() => fillDemo(d)} style={{ padding: '10px 8px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 10, color: '#111827', fontSize: 11, fontWeight: 600, cursor: 'pointer', textAlign: 'center', transition: 'all 0.2s' }}>
                 <div style={{ fontSize: 18, marginBottom: 2 }}>{d.icon}</div>

@@ -1,4 +1,5 @@
 import DashboardLayout from '../../components/DashboardLayout';
+import StatIcon from '../../components/StatIcon';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 
@@ -8,12 +9,12 @@ export default function AdminAnalytics() {
   const stats = getStats();
 
   const byStatus = [['Pending', stats.pending, '#f97316'], ['Preparing', stats.preparing, '#3b82f6'], ['Ready', orders.filter(o => o.status === 'ready').length, '#14b8a6'], ['In Transit', stats.inTransit, '#8b5cf6'], ['Delivered', stats.delivered, '#22c55e'], ['Cancelled', stats.cancelled, '#ef4444']];
-  const byRole = [['Client', '🏋️', '#f97316'], ['Trainer', '💪', '#22c55e'], ['Owner', '👑', '#3b82f6'], ['Kitchen', '👨‍🍳', '#14b8a6'], ['Delivery', '🚗', '#8b5cf6'], ['Admin', '⚙️', '#64748b']];
+  const byRole = [['Client', <StatIcon name="dumbbell" />, '#f97316'], ['Trainer', <StatIcon name="protein" />, '#22c55e'], ['Owner', <StatIcon name="award" />, '#3b82f6'], ['Kitchen', <StatIcon name="chef" />, '#14b8a6'], ['Delivery', <StatIcon name="truck" />, '#8b5cf6'], ['Admin', <StatIcon name="target" />, '#64748b']];
 
   return (
     <DashboardLayout title="Analytics">
       <div className="stats-grid">
-        {[{ icon: '💰', val: `₹${stats.revenue.toLocaleString()}`, label: 'Total Revenue', color: '#22c55e' }, { icon: '📦', val: stats.total, label: 'Total Orders', color: '#3b82f6' }, { icon: '👥', val: allUsers.length, label: 'Total Users', color: '#f97316' }, { icon: '📊', val: stats.avgOrderValue > 0 ? `₹${stats.avgOrderValue}` : '₹0', label: 'Avg Order Value', color: '#8b5cf6' }].map((s, i) => (
+        {[{ icon: <StatIcon name="revenue" />, val: `₹${stats.revenue.toLocaleString()}`, label: 'Total Revenue', color: '#22c55e' }, { icon: <StatIcon name="orders" />, val: stats.total, label: 'Total Orders', color: '#3b82f6' }, { icon: <StatIcon name="users" />, val: allUsers.length, label: 'Total Users', color: '#f97316' }, { icon: <StatIcon name="barChart" />, val: stats.avgOrderValue > 0 ? `₹${stats.avgOrderValue}` : '₹0', label: 'Avg Order Value', color: '#8b5cf6' }].map((s, i) => (
           <div key={i} className="stat-card"><div className="stat-icon">{s.icon}</div><div className="stat-value" style={{ color: s.color }}>{s.val}</div><div className="stat-label">{s.label}</div></div>
         ))}
       </div>

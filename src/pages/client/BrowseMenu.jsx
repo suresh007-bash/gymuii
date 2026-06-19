@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import DashboardLayout from '../../components/DashboardLayout';
-import { MENU_ITEMS, NUTRIENT_PACKS, CATEGORIES } from '../../data/mockMenu';
+import { NUTRIENT_PACKS, CATEGORIES } from '../../data/mockMenu';
+import { getMenuItems } from '../../data/menuHelper';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 import { useNotifications } from '../../context/NotificationContext';
+import { MagicFoodCard, FoodSpotlight, getGlowColor } from '../../components/MagicFoodCard';
+import GlareHover from '../../components/GlareHover';
 
 // Auto-calculate nutrition targets from body data (Mifflin-St Jeor)
 function calcTargets(profile) {
@@ -32,6 +35,8 @@ export default function BrowseMenu() {
   const { getDietPlansByClient } = useOrders();
   const { showToast } = useNotifications();
   const navigate = useNavigate();
+  const foodGridRef = useRef(null);
+  const [menuItems] = useState(() => getMenuItems());
   const [cat, setCat] = useState('All');
   const [search, setSearch] = useState('');
   const [tab, setTab] = useState('menu');
@@ -61,24 +66,41 @@ export default function BrowseMenu() {
     showToast('✅ Nutrition targets updated!');
   };
 
-  // SVG Circular Ring component
+  // SVG Circular Ring component — Animated
   const Ring = ({ value, target, color, size = 90, stroke = 8, icon, label, unit }) => {
-    const pct = Math.min((value / target) * 100, 100);
+    const [displayed, setDisplayed] = useState(0);
+    useEffect(() => {
+      const start = performance.now(), from = 0, to = value, dur = 1200;
+      const ease = (t) => 1 - Math.pow(1 - t, 3);
+      let raf;
+      const step = (now) => { const p = Math.min((now - start) / dur, 1); setDisplayed(Math.round(from + (to - from) * ease(p))); if (p < 1) raf = requestAnimationFrame(step); };
+      raf = requestAnimationFrame(step);
+      return () => cancelAnimationFrame(raf);
+    }, [value]);
+    const pct = Math.min((displayed / target) * 100, 100);
     const r = (size - stroke) / 2;
     const circ = 2 * Math.PI * r;
     const offset = circ - (pct / 100) * circ;
     const isOver = value > target;
+    const gradId = `rg-${label}-${color.replace('#', '')}`;
+    const dotAngle = (pct / 100) * 2 * Math.PI;
     return (
       <div style={{ textAlign: 'center', position: 'relative' }}>
         <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
-          <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="var(--bg-tertiary)" strokeWidth={stroke} />
-          <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={isOver ? '#ef4444' : color} strokeWidth={stroke}
-            strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round"
-            style={{ transition: 'stroke-dashoffset 0.8s cubic-bezier(0.4,0,0.2,1)' }} />
+          <defs>
+            <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor={isOver ? '#ef4444' : color} />
+              <stop offset="100%" stopColor={`${isOver ? '#ef4444' : color}88`} />
+            </linearGradient>
+          </defs>
+          <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={`${color}18`} strokeWidth={stroke} />
+          <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={`url(#${gradId})`} strokeWidth={stroke}
+            strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round" />
+          {pct > 3 && <circle cx={size/2 + r * Math.cos(dotAngle)} cy={size/2 + r * Math.sin(dotAngle)} r={stroke/2 + 1.5} fill={isOver ? '#ef4444' : color} style={{ filter: `drop-shadow(0 0 4px ${isOver ? '#ef4444' : color})`, opacity: 0.8 }} />}
         </svg>
         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center' }}>
           <div style={{ fontSize: 16 }}>{icon}</div>
-          <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 14, color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{value}</div>
+          <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 14, color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{displayed}</div>
         </div>
         <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)', marginTop: 4 }}>{label}</div>
         <div style={{ fontSize: 9, color: isOver ? '#ef4444' : 'var(--text-muted)' }}>
@@ -88,7 +110,7 @@ export default function BrowseMenu() {
     );
   };
 
-  const filtered = MENU_ITEMS.filter(m => (cat === 'All' || m.category === cat) && m.name.toLowerCase().includes(search.toLowerCase()));
+  const filtered = menuItems.filter(m => (cat === 'All' || m.category === cat) && m.name.toLowerCase().includes(search.toLowerCase()));
   const myDietPlans = getDietPlansByClient(user?.id);
 
   // Nutrient packs from all sources
@@ -105,7 +127,7 @@ export default function BrowseMenu() {
   };
 
   const orderPack = (pack) => {
-    const packItems = pack.items.map(id => MENU_ITEMS.find(m => m.id === id)).filter(Boolean);
+    const packItems = pack.items.map(id => menuItems.find(m => m.id === id)).filter(Boolean);
     const unavailable = packItems.filter(i => !i.available);
     if (unavailable.length > 0 && unavailable.length < packItems.length) {
       const avail = packItems.filter(i => i.available);
@@ -149,7 +171,7 @@ export default function BrowseMenu() {
             <div style={{ marginBottom: 14 }}>
               <label className="form-label">Select Foods</label>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, maxHeight: 200, overflowY: 'auto' }}>
-                {MENU_ITEMS.filter(m => m.available).map(item => (
+                {menuItems.filter(m => m.available).map(item => (
                   <div key={item.id} onClick={() => toggleSchedItem(item.id)} style={{ padding: 8, background: schedForm.items.includes(item.id) ? 'rgba(249,115,22,0.08)' : 'var(--bg-tertiary)', border: `1px solid ${schedForm.items.includes(item.id) ? 'var(--accent-orange)' : 'var(--border)'}`, borderRadius: 8, cursor: 'pointer', fontSize: 12 }}>
                     <div style={{ fontWeight: 700 }}>{schedForm.items.includes(item.id) ? '✅ ' : ''}{item.name}</div>
                     <div style={{ color: 'var(--text-muted)', fontSize: 10 }}>🔥{item.calories} • ₹{item.price}</div>
@@ -159,7 +181,7 @@ export default function BrowseMenu() {
             </div>
             <button className="btn btn-success" style={{ width: '100%' }} disabled={!schedForm.dates || schedForm.items.length === 0} onClick={() => {
               const dateArr = schedForm.dates.split(',').map(d => d.trim()).filter(Boolean);
-              schedForm.items.forEach(id => { const item = MENU_ITEMS.find(m => m.id === id); if (item) addToCart(item); });
+              schedForm.items.forEach(id => { const item = menuItems.find(m => m.id === id); if (item) addToCart(item); });
               showToast(`📅 Scheduled ${schedForm.items.length} items for ${dateArr.length} day(s) — ${timeSlots[schedForm.timing]}`);
               setShowSchedule(false);
               setSchedForm({ dates: '', timing: 'morning', items: [] });
@@ -170,24 +192,99 @@ export default function BrowseMenu() {
 
       {/* ═══ HERO BANNER ═══ */}
       <div style={{
-        borderRadius: 20, overflow: 'hidden', position: 'relative', marginBottom: 20,
-        background: 'linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80") center/cover',
-        padding: '48px 40px', color: '#fff',
+        borderRadius: 24, overflow: 'hidden', position: 'relative', marginBottom: 24,
+        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #0f172a 100%)',
+        padding: '0', color: '#fff', minHeight: 340,
+        display: 'flex', alignItems: 'center',
+        boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
       }}>
-        <div style={{ fontSize: 11, fontWeight: 800, background: '#f97316', display: 'inline-block', padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}>🍽️ FOOD DELIVERY</div>
-        <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 900, lineHeight: 1.15, marginBottom: 12, maxWidth: 450 }}>
-          Order Food Online<br />in Chennai
-        </h1>
-        <p style={{ fontSize: 14, opacity: 0.85, maxWidth: 420, lineHeight: 1.6 }}>
-          Get fresh, delicious meals delivered fast — curated for your health goals and everyday cravings.
-        </p>
+        {/* Animated gradient orbs */}
+        <div style={{ position: 'absolute', top: -60, right: -60, width: 280, height: 280, borderRadius: '50%', background: 'radial-gradient(circle, rgba(249,115,22,0.15) 0%, transparent 70%)', animation: 'float 6s ease-in-out infinite', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: -40, left: -40, width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(34,197,94,0.12) 0%, transparent 70%)', animation: 'float 8s ease-in-out infinite reverse', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
+
+        {/* Left: Text Content */}
+        <div style={{ flex: 1, padding: '48px 20px 48px 44px', position: 'relative', zIndex: 2 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, fontWeight: 800, background: 'linear-gradient(135deg, #f97316, #fb923c)', padding: '6px 16px', borderRadius: 24, marginBottom: 16, letterSpacing: 1.2, textTransform: 'uppercase' }}>
+            <span style={{ fontSize: 14 }}>🌿</span> NUTRIENT POWERED
+          </div>
+          <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(30px, 4vw, 46px)', fontWeight: 900, lineHeight: 1.1, marginBottom: 16, maxWidth: 420 }}>
+            Make a{' '}
+            <span style={{ background: 'linear-gradient(135deg, #f97316, #22c55e)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Better Life</span>
+          </h1>
+          <p style={{ fontSize: 15, opacity: 0.7, maxWidth: 380, lineHeight: 1.7, marginBottom: 24, fontWeight: 400 }}>
+            Fuel your body with chef-crafted, nutrient-rich meals — designed for your fitness goals and delivered fresh to your door.
+          </p>
+          <div style={{ display: 'flex', gap: 24 }}>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: 22, fontWeight: 900, background: 'linear-gradient(135deg, #f97316, #fb923c)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>500+</div>
+              <div style={{ fontSize: 10, opacity: 0.5, fontWeight: 600, letterSpacing: 0.5 }}>MEALS</div>
+            </div>
+            <div style={{ width: 1, background: 'rgba(255,255,255,0.1)' }} />
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: 22, fontWeight: 900, background: 'linear-gradient(135deg, #22c55e, #4ade80)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>100%</div>
+              <div style={{ fontSize: 10, opacity: 0.5, fontWeight: 600, letterSpacing: 0.5 }}>FRESH</div>
+            </div>
+            <div style={{ width: 1, background: 'rgba(255,255,255,0.1)' }} />
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: 22, fontWeight: 900, background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>24/7</div>
+              <div style={{ fontSize: 10, opacity: 0.5, fontWeight: 600, letterSpacing: 0.5 }}>DELIVERY</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right: Animated Food Image */}
+        <div style={{ flex: '0 0 380px', position: 'relative', zIndex: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px 30px 20px 0' }}>
+          {/* Glowing ring behind */}
+          <div style={{
+            position: 'absolute', width: 300, height: 300, borderRadius: '50%',
+            background: 'conic-gradient(from 0deg, #f97316, #22c55e, #6366f1, #f97316)',
+            animation: 'heroSpin 8s linear infinite', opacity: 0.2, filter: 'blur(30px)',
+          }} />
+          {/* Food bowl image */}
+          <div style={{
+            width: 320, height: 320, borderRadius: '50%', overflow: 'hidden',
+            position: 'relative', animation: 'heroFloat 4s ease-in-out infinite',
+            boxShadow: '0 20px 50px rgba(249,115,22,0.25), 0 0 80px rgba(249,115,22,0.08)',
+          }}>
+            <img
+              src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=90"
+              alt="Healthy nutrient bowl"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scale(1.1)' }}
+            />
+            {/* Shimmer overlay */}
+            <div style={{
+              position: 'absolute', inset: 0, borderRadius: '50%',
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%, rgba(255,255,255,0.05) 100%)',
+              animation: 'heroShimmer 3s ease-in-out infinite', pointerEvents: 'none',
+            }} />
+          </div>
+          {/* Floating nutrition badges */}
+          <div style={{
+            position: 'absolute', top: 30, right: 40, padding: '8px 14px', borderRadius: 16,
+            background: 'rgba(34,197,94,0.15)', backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(34,197,94,0.25)', animation: 'float 3s ease-in-out infinite',
+            fontSize: 12, fontWeight: 700, color: '#4ade80', whiteSpace: 'nowrap',
+          }}>🥗 High Protein</div>
+          <div style={{
+            position: 'absolute', bottom: 40, left: 0, padding: '8px 14px', borderRadius: 16,
+            background: 'rgba(249,115,22,0.15)', backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(249,115,22,0.25)', animation: 'float 4s ease-in-out infinite 1s',
+            fontSize: 12, fontWeight: 700, color: '#fb923c', whiteSpace: 'nowrap',
+          }}>🔥 Low Calorie</div>
+          <div style={{
+            position: 'absolute', top: '55%', right: 15, padding: '8px 14px', borderRadius: 16,
+            background: 'rgba(99,102,241,0.15)', backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(99,102,241,0.25)', animation: 'float 5s ease-in-out infinite 0.5s',
+            fontSize: 12, fontWeight: 700, color: '#818cf8', whiteSpace: 'nowrap',
+          }}>💪 Macro Balanced</div>
+        </div>
       </div>
 
-      {/* Tabs: Menu / Nutrient Packs / Trainer Plans */}
+
+      {/* Tabs: Menu */}
       <div className="tabs" style={{ marginBottom: 16 }}>
         <button className={`tab ${tab === 'menu' ? 'active' : ''}`} onClick={() => setTab('menu')}>🍽️ Food Menu</button>
-        <button className={`tab ${tab === 'packs' ? 'active' : ''}`} onClick={() => setTab('packs')}>📦 Nutrient Packs</button>
-        {myDietPlans.length > 0 && <button className={`tab ${tab === 'plans' ? 'active' : ''}`} onClick={() => setTab('plans')}>💪 My Diet Plans ({myDietPlans.length})</button>}
       </div>
 
       {/* ═══ FOOD MENU TAB ═══ */}
@@ -326,7 +423,7 @@ export default function BrowseMenu() {
             'Maintenance': { label: '⚖️ Balanced Meals for Maintenance', filter: (m) => m.calories >= 300 && m.calories <= 500, color: '#3b82f6', bg: 'rgba(59,130,246,0.06)', border: 'rgba(59,130,246,0.15)' },
           };
           const cfg = goalConfig[userGoal] || goalConfig['Maintenance'];
-          const suggested = MENU_ITEMS.filter(m => m.available && cfg.filter(m)).slice(0, 4);
+          const suggested = menuItems.filter(m => m.available && cfg.filter(m)).slice(0, 4);
           if (suggested.length === 0) return null;
           return (
             <div style={{ marginBottom: 20 }}>
@@ -393,14 +490,29 @@ export default function BrowseMenu() {
         })()}
 
         {/* Food Grid */}
-        <div className="food-grid">
+        <FoodSpotlight gridRef={foodGridRef} spotlightRadius={300} />
+        <div className="food-grid bento-section" ref={foodGridRef}>
           {filtered.map((item, i) => {
             const calPct = Math.round((item.calories / targets.calories) * 100);
             const proPct = Math.round((item.protein / targets.protein) * 100);
             const carbPct = Math.round((item.carbs / targets.carbs) * 100);
             const fatPct = Math.round((item.fat / targets.fat) * 100);
+            const itemGlow = getGlowColor(item.tags);
             return (
-            <div key={item.id} className="food-card" style={{ animationDelay: `${i * 0.05}s` }}>
+            <MagicFoodCard
+              key={item.id}
+              glowColor={itemGlow}
+              className="food-card"
+              style={{ animationDelay: `${i * 0.05}s` }}
+            >
+            <GlareHover
+              glareColor={`rgb(${itemGlow})`}
+              glareOpacity={0.25}
+              glareAngle={-30}
+              glareSize={280}
+              transitionDuration={500}
+              style={{ width: '100%', height: '100%' }}
+            >
               <div className="food-card-img" style={{ position: 'relative' }}>
                 <img src={item.image} alt={item.name} style={{ width: '100%', height: 160, objectFit: 'cover' }} />
                 <div style={{ position: 'absolute', top: 8, left: 8, display: 'flex', gap: 4 }}><span className="badge badge-blue">⏱ {item.prepTime} min</span></div>
@@ -457,7 +569,8 @@ export default function BrowseMenu() {
                   <button className="btn btn-primary btn-sm" onClick={() => item.available && addToCart(item)} disabled={!item.available}>{item.available ? '+ Add' : 'N/A'}</button>
                 </div>
               </div>
-            </div>
+            </GlareHover>
+            </MagicFoodCard>
           );
           })}
         </div>
@@ -470,7 +583,7 @@ export default function BrowseMenu() {
           <p style={{ color: 'var(--text-muted)', fontSize: 13, marginBottom: 16 }}>Curated nutrient packs from kitchen, trainers & gym owners. Order a complete meal set!</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
             {allPacks.filter(p => p.available).map(pack => {
-              const items = pack.items.map(id => MENU_ITEMS.find(m => m.id === id)).filter(Boolean);
+              const items = pack.items.map(id => menuItems.find(m => m.id === id)).filter(Boolean);
               const unavailCount = items.filter(i => !i.available).length;
               return (
                 <div key={pack.id} className="card" style={{ animation: 'fadeInUp 0.4s ease' }}>
@@ -508,7 +621,7 @@ export default function BrowseMenu() {
           {myDietPlans.length === 0 ? <div className="card" style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)' }}>No diet plans assigned yet</div> :
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {myDietPlans.map(plan => {
-              const planItems = (plan.items || []).map(id => MENU_ITEMS.find(m => m.id === id)).filter(Boolean);
+              const planItems = (plan.items || []).map(id => menuItems.find(m => m.id === id)).filter(Boolean);
               return (
                 <div key={plan.id} className="card">
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>

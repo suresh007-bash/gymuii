@@ -1,10 +1,12 @@
 // Owner's Browse Menu — reuses client BrowseMenu logic
 import { useState } from 'react';
 import DashboardLayout from '../../components/DashboardLayout';
-import { MENU_ITEMS, CATEGORIES } from '../../data/mockMenu';
+import { CATEGORIES } from '../../data/mockMenu';
+import { getMenuItems } from '../../data/menuHelper';
 import { useNotifications } from '../../context/NotificationContext';
 
 export default function OwnerMenu() {
+  const MENU_ITEMS = getMenuItems();
   const { showToast } = useNotifications();
   const [search, setSearch] = useState('');
   const [cat, setCat] = useState('All');
