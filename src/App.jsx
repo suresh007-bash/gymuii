@@ -22,6 +22,7 @@ import ClientSubscriptions from './pages/client/ClientSubscriptions';
 import ClientSupport from './pages/client/ClientSupport';
 import ClientSettings from './pages/client/ClientSettings';
 import ClientCommunity from './pages/client/ClientCommunity';
+import ClientProgress from './pages/client/ClientProgress';
 
 // Trainer Pages
 import TrainerDashboard from './pages/trainer/TrainerDashboard';
@@ -75,6 +76,20 @@ function ProtectedRoute({ children, allowedRoles }) {
   return children;
 }
 
+function ClientDashboardRedirect() {
+  const { user } = useAuth();
+  if (user?.redirectPage) {
+    return <Navigate to={user.redirectPage} replace />;
+  }
+  if (user?.goal === 'Weight Loss') {
+    return <Navigate to="/client/nutrition" replace />;
+  }
+  if (user?.goal === 'Muscle Gain') {
+    return <Navigate to="/client/meal-plans" replace />;
+  }
+  return <Navigate to="/client/progress" replace />;
+}
+
 function ToastContainer() {
   const { toasts } = useNotifications();
   if (toasts.length === 0) return null;
@@ -102,12 +117,13 @@ export default function App() {
         <Route path="/change-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
 
         {/* Client */}
-        <Route path="/client/dashboard" element={<Navigate to="/client/menu" replace />} />
+        <Route path="/client/dashboard" element={<ProtectedRoute allowedRoles={['client']}><ClientDashboardRedirect /></ProtectedRoute>} />
         <Route path="/client/menu" element={<ProtectedRoute allowedRoles={['client']}><BrowseMenu /></ProtectedRoute>} />
         <Route path="/client/cart" element={<ProtectedRoute allowedRoles={['client']}><MyCart /></ProtectedRoute>} />
         <Route path="/client/schedule" element={<ProtectedRoute allowedRoles={['client']}><ScheduleFoods /></ProtectedRoute>} />
         <Route path="/client/orders" element={<ProtectedRoute allowedRoles={['client']}><MyOrders /></ProtectedRoute>} />
         <Route path="/client/nutrition" element={<ProtectedRoute allowedRoles={['client']}><ClientNutrition /></ProtectedRoute>} />
+        <Route path="/client/progress" element={<ProtectedRoute allowedRoles={['client']}><ClientProgress /></ProtectedRoute>} />
         <Route path="/client/profile" element={<ProtectedRoute allowedRoles={['client']}><ClientProfile /></ProtectedRoute>} />
         <Route path="/client/meal-plans" element={<ProtectedRoute allowedRoles={['client']}><ClientMealPlans /></ProtectedRoute>} />
         <Route path="/client/subscriptions" element={<ProtectedRoute allowedRoles={['client']}><ClientSubscriptions /></ProtectedRoute>} />

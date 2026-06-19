@@ -89,18 +89,96 @@ export default function ClientNutrition() {
         <div className="hero-stats"><div><div className="hero-stat-val">🔥 {streak}</div><div className="hero-stat-lbl">Day Streak</div></div><div><div className="hero-stat-val">📦 {allOrders.length}</div><div className="hero-stat-lbl">Total Orders</div></div></div>
       </div>
 
-      {/* Today's Macro Rings */}
+      {/* Today's Macro Progress Diagram based on Preference */}
       <div className="card" style={{ marginBottom: 20 }}>
         <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h3 className="card-title">📊 Today's Macro Progress</h3>
-          <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>🎯 Targets synced from Home</span>
+          <h3 className="card-title">
+            {user?.preferredDiagram === 'bar' ? '📊 Today\'s Macro Progress (Bars)' : 
+             user?.preferredDiagram === 'cards' ? '🎯 Today\'s Macro Progress (Cards)' : 
+             '⭕ Today\'s Macro Progress (Rings)'}
+          </h3>
+          <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>🎯 Visual style assigned by Trainer</span>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, justifyItems: 'center', padding: '16px 0' }}>
-          <Ring val={nutrition.calories} max={targets.calories} color="#f97316" label="Calories" unit=" kcal" />
-          <Ring val={nutrition.protein} max={targets.protein} color="#22c55e" label="Protein" unit="g" />
-          <Ring val={nutrition.carbs} max={targets.carbs} color="#3b82f6" label="Carbs" unit="g" />
-          <Ring val={nutrition.fat} max={targets.fat} color="#8b5cf6" label="Fat" unit="g" />
-        </div>
+
+        {/* 1. Circular Rings */}
+        {(!user?.preferredDiagram || user?.preferredDiagram === 'ring') && (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, justifyItems: 'center', padding: '16px 0' }}>
+            <Ring val={nutrition.calories} max={targets.calories} color="#f97316" label="Calories" unit=" kcal" />
+            <Ring val={nutrition.protein} max={targets.protein} color="#22c55e" label="Protein" unit="g" />
+            <Ring val={nutrition.carbs} max={targets.carbs} color="#3b82f6" label="Carbs" unit="g" />
+            <Ring val={nutrition.fat} max={targets.fat} color="#8b5cf6" label="Fat" unit="g" />
+          </div>
+        )}
+
+        {/* 2. Bar Chart Progress */}
+        {user?.preferredDiagram === 'bar' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: '16px' }}>
+            {[
+              { name: 'Calories', val: nutrition.calories, max: targets.calories, unit: 'kcal', color: '#f97316', icon: '🔥' },
+              { name: 'Protein', val: nutrition.protein, max: targets.protein, unit: 'g', color: '#22c55e', icon: '💪' },
+              { name: 'Carbs', val: nutrition.carbs, max: targets.carbs, unit: 'g', color: '#3b82f6', icon: '🌾' },
+              { name: 'Fat', val: nutrition.fat, max: targets.fat, unit: 'g', color: '#8b5cf6', icon: '🥑' }
+            ].map(m => {
+              const pct = Math.min(100, Math.round((m.val / m.max) * 100));
+              return (
+                <div key={m.name} style={{ background: 'var(--bg-tertiary)', borderRadius: 12, padding: 12 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                    <div style={{ fontWeight: 800, fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <span>{m.icon}</span><span>{m.name}</span>
+                    </div>
+                    <div style={{ fontSize: 12, fontWeight: 700 }}>
+                      {m.val} / {m.max} {m.unit} <span style={{ color: m.color }}>({pct}%)</span>
+                    </div>
+                  </div>
+                  <div style={{ height: 10, background: 'var(--border)', borderRadius: 6, overflow: 'hidden' }}>
+                    <div style={{ width: `${pct}%`, height: '100%', background: m.val > m.max ? '#ef4444' : m.color, borderRadius: 6, transition: 'width 1s ease' }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* 3. Goal Progress Cards */}
+        {user?.preferredDiagram === 'cards' && (
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, padding: '16px' }}>
+            {[
+              { name: 'Calories', val: nutrition.calories, max: targets.calories, unit: 'kcal', color: '#f97316', icon: '🔥', desc: 'Energy intake target' },
+              { name: 'Protein', val: nutrition.protein, max: targets.protein, unit: 'g', color: '#22c55e', icon: '💪', desc: 'Muscle repair & growth' },
+              { name: 'Carbs', val: nutrition.carbs, max: targets.carbs, unit: 'g', color: '#3b82f6', icon: '🌾', desc: 'Daily energy levels' },
+              { name: 'Fat', val: nutrition.fat, max: targets.fat, unit: 'g', color: '#8b5cf6', icon: '🥑', desc: 'Hormonal support' }
+            ].map(m => {
+              const completed = m.val >= m.max;
+              return (
+                <div key={m.name} style={{
+                  background: 'var(--bg-tertiary)', borderRadius: 16, padding: 14,
+                  border: `1.5px solid ${completed ? 'rgba(34,197,94,0.3)' : 'var(--border)'}`,
+                  display: 'flex', gap: 12, alignItems: 'center'
+                }}>
+                  <div style={{
+                    width: 44, height: 44, borderRadius: 12, background: `${m.color}15`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20
+                  }}>{m.icon}</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 800, fontSize: 13 }}>{m.name}</div>
+                    <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 4 }}>{m.desc}</div>
+                    <div style={{ fontSize: 13, fontWeight: 900 }}>
+                      {m.val} <span style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 500 }}>/ {m.max}{m.unit}</span>
+                    </div>
+                  </div>
+                  <div>
+                    {completed ? (
+                      <span className="badge badge-green" style={{ fontSize: 9, padding: '4px 8px' }}>🎯 HIT</span>
+                    ) : (
+                      <span className="badge badge-blue" style={{ fontSize: 9, padding: '4px 8px' }}>⚡ ACTIVE</span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         {todayOrders.length > 0 && (
           <div style={{ textAlign: 'center', padding: '4px 0 12px', fontSize: 13, fontWeight: 700, color: totalPct >= 100 ? '#22c55e' : totalPct >= 80 ? '#f97316' : 'var(--text-muted)' }}>
             {totalPct >= 100 ? '🎉 You hit your daily calorie target!' : totalPct >= 80 ? `🔥 ${totalPct}% — almost there!` : `📊 ${totalPct}% of daily calorie goal`}

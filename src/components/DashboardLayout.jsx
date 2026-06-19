@@ -9,6 +9,7 @@ const roleConfig = {
     { icon: '📋', label: 'Meal Plans', path: '/client/meal-plans' }, { icon: '🛒', label: 'My Cart', path: '/client/cart' },
     { icon: '📅', label: 'Schedule Foods', path: '/client/schedule' },
     { icon: '📦', label: 'My Orders', path: '/client/orders' }, { icon: '📊', label: 'Nutrition', path: '/client/nutrition' },
+    { icon: '📈', label: 'Progress', path: '/client/progress' },
     { icon: '💎', label: 'Subscriptions', path: '/client/subscriptions' }, { icon: '👥', label: 'Community', path: '/client/community' },
     { icon: '🆘', label: 'Support', path: '/client/support' }, { icon: '👤', label: 'Profile', path: '/client/profile' },
     { icon: '⚙️', label: 'Settings', path: '/client/settings' },

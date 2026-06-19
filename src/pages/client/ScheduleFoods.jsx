@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import DashboardLayout from '../../components/DashboardLayout';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
@@ -35,22 +35,23 @@ const Ring = ({ value, target, color, size = 72, stroke = 7, icon, label, unit }
   );
 };
 
-export default function MyCart() {
+export default function ScheduleFoods() {
   const { user } = useAuth();
   const { placeOrder } = useOrders();
   const { showToast } = useNotifications();
   const navigate = useNavigate();
+  const location = useLocation();
   const rolePrefix = user?.role === 'owner' ? '/owner' : user?.role === 'trainer' ? '/trainer' : '/client';
 
-  const [step, setStep] = useState(1);
-  const [selectedDates, setSelectedDates] = useState([]);
+  const [step, setStep] = useState(location.state?.selectedDates?.length > 0 ? 2 : 1);
+  const [selectedDates, setSelectedDates] = useState(location.state?.selectedDates || []);
   const [tip, setTip] = useState(0);
   const [payment, setPayment] = useState('COD');
   const [orderPlaced, setOrderPlaced] = useState(null);
   const [search, setSearch] = useState('');
 
   // schedule: { "2026-06-20": [ { id, time, label, items: [...] }, ... ] }
-  const [schedule, setSchedule] = useState({});
+  const [schedule, setSchedule] = useState(location.state?.schedule || {});
   const [activeDate, setActiveDate] = useState(null);
   const [activeSlotId, setActiveSlotId] = useState(null);
   const [showFoodPicker, setShowFoodPicker] = useState(false);

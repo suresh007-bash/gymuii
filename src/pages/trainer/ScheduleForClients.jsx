@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../components/DashboardLayout';
 import { useAuth } from '../../context/AuthContext';
@@ -36,7 +36,7 @@ const Ring = ({ value, target, color, size = 72, stroke = 7, icon, label, unit }
 };
 
 export default function ScheduleForClients() {
-  const { user, getTrainerClients } = useAuth();
+  const { user, getTrainerClients, updateUser, allUsers } = useAuth();
   const { saveDietPlan } = useOrders();
   const { showToast } = useNotifications();
   const navigate = useNavigate();
@@ -50,6 +50,30 @@ export default function ScheduleForClients() {
   const clients = getTrainerClients(user?.id);
   const [selectedClients, setSelectedClients] = useState([]);
   const [clientSearch, setClientSearch] = useState('');
+
+  // config for client targets and redirection
+  const [clientConfigs, setClientConfigs] = useState({});
+
+  // Synchronize client configs when selected clients change
+  useEffect(() => {
+    setClientConfigs(prev => {
+      const updated = { ...prev };
+      selectedClients.forEach(id => {
+        if (!updated[id]) {
+          const clientObj = clients.find(c => c.id === id);
+          let defaultPage = '/client/progress';
+          if (clientObj?.goal === 'Weight Loss') defaultPage = '/client/nutrition';
+          else if (clientObj?.goal === 'Muscle Gain') defaultPage = '/client/meal-plans';
+
+          updated[id] = {
+            preferredDiagram: clientObj?.preferredDiagram || 'ring',
+            redirectPage: clientObj?.redirectPage || defaultPage
+          };
+        }
+      });
+      return updated;
+    });
+  }, [selectedClients, clients]);
 
   // schedule: { "2026-06-20": [ { id, time, label, items: [...] }, ... ] }
   const [schedule, setSchedule] = useState({});
@@ -238,6 +262,22 @@ export default function ScheduleForClients() {
       assignedTo: selectedClients,
       createdAt: new Date().toISOString(), status: 'active',
     });
+
+    // Update each client's profile settings
+    selectedClients.forEach(clientId => {
+      const config = clientConfigs[clientId] || {};
+      const clientObj = clients.find(c => c.id === clientId);
+      let defaultPage = '/client/progress';
+      if (clientObj?.goal === 'Weight Loss') defaultPage = '/client/nutrition';
+      else if (clientObj?.goal === 'Muscle Gain') defaultPage = '/client/meal-plans';
+
+      updateUser(clientId, {
+        preferredDiagram: config.preferredDiagram || 'ring',
+        redirectPage: config.redirectPage || defaultPage,
+        dietAssigned: true
+      });
+    });
+
     const assignedNames = selectedClients.map(id => clients.find(c => c.id === id)?.name || id);
     setAssignSuccess({ clients: assignedNames, dates: filledDates });
     setSchedule({}); setSelectedDates([]); setSelectedClients([]); setStep(1);
@@ -259,7 +299,7 @@ export default function ScheduleForClients() {
         <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: 12 }}>Clients can now view, edit, and order from this schedule.</p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
           <button className="btn btn-primary btn-lg" onClick={() => setAssignSuccess(null)}>📅 Assign More</button>
-          <button className="btn btn-outline btn-lg" onClick={() => navigate('/trainer/home')}>🏠 Back to Home</button>
+          <button className="btn btn-outline btn-lg" onClick={() => navigate('/trainer/dashboard')}>🏠 Back to Home</button>
         </div>
       </div>
     </DashboardLayout>
@@ -268,12 +308,12 @@ export default function ScheduleForClients() {
   // ═══ STEP BAR ═══
   const StepBar = () => (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0, marginBottom: 20 }}>
-      {[{ num: 1, label: 'Select Dates', icon: '📅' }, { num: 2, label: 'Time Slots & Food', icon: '🍽️' }, { num: 3, label: 'Assign to Clients', icon: '👥' }].map((s, i) => (
+      {[{ num: 1, label: 'Select Clients', icon: '👥' }, { num: 2, label: 'Select Dates', icon: '📅' }, { num: 3, label: 'Time Slots & Food', icon: '🍽️' }].map((s, i) => (
         <div key={s.num} style={{ display: 'flex', alignItems: 'center' }}>
           <div onClick={() => {
             if (s.num === 1) setStep(1);
-            if (s.num === 2 && selectedDates.length > 0) { setStep(2); if (!activeDate) setActiveDate(selectedDates.sort()[0]); }
-            if (s.num === 3 && filledDates.length > 0) setStep(3);
+            if (s.num === 2 && selectedClients.length > 0) setStep(2);
+            if (s.num === 3 && selectedClients.length > 0 && selectedDates.length > 0) { setStep(3); if (!activeDate) setActiveDate(selectedDates.sort()[0]); }
           }} style={{
             display: 'flex', alignItems: 'center', gap: 8, padding: '10px 18px', borderRadius: 12, cursor: 'pointer',
             background: step === s.num ? 'var(--accent-orange)' : step > s.num ? 'rgba(34,197,94,0.1)' : 'var(--bg-tertiary)',
@@ -295,11 +335,69 @@ export default function ScheduleForClients() {
     <DashboardLayout title="Schedule Foods to Clients">
       <StepBar />
 
-      {/* ═══ STEP 1 ═══ */}
+      {/* ═══ STEP 1: SELECT CLIENTS ═══ */}
       {step === 1 && (
         <div className="card" style={{ maxWidth: 640, margin: '0 auto' }}>
-          <div className="card-header"><h3 className="card-title">📅 Step 1: Select Delivery Dates</h3></div>
-          <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 14 }}>Pick dates. For each date you can add as many time slots as you need and select food for each.</p>
+          <div className="card-header"><h3 className="card-title">👥 Step 1: Select Clients</h3></div>
+          <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 14 }}>Choose the clients you want to assign the meal schedule and targets to.</p>
+          
+          <div style={{ position: 'relative', marginBottom: 14 }}>
+            <input className="form-input" placeholder="🔍 Search clients by name or email..." value={clientSearch} onChange={e => setClientSearch(e.target.value)} style={{ paddingLeft: 36, fontSize: 14 }} />
+          </div>
+
+          {selectedClients.length > 0 && (
+            <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 14, fontSize: 13 }}>
+              <strong>✅ {selectedClients.length} client{selectedClients.length > 1 ? 's' : ''} selected:</strong> {selectedClients.map(id => clients.find(c => c.id === id)?.name).join(' • ')}
+            </div>
+          )}
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 350, overflowY: 'auto', marginBottom: 16 }}>
+            {clients.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 13 }}>
+                <div style={{ fontSize: 36, marginBottom: 8 }}>👥</div>
+                No clients assigned to you yet.
+              </div>
+            ) : (
+              clients.filter(c => c.name.toLowerCase().includes(clientSearch.toLowerCase()) || c.email?.toLowerCase().includes(clientSearch.toLowerCase())).map(client => {
+                const isSelected = selectedClients.includes(client.id);
+                return (
+                  <div key={client.id} onClick={() => toggleClient(client.id)} style={{
+                    display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', borderRadius: 12, cursor: 'pointer',
+                    background: isSelected ? 'rgba(249,115,22,0.06)' : 'var(--bg-tertiary)',
+                    border: `2px solid ${isSelected ? 'var(--accent-orange)' : 'var(--border)'}`,
+                    transition: 'all 0.2s',
+                  }}>
+                    <div style={{ width: 22, height: 22, borderRadius: 6, border: `2px solid ${isSelected ? 'var(--accent-orange)' : 'var(--border)'}`, background: isSelected ? 'var(--accent-orange)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 12, fontWeight: 900, flexShrink: 0 }}>
+                      {isSelected && '✓'}
+                    </div>
+                    <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color: '#fff', flexShrink: 0 }}>{client.avatar}</div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 700, fontSize: 13 }}>{client.name}</div>
+                      <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{client.email} • Target: <span style={{ color: 'var(--accent-orange)', fontWeight: 700 }}>{client.goal || 'Not Set'}</span></div>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+
+          <button className="btn btn-primary btn-lg" style={{ width: '100%' }}
+            onClick={() => setStep(2)}
+            disabled={selectedClients.length === 0}>
+            {selectedClients.length > 0 ? `Next → Select Dates (${selectedClients.length} client${selectedClients.length > 1 ? 's' : ''})` : 'Select clients to continue'}
+          </button>
+        </div>
+      )}
+
+      {/* ═══ STEP 2: SELECT DATES ═══ */}
+      {step === 2 && (
+        <div className="card" style={{ maxWidth: 640, margin: '0 auto' }}>
+          <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h3 className="card-title">📅 Step 2: Select Delivery Dates</h3>
+            <button className="btn btn-outline btn-sm" onClick={() => setStep(1)}>← Back to Clients</button>
+          </div>
+          <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 14 }}>Pick dates on the calendar. You can schedule multiple slots and foods for each date.</p>
+          
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4, marginBottom: 16 }}>
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
               <div key={d} style={{ textAlign: 'center', fontSize: 10, fontWeight: 800, color: 'var(--text-muted)', padding: 6 }}>{d}</div>
@@ -324,15 +422,15 @@ export default function ScheduleForClients() {
             </div>
           )}
           <button className="btn btn-primary btn-lg" style={{ width: '100%' }}
-            onClick={() => { if (selectedDates.length === 0) { showToast('Select at least one date', 'error'); return; } selectedDates.forEach(d => { if (!schedule[d]) setSchedule(p => ({ ...p, [d]: defaultSlots() })); }); setActiveDate(selectedDates.sort()[0]); setStep(2); }}
+            onClick={() => { if (selectedDates.length === 0) { showToast('Select at least one date', 'error'); return; } selectedDates.forEach(d => { if (!schedule[d]) setSchedule(p => ({ ...p, [d]: defaultSlots() })); }); setActiveDate(selectedDates.sort()[0]); setStep(3); }}
             disabled={selectedDates.length === 0}>
-            {selectedDates.length > 0 ? `Next → Set Time Slots (${selectedDates.length} date${selectedDates.length > 1 ? 's' : ''})` : 'Select dates first'}
+            {selectedDates.length > 0 ? `Next → Set Time Slots & Foods (${selectedDates.length} date${selectedDates.length > 1 ? 's' : ''})` : 'Select dates to continue'}
           </button>
         </div>
       )}
 
-      {/* ═══ STEP 2: UNLIMITED TIME SLOTS PER DATE ═══ */}
-      {step === 2 && (
+      {/* ═══ STEP 3: CONFIGURE TIME SLOTS & FOODS ═══ */}
+      {step === 3 && (
         <div>
           {/* Food Picker Modal — FULL WIDTH */}
           {showFoodPicker && (
@@ -407,7 +505,7 @@ export default function ScheduleForClients() {
                   ))}
                 </div>
 
-                {/* Food List — Bigger cards */}
+                {/* Food List */}
                 <div style={{ maxHeight: 420, overflowY: 'auto' }}>
                   {filteredMenu.length === 0 && (
                     <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 13 }}>No food items found</div>
@@ -493,7 +591,7 @@ export default function ScheduleForClients() {
           )}
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <button className="btn btn-outline btn-sm" onClick={() => setStep(1)}>← Back to Dates</button>
+            <button className="btn btn-outline btn-sm" onClick={() => setStep(2)}>← Back to Dates</button>
           </div>
 
           {/* Date tabs */}
@@ -517,7 +615,7 @@ export default function ScheduleForClients() {
                     const remaining = selectedDates.filter(d => d !== dateStr);
                     setSelectedDates(remaining);
                     setSchedule(p => { const n = { ...p }; delete n[dateStr]; return n; });
-                    if (remaining.length === 0) { setStep(1); setActiveDate(null); }
+                    if (remaining.length === 0) { setStep(2); setActiveDate(null); }
                     else if (activeDate === dateStr) setActiveDate(remaining.sort()[0]);
                     showToast(`🗑️ ${fmtDate(dateStr)} removed`);
                   }} style={{
@@ -540,7 +638,6 @@ export default function ScheduleForClients() {
             const dateCarb = dateSlots.reduce((a, s) => a + s.items.reduce((b, i) => b + (i.carbs || 0) * i.qty, 0), 0);
             const dateFat = dateSlots.reduce((a, s) => a + s.items.reduce((b, i) => b + (i.fat || 0) * i.qty, 0), 0);
             const calPct = Math.round((dateCal / targets.calories) * 100);
-            // Notify when target reached
             if (calPct >= 100 && !notifiedDates.current.has(activeDate)) {
               notifiedDates.current.add(activeDate);
               setTimeout(() => showToast(`🎯 Target reached for ${fmtDate(activeDate)}! ${dateCal} / ${targets.calories} kcal`), 100);
@@ -666,96 +763,63 @@ export default function ScheduleForClients() {
             </div>
           )}
 
-          <div style={{ marginTop: 16, textAlign: 'center' }}>
-            <button className="btn btn-primary btn-lg" style={{ minWidth: 300 }}
-              onClick={() => { if (filledDates.length === 0) { showToast('Add food to at least one slot', 'error'); return; } setStep(3); }}
-              disabled={filledDates.length === 0}>
-              {filledDates.length > 0 ? `Next → Assign to Clients (${filledDates.length} date${filledDates.length > 1 ? 's' : ''})` : 'Add food to continue'}
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* ═══ STEP 3: ASSIGN TO CLIENTS ═══ */}
-      {step === 3 && (
-        <div className="card" style={{ maxWidth: 640, margin: '0 auto' }}>
-          <div className="card-header"><h3 className="card-title">👥 Step 3: Assign to Clients</h3></div>
-          <button className="btn btn-outline btn-sm" onClick={() => setStep(2)} style={{ marginBottom: 14 }}>← Back to Slots</button>
-
-          {/* Schedule Summary */}
-          <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--text-muted)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 }}>📋 Schedule Summary</div>
-            {filledDates.sort().map(dateStr => {
-              const slots = (schedule[dateStr] || []).filter(s => s.items.length > 0);
-              return (
-                <div key={dateStr} style={{ marginBottom: 10, padding: 12, background: 'var(--bg-tertiary)', borderRadius: 12 }}>
-                  <div style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 13, marginBottom: 6 }}>📅 {fmtDate(dateStr)}</div>
-                  {slots.map((slot, idx) => {
-                    const color = slotColors[idx % slotColors.length];
-                    return (
-                      <div key={slot.id} style={{ marginBottom: 4, paddingLeft: 8 }}>
-                        <div style={{ fontSize: 12 }}>
-                          <span style={{ fontWeight: 700, color }}>⏰ {slot.label} — {formatTime12(slot.time)}</span>
-                        </div>
-                        <div style={{ fontSize: 11, color: 'var(--text-muted)', paddingLeft: 4 }}>
-                          {slot.items.map(i => `${i.name} ×${i.qty}`).join(', ')}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Client Selection */}
-          <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--text-muted)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 }}>👥 Select Clients to Assign</div>
-            <div style={{ position: 'relative', marginBottom: 10 }}>
-              <span style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)' }}>🔍</span>
-              <input className="form-input" placeholder="Search clients..." value={clientSearch} onChange={e => setClientSearch(e.target.value)} style={{ paddingLeft: 32 }} />
-            </div>
-            {selectedClients.length > 0 && (
-              <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 10, fontSize: 12 }}>
-                <strong>✅ {selectedClients.length} client{selectedClients.length > 1 ? 's' : ''} selected</strong>
-              </div>
-            )}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxHeight: 300, overflowY: 'auto' }}>
-              {clients.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 13 }}>
-                  <div style={{ fontSize: 36, marginBottom: 8 }}>👥</div>
-                  No clients assigned to you yet.
-                </div>
-              ) : (
-                clients.filter(c => c.name.toLowerCase().includes(clientSearch.toLowerCase()) || c.email?.toLowerCase().includes(clientSearch.toLowerCase())).map(client => {
-                  const isSelected = selectedClients.includes(client.id);
+          {/* Target Diagram & Redirect Settings */}
+          {selectedClients.length > 0 && (
+            <div className="card" style={{ marginTop: 24, padding: 18, border: '1px solid var(--border)' }}>
+              <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 16, marginBottom: 4 }}>🎯 Target Settings & Redirection</h3>
+              <p style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 14 }}>Configure the progress diagrams and automated login destinations for each assigned client based on their goals.</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {selectedClients.map(clientId => {
+                  const clientObj = clients.find(c => c.id === clientId);
+                  const config = clientConfigs[clientId] || { preferredDiagram: 'ring', redirectPage: '/client/progress' };
+                  if (!clientObj) return null;
                   return (
-                    <div key={client.id} onClick={() => toggleClient(client.id)} style={{
-                      display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', borderRadius: 12, cursor: 'pointer',
-                      background: isSelected ? 'rgba(249,115,22,0.06)' : 'var(--bg-tertiary)',
-                      border: `2px solid ${isSelected ? 'var(--accent-orange)' : 'transparent'}`,
-                      transition: 'all 0.2s',
-                    }}>
-                      <div style={{ width: 22, height: 22, borderRadius: 6, border: `2px solid ${isSelected ? 'var(--accent-orange)' : 'var(--border)'}`, background: isSelected ? 'var(--accent-orange)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 12, fontWeight: 900, flexShrink: 0 }}>
-                        {isSelected && '✓'}
+                    <div key={clientId} style={{ background: 'var(--bg-tertiary)', borderRadius: 12, padding: 14, border: '1px solid var(--border)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                        <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: '#fff' }}>{clientObj.avatar}</div>
+                        <div>
+                          <div style={{ fontWeight: 800, fontSize: 13 }}>{clientObj.name}</div>
+                          <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>Target Goal: <span style={{ color: 'var(--accent-orange)', fontWeight: 700 }}>{clientObj.goal || 'Not Set'}</span></div>
+                        </div>
                       </div>
-                      <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color: '#fff', flexShrink: 0 }}>{client.avatar}</div>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 700, fontSize: 13 }}>{client.name}</div>
-                        <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{client.email} • {client.goal}</div>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                        <div>
+                          <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 4, textTransform: 'uppercase' }}>Select Target Diagram</label>
+                          <select style={{ width: '100%', padding: '8px 10px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 10, color: 'var(--text-primary)', fontSize: 12 }}
+                            value={config.preferredDiagram}
+                            onChange={e => setClientConfigs(p => ({ ...p, [clientId]: { ...config, preferredDiagram: e.target.value } }))}>
+                            <option value="ring">⭕ Circular Progress Ring</option>
+                            <option value="bar">📊 Weekly Bar Chart</option>
+                            <option value="cards">🎯 Goal Progress Cards</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 4, textTransform: 'uppercase' }}>Login Redirect Page</label>
+                          <select style={{ width: '100%', padding: '8px 10px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 10, color: 'var(--text-primary)', fontSize: 12 }}
+                            value={config.redirectPage}
+                            onChange={e => setClientConfigs(p => ({ ...p, [clientId]: { ...config, redirectPage: e.target.value } }))}>
+                            <option value="/client/nutrition">📊 Nutrition Page</option>
+                            <option value="/client/meal-plans">📋 Meal Plans Page</option>
+                            <option value="/client/progress">📈 Progress Analytics Page</option>
+                            <option value="/client/menu">🏠 Home (Browse Menu)</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
                   );
-                })
-              )}
+                })}
+              </div>
             </div>
-          </div>
+          )}
 
-          <button className="btn btn-success btn-lg" style={{ width: '100%', fontSize: 16 }} onClick={handleAssign}
-            disabled={selectedClients.length === 0}>
-            ✅ Assign to {selectedClients.length} Client{selectedClients.length !== 1 ? 's' : ''}
-          </button>
-          <p style={{ fontSize: 10, color: 'var(--text-muted)', textAlign: 'center', marginTop: 8 }}>Clients can view, edit foods, and place orders from this schedule</p>
+          <div style={{ marginTop: 24, textAlign: 'center' }}>
+            <button className="btn btn-success btn-lg" style={{ minWidth: 300, fontSize: 16 }}
+              onClick={handleAssign}
+              disabled={filledDates.length === 0}>
+              🚀 Publish Changes & Redirect Clients
+            </button>
+            <p style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 8 }}>This will instantly update targets, diagram visualizations, and food schedules for the selected clients.</p>
+          </div>
         </div>
       )}
     </DashboardLayout>
