@@ -14,7 +14,6 @@ const FOOD_IMAGES = [
 ];
 
 export default function FoodMarquee() {
-  // Duplicate images for seamless infinite loop
   const doubled = useMemo(() => [...FOOD_IMAGES, ...FOOD_IMAGES], []);
 
   return (
@@ -24,25 +23,37 @@ export default function FoodMarquee() {
       marginBottom: 24,
       position: 'relative',
     }}>
+      {/* Left fade edge */}
+      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 60, background: 'linear-gradient(90deg, var(--bg-primary), transparent)', zIndex: 2, pointerEvents: 'none' }} />
+      {/* Right fade edge */}
+      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 60, background: 'linear-gradient(270deg, var(--bg-primary), transparent)', zIndex: 2, pointerEvents: 'none' }} />
+
       <div style={{
         display: 'flex',
-        gap: 0,
-        animation: 'slideInfinite 25s linear infinite',
+        gap: 12,
+        animation: 'marqueeLeftToRight 30s linear infinite',
         width: 'fit-content',
       }}>
         {doubled.map((img, i) => (
-          <img
-            key={i}
-            src={img}
-            alt=""
-            style={{
-              width: 180,
-              height: 120,
-              objectFit: 'cover',
-              flexShrink: 0,
-              display: 'block',
-            }}
-          />
+          <div key={i} style={{
+            width: 180, height: 120, borderRadius: 14, overflow: 'hidden', flexShrink: 0,
+            boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
+            transition: 'transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s ease',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.08) translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 30px rgba(249,115,22,0.25)'; }}
+          onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)'; }}
+          >
+            <img
+              src={img}
+              alt=""
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+              }}
+            />
+          </div>
         ))}
       </div>
     </div>

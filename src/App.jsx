@@ -37,6 +37,7 @@ import TrainerOrders from './pages/trainer/TrainerOrders';
 import TrainerNutrition from './pages/trainer/TrainerNutrition';
 import ScheduleForClients from './pages/trainer/ScheduleForClients';
 import TrainerSubscriptions from './pages/trainer/TrainerSubscriptions';
+import MyOwner from './pages/trainer/MyOwner';
 
 // Owner Pages
 import OwnerDashboard from './pages/owner/OwnerDashboard';
@@ -147,6 +148,7 @@ export default function App() {
         <Route path="/trainer/add-member" element={<Navigate to="/trainer/clients" replace />} />
         <Route path="/trainer/profile" element={<ProtectedRoute allowedRoles={['trainer']}><TrainerProfile /></ProtectedRoute>} />
         <Route path="/trainer/schedule-for-clients" element={<ProtectedRoute allowedRoles={['trainer']}><ScheduleForClients /></ProtectedRoute>} />
+        <Route path="/trainer/my-owner" element={<ProtectedRoute allowedRoles={['trainer']}><MyOwner /></ProtectedRoute>} />
 
         {/* Owner */}
         <Route path="/owner/dashboard" element={<Navigate to="/owner/menu" replace />} />

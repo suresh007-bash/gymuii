@@ -4,7 +4,7 @@ import { NUTRIENT_PACKS, CATEGORIES } from '../data/mockMenu';
 import { getMenuItems } from '../data/menuHelper';
 import StatIcon from '../components/StatIcon';
 
-const NAV_LINKS = [{ label: 'Menu', href: '#menu' }, { label: 'Pricing', href: '#pricing' }, { label: 'For Gyms', href: '#gyms' }];
+
 
 const STATS = [{ val: '500+', label: 'Meals Delivered' }, { val: '30 min', label: 'Avg Delivery' }, { val: '4.8 ⭐', label: 'User Rating' }, { val: '50+', label: 'Gym Partners' }];
 
@@ -32,7 +32,7 @@ const PLANS = [
 export default function LandingPage() {
   const MENU_ITEMS = getMenuItems();
   const { user } = useAuth();
-  const roleMap = { client: '/client/dashboard', trainer: '/trainer/dashboard', owner: '/owner/menu', kitchen: '/kitchen/dashboard', delivery: '/delivery/dashboard', admin: '/admin/dashboard' };
+  const roleMap = { client: '/client/menu', trainer: '/trainer/home', owner: '/owner/menu', kitchen: '/kitchen/dashboard', delivery: '/delivery/dashboard', admin: '/admin/dashboard' };
 
   return (
     <div style={{ fontFamily: "'Outfit', 'Inter', sans-serif", background: '#fff', color: '#1a1a1a' }}>
@@ -43,12 +43,7 @@ export default function LandingPage() {
           <span style={{ color: '#22c55e' }}>Fit</span>Bites
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px, 3vw, 32px)' }}>
-          {NAV_LINKS.map(l => (<a key={l.label} href={l.href} className="mobile-hidden" style={{ color: 'rgba(255,255,255,0.85)', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>{l.label}</a>))}
-          {user ? (
-            <Link to={user.requirePasswordChange ? '/change-password' : roleMap[user.role]} style={{ padding: '10px 24px', background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 30, fontWeight: 800, fontSize: 14, textDecoration: 'none' }}>Dashboard →</Link>
-          ) : (
-            <Link to="/login" style={{ padding: '10px 24px', border: '2px solid #fff', color: '#fff', borderRadius: 30, fontWeight: 800, fontSize: 14, textDecoration: 'none' }}>Login / Sign Up</Link>
-          )}
+          <Link to="/login" style={{ padding: '10px 24px', background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 30, fontWeight: 800, fontSize: 14, textDecoration: 'none' }}>Login →</Link>
         </div>
       </nav>
 
@@ -234,7 +229,7 @@ export default function LandingPage() {
         <div style={{ fontSize: 22, fontWeight: 900, color: '#fff', marginBottom: 12 }}><span style={{ color: '#22c55e' }}>Fit</span>Bites</div>
         <p style={{ fontSize: 13, marginBottom: 16 }}>Gym-Powered Food Delivery • Macro-Tracked • Nutritionist-Crafted</p>
         <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginBottom: 16 }}>
-          {['About', 'Menu', 'For Gyms', 'Pricing', 'Contact', 'Privacy'].map(l => (<a key={l} href="#" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: 13 }}>{l}</a>))}
+          {['About', 'Contact', 'Privacy'].map(l => (<a key={l} href="#" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: 13 }}>{l}</a>))}
         </div>
         <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>© 2026 FitBites. All rights reserved.</p>
       </footer>

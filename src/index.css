@@ -99,6 +99,7 @@ img { max-width: 100%; display: block; }
 @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 @keyframes slideInfinite { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes marqueeLeftToRight { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
 @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
 @keyframes confettiDrop { from { transform: translateY(-60px) rotate(0deg); opacity: 1; } to { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
 @keyframes progressPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(249,115,22,0.4); } 70% { box-shadow: 0 0 0 10px rgba(249,115,22,0); } }

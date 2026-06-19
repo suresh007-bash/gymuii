@@ -30,6 +30,51 @@ function calcTargets(profile) {
   return { calories, protein, carbs, fat };
 }
 
+// SVG Circular Ring component — Animated (OUTSIDE component to avoid re-mount glitch)
+const Ring = ({ value, target, color, size = 90, stroke = 8, icon, label, unit }) => {
+  const [displayed, setDisplayed] = useState(0);
+  const prevVal = useRef(0);
+  useEffect(() => {
+    const start = performance.now(), from = prevVal.current, to = value, dur = 1200;
+    const ease = (t) => 1 - Math.pow(1 - t, 3);
+    let raf;
+    const step = (now) => { const p = Math.min((now - start) / dur, 1); setDisplayed(Math.round(from + (to - from) * ease(p))); if (p < 1) raf = requestAnimationFrame(step); };
+    raf = requestAnimationFrame(step);
+    return () => { prevVal.current = displayed; cancelAnimationFrame(raf); };
+  }, [value]);
+  const pct = Math.min((displayed / target) * 100, 100);
+  const r = (size - stroke) / 2;
+  const circ = 2 * Math.PI * r;
+  const offset = circ - (pct / 100) * circ;
+  const isOver = value > target;
+  const gradId = `rg-${label}-${color.replace('#', '')}`;
+  const dotAngle = (pct / 100) * 2 * Math.PI;
+  return (
+    <div style={{ textAlign: 'center', position: 'relative' }}>
+      <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
+        <defs>
+          <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor={isOver ? '#ef4444' : color} />
+            <stop offset="100%" stopColor={`${isOver ? '#ef4444' : color}88`} />
+          </linearGradient>
+        </defs>
+        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={`${color}18`} strokeWidth={stroke} />
+        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={`url(#${gradId})`} strokeWidth={stroke}
+          strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round" />
+        {pct > 3 && <circle cx={size/2 + r * Math.cos(dotAngle)} cy={size/2 + r * Math.sin(dotAngle)} r={stroke/2 + 1.5} fill={isOver ? '#ef4444' : color} style={{ filter: `drop-shadow(0 0 4px ${isOver ? '#ef4444' : color})`, opacity: 0.8 }} />}
+      </svg>
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center' }}>
+        <div style={{ fontSize: 16 }}>{icon}</div>
+        <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 14, color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{displayed}</div>
+      </div>
+      <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)', marginTop: 4 }}>{label}</div>
+      <div style={{ fontSize: 9, color: isOver ? '#ef4444' : 'var(--text-muted)' }}>
+        {isOver ? `⚠️ +${value - target}` : `${target - value}`} {unit} {isOver ? 'over' : 'left'}
+      </div>
+    </div>
+  );
+};
+
 export default function BrowseMenu() {
   const { user } = useAuth();
   const { getDietPlansByClient } = useOrders();
@@ -64,50 +109,6 @@ export default function BrowseMenu() {
     setTargets({ ...editTargets });
     setShowTargetEditor(false);
     showToast('✅ Nutrition targets updated!');
-  };
-
-  // SVG Circular Ring component — Animated
-  const Ring = ({ value, target, color, size = 90, stroke = 8, icon, label, unit }) => {
-    const [displayed, setDisplayed] = useState(0);
-    useEffect(() => {
-      const start = performance.now(), from = 0, to = value, dur = 1200;
-      const ease = (t) => 1 - Math.pow(1 - t, 3);
-      let raf;
-      const step = (now) => { const p = Math.min((now - start) / dur, 1); setDisplayed(Math.round(from + (to - from) * ease(p))); if (p < 1) raf = requestAnimationFrame(step); };
-      raf = requestAnimationFrame(step);
-      return () => cancelAnimationFrame(raf);
-    }, [value]);
-    const pct = Math.min((displayed / target) * 100, 100);
-    const r = (size - stroke) / 2;
-    const circ = 2 * Math.PI * r;
-    const offset = circ - (pct / 100) * circ;
-    const isOver = value > target;
-    const gradId = `rg-${label}-${color.replace('#', '')}`;
-    const dotAngle = (pct / 100) * 2 * Math.PI;
-    return (
-      <div style={{ textAlign: 'center', position: 'relative' }}>
-        <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
-          <defs>
-            <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor={isOver ? '#ef4444' : color} />
-              <stop offset="100%" stopColor={`${isOver ? '#ef4444' : color}88`} />
-            </linearGradient>
-          </defs>
-          <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={`${color}18`} strokeWidth={stroke} />
-          <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={`url(#${gradId})`} strokeWidth={stroke}
-            strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round" />
-          {pct > 3 && <circle cx={size/2 + r * Math.cos(dotAngle)} cy={size/2 + r * Math.sin(dotAngle)} r={stroke/2 + 1.5} fill={isOver ? '#ef4444' : color} style={{ filter: `drop-shadow(0 0 4px ${isOver ? '#ef4444' : color})`, opacity: 0.8 }} />}
-        </svg>
-        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center' }}>
-          <div style={{ fontSize: 16 }}>{icon}</div>
-          <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 14, color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{displayed}</div>
-        </div>
-        <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)', marginTop: 4 }}>{label}</div>
-        <div style={{ fontSize: 9, color: isOver ? '#ef4444' : 'var(--text-muted)' }}>
-          {isOver ? `⚠️ +${value - target}` : `${target - value}`} {unit} {isOver ? 'over' : 'left'}
-        </div>
-      </div>
-    );
   };
 
   const filtered = menuItems.filter(m => (cat === 'All' || m.category === cat) && m.name.toLowerCase().includes(search.toLowerCase()));

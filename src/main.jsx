@@ -5,6 +5,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { NotificationProvider } from './context/NotificationContext';
 import { OrderProvider } from './context/OrderContext';
+import { LanguageProvider } from './context/LanguageContext';
 import App from './App';
 import './index.css';
 
@@ -13,11 +14,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <ThemeProvider>
         <AuthProvider>
-          <NotificationProvider>
-            <OrderProvider>
-              <App />
-            </OrderProvider>
-          </NotificationProvider>
+          <LanguageProvider>
+            <NotificationProvider>
+              <OrderProvider>
+                <App />
+              </OrderProvider>
+            </NotificationProvider>
+          </LanguageProvider>
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>

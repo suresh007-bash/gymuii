@@ -274,24 +274,8 @@ export default function ClientMealPlans() {
         </div>
       )}
 
-      {/* Trainer Scheduled Meals */}
-      {mySchedules.length > 0 && (
-        <div className="card" style={{ marginBottom: 20 }}>
-          <div className="card-header"><h3 className="card-title">📅 Meals Scheduled by Trainer</h3></div>
-          {mySchedules.map(s => {
-            const items = (s.items || []).map(id => MENU_ITEMS.find(m => m.id === id)).filter(Boolean);
-            return (
-              <div key={s.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
-                <div>
-                  <span style={{ fontWeight: 700, fontSize: 13 }}>{s.timing === 'morning' ? '🌅' : s.timing === 'noon' ? '☀️' : '🌙'} {s.timing?.charAt(0).toUpperCase() + s.timing?.slice(1)} — {s.timeSlot}</span>
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>📅 {(s.dates || []).join(', ')} • {items.map(i => i.name).join(', ')}</div>
-                </div>
-                <span className="badge badge-blue">SCHEDULED</span>
-              </div>
-            );
-          })}
-        </div>
-      )}
+
+
 
       {/* Empty State */}
       {myPlans.length === 0 && mySchedules.length === 0 && (

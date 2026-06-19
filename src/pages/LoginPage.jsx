@@ -4,21 +4,13 @@ import { useAuth } from '../context/AuthContext';
 import { Dumbbell, Users, Crown, ChefHat, Truck, Settings } from 'lucide-react';
 
 const roleMap = { client: '/client/menu', trainer: '/trainer/home', owner: '/owner/menu', kitchen: '/kitchen/dashboard', delivery: '/delivery/dashboard', admin: '/admin/dashboard' };
-const roles = [
-  { id: 'client', icon: <Dumbbell size={18} color="#f97316" />, label: 'Client' },
-  { id: 'trainer', icon: <Users size={18} color="#22c55e" />, label: 'Trainer' },
-  { id: 'owner', icon: <Crown size={18} color="#eab308" />, label: 'Owner' },
-  { id: 'kitchen', icon: <ChefHat size={18} color="#14b8a6" />, label: 'Kitchen' },
-  { id: 'delivery', icon: <Truck size={18} color="#3b82f6" />, label: 'Delivery' },
-  { id: 'admin', icon: <Settings size={18} color="#8b5cf6" />, label: 'Admin' },
-];
 const demoCredentials = [
-  { role: 'Client', email: 'ravi@email.com', pass: 'ravi123', icon: <Dumbbell size={16} color="#f97316" /> },
-  { role: 'Trainer', email: 'marcus@email.com', pass: 'marcus123', icon: <Users size={16} color="#22c55e" /> },
-  { role: 'Owner', email: 'suresh@email.com', pass: 'suresh123', icon: <Crown size={16} color="#eab308" /> },
-  { role: 'Kitchen', email: 'rajesh@email.com', pass: 'rajesh123', icon: <ChefHat size={16} color="#14b8a6" /> },
-  { role: 'Delivery', email: 'amit@email.com', pass: 'amit123', icon: <Truck size={16} color="#3b82f6" /> },
-  { role: 'Admin', email: 'admin@synnoviq.com', pass: 'admin123', icon: <Settings size={16} color="#8b5cf6" /> },
+  { role: 'Client', email: 'ravi@email.com', pass: 'ravi123', icon: <Dumbbell size={13} color="#f97316" />, color: '#f97316' },
+  { role: 'Trainer', email: 'marcus@email.com', pass: 'marcus123', icon: <Users size={13} color="#22c55e" />, color: '#22c55e' },
+  { role: 'Owner', email: 'suresh@email.com', pass: 'suresh123', icon: <Crown size={13} color="#eab308" />, color: '#eab308' },
+  { role: 'Kitchen', email: 'rajesh@email.com', pass: 'rajesh123', icon: <ChefHat size={13} color="#14b8a6" />, color: '#14b8a6' },
+  { role: 'Delivery', email: 'amit@email.com', pass: 'amit123', icon: <Truck size={13} color="#3b82f6" />, color: '#3b82f6' },
+  { role: 'Admin', email: 'admin@synnoviq.com', pass: 'admin123', icon: <Settings size={13} color="#8b5cf6" />, color: '#8b5cf6' },
 ];
 
 export default function LoginPage() {
@@ -46,43 +38,84 @@ export default function LoginPage() {
   const fillDemo = (d) => { setEmail(d.email); setPassword(d.pass); setError(''); };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-      <div style={{ maxWidth: 440, width: '100%', animation: 'scaleIn 0.4s ease' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, position: 'relative', overflow: 'hidden' }}>
+
+      {/* Background Video */}
+      <video
+        autoPlay muted loop playsInline
+        style={{
+          position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+          objectFit: 'cover', zIndex: 0,
+        }}
+      >
+        <source src="/login-bg.mp4" type="video/mp4" />
+      </video>
+
+      {/* Dark overlay on video */}
+      <div style={{
+        position: 'absolute', inset: 0, zIndex: 1,
+        background: 'linear-gradient(135deg, rgba(0,0,0,0.55), rgba(0,0,0,0.7))',
+        backdropFilter: 'blur(2px)',
+      }} />
+
+      {/* Login Card */}
+      <div style={{ maxWidth: 400, width: '100%', animation: 'scaleIn 0.5s cubic-bezier(0.16,1,0.3,1)', position: 'relative', zIndex: 10 }}>
+
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <span style={{ fontSize: 40, display: 'block', marginBottom: 8 }}>🍽️</span>
-          <h1 style={{ fontFamily: 'Outfit', fontSize: 28, fontWeight: 900, background: 'linear-gradient(135deg, #f97316, #22c55e)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: 4 }}>Synnoviq Suite</h1>
-          <p style={{ color: '#9ca3af', fontSize: 14 }}>Sign in to your account</p>
+        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+          <div style={{
+            width: 56, height: 56, borderRadius: 16, margin: '0 auto 14px',
+            background: 'linear-gradient(135deg, #f97316, #22c55e)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 26, boxShadow: '0 8px 32px rgba(249,115,22,0.3)',
+            animation: 'float 3s ease-in-out infinite',
+          }}>🍽️</div>
+          <h1 style={{ fontFamily: 'Outfit', fontSize: 26, fontWeight: 900, color: '#fff', marginBottom: 4 }}>
+            <span style={{ color: '#22c55e' }}>Fit</span>Bites
+          </h1>
+          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>Sign in to your account</p>
         </div>
 
-        <div style={{ background: '#fff', borderRadius: 20, padding: 32, border: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
+        {/* Form Card - Glassmorphism */}
+        <div style={{
+          background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(24px)',
+          borderRadius: 20, padding: 28, border: '1px solid rgba(255,255,255,0.12)',
+          boxShadow: '0 16px 48px rgba(0,0,0,0.3)',
+        }}>
           <form onSubmit={handleLogin}>
             <div style={{ marginBottom: 16 }}>
-              <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#6b7280', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Email</label>
-              <input type="email" value={email} onChange={e => { setEmail(e.target.value); setError(''); }} placeholder="Enter your email" required style={{ width: '100%', padding: '12px 16px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 12, color: '#111827', fontSize: 14 }} />
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.6)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Email</label>
+              <input type="email" value={email} onChange={e => { setEmail(e.target.value); setError(''); }} placeholder="Enter your email" required style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 12, color: '#fff', fontSize: 14, outline: 'none', transition: 'border 0.3s' }} onFocus={e => e.target.style.borderColor = 'rgba(249,115,22,0.6)'} onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.12)'} />
             </div>
             <div style={{ marginBottom: 20 }}>
-              <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#6b7280', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Password</label>
-              <input type="password" value={password} onChange={e => { setPassword(e.target.value); setError(''); }} placeholder="Enter your password" required style={{ width: '100%', padding: '12px 16px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 12, color: '#111827', fontSize: 14 }} />
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.6)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Password</label>
+              <input type="password" value={password} onChange={e => { setPassword(e.target.value); setError(''); }} placeholder="Enter your password" required style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 12, color: '#fff', fontSize: 14, outline: 'none', transition: 'border 0.3s' }} onFocus={e => e.target.style.borderColor = 'rgba(249,115,22,0.6)'} onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.12)'} />
             </div>
-            {error && <p style={{ color: '#ef4444', fontSize: 13, marginBottom: 12, textAlign: 'center' }}>❌ {error}</p>}
-            <button type="submit" style={{ width: '100%', padding: 14, background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 12, fontSize: 15, fontWeight: 800, cursor: 'pointer', border: 'none', boxShadow: '0 4px 14px rgba(249,115,22,0.3)', transition: 'all 0.3s' }}>Sign In →</button>
+            {error && <p style={{ color: '#fca5a5', fontSize: 13, marginBottom: 12, textAlign: 'center', background: 'rgba(239,68,68,0.15)', padding: '8px 12px', borderRadius: 10, border: '1px solid rgba(239,68,68,0.25)' }}>❌ {error}</p>}
+            <button type="submit" style={{ width: '100%', padding: 14, background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 12, fontSize: 15, fontWeight: 800, cursor: 'pointer', border: 'none', boxShadow: '0 4px 20px rgba(249,115,22,0.4)', transition: 'all 0.3s' }}
+              onMouseEnter={e => { e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 8px 30px rgba(249,115,22,0.5)'; }}
+              onMouseLeave={e => { e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 4px 20px rgba(249,115,22,0.4)'; }}
+            >Sign In →</button>
           </form>
 
-          <p style={{ textAlign: 'center', color: '#9ca3af', fontSize: 13, marginTop: 16 }}>Don't have an account? <Link to="/register" style={{ color: '#f97316', fontWeight: 700 }}>Register</Link></p>
+          <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.4)', fontSize: 13, marginTop: 16 }}>Don't have an account? <Link to="/register" style={{ color: '#f97316', fontWeight: 700 }}>Register</Link></p>
         </div>
 
-        {/* Demo Credentials */}
-        <div style={{ background: '#fff', border: '1px solid rgba(0,0,0,0.06)', borderRadius: 16, padding: 16, marginTop: 16, boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
-          <p style={{ fontSize: 11, fontWeight: 800, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10, textAlign: 'center' }}>Quick Demo Login</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: 6 }}>
-            {demoCredentials.map(d => (
-              <button key={d.role} onClick={() => fillDemo(d)} style={{ padding: '10px 8px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 10, color: '#111827', fontSize: 11, fontWeight: 600, cursor: 'pointer', textAlign: 'center', transition: 'all 0.2s' }}>
-                <div style={{ fontSize: 18, marginBottom: 2 }}>{d.icon}</div>
-                <div style={{ fontWeight: 800 }}>{d.role}</div>
-              </button>
-            ))}
-          </div>
+        {/* Compact Demo Buttons */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 14, justifyContent: 'center' }}>
+          {demoCredentials.map(d => (
+            <button key={d.role} onClick={() => fillDemo(d)} style={{
+              padding: '5px 10px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: 8, color: 'rgba(255,255,255,0.5)', fontSize: 10, fontWeight: 700, cursor: 'pointer',
+              display: 'flex', alignItems: 'center', gap: 4, transition: 'all 0.2s',
+              backdropFilter: 'blur(10px)',
+            }}
+              onMouseEnter={e => { e.currentTarget.style.background = `${d.color}20`; e.currentTarget.style.borderColor = `${d.color}50`; e.currentTarget.style.color = d.color; e.currentTarget.style.transform = 'translateY(-1px)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = 'rgba(255,255,255,0.5)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+            >
+              {d.icon} {d.role}
+            </button>
+          ))}
         </div>
       </div>
     </div>

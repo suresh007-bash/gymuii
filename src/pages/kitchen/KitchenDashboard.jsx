@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 
 
-const MIND_CATS = [{ label: 'Order Queue', img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=150&q=80' },{ label: 'Menu', img: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=150&q=80' },{ label: 'Dispatch', img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=150&q=80' },{ label: 'Protein', img: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=150&q=80' },{ label: 'Salads', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=150&q=80' },{ label: 'Smoothies', img: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=150&q=80' },{ label: 'Keto', img: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=150&q=80' },{ label: 'Settings', img: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=150&q=80' }];
+
 
 export default function KitchenDashboard() {
   const { user } = useAuth();
@@ -31,10 +31,7 @@ export default function KitchenDashboard() {
 
       <FoodMarquee />
 
-      <div style={{ marginBottom: 24 }}>
-        <h3 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 20, marginBottom: 16 }}>What's on your mind?</h3>
-        <div style={{ display: 'flex', gap: 16, overflowX: 'auto', paddingBottom: 8 }}>{MIND_CATS.map((cat, i) => (<Link key={i} to={['/kitchen/queue','/kitchen/menu','/kitchen/dispatch','/kitchen/menu','/kitchen/menu','/kitchen/menu','/kitchen/menu','/kitchen/settings'][i]} style={{ textDecoration: 'none', textAlign: 'center', flexShrink: 0 }}><div style={{ width: 80, height: 80, borderRadius: '50%', overflow: 'hidden', marginBottom: 6, border: '2px solid #eee' }}><img src={cat.img} alt={cat.label} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div><div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-primary)' }}>{cat.label}</div></Link>))}</div>
-      </div>
+
 
       <div className="card">
         <div className="card-header"><h3 className="card-title">📦 Recent Orders</h3><Link to="/kitchen/queue" style={{ color: 'var(--accent-orange)', fontSize: 12, fontWeight: 700 }}>View All →</Link></div>

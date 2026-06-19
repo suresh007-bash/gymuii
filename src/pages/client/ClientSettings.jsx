@@ -2,13 +2,15 @@ import { useState } from 'react';
 import DashboardLayout from '../../components/DashboardLayout';
 import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function ClientSettings() {
   const { user, updateUser } = useAuth();
   const { showToast } = useNotifications();
+  const { lang, setLang, t, LANGUAGES } = useLanguage();
   const [settings, setSettings] = useState(() => {
     const saved = localStorage.getItem('synnoviq_settings_' + user?.id);
-    return saved ? JSON.parse(saved) : { orderNotify: true, promoNotify: true, reminderNotify: true, mealReminder: true, morningTime: '08:00', noonTime: '12:30', eveningTime: '19:00', language: 'English', darkMode: false };
+    return saved ? JSON.parse(saved) : { orderNotify: true, promoNotify: true, reminderNotify: true, mealReminder: true, morningTime: '08:00', noonTime: '12:30', eveningTime: '19:00', darkMode: false };
   });
 
   const upd = (k, v) => { const n = { ...settings, [k]: v }; setSettings(n); localStorage.setItem('synnoviq_settings_' + user?.id, JSON.stringify(n)); };
@@ -31,10 +33,10 @@ export default function ClientSettings() {
   );
 
   return (
-    <DashboardLayout title="Settings">
+    <DashboardLayout title={t('settings')}>
       {/* Notifications */}
       <div className="card" style={{ marginBottom: 20 }}>
-        <div className="card-header"><h3 className="card-title">🔔 Notifications</h3></div>
+        <div className="card-header"><h3 className="card-title">🔔 {t('notifications')}</h3></div>
         <Row icon="📦" label="Order Updates" desc="Get notified about order status changes"><Toggle val={settings.orderNotify} onToggle={() => upd('orderNotify', !settings.orderNotify)} /></Row>
         <Row icon="🎁" label="Promotions & Offers" desc="Receive discount codes and special offers"><Toggle val={settings.promoNotify} onToggle={() => upd('promoNotify', !settings.promoNotify)} /></Row>
         <Row icon="📅" label="Meal Reminders" desc="Daily reminders to order your meals"><Toggle val={settings.reminderNotify} onToggle={() => upd('reminderNotify', !settings.reminderNotify)} /></Row>
@@ -56,10 +58,10 @@ export default function ClientSettings() {
 
       {/* Preferences */}
       <div className="card" style={{ marginBottom: 20 }}>
-        <div className="card-header"><h3 className="card-title">⚙️ Preferences</h3></div>
-        <Row icon="🌐" label="Language" desc="App display language">
-          <select value={settings.language} onChange={e => upd('language', e.target.value)} style={{ padding: '6px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'var(--bg-input)', color: 'var(--text-primary)' }}>
-            <option>English</option><option>Hindi</option><option>Tamil</option><option>Kannada</option>
+        <div className="card-header"><h3 className="card-title">⚙️ {t('preferences')}</h3></div>
+        <Row icon="🌐" label={t('language')} desc={t('appLanguage')}>
+          <select value={lang} onChange={e => { setLang(e.target.value); showToast(`Language changed to ${LANGUAGES.find(l => l.code === e.target.value)?.label || e.target.value}`); }} style={{ padding: '6px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'var(--bg-input)', color: 'var(--text-primary)' }}>
+            {LANGUAGES.map(l => <option key={l.code} value={l.code}>{l.flag} {l.label}</option>)}
           </select>
         </Row>
       </div>

@@ -3,18 +3,33 @@ import DashboardLayout from '../../components/DashboardLayout';
 import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationContext';
 export default function ManageTrainers() {
-  const { user, getOwnerTrainers, getTrainerClients, addUser, getDirectClients, allUsers, updateUser } = useAuth();
+  const { user, getOwnerTrainers, getTrainerClients, addUser, getDirectClients, allUsers, updateUser, blockUser } = useAuth();
   const { showToast } = useNotifications();
   const trainers = getOwnerTrainers(user?.id);
   const directClients = getDirectClients(user?.id);
   const [showAdd, setShowAdd] = useState(false);
   const [activeTrainer, setActiveTrainer] = useState(null);
+  const [confirm, setConfirm] = useState(null);
   const [form, setForm] = useState({ name: '', email: '', phone: '', specialization: '' });
   const upd = (k,v) => setForm(p=>({...p,[k]:v}));
   const inp = {width:'100%',padding:'10px 14px',background:'var(--bg-input)',border:'1px solid var(--border)',borderRadius:12,color:'var(--text-primary)',fontSize:14};
   const save = () => { if(!form.name||!form.email) return; const avatar = form.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2); addUser({...form,avatar,role:'trainer',gymId:user.gymId,ownerId:user.id,password:'trainer123'}); showToast('Trainer added!'); setShowAdd(false); setForm({name:'',email:'',phone:'',specialization:''}); };
   return (
     <DashboardLayout title="Manage Trainers">
+      {/* Confirmation Modal */}
+      {confirm && (
+        <div className="modal-overlay" style={{ zIndex: 1100 }} onClick={() => setConfirm(null)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 420, textAlign: 'center' }}>
+            <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
+            <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+              <button className="btn btn-outline" onClick={() => setConfirm(null)}>Cancel</button>
+              <button className="btn" style={{ background: confirm.color, color: '#fff', border: 'none', padding: '10px 24px', borderRadius: 10, fontWeight: 700, cursor: 'pointer' }} onClick={confirm.action}>Confirm</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div style={{display:'flex',justifyContent:'space-between',marginBottom:20}}><h2 style={{fontFamily:'Outfit',fontWeight:800}}>💪 Trainers ({trainers.length})</h2><button className="btn btn-primary" onClick={()=>setShowAdd(true)}>+ Add Trainer</button></div>
       {showAdd && <div className="modal-overlay" onClick={()=>setShowAdd(false)}><div className="modal-content" onClick={e=>e.stopPropagation()}>
         <div className="modal-header"><h3 className="modal-title">Add New Trainer</h3><button className="modal-close" onClick={()=>setShowAdd(false)}>✕</button></div>
@@ -35,15 +50,15 @@ export default function ManageTrainers() {
               <button className="modal-close" onClick={() => setActiveTrainer(null)}>✕</button>
             </div>
             <div style={{ maxHeight: 300, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 10, padding: '4px 0' }}>
-              {allUsers.filter(u => u.role === 'client' && u.gymId === user.gymId).length === 0 ? (
+              {allUsers.filter(u => u.role === 'client' && u.gymId === user.gymId && !u.blocked).length === 0 ? (
                 <div style={{ textAlign: 'center', padding: 20, color: 'var(--text-muted)' }}>No clients found in this gym.</div>
               ) : (
-                allUsers.filter(u => u.role === 'client' && u.gymId === user.gymId).map(client => {
+                allUsers.filter(u => u.role === 'client' && u.gymId === user.gymId && !u.blocked).map(client => {
                   const currentTrainer = allUsers.find(u => u.id === client.trainerId);
                   const isAssignedToThis = client.trainerId === activeTrainer.id;
                   return (
                     <div key={client.id} style={{
-                      display: 'flex', alignItems: 'center', justifyBetween: 'space-between', gap: 12, padding: 10,
+                      display: 'flex', alignItems: 'center', gap: 12, padding: 10,
                       borderRadius: 12, background: 'var(--bg-tertiary)', border: '1px solid var(--border)'
                     }}>
                       <div style={{
@@ -58,14 +73,22 @@ export default function ManageTrainers() {
                           {currentTrainer ? `Trainer: ${currentTrainer.name}` : 'Direct Client'}
                         </div>
                       </div>
-                      <div>
-                        {isAssignedToThis ? (
+                      <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                        {isAssignedToThis ? (<>
                           <span style={{ fontSize: 12, color: 'var(--accent-green)', fontWeight: 700 }}>Assigned ✅</span>
-                        ) : (
-                          <button className="btn btn-primary btn-sm" onClick={() => {
-                            updateUser(client.id, { trainerId: activeTrainer.id });
-                            showToast(`✅ Assigned ${client.name} to ${activeTrainer.name}`);
-                          }}>Assign</button>
+                          <button className="btn btn-outline btn-sm" style={{ color: '#ef4444', fontSize: 10, padding: '4px 8px' }} onClick={() => setConfirm({
+                            title: '🚫 Remove Client',
+                            msg: `Remove "${client.name}" from ${activeTrainer.name}? They will become a direct client with no trainer assigned.`,
+                            color: '#ef4444',
+                            action: () => { updateUser(client.id, { trainerId: null }); showToast(`${client.name} unassigned from ${activeTrainer.name}`); setConfirm(null); }
+                          })}>Remove</button>
+                        </>) : (
+                          <button className="btn btn-primary btn-sm" onClick={() => setConfirm({
+                            title: '✅ Assign Client',
+                            msg: `Assign "${client.name}" to ${activeTrainer.name}?${currentTrainer ? ` They are currently with ${currentTrainer.name}.` : ''}`,
+                            color: '#22c55e',
+                            action: () => { updateUser(client.id, { trainerId: activeTrainer.id }); showToast(`✅ Assigned ${client.name} to ${activeTrainer.name}`); setConfirm(null); }
+                          })}>Assign</button>
                         )}
                       </div>
                     </div>

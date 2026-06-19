@@ -3,14 +3,17 @@ import DashboardLayout from '../../components/DashboardLayout';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 import { useNotifications } from '../../context/NotificationContext';
-import { getMenuItems } from '../../data/menuHelper';
+
 
 export default function AssignedClients() {
-  const MENU_ITEMS = getMenuItems();
-  const { user, getTrainerClients, getOwnerClients, updateUser, addUser, allUsers } = useAuth();
-  const { saveDietPlan } = useOrders();
+
+  const { user, getTrainerClients, getOwnerClients, updateUser, addUser, allUsers, blockUser } = useAuth();
+  const { } = useOrders();
   const { showToast } = useNotifications();
   const clients = user?.role === 'owner' ? getOwnerClients(user?.id) : getTrainerClients(user?.id);
+
+  // Confirmation modal
+  const [confirm, setConfirm] = useState(null);
 
   // Trainer Request Management
   const [trainerRequests, setTrainerRequests] = useState(() => {
@@ -53,11 +56,7 @@ export default function AssignedClients() {
     showToast(`Request from ${req?.clientName || 'client'} declined.`, 'info');
   };
 
-  // Diet modal state
-  const [dietClient, setDietClient] = useState(null);
-  const [planName, setPlanName] = useState('');
-  const [selectedFoods, setSelectedFoods] = useState([]);
-  const [search, setSearch] = useState('');
+
 
   // Message modal state
   const [msgClient, setMsgClient] = useState(null);
@@ -114,17 +113,7 @@ export default function AssignedClients() {
     setIsEditingProfile(false);
   };
 
-  const toggleFood = (id) => setSelectedFoods(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id]);
 
-  const handleCreateDiet = () => {
-    if (!planName || selectedFoods.length === 0) { showToast('Name and foods required', 'error'); return; }
-    saveDietPlan({
-      name: planName, trainerId: user.id, trainerName: user.name,
-      items: selectedFoods, assignedTo: [dietClient.id],
-    });
-    showToast(`✅ Diet plan "${planName}" assigned to ${dietClient.name}!`);
-    setDietClient(null); setPlanName(''); setSelectedFoods([]); setSearch('');
-  };
 
   const sendMessage = () => {
     if (!newMsg.trim()) return;
@@ -135,7 +124,7 @@ export default function AssignedClients() {
     showToast('Message sent! 💬');
   };
 
-  const filteredFoods = MENU_ITEMS.filter(m => m.available).filter(m => m.name.toLowerCase().includes(search.toLowerCase()));
+
 
   return (
     <DashboardLayout title="My Clients">
@@ -251,16 +240,7 @@ export default function AssignedClients() {
               </div>
             </div>
 
-            <div className="modal-footer" style={{ marginTop: 20, display: 'flex', justifyContent: 'space-between' }}>
-              <div>
-                <button className="btn btn-primary" onClick={() => {
-                  const targetUser = allUsers.find(u => u.id === viewProfileClient.id) || viewProfileClient;
-                  setViewProfileClient(null);
-                  setDietClient(targetUser);
-                  setPlanName('');
-                  setSelectedFoods([]);
-                }}>📋 Assign Diet Plan</button>
-              </div>
+            <div className="modal-footer" style={{ marginTop: 20, display: 'flex', justifyContent: 'flex-end' }}>
               <div style={{ display: 'flex', gap: 8 }}>
                 {isEditingProfile ? (
                   <>
@@ -279,52 +259,7 @@ export default function AssignedClients() {
         </div>
       )}
 
-      {/* Diet Plan Modal */}
-      {dietClient && (
-        <div className="modal-overlay" onClick={() => { setDietClient(null); setPlanName(''); setSelectedFoods([]); setSearch(''); }}>
-          <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 520 }}>
-            <div className="modal-header">
-              <h3 className="modal-title">🥗 Create Diet Plan — {dietClient.name}</h3>
-              <button className="modal-close" onClick={() => { setDietClient(null); setPlanName(''); setSelectedFoods([]); setSearch(''); }}>✕</button>
-            </div>
-            <div style={{ marginBottom: 12 }}>
-              <label className="form-label">Plan Name</label>
-              <input className="form-input" value={planName} onChange={e => setPlanName(e.target.value)} placeholder="e.g., High Protein Plan" />
-            </div>
-            <div style={{ marginBottom: 12 }}>
-              <label className="form-label">Search & Select Foods</label>
-              <input className="form-input" value={search} onChange={e => setSearch(e.target.value)} placeholder="🔍 Search foods..." style={{ marginBottom: 8 }} />
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, maxHeight: 200, overflowY: 'auto' }}>
-                {filteredFoods.map(item => (
-                  <div key={item.id} onClick={() => toggleFood(item.id)} style={{
-                    padding: 8, display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer', borderRadius: 8,
-                    background: selectedFoods.includes(item.id) ? 'rgba(249,115,22,0.08)' : 'var(--bg-tertiary)',
-                    border: `1px solid ${selectedFoods.includes(item.id) ? 'var(--accent-orange)' : 'var(--border)'}`,
-                  }}>
-                    <img src={item.image} alt="" style={{ width: 32, height: 32, borderRadius: 6, objectFit: 'cover' }} />
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 11, fontWeight: 700 }}>{selectedFoods.includes(item.id) ? '✅ ' : ''}{item.name}</div>
-                      <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>🔥{item.calories} • 💪{item.protein}g • ₹{item.price}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            {selectedFoods.length > 0 && (
-              <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 12, fontSize: 12 }}>
-                <strong>{selectedFoods.length} items selected •</strong>
-                🔥 {selectedFoods.reduce((a, id) => a + (MENU_ITEMS.find(m => m.id === id)?.calories || 0), 0)} kcal •
-                💪 {selectedFoods.reduce((a, id) => a + (MENU_ITEMS.find(m => m.id === id)?.protein || 0), 0)}g •
-                ₹{selectedFoods.reduce((a, id) => a + (MENU_ITEMS.find(m => m.id === id)?.price || 0), 0)}
-              </div>
-            )}
-            <div className="modal-footer">
-              <button className="btn btn-outline" onClick={() => { setDietClient(null); setPlanName(''); setSelectedFoods([]); }}>Cancel</button>
-              <button className="btn btn-success" onClick={handleCreateDiet} disabled={!planName || selectedFoods.length === 0}>✅ Assign Diet Plan</button>
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* Message Modal */}
       {msgClient && (
@@ -450,12 +385,30 @@ export default function AssignedClients() {
               <td style={{ fontSize: 12, color: 'var(--text-muted)' }}>{c.joinDate}</td>
               <td><div style={{ display: 'flex', gap: 6 }}>
                 <button className="btn btn-outline btn-sm" onClick={() => openClientProfile(c)}>👤 Profile</button>
-                <button className="btn btn-outline btn-sm" onClick={() => { setDietClient(c); setPlanName(''); setSelectedFoods([]); }}>📋 Diet</button>
-                <button className="btn btn-outline btn-sm" onClick={() => setMsgClient(c)}>💬 Msg</button>
+                <button className="btn btn-outline btn-sm" style={{ color: '#ef4444' }} onClick={() => setConfirm({
+                  title: '🚫 Remove Client',
+                  msg: `Are you sure you want to remove "${c.name}" from your clients? They will be blocked and cannot login until restored by admin.`,
+                  color: '#ef4444',
+                  action: () => { blockUser(c.id); showToast(`${c.name} has been removed`, 'warning'); setConfirm(null); }
+                })}>🚫 Remove</button>
               </div></td>
             </tr>
           ))}</tbody>
         </table>)}
+
+      {/* Confirmation Modal */}
+      {confirm && (
+        <div className="modal-overlay" onClick={() => setConfirm(null)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 420, textAlign: 'center' }}>
+            <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
+            <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+              <button className="btn btn-outline" onClick={() => setConfirm(null)}>Cancel</button>
+              <button className="btn" style={{ background: confirm.color, color: '#fff', border: 'none', padding: '10px 24px', borderRadius: 10, fontWeight: 700, cursor: 'pointer' }} onClick={confirm.action}>Confirm</button>
+            </div>
+          </div>
+        </div>
+      )}
       </div>
     </DashboardLayout>
   );

@@ -5,7 +5,7 @@ import { useNotifications } from '../../context/NotificationContext';
 import { GYMS } from '../../data/mockUsers';
 
 export default function AdminUsers() {
-  const { allUsers, addUser, deleteUser, getUsersByRole } = useAuth();
+  const { allUsers, addUser, deleteUser, blockUser, unblockUser, promoteUser, getUsersByRole } = useAuth();
   const { showToast } = useNotifications();
   const [search, setSearch] = useState('');
   const [showAdd, setShowAdd] = useState(false);
@@ -14,7 +14,14 @@ export default function AdminUsers() {
   const upd = (k, v) => setForm(p => ({ ...p, [k]: v }));
   const inp = { width: '100%', padding: '10px 14px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 12, color: 'var(--text-primary)', fontSize: 14 };
 
-  const users = allUsers.filter(u => u.role !== 'admin' && (u.name.toLowerCase().includes(search.toLowerCase()) || u.email.toLowerCase().includes(search.toLowerCase())));
+  // Confirmation modal state
+  const [confirm, setConfirm] = useState(null);
+  // Promote modal state
+  const [promoteModal, setPromoteModal] = useState(null);
+  const [newRole, setNewRole] = useState('');
+
+  const activeUsers = allUsers.filter(u => u.role !== 'admin' && !u.blocked && (u.name.toLowerCase().includes(search.toLowerCase()) || u.email.toLowerCase().includes(search.toLowerCase())));
+  const blockedUsers = allUsers.filter(u => u.blocked && u.role !== 'admin');
 
   const getGymTrainers = (gymId) => allUsers.filter(u => u.role === 'trainer' && u.gymId === gymId);
 
@@ -42,12 +49,108 @@ export default function AdminUsers() {
     setForm({ name: '', email: '', phone: '', gymName: '', gst: '', specialization: '', gymId: '', trainerId: '', kitchenName: '', kitchenLocation: '', vehicleType: 'Bike', licenseNo: '' });
   };
 
-  const handleDelete = (id) => { if (window.confirm('Delete this user?')) { deleteUser(id); showToast('User deleted', 'warning'); } };
+  const handleBlock = (u) => {
+    setConfirm({
+      title: '🚫 Block User',
+      msg: `Are you sure you want to block "${u.name}" (${u.role})? They will not be able to login until unblocked.`,
+      color: '#ef4444',
+      action: () => { blockUser(u.id); showToast(`${u.name} has been blocked`, 'warning'); setConfirm(null); }
+    });
+  };
+
+  const handleUnblock = (u) => {
+    setConfirm({
+      title: '✅ Unblock User',
+      msg: `Are you sure you want to unblock "${u.name}"? They will be able to login again.`,
+      color: '#22c55e',
+      action: () => { unblockUser(u.id); showToast(`${u.name} has been unblocked`); setConfirm(null); }
+    });
+  };
+
+  const handleDeletePermanent = (u) => {
+    setConfirm({
+      title: '🗑️ Permanently Delete',
+      msg: `Are you sure you want to PERMANENTLY delete "${u.name}"? This action cannot be undone.`,
+      color: '#ef4444',
+      action: () => { deleteUser(u.id); showToast(`${u.name} permanently deleted`, 'warning'); setConfirm(null); }
+    });
+  };
+
+  const openPromoteModal = (u) => {
+    setPromoteModal(u);
+    setNewRole(u.role);
+  };
+
+  const handlePromote = () => {
+    if (!promoteModal || newRole === promoteModal.role) { setPromoteModal(null); return; }
+    const oldRole = promoteModal.role;
+    const name = promoteModal.name;
+    setConfirm({
+      title: oldRole < newRole ? '⬆️ Promote User' : '⬇️ Change Role',
+      msg: `Change "${name}" from ${oldRole.toUpperCase()} to ${newRole.toUpperCase()}?`,
+      color: '#3b82f6',
+      action: () => {
+        promoteUser(promoteModal.id, newRole);
+        showToast(`${name} is now ${newRole.toUpperCase()}`);
+        setConfirm(null);
+        setPromoteModal(null);
+      }
+    });
+  };
 
   const roleBadge = { client: 'badge-blue', trainer: 'badge-purple', owner: 'badge-orange', kitchen: 'badge-green', delivery: 'badge-purple' };
+  const roleOptions = ['client', 'trainer', 'owner', 'kitchen', 'delivery'];
 
   return (
     <DashboardLayout title="User Management">
+
+      {/* Confirmation Modal */}
+      {confirm && (
+        <div className="modal-overlay" onClick={() => setConfirm(null)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 420, textAlign: 'center' }}>
+            <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
+            <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+              <button className="btn btn-outline" onClick={() => setConfirm(null)}>Cancel</button>
+              <button className="btn" style={{ background: confirm.color, color: '#fff', border: 'none', padding: '10px 24px', borderRadius: 10, fontWeight: 700, cursor: 'pointer' }} onClick={confirm.action}>Confirm</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Promote/Demote Modal */}
+      {promoteModal && (
+        <div className="modal-overlay" onClick={() => setPromoteModal(null)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 400 }}>
+            <div className="modal-header">
+              <h3 className="modal-title">🔄 Change Role — {promoteModal.name}</h3>
+              <button className="modal-close" onClick={() => setPromoteModal(null)}>✕</button>
+            </div>
+            <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 16 }}>
+              Current role: <span className={`badge ${roleBadge[promoteModal.role]}`}>{promoteModal.role.toUpperCase()}</span>
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
+              {roleOptions.map(r => (
+                <button key={r} onClick={() => setNewRole(r)} style={{
+                  padding: '12px 16px', borderRadius: 10, cursor: 'pointer', fontWeight: 700, fontSize: 13, textAlign: 'left', transition: 'all 0.2s',
+                  background: newRole === r ? 'rgba(59,130,246,0.1)' : 'var(--bg-tertiary)',
+                  border: `2px solid ${newRole === r ? '#3b82f6' : 'var(--border)'}`,
+                  color: newRole === r ? '#3b82f6' : 'var(--text-primary)',
+                }}>
+                  {r === promoteModal.role ? `${r.toUpperCase()} (current)` : r.toUpperCase()}
+                </button>
+              ))}
+            </div>
+            <div className="modal-footer">
+              <button className="btn btn-outline" onClick={() => setPromoteModal(null)}>Cancel</button>
+              <button className="btn btn-primary" onClick={handlePromote} disabled={newRole === promoteModal.role}>
+                {newRole === promoteModal.role ? 'No Change' : `Change to ${newRole.toUpperCase()}`}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Add User Modal */}
       {showAdd && (
         <div className="modal-overlay" onClick={() => { setShowAdd(false); setSelRole(''); }}>
@@ -78,65 +181,58 @@ export default function AdminUsers() {
               </div>
             ) : (
               /* Role-Specific Form */
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                {/* Gym Owner Form */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {/* Owner Form */}
                 {selRole === 'owner' && (<>
-                  <div><label className="form-label">Gym Name *</label><input style={inp} value={form.gymName} onChange={e => upd('gymName', e.target.value)} placeholder="FitZone Premium" /></div>
-                  <div><label className="form-label">Owner Full Name *</label><input style={inp} value={form.name} onChange={e => upd('name', e.target.value)} placeholder="John Doe" /></div>
+                  <div><label className="form-label">Owner Name *</label><input style={inp} value={form.name} onChange={e => upd('name', e.target.value)} placeholder="Suresh Kumar" /></div>
                   <div><label className="form-label">Email Address *</label><input style={inp} type="email" value={form.email} onChange={e => upd('email', e.target.value)} placeholder="owner@email.com" /></div>
                   <div><label className="form-label">Phone Number *</label><input style={inp} value={form.phone} onChange={e => upd('phone', e.target.value)} placeholder="9876543210" /></div>
-                  <div><label className="form-label">Gym Proof (GST Number) *</label><input style={inp} value={form.gst} onChange={e => upd('gst', e.target.value)} placeholder="GST29ABCDE1234F" /></div>
+                  <div><label className="form-label">Gym Name *</label><input style={inp} value={form.gymName} onChange={e => upd('gymName', e.target.value)} placeholder="Iron Paradise" /></div>
+                  <div><label className="form-label">GST Number</label><input style={inp} value={form.gst} onChange={e => upd('gst', e.target.value)} placeholder="27AABCI1234A1Z5" /></div>
                 </>)}
 
-                {/* Gym Trainer Form */}
+                {/* Trainer Form */}
                 {selRole === 'trainer' && (<>
-                  <div><label className="form-label">Trainer Name *</label><input style={inp} value={form.name} onChange={e => upd('name', e.target.value)} placeholder="Coach Marcus" /></div>
+                  <div><label className="form-label">Trainer Name *</label><input style={inp} value={form.name} onChange={e => upd('name', e.target.value)} placeholder="Marcus Johnson" /></div>
                   <div><label className="form-label">Email Address *</label><input style={inp} type="email" value={form.email} onChange={e => upd('email', e.target.value)} placeholder="trainer@email.com" /></div>
                   <div><label className="form-label">Phone Number *</label><input style={inp} value={form.phone} onChange={e => upd('phone', e.target.value)} placeholder="9876543210" /></div>
-                  <div><label className="form-label">Select Assigned Gym *</label>
+                  <div><label className="form-label">Assign to Gym *</label>
                     <select style={inp} value={form.gymId} onChange={e => upd('gymId', e.target.value)}>
-                      <option value="">Choose gym...</option>
-                      {GYMS.map(g => <option key={g.id} value={g.id}>{g.name} — {g.location}</option>)}
+                      <option value="">Select Gym</option>
+                      {GYMS.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
                     </select>
                   </div>
+                  <div><label className="form-label">Specialization</label><input style={inp} value={form.specialization} onChange={e => upd('specialization', e.target.value)} placeholder="Strength, Yoga, etc." /></div>
                 </>)}
 
-                {/* Member Form */}
+                {/* Client Form */}
                 {selRole === 'client' && (<>
                   <div><label className="form-label">Member Name *</label><input style={inp} value={form.name} onChange={e => upd('name', e.target.value)} placeholder="Ravi Kumar" /></div>
-                  <div><label className="form-label">Email Address *</label><input style={inp} type="email" value={form.email} onChange={e => upd('email', e.target.value)} placeholder="member@email.com" /></div>
+                  <div><label className="form-label">Email Address *</label><input style={inp} type="email" value={form.email} onChange={e => upd('email', e.target.value)} placeholder="client@email.com" /></div>
                   <div><label className="form-label">Phone Number *</label><input style={inp} value={form.phone} onChange={e => upd('phone', e.target.value)} placeholder="9876543210" /></div>
-                  <div><label className="form-label">Select Gym *</label>
-                    <select style={inp} value={form.gymId} onChange={e => { upd('gymId', e.target.value); upd('trainerId', ''); }}>
-                      <option value="">Choose gym...</option>
-                      {GYMS.map(g => <option key={g.id} value={g.id}>{g.name} — {g.location}</option>)}
+                  <div><label className="form-label">Assign to Gym *</label>
+                    <select style={inp} value={form.gymId} onChange={e => upd('gymId', e.target.value)}>
+                      <option value="">Select Gym</option>
+                      {GYMS.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
                     </select>
                   </div>
-                  {/* Auto-display trainers when gym is selected */}
                   {form.gymId && (
-                    <div>
-                      <label className="form-label">Assigned Trainer</label>
-                      {getGymTrainers(form.gymId).length > 0 ? (
-                        <select style={inp} value={form.trainerId} onChange={e => upd('trainerId', e.target.value)}>
-                          <option value="">Select trainer...</option>
-                          {getGymTrainers(form.gymId).map(t => <option key={t.id} value={t.id}>{t.name} — {t.specialization || 'General'}</option>)}
-                        </select>
-                      ) : (
-                        <div style={{ padding: '10px 14px', background: 'rgba(245,158,11,0.1)', borderRadius: 12, border: '1px solid rgba(245,158,11,0.3)', color: 'var(--accent-orange)', fontSize: 13, fontWeight: 700 }}>
-                          Nil — No trainers assigned to this gym
-                        </div>
-                      )}
+                    <div><label className="form-label">Assign Trainer (Optional)</label>
+                      <select style={inp} value={form.trainerId} onChange={e => upd('trainerId', e.target.value)}>
+                        <option value="">No Trainer</option>
+                        {getGymTrainers(form.gymId).map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+                      </select>
                     </div>
                   )}
                 </>)}
 
                 {/* Kitchen Form */}
                 {selRole === 'kitchen' && (<>
-                  <div><label className="form-label">Kitchen Name *</label><input style={inp} value={form.kitchenName} onChange={e => upd('kitchenName', e.target.value)} placeholder="Central Kitchen" /></div>
-                  <div><label className="form-label">Manager Name *</label><input style={inp} value={form.name} onChange={e => upd('name', e.target.value)} placeholder="Chef Rajesh" /></div>
+                  <div><label className="form-label">Kitchen Staff Name *</label><input style={inp} value={form.name} onChange={e => upd('name', e.target.value)} placeholder="Chef Rajesh" /></div>
                   <div><label className="form-label">Email Address *</label><input style={inp} type="email" value={form.email} onChange={e => upd('email', e.target.value)} placeholder="kitchen@email.com" /></div>
                   <div><label className="form-label">Phone Number *</label><input style={inp} value={form.phone} onChange={e => upd('phone', e.target.value)} placeholder="9876543210" /></div>
-                  <div><label className="form-label">Location *</label><input style={inp} value={form.kitchenLocation} onChange={e => upd('kitchenLocation', e.target.value)} placeholder="Koramangala, Bangalore" /></div>
+                  <div><label className="form-label">Kitchen Name *</label><input style={inp} value={form.kitchenName} onChange={e => upd('kitchenName', e.target.value)} placeholder="FitKitchen Central" /></div>
+                  <div><label className="form-label">Kitchen Location *</label><input style={inp} value={form.kitchenLocation} onChange={e => upd('kitchenLocation', e.target.value)} placeholder="HSR Layout" /></div>
                 </>)}
 
                 {/* Delivery Form */}
@@ -173,12 +269,15 @@ export default function AdminUsers() {
         <button className="btn btn-primary" onClick={() => setShowAdd(true)}>+ Add User</button>
       </div>
 
-      {/* Users Table */}
-      <div className="card">
+      {/* Active Users Table */}
+      <div className="card" style={{ marginBottom: 24 }}>
+        <div className="card-header">
+          <div className="card-title">👥 Active Users ({activeUsers.length})</div>
+        </div>
         <table className="data-table">
           <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Detail / Gym</th><th>Joined</th><th>Actions</th></tr></thead>
           <tbody>
-            {users.map(u => (
+            {activeUsers.map(u => (
               <tr key={u.id}>
                 <td>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -192,7 +291,8 @@ export default function AdminUsers() {
                 <td style={{ fontSize: 12, color: 'var(--text-muted)' }}>{u.joinDate || '—'}</td>
                 <td>
                   <div style={{ display: 'flex', gap: 4 }}>
-                    <button className="btn btn-outline btn-sm" style={{ color: 'var(--accent-red)' }} onClick={() => handleDelete(u.id)}>🗑️</button>
+                    <button className="btn btn-outline btn-sm" title="Change Role" onClick={() => openPromoteModal(u)}>🔄</button>
+                    <button className="btn btn-outline btn-sm" style={{ color: '#ef4444' }} title="Block User" onClick={() => handleBlock(u)}>🚫</button>
                   </div>
                 </td>
               </tr>
@@ -200,6 +300,42 @@ export default function AdminUsers() {
           </tbody>
         </table>
       </div>
+
+      {/* Blocked Users Section */}
+      {blockedUsers.length > 0 && (
+        <div className="card" style={{ border: '1px solid rgba(239,68,68,0.2)' }}>
+          <div className="card-header" style={{ borderBottom: '1px solid rgba(239,68,68,0.15)' }}>
+            <div className="card-title" style={{ color: '#ef4444' }}>🚫 Blocked Accounts ({blockedUsers.length})</div>
+          </div>
+          <table className="data-table">
+            <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Blocked On</th><th>Actions</th></tr></thead>
+            <tbody>
+              {blockedUsers.map(u => (
+                <tr key={u.id} style={{ opacity: 0.7 }}>
+                  <td>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#6b7280', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: '#fff' }}>{u.avatar}</div>
+                      <div>
+                        <div style={{ fontWeight: 700, fontSize: 13 }}>{u.name}</div>
+                        <div style={{ fontSize: 10, color: '#ef4444', fontWeight: 600 }}>BLOCKED</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td style={{ fontSize: 12 }}>{u.email}</td>
+                  <td><span className={`badge ${roleBadge[u.role] || 'badge-blue'}`}>{u.role.toUpperCase()}</span></td>
+                  <td style={{ fontSize: 12, color: 'var(--text-muted)' }}>{u.blockedAt || '—'}</td>
+                  <td>
+                    <div style={{ display: 'flex', gap: 4 }}>
+                      <button className="btn btn-outline btn-sm" style={{ color: '#22c55e' }} title="Unblock" onClick={() => handleUnblock(u)}>✅ Restore</button>
+                      <button className="btn btn-outline btn-sm" style={{ color: '#ef4444' }} title="Delete Permanently" onClick={() => handleDeletePermanent(u)}>🗑️</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </DashboardLayout>
   );
 }

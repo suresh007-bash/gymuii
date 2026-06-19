@@ -3,11 +3,13 @@ import DashboardLayout from '../../components/DashboardLayout';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 import { useNotifications } from '../../context/NotificationContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function KitchenSettings() {
   const { user, updateUser } = useAuth();
   const { scheduledOrders, orders } = useOrders();
   const { showToast, addNotification } = useNotifications();
+  const { lang, setLang, t, LANGUAGES } = useLanguage();
   const [tab, setTab] = useState('schedule');
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [msgForm, setMsgForm] = useState({ orderId: '', reason: '' });
@@ -99,6 +101,12 @@ export default function KitchenSettings() {
             <div><label className="form-label">Kitchen Name</label><input className="form-input" value={form.kitchenName} onChange={e => setForm(p => ({ ...p, kitchenName: e.target.value }))} /></div>
             <div><label className="form-label">Location</label><input className="form-input" value={form.kitchenLocation} onChange={e => setForm(p => ({ ...p, kitchenLocation: e.target.value }))} /></div>
             <div><label className="form-label">Phone</label><input className="form-input" value={form.phone} onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} /></div>
+          </div>
+          <div style={{ marginTop: 16 }}>
+            <label className="form-label">🌐 {t('language')}</label>
+            <select className="form-input" value={lang} onChange={e => { setLang(e.target.value); showToast(`Language changed to ${LANGUAGES.find(l => l.code === e.target.value)?.label}`); }}>
+              {LANGUAGES.map(l => <option key={l.code} value={l.code}>{l.flag} {l.label}</option>)}
+            </select>
           </div>
           <button className="btn btn-success" style={{ marginTop: 16 }} onClick={saveSetting}>✅ Save Settings</button>
         </div>

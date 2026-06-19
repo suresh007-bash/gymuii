@@ -24,7 +24,10 @@ export function AuthProvider({ children }) {
 
   const login = (email, password) => {
     const found = allUsers.find(u => u.email === email && u.password === password);
-    if (found) { setUser(found); return { success: true, user: found }; }
+    if (found) {
+      if (found.blocked) return { success: false, error: 'Your account has been temporarily blocked. Please contact the administrator.' };
+      setUser(found); return { success: true, user: found };
+    }
     return { success: false, error: 'Invalid email or password' };
   };
 
@@ -41,6 +44,14 @@ export function AuthProvider({ children }) {
 
   const promoteUser = (userId, newRole, extra = {}) => {
     setAllUsers(prev => prev.map(u => u.id === userId ? { ...u, role: newRole, ...extra } : u));
+  };
+
+  const blockUser = (userId) => {
+    setAllUsers(prev => prev.map(u => u.id === userId ? { ...u, blocked: true, blockedAt: new Date().toISOString().split('T')[0] } : u));
+  };
+
+  const unblockUser = (userId) => {
+    setAllUsers(prev => prev.map(u => u.id === userId ? { ...u, blocked: false, blockedAt: null } : u));
   };
 
   const addUser = (userData) => {
@@ -60,25 +71,25 @@ export function AuthProvider({ children }) {
 
   const getUsersByRole = (role) => allUsers.filter(u => u.role === role);
   const getUsersByGym = (gymId) => allUsers.filter(u => u.gymId === gymId);
-  const getTrainerClients = (trainerId) => allUsers.filter(u => u.role === 'client' && u.trainerId === trainerId);
+  const getTrainerClients = (trainerId) => allUsers.filter(u => u.role === 'client' && u.trainerId === trainerId && !u.blocked);
   const getOwnerClients = (ownerId) => {
     const owner = allUsers.find(u => u.id === ownerId);
     if (!owner) return [];
-    return allUsers.filter(u => u.role === 'client' && u.gymId === owner.gymId);
+    return allUsers.filter(u => u.role === 'client' && u.gymId === owner.gymId && !u.blocked);
   };
   const getOwnerTrainers = (ownerId) => {
     const owner = allUsers.find(u => u.id === ownerId);
     if (!owner) return [];
-    return allUsers.filter(u => u.role === 'trainer' && u.gymId === owner.gymId);
+    return allUsers.filter(u => u.role === 'trainer' && u.gymId === owner.gymId && !u.blocked);
   };
   const getDirectClients = (ownerId) => {
     const owner = allUsers.find(u => u.id === ownerId);
     if (!owner) return [];
-    return allUsers.filter(u => u.role === 'client' && u.gymId === owner.gymId && !u.trainerId);
+    return allUsers.filter(u => u.role === 'client' && u.gymId === owner.gymId && !u.trainerId && !u.blocked);
   };
 
   return (
-    <AuthContext.Provider value={{ user, allUsers, login, register, logout, promoteUser, addUser, updateUser, deleteUser, getUsersByRole, getUsersByGym, getTrainerClients, getOwnerClients, getOwnerTrainers, getDirectClients }}>
+    <AuthContext.Provider value={{ user, allUsers, login, register, logout, promoteUser, blockUser, unblockUser, addUser, updateUser, deleteUser, getUsersByRole, getUsersByGym, getTrainerClients, getOwnerClients, getOwnerTrainers, getDirectClients }}>
       {children}
     </AuthContext.Provider>
   );
