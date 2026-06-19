@@ -5,7 +5,7 @@ import { useNotifications } from '../../context/NotificationContext';
 import { GYMS } from '../../data/mockUsers';
 
 const COMMUNITY_POSTS = [
-  { id: 1, author: 'Coach Marcus', avatar: 'CM', role: 'Trainer', time: '2 hours ago', content: '💡 Tip: Having protein within 30 mins of your workout boosts muscle recovery by 40%. Try our Grilled Chicken Bowl post-workout!', likes: 24, comments: 8 },
+  { id: 1, author: 'Coach Marcus', avatar: 'CM', role: 'Trainer', time: '6 hours ago', content: '💡 Tip: Having protein within 30 mins of your workout boosts muscle recovery by 40%. Try our Grilled Chicken Bowl post-workout!', likes: 24, comments: 8 },
   { id: 2, author: 'FitBites Team', avatar: 'FB', role: 'Official', time: '5 hours ago', content: '🎉 New menu item alert! Introducing the Avocado Protein Toast — 380 kcal, 28g protein. Available now!', likes: 42, comments: 15 },
   { id: 3, author: 'Priya Sharma', avatar: 'PS', role: 'Member', time: '1 day ago', content: 'Just completed my 30-day nutrition challenge! Lost 3kg while hitting my protein targets daily. FitBites meal scheduling made it so easy 🔥', likes: 56, comments: 21 },
   { id: 4, author: 'Coach Deepa', avatar: 'CD', role: 'Trainer', time: '2 days ago', content: '🥗 Weekly meal prep tip: Order your nutrient packs for the entire week on Sunday. Schedule morning, noon, and evening — automation is key!', likes: 31, comments: 12 },
