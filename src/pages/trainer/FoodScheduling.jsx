@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 import { useNotifications } from '../../context/NotificationContext';
 import StatIcon from '../../components/StatIcon';
+import { Icon, Flame, Beef, CheckCircle2, Calendar, Search } from '../../components/Icons';
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 const MEALS = [
@@ -117,7 +118,7 @@ export default function FoodScheduling() {
               <button className="modal-close" onClick={() => { setEditCell(null); setSelectedItems([]); setSearch(''); setCustomTime(''); }}>✕</button>
             </div>
             <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-              <span>📅 {editCell.date}</span>
+              <span><Icon icon={Calendar} size={11} style={{marginRight:2}} /> {editCell.date}</span>
               <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 ⏰
                 <input
@@ -134,7 +135,7 @@ export default function FoodScheduling() {
             </div>
 
             <div style={{ marginBottom: 12 }}>
-              <input className="form-input" placeholder="🔍 Search foods..." value={search} onChange={e => setSearch(e.target.value)} />
+              <input className="form-input" placeholder="Search foods..." value={search} onChange={e => setSearch(e.target.value)} />
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 6, maxHeight: 240, overflowY: 'auto', marginBottom: 16 }}>
@@ -147,8 +148,8 @@ export default function FoodScheduling() {
                   <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                     <img src={item.image} alt="" style={{ width: 36, height: 36, borderRadius: 8, objectFit: 'cover' }} />
                     <div>
-                      <div style={{ fontWeight: 700, fontSize: 12 }}>{selectedItems.includes(item.id) ? '✅ ' : ''}{item.name}</div>
-                      <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>🔥{item.calories} 💪{item.protein}g • ₹{item.price}</div>
+                      <div style={{ fontWeight: 700, fontSize: 12 }}>{selectedItems.includes(item.id) ? <><Icon icon={CheckCircle2} size={11} style={{marginRight:3}} /> </> : ''}{item.name}</div>
+                      <div style={{ fontSize: 10, color: 'var(--text-muted)' }}><Icon icon={Flame} size={10} style={{marginRight:1}} />{item.calories} <Icon icon={Beef} size={10} style={{marginRight:1}} />{item.protein}g • ₹{item.price}</div>
                     </div>
                   </div>
                 </div>
@@ -160,15 +161,15 @@ export default function FoodScheduling() {
                 <strong>Selected ({selectedItems.length}):</strong>{' '}
                 {selectedItems.map(id => MENU_ITEMS.find(m => m.id === id)?.name).join(', ')}
                 <span style={{ float: 'right', fontWeight: 800 }}>
-                  🔥 {selectedItems.reduce((a, id) => a + (MENU_ITEMS.find(m => m.id === id)?.calories || 0), 0)} kcal •
-                  💪 {selectedItems.reduce((a, id) => a + (MENU_ITEMS.find(m => m.id === id)?.protein || 0), 0)}g
+                  <Icon icon={Flame} size={11} style={{marginRight:2}} /> {selectedItems.reduce((a, id) => a + (MENU_ITEMS.find(m => m.id === id)?.calories || 0), 0)} kcal •
+                  <Icon icon={Beef} size={11} style={{marginRight:2}} /> {selectedItems.reduce((a, id) => a + (MENU_ITEMS.find(m => m.id === id)?.protein || 0), 0)}g
                 </span>
               </div>
             )}
 
             <div className="modal-footer">
               <button className="btn btn-outline" onClick={() => { setEditCell(null); setSelectedItems([]); setSearch(''); setCustomTime(''); }}>Cancel</button>
-              <button className="btn btn-success" onClick={handleSave} disabled={selectedItems.length === 0}>✅ Set Meal</button>
+              <button className="btn btn-success" onClick={handleSave} disabled={selectedItems.length === 0}><Icon icon={CheckCircle2} size={14} style={{marginRight:4}} /> Set Meal</button>
             </div>
           </div>
         </div>
@@ -185,7 +186,7 @@ export default function FoodScheduling() {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <button className="btn btn-outline btn-sm" onClick={() => setWeekOffset(w => w - 1)}>← Prev</button>
-          <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15, minWidth: 200, textAlign: 'center' }}>📅 {weekLabel}</span>
+          <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15, minWidth: 200, textAlign: 'center' }}><Icon icon={Calendar} size={14} style={{marginRight:4}} /> {weekLabel}</span>
           <button className="btn btn-outline btn-sm" onClick={() => setWeekOffset(w => w + 1)}>Next →</button>
           {weekOffset !== 0 && <button className="btn btn-primary btn-sm" onClick={() => setWeekOffset(0)}>Today</button>}
           <input type="date" style={{ padding: '5px 10px', borderRadius: 8, border: '1px solid var(--border)', background: 'var(--bg-input)', color: 'var(--text-primary)', fontSize: 12 }}
@@ -288,7 +289,7 @@ export default function FoodScheduling() {
                               </div>
                             ))}
                             {items.length > 2 && <div style={{ fontSize: 9, color: 'var(--text-muted)' }}>+{items.length - 2} more</div>}
-                            <div style={{ fontSize: 9, color: meal.color, fontWeight: 800, marginTop: 4 }}>🔥 {totalMealCal} kcal</div>
+                            <div style={{ fontSize: 9, color: meal.color, fontWeight: 800, marginTop: 4 }}><Icon icon={Flame} size={9} style={{marginRight:1}} /> {totalMealCal} kcal</div>
                             <button onClick={e => { e.stopPropagation(); handleRemove(key); }} style={{ position: 'absolute', display: 'none' }}>×</button>
                           </>
                         ) : (

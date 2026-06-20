@@ -1,4 +1,5 @@
 import DashboardLayout from '../../components/DashboardLayout';
+import { Target, Dumbbell } from '../../components/Icons';
 import StatIcon from '../../components/StatIcon';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
@@ -22,7 +23,7 @@ export default function OwnerAnalytics() {
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 20 }}>
         <div className="card">
-          <div className="card-header"><h3 className="card-title">🎯 Goal Distribution</h3></div>
+          <div className="card-header"><h3 className="card-title"><Target size={16} style={{marginRight:4}} /> Goal Distribution</h3></div>
           {['Weight Loss', 'Muscle Gain', 'Maintenance'].map(goal => {
             const count = members.filter(m => m.goal === goal).length;
             return (<div key={goal} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
@@ -33,7 +34,7 @@ export default function OwnerAnalytics() {
           })}
         </div>
         <div className="card">
-          <div className="card-header"><h3 className="card-title">💪 Trainer Performance</h3></div>
+          <div className="card-header"><h3 className="card-title"><Dumbbell size={16} style={{marginRight:4}} /> Trainer Performance</h3></div>
           {trainers.length === 0 ? <p style={{ color: 'var(--text-muted)', padding: 12 }}>No trainers</p> :
           trainers.map(t => {
             const tClients = members.filter(m => m.trainerId === t.id).length;

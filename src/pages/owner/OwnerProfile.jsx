@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MapPin, Edit, CheckCircle2, LogOut } from '../../components/Icons';
 import DashboardLayout from '../../components/DashboardLayout';
 import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationContext';
@@ -36,10 +37,10 @@ export default function OwnerProfile() {
           <div style={{ width: 72, height: 72, borderRadius: '50%', background: 'linear-gradient(135deg, #22c55e, #4ade80)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, fontWeight: 900, color: '#fff', margin: '0 auto 12px' }}>{user?.avatar}</div>
           <h2 style={{ fontFamily: 'Outfit', fontWeight: 800, marginBottom: 4 }}>{user?.name}</h2>
           <p style={{ color: 'var(--accent-green)', fontSize: 13, fontWeight: 700 }}>{user?.gymName}</p>
-          <p style={{ color: 'var(--text-muted)', fontSize: 12 }}>📍 {user?.gymLocation}</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: 12 }}><MapPin size={14} style={{marginRight:2}} /> {user?.gymLocation}</p>
         </div>
         <div className="card" style={{ padding: 24 }}>
-          <h3 className="card-title" style={{ marginBottom: 16 }}>✏️ Edit Profile</h3>
+          <h3 className="card-title" style={{ marginBottom: 16 }}><Edit size={16} style={{marginRight:4}} /> Edit Profile</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 14 }}>
             <div style={{ gridColumn: '1 / -1' }}><label className="form-label">Full Name</label><input style={inp} value={form.name} onChange={e => upd('name', e.target.value)} /></div>
             <div><label className="form-label">Email</label><input style={inp} value={form.email} onChange={e => upd('email', e.target.value)} /></div>
@@ -55,8 +56,8 @@ export default function OwnerProfile() {
             <div style={{ gridColumn: '1 / -1' }}><label className="form-label">Allergies</label><input style={inp} value={form.allergies} onChange={e => upd('allergies', e.target.value)} /></div>
           </div>
           <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
-            <button className="btn btn-success" style={{ flex: 1 }} onClick={handleSave}>✅ Save Changes</button>
-            <button className="btn btn-danger" onClick={handleLogout}>🚪 Logout</button>
+            <button className="btn btn-success" style={{ flex: 1 }} onClick={handleSave}><CheckCircle2 size={14} style={{marginRight:4}} /> Save Changes</button>
+            <button className="btn btn-danger" onClick={handleLogout}><LogOut size={14} style={{marginRight:4}} /> Logout</button>
           </div>
         </div>
       </div>

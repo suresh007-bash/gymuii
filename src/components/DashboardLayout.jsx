@@ -22,9 +22,10 @@ const NAV = {
     { icon: CalendarDays, tKey: 'scheduleFoods', path: '/client/schedule' },
     { icon: Package, tKey: 'myOrders', path: '/client/orders' },
     { icon: BarChart3, tKey: 'nutrition', path: '/client/nutrition' },
+    { icon: ClipboardList, label: 'Trainer Recommendation', path: '/client/meal-plans' },
     { icon: TrendingUp, label: 'Progress', path: '/client/progress' },
     { icon: Gem, tKey: 'subscriptions', path: '/client/subscriptions' },
-    { icon: UserPlus, label: 'Request for Trainer', path: '/client/community' },
+    { icon: Building2, label: 'Join Gym', path: '/client/community' },
     { icon: LifeBuoy, label: 'Support', path: '/client/support' },
     { icon: User, tKey: 'profile', path: '/client/profile' },
     { icon: Settings, tKey: 'settings', path: '/client/settings' },
@@ -36,6 +37,7 @@ const NAV = {
     { icon: Package, tKey: 'myOrders', path: '/trainer/orders' },
     { icon: BarChart3, tKey: 'nutrition', path: '/trainer/nutrition' },
     { icon: Gem, tKey: 'subscriptions', path: '/trainer/subscriptions' },
+    { section: '🏋️ Trainer Tools' },
     { icon: Users, tKey: 'myClients', path: '/trainer/clients' },
     { icon: CalendarClock, tKey: 'scheduleForClients', path: '/trainer/schedule-for-clients' },
     { icon: Building2, tKey: 'myGymOwner', path: '/trainer/my-owner' },
@@ -43,17 +45,18 @@ const NAV = {
   ]},
   owner: { brand: 'FitSwipe', sub: 'OWNER PORTAL', gradient: 'linear-gradient(135deg, #22c55e, #4ade80)', links: [
     { icon: Home, tKey: 'home', path: '/owner/menu' },
+    { section: '👑 Owner Tools' },
     { icon: Dumbbell, tKey: 'manageTrainers', path: '/owner/trainers' },
     { icon: Users, tKey: 'myClients', path: '/owner/clients' },
     { icon: CalendarClock, tKey: 'scheduleForClients', path: '/owner/schedule-for-clients' },
     { icon: TrendingUp, tKey: 'analytics', path: '/owner/analytics' },
-    { icon: ClipboardList, label: 'Meal Plans', path: '/owner/meal-plans' },
+    { section: '🍽️ Food & Orders' },
     { icon: ShoppingCart, tKey: 'myCart', path: '/owner/cart' },
     { icon: CalendarDays, tKey: 'scheduleFoods', path: '/owner/schedule' },
     { icon: Package, tKey: 'myOrders', path: '/owner/orders' },
     { icon: BarChart3, tKey: 'nutrition', path: '/owner/nutrition' },
     { icon: Gem, tKey: 'subscriptions', path: '/owner/subscriptions' },
-    { icon: UserPlus, label: 'Request for Trainer', path: '/owner/community' },
+    { section: '⚙️ Account' },
     { icon: LifeBuoy, label: 'Support', path: '/owner/support' },
     { icon: User, tKey: 'profile', path: '/owner/profile' },
     { icon: Settings, tKey: 'settings', path: '/owner/settings' },
@@ -75,6 +78,7 @@ const NAV = {
     { icon: LayoutDashboard, tKey: 'home', path: '/admin/dashboard' },
     { icon: Package, tKey: 'allOrders', path: '/admin/orders' },
     { icon: Users, tKey: 'userManagement', path: '/admin/users' },
+    { icon: Building2, label: 'Manage Gyms', path: '/admin/gyms' },
     { icon: Truck, tKey: 'deliveryMgmt', path: '/admin/delivery' },
     { icon: TrendingUp, tKey: 'analytics', path: '/admin/analytics' },
     { icon: Settings, tKey: 'settings', path: '/admin/settings' },
@@ -128,7 +132,20 @@ export default function DashboardLayout({ children, title, flush }) {
 
         {/* Nav Links */}
         <nav className="sidebar-nav">
-          {links.map(link => {
+          {links.map((link, idx) => {
+            if (link.section) {
+              return (
+                <div key={'section-' + idx} style={{
+                  padding: '12px 16px 6px', fontSize: 10, fontWeight: 800,
+                  color: 'var(--text-muted)', textTransform: 'uppercase',
+                  letterSpacing: 1.2, marginTop: idx > 0 ? 6 : 0,
+                  borderTop: idx > 0 ? '1px solid var(--border)' : 'none',
+                  paddingTop: idx > 0 ? 14 : 12,
+                }}>
+                  {link.section}
+                </div>
+              );
+            }
             const isActive = location.pathname === link.path;
             const label = link.tKey ? t(link.tKey) : link.label;
             return (

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import DashboardLayout from '../../components/DashboardLayout';
+import { Calendar, Package, CheckCircle2 } from '../../components/Icons';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 import { useNotifications } from '../../context/NotificationContext';
@@ -34,7 +35,7 @@ export default function OwnerOrders() {
       {rescheduleOrder && (
         <div className="modal-overlay" onClick={() => { setRescheduleOrder(null); setNewDates([]); }}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 480 }}>
-            <div className="modal-header"><h3 className="modal-title">📅 Reschedule #{rescheduleOrder.id}</h3><button className="modal-close" onClick={() => { setRescheduleOrder(null); setNewDates([]); }}>✕</button></div>
+            <div className="modal-header"><h3 className="modal-title"><Calendar size={16} style={{marginRight:4}} /> Reschedule #{rescheduleOrder.id}</h3><button className="modal-close" onClick={() => { setRescheduleOrder(null); setNewDates([]); }}>✕</button></div>
             <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
               {[['morning', '🌅 Breakfast'], ['noon', '☀️ Lunch'], ['evening', '🌙 Dinner']].map(([k, l]) => (
                 <button key={k} className={`btn btn-sm ${newTiming === k ? 'btn-primary' : 'btn-outline'}`} onClick={() => setNewTiming(k)} style={{ flex: 1 }}>{l}</button>
@@ -45,7 +46,7 @@ export default function OwnerOrders() {
               {Array.from({ length: new Date(calendarDays[0]).getDay() }, (_, i) => <div key={'e' + i} />)}
               {calendarDays.map(ds => <button key={ds} onClick={() => toggleDate(ds)} style={{ padding: '8px 4px', borderRadius: 8, border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 700, background: newDates.includes(ds) ? 'var(--accent-orange)' : 'var(--bg-tertiary)', color: newDates.includes(ds) ? '#fff' : 'var(--text-primary)' }}>{new Date(ds).getDate()}</button>)}
             </div>
-            <div className="modal-footer"><button className="btn btn-outline" onClick={() => { setRescheduleOrder(null); setNewDates([]); }}>Cancel</button><button className="btn btn-success" onClick={handleReschedule} disabled={newDates.length === 0}>✅ Reschedule</button></div>
+            <div className="modal-footer"><button className="btn btn-outline" onClick={() => { setRescheduleOrder(null); setNewDates([]); }}>Cancel</button><button className="btn btn-success" onClick={handleReschedule} disabled={newDates.length === 0}><CheckCircle2 size={14} style={{marginRight:4}} /> Reschedule</button></div>
           </div>
         </div>
       )}
@@ -54,7 +55,7 @@ export default function OwnerOrders() {
         <button key={t} className={`tab ${tab === t ? 'active' : ''}`} onClick={() => setTab(t)}>{t === 'all' ? `All (${myOrders.length})` : t.charAt(0).toUpperCase() + t.slice(1)}</button>
       ))}</div>
 
-      {filtered.length === 0 ? <div style={{ textAlign: 'center', padding: 60, color: 'var(--text-muted)' }}><div style={{ fontSize: 48, marginBottom: 12 }}>📦</div><p>No orders found</p></div> : (
+      {filtered.length === 0 ? <div style={{ textAlign: 'center', padding: 60, color: 'var(--text-muted)' }}><div style={{ fontSize: 48, marginBottom: 12 }}><Package size={48} color="var(--text-muted)" /></div><p>No orders found</p></div> : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {filtered.map(order => (
             <div key={order.id} className="card">
@@ -73,12 +74,12 @@ export default function OwnerOrders() {
                   <span style={{ fontFamily: 'Outfit', fontSize: 20, fontWeight: 900, color: 'var(--accent-orange)', letterSpacing: 4 }}>{order.otp}</span>
                 </div>
               )}
-              {order.scheduledDates?.length > 0 && <div style={{ padding: '6px 12px', background: 'rgba(34,197,94,0.06)', borderRadius: 8, marginBottom: 10, fontSize: 12 }}>📅 {order.scheduledDates.map(d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })).join(', ')}</div>}
+              {order.scheduledDates?.length > 0 && <div style={{ padding: '6px 12px', background: 'rgba(34,197,94,0.06)', borderRadius: 8, marginBottom: 10, fontSize: 12 }}><Calendar size={12} style={{marginRight:2}} /> {order.scheduledDates.map(d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })).join(', ')}</div>}
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 8 }}>{order.items.map((item, i) => <span key={i} style={{ fontSize: 12, padding: '4px 10px', background: 'var(--bg-tertiary)', borderRadius: 8 }}>{item.name} × {item.qty}</span>)}</div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ fontFamily: 'Outfit', fontWeight: 800, color: 'var(--accent-green)' }}>₹{order.total}</span>
                 <div style={{ display: 'flex', gap: 8 }}>
-                  {['pending', 'preparing', 'ready'].includes(order.status) && <button className="btn btn-outline btn-sm" onClick={() => { setRescheduleOrder(order); setNewDates(order.scheduledDates || []); setNewTiming(order.timing || 'noon'); }}>📅 Reschedule</button>}
+                  {['pending', 'preparing', 'ready'].includes(order.status) && <button className="btn btn-outline btn-sm" onClick={() => { setRescheduleOrder(order); setNewDates(order.scheduledDates || []); setNewTiming(order.timing || 'noon'); }}><Calendar size={12} style={{marginRight:2}} /> Reschedule</button>}
                   {order.status === 'pending' && <button className="btn btn-outline btn-sm" style={{ color: 'var(--accent-red)' }} onClick={() => cancelOrder(order.id, 'Cancelled')}>Cancel</button>}
                 </div>
               </div>

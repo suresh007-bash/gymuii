@@ -32,6 +32,25 @@ export const MOCK_USERS = [
 ];
 
 export const GYMS = [
-  { id: 'g1', name: 'FitZone Pro Gym', location: 'Bangalore, MG Road', ownerId: 'o1', gst: 'GST29ABCDE1234F', members: 24, trainers: 2, rating: 4.8 },
-  { id: 'g2', name: 'PowerHouse Fitness', location: 'Chennai, T Nagar', ownerId: 'o2', gst: 'GST33FGHIJ5678K', members: 18, trainers: 1, rating: 4.6 }
+  { id: 'g1', name: 'FitZone Pro Gym', location: 'Bangalore, MG Road', ownerId: 'o1', gst: 'GST29ABCDE1234F', members: 24, trainers: 2, rating: 4.8,
+    images: ['https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80', 'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=600&q=80', 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600&q=80'],
+    description: 'FitZone Pro is a premium fitness center equipped with state-of-the-art machines, free weights, and dedicated zones for cardio, strength, and flexibility training. Our expert trainers ensure personalized guidance for every member.',
+    amenities: ['Free Weights', 'Cardio Zone', 'Yoga Studio', 'Steam & Sauna', 'Locker Rooms', 'Protein Bar', 'Parking'],
+    hours: 'Mon-Sat: 5:00 AM - 10:00 PM | Sun: 6:00 AM - 8:00 PM',
+    plans: [{ name: 'Monthly', price: 1000, duration: '1 Month' }, { name: 'Quarterly', price: 2700, duration: '3 Months', popular: true }, { name: 'Yearly', price: 9999, duration: '12 Months' }]
+  },
+  { id: 'g2', name: 'PowerHouse Fitness', location: 'Chennai, T Nagar', ownerId: 'o2', gst: 'GST33FGHIJ5678K', members: 18, trainers: 1, rating: 4.6,
+    images: ['https://images.unsplash.com/photo-1558611848-73f7eb4001a1?w=600&q=80', 'https://images.unsplash.com/photo-1593079831268-3381b0db4a77?w=600&q=80', 'https://images.unsplash.com/photo-1576678927484-cc907957088c?w=600&q=80'],
+    description: 'PowerHouse Fitness combines modern equipment with traditional training methods. Known for our intense HIIT programs and yoga sessions, we cater to fitness enthusiasts of all levels.',
+    amenities: ['CrossFit Area', 'Boxing Ring', 'Yoga Studio', 'Shower Rooms', 'Juice Bar', 'AC Training Hall'],
+    hours: 'Mon-Sat: 5:30 AM - 9:30 PM | Sun: 7:00 AM - 6:00 PM',
+    plans: [{ name: 'Monthly', price: 1000, duration: '1 Month' }, { name: 'Quarterly', price: 2700, duration: '3 Months', popular: true }, { name: 'Yearly', price: 9999, duration: '12 Months' }]
+  },
+  { id: 'g3', name: 'Iron Paradise', location: 'Mumbai, Andheri West', ownerId: 'o1', gst: 'GST27KLMNO9012P', members: 32, trainers: 3, rating: 4.9,
+    images: ['https://images.unsplash.com/photo-1570829460005-c840387bb1ca?w=600&q=80', 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80', 'https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=600&q=80'],
+    description: 'Iron Paradise is the ultimate destination for serious lifters and athletes. With Olympic-grade equipment, certified trainers, and a motivating atmosphere, we help you push beyond limits.',
+    amenities: ['Olympic Weights', 'Squat Racks', 'Deadlift Platforms', 'Swimming Pool', 'Sports Nutrition Store', 'Recovery Zone', 'Personal Training Rooms'],
+    hours: 'Open 24/7',
+    plans: [{ name: 'Monthly', price: 1000, duration: '1 Month' }, { name: 'Quarterly', price: 2700, duration: '3 Months', popular: true }, { name: 'Yearly', price: 9999, duration: '12 Months' }]
+  }
 ];

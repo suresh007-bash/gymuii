@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Sparkles, Package, Utensils, ShoppingCart, Flame, Calendar, ClipboardList } from '../../components/Icons';
 import DashboardLayout from '../../components/DashboardLayout';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
@@ -45,15 +46,15 @@ export default function OwnerCart() {
   if (orderPlaced) return (
     <DashboardLayout title="My Cart">
       <div style={{ textAlign: 'center', padding: 60, animation: 'scaleIn 0.5s ease' }}>
-        <div style={{ fontSize: 72, marginBottom: 16 }}>🎉</div>
+        <div style={{ fontSize: 72, marginBottom: 16 }}><Sparkles size={72} color="#f97316" /></div>
         <h2 style={{ fontFamily: 'Outfit', fontSize: 28, fontWeight: 800, marginBottom: 8 }}>Order Placed!</h2>
         <div style={{ background: 'rgba(249,115,22,0.08)', borderRadius: 16, padding: '16px 32px', display: 'inline-block', marginBottom: 16 }}>
           <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 700 }}>YOUR OTP</div>
           <div style={{ fontFamily: 'Outfit', fontSize: 36, fontWeight: 900, color: 'var(--accent-orange)', letterSpacing: 6 }}>{orderPlaced.otp}</div>
         </div>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
-          <button className="btn btn-primary btn-lg" onClick={() => navigate('/owner/orders')}>📦 Track Order</button>
-          <button className="btn btn-outline btn-lg" onClick={() => navigate('/owner/menu')}>🍽️ Order More</button>
+          <button className="btn btn-primary btn-lg" onClick={() => navigate('/owner/orders')}><Package size={14} style={{marginRight:4}} /> Track Order</button>
+          <button className="btn btn-outline btn-lg" onClick={() => navigate('/owner/menu')}><Utensils size={14} style={{marginRight:4}} /> Order More</button>
         </div>
       </div>
     </DashboardLayout>
@@ -63,7 +64,7 @@ export default function OwnerCart() {
     <DashboardLayout title="My Cart">
       {cart.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 60 }}>
-          <div style={{ fontSize: 64, marginBottom: 16 }}>🛒</div>
+          <div style={{ fontSize: 64, marginBottom: 16 }}><ShoppingCart size={64} color="var(--text-muted)" /></div>
           <h3 style={{ fontFamily: 'Outfit', fontWeight: 700, marginBottom: 8 }}>Your cart is empty</h3>
           <button className="btn btn-primary" onClick={() => navigate('/owner/menu')}>Browse Menu</button>
         </div>
@@ -71,11 +72,11 @@ export default function OwnerCart() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: 24, alignItems: 'start' }}>
           <div>
             <div className="card" style={{ marginBottom: 16 }}>
-              <div className="card-header"><h3 className="card-title">🛒 Cart ({cart.length})</h3></div>
+              <div className="card-header"><h3 className="card-title"><ShoppingCart size={16} style={{marginRight:4}} /> Cart ({cart.length})</h3></div>
               {cart.map(item => (
                 <div key={item.id} style={{ display: 'flex', gap: 14, padding: '14px 0', borderBottom: '1px solid var(--border)', alignItems: 'center' }}>
                   <img src={item.image} alt={item.name} style={{ width: 64, height: 64, borderRadius: 12, objectFit: 'cover' }} />
-                  <div style={{ flex: 1 }}><div style={{ fontWeight: 700, fontSize: 14 }}>{item.name}</div><div style={{ fontSize: 11, color: 'var(--text-muted)' }}>🔥 {item.calories} kcal</div></div>
+                  <div style={{ flex: 1 }}><div style={{ fontWeight: 700, fontSize: 14 }}>{item.name}</div><div style={{ fontSize: 11, color: 'var(--text-muted)' }}><Flame size={12} style={{marginRight:2}} /> {item.calories} kcal</div></div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <button className="btn btn-outline btn-sm" onClick={() => updateQty(item.id, -1)}>−</button>
                     <span style={{ fontWeight: 800 }}>{item.qty}</span>
@@ -88,7 +89,7 @@ export default function OwnerCart() {
             </div>
             {/* Calendar */}
             <div className="card">
-              <div className="card-header"><h3 className="card-title">📅 Schedule Delivery</h3></div>
+              <div className="card-header"><h3 className="card-title"><Calendar size={16} style={{marginRight:4}} /> Schedule Delivery</h3></div>
               <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
                 {[['morning', '🌅 Breakfast'], ['noon', '☀️ Lunch'], ['evening', '🌙 Dinner']].map(([k, l]) => (
                   <button key={k} className={`btn btn-sm ${timing === k ? 'btn-primary' : 'btn-outline'}`} onClick={() => setTiming(k)} style={{ flex: 1 }}>{l}</button>
@@ -102,11 +103,11 @@ export default function OwnerCart() {
                   return <button key={dateStr} onClick={() => toggleDate(dateStr)} style={{ padding: '10px 4px', borderRadius: 8, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 700, background: isSelected ? 'var(--accent-orange)' : 'var(--bg-tertiary)', color: isSelected ? '#fff' : 'var(--text-primary)' }}>{new Date(dateStr).getDate()}</button>;
                 })}
               </div>
-              {selectedDates.length > 0 && <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 10, fontSize: 12 }}><strong>📅 {selectedDates.length} dates:</strong> {selectedDates.sort().map(d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })).join(', ')}</div>}
+              {selectedDates.length > 0 && <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 10, fontSize: 12 }}><strong><Calendar size={12} style={{marginRight:2}} /> {selectedDates.length} dates:</strong> {selectedDates.sort().map(d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })).join(', ')}</div>}
             </div>
           </div>
           <div className="card" style={{ position: 'sticky', top: 88 }}>
-            <div className="card-header"><h3 className="card-title">📋 Summary</h3></div>
+            <div className="card-header"><h3 className="card-title"><ClipboardList size={16} style={{marginRight:4}} /> Summary</h3></div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 16 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}><span style={{ color: 'var(--text-muted)' }}>Subtotal</span><span>₹{subtotal}</span></div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}><span style={{ color: 'var(--text-muted)' }}>Delivery</span><span>₹{deliveryFee}</span></div>

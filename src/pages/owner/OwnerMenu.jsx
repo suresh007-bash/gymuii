@@ -1,5 +1,6 @@
 // Owner's Browse Menu — reuses client BrowseMenu logic
 import { useState } from 'react';
+import { Flame, Beef, ShoppingCart } from '../../components/Icons';
 import DashboardLayout from '../../components/DashboardLayout';
 import { CATEGORIES } from '../../data/mockMenu';
 import { getMenuItems } from '../../data/menuHelper';
@@ -52,9 +53,9 @@ export default function OwnerMenu() {
                 <span style={{ fontFamily: 'Outfit', fontWeight: 900, color: 'var(--accent-green)' }}>₹{item.price}</span>
               </div>
               <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 8 }}>
-                🔥 {item.calories} kcal • 💪 {item.protein}g • {item.category}
+                <Flame size={12} style={{marginRight:2}} /> {item.calories} kcal • <Beef size={12} style={{marginRight:2}} /> {item.protein}g • {item.category}
               </div>
-              <button className="btn btn-primary btn-sm" style={{ width: '100%' }} onClick={() => addToCart(item)}>🛒 Add to Cart</button>
+              <button className="btn btn-primary btn-sm" style={{ width: '100%' }} onClick={() => addToCart(item)}><ShoppingCart size={14} style={{marginRight:4}} /> Add to Cart</button>
             </div>
           </div>
         ))}

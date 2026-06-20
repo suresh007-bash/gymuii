@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Icon, ShoppingCart, Trash2, Flame, Beef, Wheat, Droplets, Package, Utensils, Calendar, CheckCircle2, Sparkles, ClipboardList, Banknote, Smartphone, CreditCard } from '../../components/Icons';
 import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../components/DashboardLayout';
 import { useAuth } from '../../context/AuthContext';
@@ -20,7 +21,7 @@ export default function MyCart() {
 
   const updateQty = (id, delta) => { const c = cart.map(i => i.id === id ? { ...i, qty: Math.max(1, i.qty + delta) } : i); setCart(c); localStorage.setItem('synnoviq_cart', JSON.stringify(c)); };
   const remove = (id) => { const c = cart.filter(i => i.id !== id); setCart(c); localStorage.setItem('synnoviq_cart', JSON.stringify(c)); };
-  const clearCart = () => { setCart([]); localStorage.setItem('synnoviq_cart', '[]'); showToast('🗑️ Cart cleared'); };
+  const clearCart = () => { setCart([]); localStorage.setItem('synnoviq_cart', '[]'); showToast('Cart cleared'); };
 
   const subtotal = cart.reduce((a, c) => a + c.price * c.qty, 0);
   const deliveryFee = cart.length > 0 ? 40 : 0;
@@ -46,14 +47,14 @@ export default function MyCart() {
     });
     setOrderPlaced({ ...newOrder, otp });
     setCart([]); localStorage.setItem('synnoviq_cart', '[]');
-    showToast(`Order placed! OTP: ${otp} 🎉`);
+    showToast(`Order placed! OTP: ${otp}`);
   };
 
   // Order success
   if (orderPlaced) return (
     <DashboardLayout title="My Cart">
       <div style={{ textAlign: 'center', padding: 60 }}>
-        <div style={{ fontSize: 72, marginBottom: 16 }}>🎉</div>
+        <div style={{ fontSize: 72, marginBottom: 16 }}><Sparkles size={72} color="#f97316" /></div>
         <h2 style={{ fontFamily: 'Outfit', fontSize: 28, fontWeight: 800, marginBottom: 8 }}>Order Placed!</h2>
         <p style={{ color: 'var(--text-muted)', marginBottom: 4 }}>Order #{orderPlaced.id}</p>
         <div style={{ background: 'rgba(249,115,22,0.08)', borderRadius: 16, padding: '16px 32px', display: 'inline-block', marginBottom: 16 }}>
@@ -62,8 +63,8 @@ export default function MyCart() {
           <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Share with delivery person</div>
         </div>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 16 }}>
-          <button className="btn btn-primary btn-lg" onClick={() => navigate(`${rolePrefix}/orders`)}>📦 Track Order</button>
-          <button className="btn btn-outline btn-lg" onClick={() => navigate(`${rolePrefix}/menu`)}>🍽️ Order More</button>
+          <button className="btn btn-primary btn-lg" onClick={() => navigate(`${rolePrefix}/orders`)}><Icon icon={Package} size={16} style={{marginRight:6}} /> Track Order</button>
+          <button className="btn btn-outline btn-lg" onClick={() => navigate(`${rolePrefix}/menu`)}><Icon icon={Utensils} size={16} style={{marginRight:6}} /> Order More</button>
         </div>
       </div>
     </DashboardLayout>
@@ -73,12 +74,12 @@ export default function MyCart() {
     <DashboardLayout title="My Cart">
       {cart.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 60 }}>
-          <div style={{ fontSize: 64, marginBottom: 16 }}>🛒</div>
+          <div style={{ fontSize: 64, marginBottom: 16 }}><ShoppingCart size={64} color="var(--text-muted)" /></div>
           <h2 style={{ fontFamily: 'Outfit', fontSize: 24, fontWeight: 800, marginBottom: 8 }}>Your cart is empty</h2>
           <p style={{ color: 'var(--text-muted)', marginBottom: 20 }}>Browse the menu to add food items</p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
-            <button className="btn btn-primary btn-lg" onClick={() => navigate(`${rolePrefix}/menu`)}>🍽️ Browse Menu</button>
-            <button className="btn btn-outline btn-lg" onClick={() => navigate(`${rolePrefix}/schedule`)}>📅 Schedule Foods</button>
+            <button className="btn btn-primary btn-lg" onClick={() => navigate(`${rolePrefix}/menu`)}><Icon icon={Utensils} size={16} style={{marginRight:6}} /> Browse Menu</button>
+            <button className="btn btn-outline btn-lg" onClick={() => navigate(`${rolePrefix}/schedule`)}><Icon icon={Calendar} size={16} style={{marginRight:6}} /> Schedule Foods</button>
           </div>
         </div>
       ) : (
@@ -86,16 +87,16 @@ export default function MyCart() {
           {/* Cart Items */}
           <div className="card">
             <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 className="card-title">🛒 Cart ({cart.length} items)</h3>
-              <button className="btn btn-outline btn-sm" onClick={clearCart} style={{ color: 'var(--accent-red)' }}>🗑️ Clear</button>
+              <h3 className="card-title" style={{display:'flex',alignItems:'center',gap:6}}><ShoppingCart size={16} /> Cart ({cart.length} items)</h3>
+              <button className="btn btn-outline btn-sm" onClick={clearCart} style={{ color: 'var(--accent-red)', display:'flex', alignItems:'center', gap:4 }}><Trash2 size={12} /> Clear</button>
             </div>
 
             {/* Nutrition summary */}
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', padding: '10px 0', marginBottom: 8, borderBottom: '1px solid var(--border)' }}>
-              <span style={{ fontSize: 12, color: '#f97316', fontWeight: 700 }}>🔥 {cartCal} kcal</span>
-              <span style={{ fontSize: 12, color: '#22c55e', fontWeight: 700 }}>💪 {cartPro}g protein</span>
-              <span style={{ fontSize: 12, color: '#3b82f6', fontWeight: 700 }}>🌾 {cartCarb}g carbs</span>
-              <span style={{ fontSize: 12, color: '#eab308', fontWeight: 700 }}>🥑 {cartFat}g fats</span>
+              <span style={{ fontSize: 12, color: '#f97316', fontWeight: 700, display:'flex', alignItems:'center', gap:3 }}><Flame size={12} /> {cartCal} kcal</span>
+              <span style={{ fontSize: 12, color: '#22c55e', fontWeight: 700, display:'flex', alignItems:'center', gap:3 }}><Beef size={12} /> {cartPro}g protein</span>
+              <span style={{ fontSize: 12, color: '#3b82f6', fontWeight: 700, display:'flex', alignItems:'center', gap:3 }}><Wheat size={12} /> {cartCarb}g carbs</span>
+              <span style={{ fontSize: 12, color: '#eab308', fontWeight: 700, display:'flex', alignItems:'center', gap:3 }}><Droplets size={12} /> {cartFat}g fats</span>
               <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>({cart.reduce((a, c) => a + c.qty, 0)} items)</span>
             </div>
 
@@ -105,7 +106,7 @@ export default function MyCart() {
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 800, fontSize: 14 }}>{item.name}</div>
                   <div style={{ fontSize: 11, color: 'var(--text-muted)', margin: '4px 0' }}>
-                    🔥{(item.calories || 0) * item.qty} kcal • 💪{(item.protein || 0) * item.qty}g • 🌾{(item.carbs || 0) * item.qty}g • 🥑{(item.fat || 0) * item.qty}g
+                    <Flame size={10} style={{marginRight:1}} />{(item.calories || 0) * item.qty} kcal • <Beef size={10} style={{marginRight:1}} />{(item.protein || 0) * item.qty}g • <Wheat size={10} style={{marginRight:1}} />{(item.carbs || 0) * item.qty}g • <Droplets size={10} style={{marginRight:1}} />{(item.fat || 0) * item.qty}g
                   </div>
                   <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--accent-green)' }}>₹{item.price} each</div>
                 </div>
@@ -123,7 +124,7 @@ export default function MyCart() {
           {/* Order Summary */}
           <div>
             <div className="card" style={{ marginBottom: 14 }}>
-              <div className="card-header"><h3 className="card-title">📋 Order Summary</h3></div>
+              <div className="card-header"><h3 className="card-title" style={{display:'flex',alignItems:'center',gap:6}}><ClipboardList size={16} /> Order Summary</h3></div>
 
               {/* Payment */}
               <div style={{ marginBottom: 14 }}>
@@ -131,7 +132,7 @@ export default function MyCart() {
                 <div style={{ display: 'flex', gap: 6 }}>
                   {['COD', 'UPI', 'Card'].map(p => (
                     <button key={p} onClick={() => setPayment(p)} className={`btn btn-sm ${payment === p ? 'btn-primary' : 'btn-outline'}`} style={{ flex: 1 }}>
-                      {p === 'COD' ? '💵' : p === 'UPI' ? '📱' : '💳'} {p}
+                      {p === 'COD' ? <Banknote size={14} style={{marginRight:4}} /> : p === 'UPI' ? <Smartphone size={14} style={{marginRight:4}} /> : <CreditCard size={14} style={{marginRight:4}} />} {p}
                     </button>
                   ))}
                 </div>
@@ -157,14 +158,14 @@ export default function MyCart() {
               </div>
 
               <button className="btn btn-success btn-lg" style={{ width: '100%', marginTop: 14, fontSize: 16 }} onClick={handlePlaceOrder}>
-                ✅ Order Now • ₹{total}
+                <CheckCircle2 size={16} style={{marginRight:6}} /> Order Now • ₹{total}
               </button>
               <p style={{ fontSize: 10, color: 'var(--text-muted)', textAlign: 'center', marginTop: 6 }}>OTP will be generated for delivery verification</p>
             </div>
 
             {/* Schedule option */}
             <button className="btn btn-outline" style={{ width: '100%', fontSize: 13 }} onClick={() => navigate(`${rolePrefix}/schedule`)}>
-              📅 Want to schedule for specific dates? → Schedule Foods
+              <Icon icon={Calendar} size={14} style={{marginRight:6}} /> Want to schedule for specific dates? → Schedule Foods
             </button>
           </div>
         </div>

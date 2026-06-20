@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import DashboardLayout from '../../components/DashboardLayout';
+import { Icon, Dumbbell } from '../../components/Icons';
 const programs = [{name:'Advanced Hypertrophy',days:['Push','Pull','Legs','Recovery','Upper','Lower','Rest'],color:'#ef4444'},{name:'HIIT & Endurance',days:['HIIT','Cardio','Core','Rest','Interval','Plyo','Rest'],color:'#f59e0b'},{name:'Mobility & Core',days:['Yoga','Core','Stretch','Rest','Mobility','Balance','Rest'],color:'#10b981'}];
 export default function WorkoutPlans() {
   const [sel, setSel] = useState(0);
   return (
     <DashboardLayout title="Workout Plans">
       <div className="card" style={{marginBottom:24}}>
-        <div className="card-header"><h3 className="card-title">🏋️ Program Templates</h3></div>
+        <div className="card-header"><h3 className="card-title"><Icon icon={Dumbbell} size={16} style={{marginRight:6}} /> Program Templates</h3></div>
         <div style={{display:'flex',gap:8,marginBottom:16}}>
           {programs.map((p,i)=>(<button key={i} className={`btn ${sel===i?'btn-primary':'btn-outline'}`} onClick={()=>setSel(i)}>{p.name}</button>))}
         </div>

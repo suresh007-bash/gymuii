@@ -6,6 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 import { useNotifications } from '../../context/NotificationContext';
 import { getMenuItems } from '../../data/menuHelper';
+import { Icon, SectionIcon, Dumbbell, Calendar, Salad, Users, Target, CheckCircle2 } from '../../components/Icons';
 
 
 
@@ -48,20 +49,20 @@ export default function TrainerDashboard() {
       {showTarget && targetClient && (
         <div className="modal-overlay" onClick={() => setShowTarget(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <div className="modal-header"><h3 className="modal-title">🎯 Assign Target — {targetClient.name}</h3><button className="modal-close" onClick={() => setShowTarget(false)}>✕</button></div>
+            <div className="modal-header"><h3 className="modal-title"><Icon icon={Target} size={16} style={{marginRight:6}} /> Assign Target — {targetClient.name}</h3><button className="modal-close" onClick={() => setShowTarget(false)}>✕</button></div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 12 }}>
               {[['Calories', 'calories'], ['Protein (g)', 'protein'], ['Carbs (g)', 'carbs'], ['Fat (g)', 'fat']].map(([l, k]) => (
                 <div key={k}><label className="form-label">{l}</label><input className="form-input" type="number" value={targets[k]} onChange={e => setTargets(p => ({ ...p, [k]: e.target.value }))} /></div>
               ))}
             </div>
-            <div className="modal-footer"><button className="btn btn-outline" onClick={() => setShowTarget(false)}>Cancel</button><button className="btn btn-success" onClick={assignTarget}>✅ Assign</button></div>
+            <div className="modal-footer"><button className="btn btn-outline" onClick={() => setShowTarget(false)}>Cancel</button><button className="btn btn-success" onClick={assignTarget}><Icon icon={CheckCircle2} size={14} style={{marginRight:4}} /> Assign</button></div>
           </div>
         </div>
       )}
 
       {/* ═══ HERO BANNER ═══ */}
       <div style={{ borderRadius: 20, overflow: 'hidden', position: 'relative', marginBottom: 20, background: 'linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&q=80") center/cover', padding: '48px 40px', color: '#fff' }}>
-        <div style={{ fontSize: 11, fontWeight: 800, background: '#22c55e', display: 'inline-block', padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}>💪 TRAINER PORTAL</div>
+        <div style={{ fontSize: 11, fontWeight: 800, background: '#22c55e', display: 'inline-block', padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}><Icon icon={Dumbbell} size={12} style={{marginRight:4}} /> TRAINER PORTAL</div>
         <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 900, lineHeight: 1.15, marginBottom: 12, maxWidth: 450 }}>Welcome, {user?.name?.split(' ')[0]}!</h1>
         <p style={{ fontSize: 14, opacity: 0.85, maxWidth: 420, lineHeight: 1.6 }}>{user?.specialization} • {clients.length} active clients • {plans.length} diet plans created</p>
       </div>
@@ -69,12 +70,12 @@ export default function TrainerDashboard() {
       {/* ═══ MEAL TIMING CARDS ═══ */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 16, marginBottom: 20 }}>
         <div className="card" style={{ borderLeft: '4px solid #f97316' }}>
-          <h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}>📅 Client Meal Scheduling</h4>
+          <h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}><Icon icon={Calendar} size={14} style={{marginRight:4}} /> Client Meal Scheduling</h4>
           <p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>Create and manage meal schedules for your clients. Set breakfast, lunch & dinner for any dates.</p>
           <Link to="/trainer/meal-scheduling" style={{ fontSize: 11, color: 'var(--accent-orange)', fontWeight: 700 }}>Open Scheduler →</Link>
         </div>
         <div className="card" style={{ borderLeft: '4px solid #22c55e' }}>
-          <h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}>🥗 Diet Plans</h4>
+          <h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}><Icon icon={Salad} size={14} style={{marginRight:4}} /> Diet Plans</h4>
           <p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>Create personalized nutrient packs and send them directly to your clients for easy ordering.</p>
           <Link to="/trainer/diet-plans" style={{ fontSize: 11, color: 'var(--accent-green)', fontWeight: 700 }}>Create Diet Plan →</Link>
         </div>
@@ -102,13 +103,13 @@ export default function TrainerDashboard() {
 
       {/* ═══ MY CLIENTS ═══ */}
       <div className="card" style={{ marginBottom: 20 }}>
-        <div className="card-header"><h3 className="card-title">👥 My Clients ({clients.length})</h3><Link to="/trainer/clients" style={{ color: 'var(--accent-orange)', fontSize: 12, fontWeight: 700 }}>View All →</Link></div>
+        <div className="card-header"><h3 className="card-title"><Icon icon={Users} size={16} style={{marginRight:6}} /> My Clients ({clients.length})</h3><Link to="/trainer/clients" style={{ color: 'var(--accent-orange)', fontSize: 12, fontWeight: 700 }}>View All →</Link></div>
         {clients.length === 0 ? <p style={{ color: 'var(--text-muted)', padding: 12, fontSize: 13 }}>No clients assigned</p> :
         clients.slice(0, 5).map(c => (
           <div key={c.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
             <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color: '#fff' }}>{c.avatar}</div>
             <div style={{ flex: 1 }}><div style={{ fontWeight: 700, fontSize: 13 }}>{c.name}</div><div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{c.goal} • {c.diet}</div></div>
-            <button className="btn btn-outline btn-sm" onClick={() => { setTargetClient(c); setTargets({ calories: c.targetCalories || 2200, protein: c.targetProtein || 150, carbs: c.targetCarbs || 250, fat: c.targetFat || 70 }); setShowTarget(true); }}>🎯</button>
+            <button className="btn btn-outline btn-sm" onClick={() => { setTargetClient(c); setTargets({ calories: c.targetCalories || 2200, protein: c.targetProtein || 150, carbs: c.targetCarbs || 250, fat: c.targetFat || 70 }); setShowTarget(true); }}><Icon icon={Target} size={14} /></button>
           </div>
         ))}
       </div>

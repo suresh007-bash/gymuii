@@ -56,7 +56,7 @@ export function AuthProvider({ children }) {
   };
 
   const addUser = (userData) => {
-    const newUser = { ...userData, id: 'u' + Date.now(), password: userData.password || 'password123', joinDate: new Date().toISOString().split('T')[0] };
+    const newUser = { ...userData, id: 'u' + Date.now(), password: userData.password || '12345678', requirePasswordChange: userData.requirePasswordChange !== undefined ? userData.requirePasswordChange : true, joinDate: new Date().toISOString().split('T')[0] };
     setAllUsers(prev => [...prev, newUser]);
     return newUser;
   };

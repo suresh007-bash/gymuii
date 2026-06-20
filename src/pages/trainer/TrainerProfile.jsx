@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../components/DashboardLayout';
 import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationContext';
+import { Icon, Edit, CheckCircle2, LogOut } from '../../components/Icons';
 
 export default function TrainerProfile() {
   const { user, updateUser, logout } = useAuth();
@@ -38,7 +39,7 @@ export default function TrainerProfile() {
           <p style={{ color: 'var(--text-muted)', fontSize: 12 }}>{user?.certifications}</p>
         </div>
         <div className="card" style={{ padding: 24 }}>
-          <h3 className="card-title" style={{ marginBottom: 16 }}>✏️ Edit Profile</h3>
+          <h3 className="card-title" style={{ marginBottom: 16 }}><Icon icon={Edit} size={16} style={{marginRight:6}} /> Edit Profile</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 14 }}>
             <div style={{ gridColumn: '1 / -1' }}><label className="form-label">Full Name</label><input style={inp} value={form.name} onChange={e => upd('name', e.target.value)} /></div>
             <div><label className="form-label">Email</label><input style={inp} value={form.email} onChange={e => upd('email', e.target.value)} /></div>
@@ -53,8 +54,8 @@ export default function TrainerProfile() {
             <div style={{ gridColumn: '1 / -1' }}><label className="form-label">Allergies</label><input style={inp} value={form.allergies} onChange={e => upd('allergies', e.target.value)} /></div>
           </div>
           <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
-            <button className="btn btn-success" style={{ flex: 1 }} onClick={handleSave}>✅ Save Changes</button>
-            <button className="btn btn-danger" onClick={handleLogout}>🚪 Logout</button>
+            <button className="btn btn-success" style={{ flex: 1 }} onClick={handleSave}><Icon icon={CheckCircle2} size={14} style={{marginRight:4}} /> Save Changes</button>
+            <button className="btn btn-danger" onClick={handleLogout}><Icon icon={LogOut} size={14} style={{marginRight:4}} /> Logout</button>
           </div>
         </div>
       </div>

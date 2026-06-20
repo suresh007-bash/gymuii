@@ -69,6 +69,7 @@ import AdminOrders from './pages/admin/AdminOrders';
 import AdminDelivery from './pages/admin/AdminDelivery';
 import AdminAnalytics from './pages/admin/AdminAnalytics';
 import AdminSettings from './pages/admin/AdminSettings';
+import AdminGyms from './pages/admin/AdminGyms';
 
 function ProtectedRoute({ children, allowedRoles }) {
   const { user } = useAuth();
@@ -190,6 +191,7 @@ export default function App() {
         <Route path="/admin/delivery" element={<ProtectedRoute allowedRoles={['admin']}><AdminDelivery /></ProtectedRoute>} />
         <Route path="/admin/analytics" element={<ProtectedRoute allowedRoles={['admin']}><AdminAnalytics /></ProtectedRoute>} />
         <Route path="/admin/settings" element={<ProtectedRoute allowedRoles={['admin']}><AdminSettings /></ProtectedRoute>} />
+        <Route path="/admin/gyms" element={<ProtectedRoute allowedRoles={['admin']}><AdminGyms /></ProtectedRoute>} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -1,4 +1,5 @@
 import DashboardLayout from '../../components/DashboardLayout';
+import { Car, Package, User, Clock, Star } from '../../components/Icons';
 import StatIcon from '../../components/StatIcon';
 import { MOCK_USERS } from '../../data/mockUsers';
 import { MOCK_ORDERS } from '../../data/mockOrders';
@@ -17,7 +18,7 @@ export default function AdminDelivery() {
       </div>
 
       {/* Driver Cards */}
-      <h3 style={{ fontFamily: 'Outfit', fontWeight: 700, marginBottom: 16 }}>🚗 Delivery Drivers</h3>
+      <h3 style={{ fontFamily: 'Outfit', fontWeight: 700, marginBottom: 16 }}><Car size={16} style={{marginRight:4}} /> Delivery Drivers</h3>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16, marginBottom: 24 }}>
         {drivers.map(d => (
           <div key={d.id} className="card" style={{ animation: 'fadeInUp 0.4s ease' }}>
@@ -30,7 +31,7 @@ export default function AdminDelivery() {
               <span className={`badge ${d.available ? 'badge-green' : 'badge-red'}`} style={{ flexShrink: 0, fontSize: 10 }}>{d.available ? '🟢 Free' : '🔴 Busy'}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '8px 0', borderTop: '1px solid var(--border)' }}>
-              <span>⭐ {d.rating} rating</span>
+              <span><Star size={12} style={{marginRight:2}} /> {d.rating} rating</span>
               <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '60%' }}>{d.email}</span>
             </div>
           </div>
@@ -38,7 +39,7 @@ export default function AdminDelivery() {
       </div>
 
       {/* Active Deliveries */}
-      <h3 style={{ fontFamily: 'Outfit', fontWeight: 700, marginBottom: 16 }}>📦 Live Deliveries</h3>
+      <h3 style={{ fontFamily: 'Outfit', fontWeight: 700, marginBottom: 16 }}><Package size={16} style={{marginRight:4}} /> Live Deliveries</h3>
       <div className="card">
         {/* Desktop Table */}
         <div className="admin-table-desktop">
@@ -53,7 +54,7 @@ export default function AdminDelivery() {
                   <td>{o.driverName || '—'}</td>
                   <td>{o.customerName}</td>
                   <td style={{ fontSize: 12 }}>{o.restaurantName}</td>
-                  <td><span className="badge badge-purple">🚗 In Transit</span></td>
+                  <td><span className="badge badge-purple"><Car size={12} style={{marginRight:2}} /> In Transit</span></td>
                   <td>{o.eta}</td>
                 </tr>
               ))}
@@ -69,14 +70,14 @@ export default function AdminDelivery() {
             <div key={o.id} style={{ padding: 14, borderBottom: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: 8 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div style={{ fontWeight: 800, fontSize: 14 }}>#{o.id}</div>
-                <span className="badge badge-purple" style={{ fontSize: 10 }}>🚗 In Transit</span>
+                <span className="badge badge-purple" style={{ fontSize: 10 }}><Car size={12} style={{marginRight:2}} /> In Transit</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
-                <span>👤 {o.customerName}</span>
-                <span>🕐 {o.eta}</span>
+                <span><User size={12} style={{marginRight:2}} /> {o.customerName}</span>
+                <span><Clock size={12} style={{marginRight:2}} /> {o.eta}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--text-muted)' }}>
-                <span>🚗 {o.driverName || '—'}</span>
+                <span><Car size={12} style={{marginRight:2}} /> {o.driverName || '—'}</span>
                 <span>🏪 {o.restaurantName}</span>
               </div>
             </div>

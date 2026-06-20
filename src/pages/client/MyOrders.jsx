@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import DashboardLayout from '../../components/DashboardLayout';
+import { Icon, ClipboardList, ChefHat, CheckCircle2, Car, Sparkles, XCircle, Calendar, MapPin, Edit, Trash2, Utensils, Flame, Lock, Banknote, Smartphone, CreditCard, Package, Clock, AlertTriangle } from '../../components/Icons';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 import { useNotifications } from '../../context/NotificationContext';
@@ -42,13 +43,13 @@ export default function MyOrders() {
 
   const handleCancelDate = (orderId, dateStr) => {
     removeDateFromOrder(orderId, dateStr);
-    showToast(`🗑️ ${fmtDate(dateStr)} removed from order`);
+    showToast(`${fmtDate(dateStr)} removed from order`);
   };
 
   const handleSaveAddress = () => {
     if (!addrText.trim()) { showToast('Address cannot be empty', 'error'); return; }
     updateOrderAddress(editAddrOrder.id, addrText);
-    showToast('✅ Address updated!');
+    showToast('Address updated!');
     setEditAddrOrder(null);
   };
 
@@ -70,7 +71,7 @@ export default function MyOrders() {
         <div className="modal-overlay" onClick={() => setEditAddrOrder(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 450 }}>
             <div className="modal-header">
-              <h3 className="modal-title">📍 Edit Delivery Address</h3>
+              <h3 className="modal-title"><Icon icon={MapPin} size={16} style={{marginRight:6}} /> Edit Delivery Address</h3>
               <button className="modal-close" onClick={() => setEditAddrOrder(null)}>✕</button>
             </div>
             <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 8 }}>Order #{editAddrOrder.id}</p>
@@ -78,7 +79,7 @@ export default function MyOrders() {
               rows={3} placeholder="Enter delivery address..." style={{ resize: 'vertical', fontSize: 14 }} />
             <div className="modal-footer" style={{ marginTop: 12 }}>
               <button className="btn btn-outline" onClick={() => setEditAddrOrder(null)}>Cancel</button>
-              <button className="btn btn-success" onClick={handleSaveAddress}>✅ Save Address</button>
+              <button className="btn btn-success" onClick={handleSaveAddress}><Icon icon={CheckCircle2} size={14} style={{marginRight:4}} /> Save Address</button>
             </div>
           </div>
         </div>
@@ -90,11 +91,11 @@ export default function MyOrders() {
           {[
             { key: 'all', label: `All (${myOrders.length})` },
             { key: 'active', label: `Active (${myOrders.filter(o => ['pending','preparing','ready','driver_pending','in_transit'].includes(o.status)).length})` },
-            { key: 'scheduled', label: `📅 Scheduled` },
-            { key: 'delivered', label: '✅ Delivered' },
-            { key: 'cancelled', label: '❌ Cancelled' },
+            { key: 'scheduled', label: 'Scheduled', icon: Calendar },
+            { key: 'delivered', label: 'Delivered', icon: CheckCircle2 },
+            { key: 'cancelled', label: 'Cancelled', icon: XCircle },
           ].map(t => (
-            <button key={t.key} className={`tab ${tab === t.key ? 'active' : ''}`} onClick={() => setTab(t.key)}>{t.label}</button>
+            <button key={t.key} className={`tab ${tab === t.key ? 'active' : ''}`} onClick={() => setTab(t.key)}>{t.icon ? <><Icon icon={t.icon} size={12} style={{marginRight:4}} />{t.label}</> : t.label}</button>
           ))}
         </div>
         {/* Date filter */}
@@ -108,7 +109,7 @@ export default function MyOrders() {
       {/* Orders */}
       {filtered.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 60 }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>📦</div>
+          <div style={{ fontSize: 48, marginBottom: 12 }}><Package size={48} color="var(--text-muted)" /></div>
           <p style={{ color: 'var(--text-muted)', fontSize: 14 }}>No {tab === 'all' ? '' : tab} orders found</p>
           {filterDate && <p style={{ color: 'var(--text-muted)', fontSize: 12 }}>Try clearing the date filter</p>}
         </div>
@@ -127,12 +128,12 @@ export default function MyOrders() {
                   onClick={() => setExpandedOrder(isExpanded ? null : order.id)}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <div style={{ width: 40, height: 40, borderRadius: 10, background: `${statusColor}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>
-                      {order.status === 'pending' ? '📋' : order.status === 'preparing' ? '👨‍🍳' : order.status === 'ready' ? '✅' : order.status === 'in_transit' ? '🚗' : order.status === 'delivered' ? '🎉' : '❌'}
+                      {order.status === 'pending' ? <ClipboardList size={18} /> : order.status === 'preparing' ? <ChefHat size={18} /> : order.status === 'ready' ? <CheckCircle2 size={18} /> : order.status === 'in_transit' ? <Car size={18} /> : order.status === 'delivered' ? <Sparkles size={18} /> : <XCircle size={18} />}
                     </div>
                     <div>
                       <div style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15 }}>
                         #{order.id}
-                        {hasDates && <span style={{ fontSize: 11, fontWeight: 600, marginLeft: 6, color: '#8b5cf6' }}>📅 {order.scheduledDates.length} dates</span>}
+                        {hasDates && <span style={{ fontSize: 11, fontWeight: 600, marginLeft: 6, color: '#8b5cf6' }}><Calendar size={11} style={{marginRight:3}} /> {order.scheduledDates.length} dates</span>}
                       </div>
                       <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>
                         {new Date(order.orderTime).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
@@ -150,11 +151,11 @@ export default function MyOrders() {
                 {/* Status Message */}
                 {['pending', 'preparing', 'ready', 'in_transit', 'driver_pending'].includes(order.status) && (
                   <div style={{ padding: '8px 12px', background: `${statusColor}08`, borderRadius: 8, marginBottom: 10, fontSize: 12, fontWeight: 600, color: statusColor }}>
-                    {order.status === 'pending' && '📋 Waiting for kitchen confirmation'}
-                    {order.status === 'preparing' && '👨‍🍳 Your food is being freshly prepared'}
-                    {order.status === 'ready' && '✅ Food is ready! Waiting for delivery pickup'}
-                    {order.status === 'driver_pending' && '⏳ Finding a delivery partner'}
-                    {order.status === 'in_transit' && '🚗 Your food is on the way!'}
+                    {order.status === 'pending' && <><ClipboardList size={12} style={{marginRight:4}} /> Waiting for kitchen confirmation</>}
+                    {order.status === 'preparing' && <><ChefHat size={12} style={{marginRight:4}} /> Your food is being freshly prepared</>}
+                    {order.status === 'ready' && <><CheckCircle2 size={12} style={{marginRight:4}} /> Food is ready! Waiting for delivery pickup</>}
+                    {order.status === 'driver_pending' && <><Clock size={12} style={{marginRight:4}} /> Finding a delivery partner</>}
+                    {order.status === 'in_transit' && <><Car size={12} style={{marginRight:4}} /> Your food is on the way!</>}
                   </div>
                 )}
 
@@ -191,7 +192,7 @@ export default function MyOrders() {
                 {/* OTP */}
                 {order.otp && ['pending', 'preparing', 'ready', 'in_transit'].includes(order.status) && (
                   <div style={{ background: 'rgba(249,115,22,0.06)', border: '1px solid rgba(249,115,22,0.15)', borderRadius: 10, padding: '6px 12px', marginBottom: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)' }}>🔐 Delivery OTP</span>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)' }}><Lock size={11} style={{marginRight:4}} /> Delivery OTP</span>
                     <span style={{ fontFamily: 'Outfit', fontSize: 18, fontWeight: 900, color: 'var(--accent-orange)', letterSpacing: 4 }}>{order.otp}</span>
                   </div>
                 )}
@@ -202,18 +203,18 @@ export default function MyOrders() {
                     {/* Delivery Address */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: 'var(--bg-tertiary)', borderRadius: 8, marginBottom: 12 }}>
                       <div>
-                        <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>📍 Delivery Address</div>
+                        <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', display:'flex', alignItems:'center', gap:4 }}><MapPin size={10} /> Delivery Address</div>
                         <div style={{ fontSize: 13, fontWeight: 600, marginTop: 2 }}>{order.customerAddress || 'No address set'}</div>
                       </div>
                       {isEditable(order) && (
-                        <button className="btn btn-outline btn-sm" style={{ fontSize: 10 }} onClick={() => { setEditAddrOrder(order); setAddrText(order.customerAddress || ''); }}>✏️ Edit</button>
+                        <button className="btn btn-outline btn-sm" style={{ fontSize: 10, display:'flex', alignItems:'center', gap:3 }} onClick={() => { setEditAddrOrder(order); setAddrText(order.customerAddress || ''); }}><Edit size={10} /> Edit</button>
                       )}
                     </div>
 
                     {/* Date-wise breakdown for scheduled orders */}
                     {hasDates ? (
                       <div>
-                        <div style={{ fontSize: 12, fontWeight: 800, marginBottom: 8, color: '#8b5cf6' }}>📅 Date-wise Order Breakdown</div>
+                        <div style={{ fontSize: 12, fontWeight: 800, marginBottom: 8, color: '#8b5cf6', display:'flex', alignItems:'center', gap:4 }}><Calendar size={12} /> Date-wise Order Breakdown</div>
                         {order.scheduledDates.sort().map(dateStr => {
                           const dateData = getDateItems(order, dateStr);
                           const isPast = new Date(dateStr) < new Date(new Date().toDateString());
@@ -230,9 +231,9 @@ export default function MyOrders() {
                                   {isPast && <span className="badge badge-teal" style={{ fontSize: 9 }}>PAST</span>}
                                 </div>
                                 {!isPast && isEditable(order) && (
-                                  <button className="btn btn-outline btn-sm" style={{ color: 'var(--accent-red)', fontSize: 10 }}
+                                  <button className="btn btn-outline btn-sm" style={{ color: 'var(--accent-red)', fontSize: 10, display:'flex', alignItems:'center', gap:3 }}
                                     onClick={() => handleCancelDate(order.id, dateStr)}>
-                                    🗑️ Cancel Date
+                                    <Trash2 size={10} /> Cancel Date
                                   </button>
                                 )}
                               </div>
@@ -269,13 +270,13 @@ export default function MyOrders() {
                     ) : (
                       /* Regular order items */
                       <div style={{ marginBottom: 12 }}>
-                        <div style={{ fontSize: 12, fontWeight: 800, marginBottom: 8 }}>🍽️ Items Ordered</div>
+                        <div style={{ fontSize: 12, fontWeight: 800, marginBottom: 8, display:'flex', alignItems:'center', gap:4 }}><Utensils size={12} /> Items Ordered</div>
                         {(order.items || []).map((item, i) => (
                           <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', borderBottom: '1px solid var(--border)' }}>
                             <div>
                               <span style={{ fontWeight: 700, fontSize: 13 }}>{item.name}</span>
                               <span style={{ fontSize: 11, color: 'var(--text-muted)', marginLeft: 6 }}>× {item.qty}</span>
-                              {item.calories && <span style={{ fontSize: 10, color: '#f97316', marginLeft: 6 }}>🔥{item.calories * item.qty}</span>}
+                              {item.calories && <span style={{ fontSize: 10, color: '#f97316', marginLeft: 6 }}><Flame size={10} style={{marginRight:2}} />{item.calories * item.qty}</span>}
                             </div>
                             <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 13 }}>₹{item.price || (item.qty * (item.unitPrice || 0))}</span>
                           </div>
@@ -299,7 +300,7 @@ export default function MyOrders() {
                         <span>Total</span><span style={{ color: 'var(--accent-green)' }}>₹{order.total}</span>
                       </div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--text-muted)', marginTop: 4 }}>
-                        <span>{order.paymentMethod === 'COD' ? '💵' : order.paymentMethod === 'UPI' ? '📱' : '💳'} {order.paymentMethod}</span>
+                        <span>{order.paymentMethod === 'COD' ? <Banknote size={11} style={{marginRight:3}} /> : order.paymentMethod === 'UPI' ? <Smartphone size={11} style={{marginRight:3}} /> : <CreditCard size={11} style={{marginRight:3}} />} {order.paymentMethod}</span>
                         <span>{order.paymentStatus}</span>
                       </div>
                     </div>
@@ -307,7 +308,7 @@ export default function MyOrders() {
                     {/* Driver info */}
                     {order.driverName && (
                       <div style={{ padding: '8px 12px', background: 'rgba(139,92,246,0.05)', borderRadius: 8, marginBottom: 10, fontSize: 12 }}>
-                        🚗 Driver: <strong>{order.driverName}</strong> • ETA: {order.eta}
+                        <Car size={12} style={{marginRight:4}} /> Driver: <strong>{order.driverName}</strong> • ETA: {order.eta}
                       </div>
                     )}
 
@@ -315,13 +316,13 @@ export default function MyOrders() {
                     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                       {isEditable(order) && (
                         <button className="btn btn-outline btn-sm" onClick={() => { setEditAddrOrder(order); setAddrText(order.customerAddress || ''); }}>
-                          📍 Change Address
+                          <MapPin size={12} style={{marginRight:4}} /> Change Address
                         </button>
                       )}
                       {canCancel(order) && (
                         <button className="btn btn-outline btn-sm" style={{ color: 'var(--accent-red)' }}
-                          onClick={() => { cancelOrder(order.id, 'Cancelled by customer'); showToast('❌ Order cancelled'); }}>
-                          ❌ Cancel Order
+                          onClick={() => { cancelOrder(order.id, 'Cancelled by customer'); showToast('Order cancelled'); }}>
+                          <XCircle size={12} style={{marginRight:4}} /> Cancel Order
                         </button>
                       )}
                     </div>

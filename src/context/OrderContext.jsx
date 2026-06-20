@@ -111,6 +111,9 @@ export function OrderProvider({ children }) {
     setDietPlans(prev => [...prev, newPlan]);
     return newPlan;
   };
+  const deleteDietPlan = (planId) => {
+    setDietPlans(prev => prev.filter(p => p.id !== planId));
+  };
   const getDietPlansByTrainer = (trainerId) => dietPlans.filter(p => p.trainerId === trainerId);
   const getDietPlansByClient = (clientId) => dietPlans.filter(p => (p.assignedTo || []).includes(clientId));
 
@@ -155,7 +158,7 @@ export function OrderProvider({ children }) {
       getOrdersByUser, getOrdersByStatus, getOrdersByDriver, getDriverPendingOrders,
       getActiveOrders, getOrdersByKitchen, getOrderById,
       getTodayNutrition, addScheduledOrder, cancelScheduledOrder, getScheduledByUser,
-      saveDietPlan, getDietPlansByTrainer, getDietPlansByClient,
+      saveDietPlan, deleteDietPlan, getDietPlansByTrainer, getDietPlansByClient,
       getStats, scheduledOrders, dietPlans, updateOrderDates, addOrder,
       removeDateFromOrder, updateOrderAddress,
     }}>

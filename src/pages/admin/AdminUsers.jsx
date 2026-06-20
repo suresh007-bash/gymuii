@@ -28,7 +28,7 @@ export default function AdminUsers() {
   const handleAdd = () => {
     if (!form.name || !form.email) return;
     const avatar = form.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-    let userData = { name: form.name, email: form.email, phone: form.phone, avatar, password: 'password123' };
+    let userData = { name: form.name, email: form.email, phone: form.phone, avatar, password: '12345678', profileComplete: false };
 
     if (selRole === 'owner') {
       userData = { ...userData, role: 'owner', gymName: form.gymName, gst: form.gst, gymId: 'g' + Date.now() };

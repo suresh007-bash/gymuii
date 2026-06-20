@@ -3,6 +3,7 @@ import DashboardLayout from '../../components/DashboardLayout';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 import { useNotifications } from '../../context/NotificationContext';
+import { Icon, UserPlus, CheckCircle2, XCircle, User, Users, MessageSquare, Edit, Bell, Mail, Target, Clock, Save, UserMinus } from '../../components/Icons';
 
 
 export default function AssignedClients() {
@@ -133,7 +134,7 @@ export default function AssignedClients() {
         <div className="modal-overlay" onClick={() => setShowAddMember(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 460 }}>
             <div className="modal-header">
-              <h3 className="modal-title">➕ New Member Registration</h3>
+              <h3 className="modal-title"><Icon icon={UserPlus} size={16} style={{marginRight:6}} /> New Member Registration</h3>
               <button className="modal-close" onClick={() => setShowAddMember(false)}>✕</button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -143,7 +144,7 @@ export default function AssignedClients() {
             </div>
             <div className="modal-footer" style={{ marginTop: 16 }}>
               <button className="btn btn-outline" onClick={() => setShowAddMember(false)}>Cancel</button>
-              <button className="btn btn-success" onClick={saveMember} disabled={!memberForm.name || !memberForm.email}>✅ Save Member</button>
+              <button className="btn btn-success" onClick={saveMember} disabled={!memberForm.name || !memberForm.email}><Icon icon={CheckCircle2} size={14} style={{marginRight:4}} /> Save Member</button>
             </div>
           </div>
         </div>
@@ -154,7 +155,7 @@ export default function AssignedClients() {
         <div className="modal-overlay" onClick={() => setViewProfileClient(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 560 }}>
             <div className="modal-header">
-              <h3 className="modal-title">👤 Client Profile — {profileForm.name}</h3>
+              <h3 className="modal-title"><Icon icon={User} size={16} style={{marginRight:6}} /> Client Profile — {profileForm.name}</h3>
               <button className="modal-close" onClick={() => setViewProfileClient(null)}>✕</button>
             </div>
             
@@ -245,11 +246,11 @@ export default function AssignedClients() {
                 {isEditingProfile ? (
                   <>
                     <button className="btn btn-outline" onClick={() => { setProfileForm({ ...viewProfileClient }); setIsEditingProfile(false); }}>Cancel</button>
-                    <button className="btn btn-success" onClick={handleUpdateProfile}>💾 Save Changes</button>
+                    <button className="btn btn-success" onClick={handleUpdateProfile}><Icon icon={Save} size={14} style={{marginRight:4}} /> Save Changes</button>
                   </>
                 ) : (
                   <>
-                    <button className="btn btn-outline" onClick={() => setIsEditingProfile(true)}>✏️ Edit Profile</button>
+                    <button className="btn btn-outline" onClick={() => setIsEditingProfile(true)}><Icon icon={Edit} size={14} style={{marginRight:4}} /> Edit Profile</button>
                     <button className="btn btn-outline" onClick={() => setViewProfileClient(null)}>Close</button>
                   </>
                 )}
@@ -266,7 +267,7 @@ export default function AssignedClients() {
         <div className="modal-overlay" onClick={() => setMsgClient(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 440 }}>
             <div className="modal-header">
-              <h3 className="modal-title">💬 Chat — {msgClient.name}</h3>
+              <h3 className="modal-title"><Icon icon={MessageSquare} size={16} style={{marginRight:6}} /> Chat — {msgClient.name}</h3>
               <button className="modal-close" onClick={() => setMsgClient(null)}>✕</button>
             </div>
             <div style={{ maxHeight: 300, overflowY: 'auto', marginBottom: 12, padding: 8 }}>
@@ -301,7 +302,7 @@ export default function AssignedClients() {
         <div className="card" style={{ marginBottom: 20, border: '1px solid rgba(251,191,36,0.3)', background: 'linear-gradient(135deg, rgba(251,191,36,0.04), rgba(249,115,22,0.04))' }}>
           <div className="card-header">
             <h3 className="card-title" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ animation: 'pulse 2s infinite' }}>🔔</span> Pending Requests ({pendingRequests.length})
+              <span style={{ animation: 'pulse 2s infinite' }}><Icon icon={Bell} size={16} color="#fbbf24" /></span> Pending Requests ({pendingRequests.length})
             </h3>
           </div>
           <div style={{ display: 'grid', gap: 10 }}>
@@ -321,11 +322,11 @@ export default function AssignedClients() {
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 800, fontSize: 14, marginBottom: 2 }}>{req.clientName}</div>
                   <div style={{ fontSize: 12, color: 'var(--text-muted)', display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                    <span>📧 {req.clientEmail}</span>
-                    <span>🎯 {req.clientGoal}</span>
+                    <span><Icon icon={Mail} size={11} style={{marginRight:2}} /> {req.clientEmail}</span>
+                    <span><Icon icon={Target} size={11} style={{marginRight:2}} /> {req.clientGoal}</span>
                   </div>
                   <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>
-                    ⏰ Requested {new Date(req.requestedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                    <Icon icon={Clock} size={11} style={{marginRight:2}} /> Requested {new Date(req.requestedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
@@ -338,7 +339,7 @@ export default function AssignedClients() {
                       borderRadius: 10, cursor: 'pointer', fontFamily: 'Outfit',
                       boxShadow: '0 3px 10px rgba(34,197,94,0.3)',
                     }}
-                  >✅ Accept</button>
+                  ><Icon icon={CheckCircle2} size={12} style={{marginRight:4}} /> Accept</button>
                   <button
                     className="btn btn-sm"
                     onClick={() => rejectRequest(req.id)}
@@ -347,7 +348,7 @@ export default function AssignedClients() {
                       color: '#ef4444', fontWeight: 700, fontSize: 12, padding: '8px 16px',
                       borderRadius: 10, cursor: 'pointer', fontFamily: 'Outfit',
                     }}
-                  >❌ Decline</button>
+                  ><Icon icon={XCircle} size={12} style={{marginRight:4}} /> Decline</button>
                 </div>
               </div>
             ))}
@@ -358,14 +359,14 @@ export default function AssignedClients() {
       {/* Client Table */}
       <div className="card">
         <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h3 className="card-title">👥 Assigned Clients ({clients.length})</h3>
-          <button className="btn btn-primary btn-sm" onClick={() => setShowAddMember(true)}>➕ Add Member</button>
+          <h3 className="card-title"><Icon icon={Users} size={16} style={{marginRight:6}} /> Assigned Clients ({clients.length})</h3>
+          <button className="btn btn-primary btn-sm" onClick={() => setShowAddMember(true)}><Icon icon={UserPlus} size={14} style={{marginRight:4}} /> Add Member</button>
         </div>
         {clients.length === 0 ? (
           <div style={{ textAlign: 'center', padding: 40 }}>
-            <div style={{ fontSize: 48, marginBottom: 12 }}>👥</div>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}><Icon icon={Users} size={48} color="var(--text-muted)" /></div>
             <div style={{ color: 'var(--text-muted)', marginBottom: 16 }}>No clients assigned yet</div>
-            <button className="btn btn-primary" onClick={() => setShowAddMember(true)}>➕ Add Your First Member</button>
+            <button className="btn btn-primary" onClick={() => setShowAddMember(true)}><Icon icon={UserPlus} size={14} style={{marginRight:4}} /> Add Your First Member</button>
           </div>
         ) : (
         <table className="data-table"><thead><tr><th>Member</th><th>Goal</th><th>Diet</th><th>Joined</th><th>Actions</th></tr></thead>
@@ -384,13 +385,13 @@ export default function AssignedClients() {
               <td>{c.diet || 'Not Set'}</td>
               <td style={{ fontSize: 12, color: 'var(--text-muted)' }}>{c.joinDate}</td>
               <td><div style={{ display: 'flex', gap: 6 }}>
-                <button className="btn btn-outline btn-sm" onClick={() => openClientProfile(c)}>👤 Profile</button>
+                <button className="btn btn-outline btn-sm" onClick={() => openClientProfile(c)}><Icon icon={User} size={13} style={{marginRight:4}} /> Profile</button>
                 <button className="btn btn-outline btn-sm" style={{ color: '#ef4444' }} onClick={() => setConfirm({
-                  title: '🚫 Remove Client',
+                  title: <><Icon icon={UserMinus} size={18} /> Remove Client</>,
                   msg: `Are you sure you want to remove "${c.name}" from your clients? They will be blocked and cannot login until restored by admin.`,
                   color: '#ef4444',
                   action: () => { blockUser(c.id); showToast(`${c.name} has been removed`, 'warning'); setConfirm(null); }
-                })}>🚫 Remove</button>
+                })}><Icon icon={UserMinus} size={13} style={{marginRight:4}} /> Remove</button>
               </div></td>
             </tr>
           ))}</tbody>

@@ -43,7 +43,7 @@ export default function LandingPage() {
           <span style={{ color: '#22c55e' }}>Fit</span>Bites
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px, 3vw, 32px)' }}>
-          <Link to="/login" style={{ padding: '10px 24px', background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 30, fontWeight: 800, fontSize: 14, textDecoration: 'none' }}>Login →</Link>
+          <Link to="/register" style={{ padding: '10px 24px', background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 30, fontWeight: 800, fontSize: 14, textDecoration: 'none' }}>Get Started →</Link>
         </div>
       </nav>
 

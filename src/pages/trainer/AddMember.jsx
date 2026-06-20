@@ -2,6 +2,7 @@ import { useState } from 'react';
 import DashboardLayout from '../../components/DashboardLayout';
 import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationContext';
+import { Icon, UserPlus, CheckCircle2 } from '../../components/Icons';
 
 export default function AddMember() {
   const { addUser, user } = useAuth();
@@ -38,13 +39,13 @@ export default function AddMember() {
   return (
     <DashboardLayout title="Add Member">
       <div className="card" style={{ maxWidth: 500, margin: '0 auto' }}>
-        <div className="card-header"><h3 className="card-title">➕ New Member Registration</h3></div>
+        <div className="card-header"><h3 className="card-title"><Icon icon={UserPlus} size={16} style={{marginRight:6}} /> New Member Registration</h3></div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div><label style={lbl}>Full Name *</label><input style={inp} value={form.name} onChange={e => upd('name', e.target.value)} placeholder="John Doe" /></div>
           <div><label style={lbl}>Email / Gmail ID *</label><input style={inp} type="email" value={form.email} onChange={e => upd('email', e.target.value)} placeholder="john@email.com" /></div>
           <div><label style={lbl}>Phone</label><input style={inp} value={form.phone} onChange={e => upd('phone', e.target.value)} placeholder="9876543210" /></div>
         </div>
-        <button className="btn btn-success btn-lg" style={{ width: '100%', marginTop: 24 }} onClick={save} disabled={!form.name || !form.email}>✅ Save Member</button>
+        <button className="btn btn-success btn-lg" style={{ width: '100%', marginTop: 24 }} onClick={save} disabled={!form.name || !form.email}><Icon icon={CheckCircle2} size={14} style={{marginRight:4}} /> Save Member</button>
       </div>
     </DashboardLayout>
   );

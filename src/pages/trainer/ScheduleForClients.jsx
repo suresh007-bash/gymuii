@@ -782,64 +782,16 @@ export default function ScheduleForClients() {
                 </div>
               )}
             </div>
-          )}
-
-          {/* Target Diagram & Redirect Settings */}
-          {selectedClients.length > 0 && (
-            <div className="card" style={{ marginTop: 24, padding: 18, border: '1px solid var(--border)' }}>
-              <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 16, marginBottom: 4 }}>🎯 Target Settings & Redirection</h3>
-              <p style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 14 }}>Configure the progress diagrams and automated login destinations for each assigned client based on their goals.</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                {selectedClients.map(clientId => {
-                  const clientObj = clients.find(c => c.id === clientId);
-                  const config = clientConfigs[clientId] || { preferredDiagram: 'ring', redirectPage: '/client/progress' };
-                  if (!clientObj) return null;
-                  return (
-                    <div key={clientId} style={{ background: 'var(--bg-tertiary)', borderRadius: 12, padding: 14, border: '1px solid var(--border)' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                        <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: '#fff' }}>{clientObj.avatar}</div>
-                        <div>
-                          <div style={{ fontWeight: 800, fontSize: 13 }}>{clientObj.name}</div>
-                          <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>Target Goal: <span style={{ color: 'var(--accent-orange)', fontWeight: 700 }}>{clientObj.goal || 'Not Set'}</span></div>
-                        </div>
-                      </div>
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 12 }}>
-                        <div>
-                          <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 4, textTransform: 'uppercase' }}>Select Target Diagram</label>
-                          <select style={{ width: '100%', padding: '8px 10px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 10, color: 'var(--text-primary)', fontSize: 12 }}
-                            value={config.preferredDiagram}
-                            onChange={e => setClientConfigs(p => ({ ...p, [clientId]: { ...config, preferredDiagram: e.target.value } }))}>
-                            <option value="ring">⭕ Circular Progress Ring</option>
-                            <option value="bar">📊 Weekly Bar Chart</option>
-                            <option value="cards">🎯 Goal Progress Cards</option>
-                          </select>
-                        </div>
-                        <div>
-                          <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 4, textTransform: 'uppercase' }}>Login Redirect Page</label>
-                          <select style={{ width: '100%', padding: '8px 10px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 10, color: 'var(--text-primary)', fontSize: 12 }}
-                            value={config.redirectPage}
-                            onChange={e => setClientConfigs(p => ({ ...p, [clientId]: { ...config, redirectPage: e.target.value } }))}>
-                            <option value="/client/nutrition">📊 Nutrition Page</option>
-                            <option value="/client/meal-plans">📋 Meal Plans Page</option>
-                            <option value="/client/progress">📈 Progress Analytics Page</option>
-                            <option value="/client/menu">🏠 Home (Browse Menu)</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
+          )
+}
 
           <div style={{ marginTop: 24, textAlign: 'center' }}>
             <button className="btn btn-success btn-lg" style={{ minWidth: 300, fontSize: 16 }}
               onClick={handleAssign}
               disabled={filledDates.length === 0}>
-              🚀 Publish Changes & Redirect Clients
+              🚀 Publish Food Schedule
             </button>
-            <p style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 8 }}>This will instantly update targets, diagram visualizations, and food schedules for the selected clients.</p>
+            <p style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 8 }}>This will instantly update the food schedules for the selected clients.</p>
           </div>
         </div>
       )}

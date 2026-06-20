@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Settings as SettingsIcon, Package, Users } from '../../components/Icons';
 import StatIcon from '../../components/StatIcon';
 import DashboardLayout from '../../components/DashboardLayout';
 import FoodMarquee from '../../components/FoodMarquee';
@@ -19,14 +20,14 @@ export default function AdminDashboard() {
   return (
     <DashboardLayout title="Dashboard">
       <div style={{ borderRadius: 20, overflow: 'hidden', marginBottom: 20, background: 'linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80") center/cover', padding: '48px 40px', color: '#fff' }}>
-        <div style={{ fontSize: 11, fontWeight: 800, background: '#f97316', display: 'inline-block', padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}>⚙️ ADMIN PANEL</div>
+        <div style={{ fontSize: 11, fontWeight: 800, background: '#f97316', display: 'inline-block', padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}><SettingsIcon size={14} style={{marginRight:4}} /> ADMIN PANEL</div>
         <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 900, lineHeight: 1.15, marginBottom: 12 }}>System Overview</h1>
         <p style={{ fontSize: 14, opacity: 0.85 }}>{allUsers.length} users • {stats.total} orders • ₹{stats.revenue.toLocaleString()} revenue</p>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 16, marginBottom: 20 }}>
-        <div className="card" style={{ borderLeft: '4px solid #f97316' }}><h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}>📦 Order Management</h4><p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>{stats.pending} pending, {stats.preparing} preparing, {stats.inTransit} in transit. Manage all orders.</p><Link to="/admin/orders" style={{ fontSize: 11, color: 'var(--accent-orange)', fontWeight: 700 }}>Manage Orders →</Link></div>
-        <div className="card" style={{ borderLeft: '4px solid #22c55e' }}><h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}>👥 User Management</h4><p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>{allUsers.length} registered users across all roles. Promote, edit, or manage access.</p><Link to="/admin/users" style={{ fontSize: 11, color: 'var(--accent-green)', fontWeight: 700 }}>Manage Users →</Link></div>
+        <div className="card" style={{ borderLeft: '4px solid #f97316' }}><h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}><Package size={14} style={{marginRight:4}} /> Order Management</h4><p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>{stats.pending} pending, {stats.preparing} preparing, {stats.inTransit} in transit. Manage all orders.</p><Link to="/admin/orders" style={{ fontSize: 11, color: 'var(--accent-orange)', fontWeight: 700 }}>Manage Orders →</Link></div>
+        <div className="card" style={{ borderLeft: '4px solid #22c55e' }}><h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}><Users size={14} style={{marginRight:4}} /> User Management</h4><p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>{allUsers.length} registered users across all roles. Promote, edit, or manage access.</p><Link to="/admin/users" style={{ fontSize: 11, color: 'var(--accent-green)', fontWeight: 700 }}>Manage Users →</Link></div>
       </div>
 
 
@@ -39,7 +40,7 @@ export default function AdminDashboard() {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 20 }}>
         <div className="card">
-          <div className="card-header"><h3 className="card-title">📦 Recent Orders</h3><Link to="/admin/orders" style={{ color: 'var(--accent-orange)', fontSize: 12, fontWeight: 700 }}>View All →</Link></div>
+          <div className="card-header"><h3 className="card-title"><Package size={16} style={{marginRight:4}} /> Recent Orders</h3><Link to="/admin/orders" style={{ color: 'var(--accent-orange)', fontSize: 12, fontWeight: 700 }}>View All →</Link></div>
           {recentOrders.map(o => (
             <div key={o.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
               <div><span style={{ fontWeight: 700 }}>#{o.id}</span><span style={{ marginLeft: 8, fontSize: 12, color: 'var(--text-muted)' }}>{o.customerName}</span></div>
@@ -48,7 +49,7 @@ export default function AdminDashboard() {
           ))}
         </div>
         <div className="card">
-          <div className="card-header"><h3 className="card-title">👥 Users by Role</h3></div>
+          <div className="card-header"><h3 className="card-title"><Users size={16} style={{marginRight:4}} /> Users by Role</h3></div>
           {[['client', <StatIcon name="dumbbell" />, '#f97316'], ['trainer', <StatIcon name="protein" />, '#22c55e'], ['owner', <StatIcon name="award" />, '#3b82f6'], ['kitchen', <StatIcon name="chef" />, '#14b8a6'], ['delivery', <StatIcon name="truck" />, '#8b5cf6'], ['admin', <StatIcon name="target" />, '#64748b']].map(([role, icon, color]) => {
             const count = allUsers.filter(u => u.role === role).length;
             return (<div key={role} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', borderBottom: '1px solid var(--border)' }}>

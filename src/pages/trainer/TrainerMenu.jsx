@@ -4,6 +4,7 @@ import DashboardLayout from '../../components/DashboardLayout';
 import { CATEGORIES } from '../../data/mockMenu';
 import { getMenuItems } from '../../data/menuHelper';
 import { useNotifications } from '../../context/NotificationContext';
+import { Icon, Flame, Beef, ShoppingCart, Search } from '../../components/Icons';
 
 export default function TrainerMenu() {
   const MENU_ITEMS = getMenuItems();
@@ -28,7 +29,7 @@ export default function TrainerMenu() {
   return (
     <DashboardLayout title="Browse Menu">
       <div style={{ display: 'flex', gap: 12, marginBottom: 16, flexWrap: 'wrap' }}>
-        <input className="form-input" placeholder="🔍 Search food..." value={search} onChange={e => setSearch(e.target.value)} style={{ flex: 1, minWidth: 200 }} />
+        <input className="form-input" placeholder="Search food..." value={search} onChange={e => setSearch(e.target.value)} style={{ flex: 1, minWidth: 200 }} />
         <select className="form-select" value={sort} onChange={e => setSort(e.target.value)}>
           <option value="name">Sort: Name</option><option value="price">Sort: Price</option><option value="calories">Sort: Calories</option>
         </select>
@@ -52,9 +53,9 @@ export default function TrainerMenu() {
                 <span style={{ fontFamily: 'Outfit', fontWeight: 900, color: 'var(--accent-green)' }}>₹{item.price}</span>
               </div>
               <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 8 }}>
-                🔥 {item.calories} kcal • 💪 {item.protein}g • {item.category}
+                <Icon icon={Flame} size={12} style={{marginRight:2}} /> {item.calories} kcal • <Icon icon={Beef} size={12} style={{marginRight:2}} /> {item.protein}g • {item.category}
               </div>
-              <button className="btn btn-primary btn-sm" style={{ width: '100%' }} onClick={() => addToCart(item)}>🛒 Add to Cart</button>
+              <button className="btn btn-primary btn-sm" style={{ width: '100%' }} onClick={() => addToCart(item)}><Icon icon={ShoppingCart} size={14} style={{marginRight:4}} /> Add to Cart</button>
             </div>
           </div>
         ))}

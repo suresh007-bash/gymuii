@@ -9,12 +9,55 @@ import { getMenuItems } from '../../data/menuHelper';
 export default function ClientMealPlans() {
   const MENU_ITEMS = getMenuItems();
   const { user } = useAuth();
-  const { dietPlans, scheduledOrders, addOrder } = useOrders();
+  const { dietPlans, scheduledOrders, addOrder, deleteDietPlan } = useOrders();
   const { showToast } = useNotifications();
   const navigate = useNavigate();
   const [showOrder, setShowOrder] = useState(null);
   const [selectedDates, setSelectedDates] = useState([]);
   const [timing, setTiming] = useState('morning');
+  const [confirmDelete, setConfirmDelete] = useState(null);
+
+  // ═══ LOCKED STATE: Only accessible when user has a trainer ═══
+  if (!user?.trainerId) {
+    return (
+      <DashboardLayout title="Trainer Recommendation">
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
+          <div className="card" style={{ textAlign: 'center', padding: 'clamp(32px, 6vw, 60px)', maxWidth: 480 }}>
+            <div style={{
+              width: 90, height: 90, borderRadius: '50%', margin: '0 auto 20px',
+              background: 'linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1))',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              border: '2px dashed rgba(99,102,241,0.3)',
+            }}>
+              <span style={{ fontSize: 40 }}>🔒</span>
+            </div>
+            <h3 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 20, marginBottom: 8 }}>
+              Trainer Required
+            </h3>
+            <p style={{ color: 'var(--text-muted)', fontSize: 14, lineHeight: 1.7, marginBottom: 24 }}>
+              Trainer Recommendations are only available when you have a personal trainer. 
+              Join a gym and hire a trainer to unlock personalized meal plans and recommendations.
+            </p>
+            <button
+              className="btn btn-primary"
+              onClick={() => navigate('/client/community')}
+              style={{
+                background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                border: 'none', padding: '12px 32px', borderRadius: 12,
+                fontWeight: 700, fontSize: 14, cursor: 'pointer',
+                boxShadow: '0 4px 14px rgba(99,102,241,0.3)',
+                transition: 'all 0.3s ease',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(99,102,241,0.4)'; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 14px rgba(99,102,241,0.3)'; }}
+            >
+              🏋️ Join Gym & Hire Trainer
+            </button>
+          </div>
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   // Plans assigned to this user by trainers/owners
   const myPlans = dietPlans.filter(p =>
@@ -44,6 +87,12 @@ export default function ClientMealPlans() {
     setSelectedDates(prev =>
       prev.includes(dateStr) ? prev.filter(d => d !== dateStr) : [...prev, dateStr]
     );
+  };
+
+  const handleDeletePlan = (planId) => {
+    deleteDietPlan(planId);
+    showToast('🗑️ Plan deleted successfully!');
+    setConfirmDelete(null);
   };
 
   const orderPlan = (plan) => {
@@ -111,7 +160,42 @@ export default function ClientMealPlans() {
   });
 
   return (
-    <DashboardLayout title="Meal Plans">
+    <DashboardLayout title="Trainer Recommendation">
+      {/* Delete Confirmation Modal */}
+      {confirmDelete && (
+        <div className="modal-overlay" onClick={() => setConfirmDelete(null)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 400 }}>
+            <div className="modal-header">
+              <h3 className="modal-title">🗑️ Delete Plan</h3>
+              <button className="modal-close" onClick={() => setConfirmDelete(null)}>✕</button>
+            </div>
+            <div style={{ padding: '16px 0', textAlign: 'center' }}>
+              <div style={{ fontSize: 48, marginBottom: 12 }}>⚠️</div>
+              <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: 8 }}>
+                Are you sure you want to delete <strong>"{confirmDelete.name}"</strong>?
+              </p>
+              <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>
+                This action cannot be undone. The plan will be permanently removed.
+              </p>
+            </div>
+            <div className="modal-footer">
+              <button className="btn btn-outline" onClick={() => setConfirmDelete(null)}>Cancel</button>
+              <button
+                className="btn"
+                onClick={() => handleDeletePlan(confirmDelete.id)}
+                style={{
+                  background: 'linear-gradient(135deg, #ef4444, #dc2626)',
+                  color: '#fff', border: 'none', fontWeight: 700,
+                  boxShadow: '0 4px 14px rgba(239,68,68,0.3)',
+                }}
+              >
+                🗑️ Delete Plan
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Order Modal with Calendar */}
       {showOrder && (
         <div className="modal-overlay" onClick={() => { setShowOrder(null); setSelectedDates([]); }}>
@@ -181,7 +265,6 @@ export default function ClientMealPlans() {
                 {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
                   <div key={d} style={{ textAlign: 'center', fontSize: 10, fontWeight: 800, color: 'var(--text-muted)', padding: 4 }}>{d}</div>
                 ))}
-                {/* Offset for first day */}
                 {Array.from({ length: new Date(calendarDays[0]).getDay() }, (_, i) => (
                   <div key={'empty' + i} />
                 ))}
@@ -213,7 +296,6 @@ export default function ClientMealPlans() {
               </div>
             </div>
 
-            {/* Selected dates summary */}
             {selectedDates.length > 0 && (
               <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 12, fontSize: 12 }}>
                 <strong>📅 {selectedDates.length} dates:</strong> {selectedDates.sort().map(d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })).join(', ')}
@@ -241,7 +323,25 @@ export default function ClientMealPlans() {
               const totalPro = items.reduce((a, i) => a + (i?.protein || 0), 0);
               const totalPrice = items.reduce((a, i) => a + (i?.price || 0), 0);
               return (
-                <div key={plan.id} className="card" style={{ overflow: 'hidden' }}>
+                <div key={plan.id} className="card" style={{ overflow: 'hidden', position: 'relative' }}>
+                  {/* Delete Button */}
+                  <button
+                    onClick={() => setConfirmDelete(plan)}
+                    style={{
+                      position: 'absolute', top: 12, right: 12, zIndex: 3,
+                      width: 32, height: 32, borderRadius: '50%',
+                      background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(4px)',
+                      border: '1px solid rgba(255,255,255,0.3)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      cursor: 'pointer', fontSize: 14, transition: 'all 0.2s ease',
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.9)'; e.currentTarget.style.transform = 'scale(1.1)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.2)'; e.currentTarget.style.transform = 'scale(1)'; }}
+                    title="Delete plan"
+                  >
+                    🗑️
+                  </button>
+
                   <div style={{ background: 'var(--gradient-primary)', padding: '14px 16px', marginBottom: 0 }}>
                     <div style={{ color: '#fff', fontWeight: 800, fontSize: 15 }}>{plan.name}</div>
                     <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 11 }}>By: {plan.trainerName || 'Trainer'}</div>
@@ -274,15 +374,12 @@ export default function ClientMealPlans() {
         </div>
       )}
 
-
-
-
       {/* Empty State */}
       {myPlans.length === 0 && mySchedules.length === 0 && (
         <div className="card" style={{ textAlign: 'center', padding: 50 }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>📋</div>
-          <h3 style={{ fontWeight: 800, marginBottom: 8 }}>No meal plans assigned yet</h3>
-          <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>Your trainer or gym owner will assign personalized meal plans here. You can also browse the menu to order directly!</p>
+          <h3 style={{ fontWeight: 800, marginBottom: 8 }}>No recommendations yet</h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>Your trainer will assign personalized meal plans and recommendations here. You can also browse the menu to order directly!</p>
         </div>
       )}
     </DashboardLayout>

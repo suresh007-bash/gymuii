@@ -74,12 +74,54 @@ export default function MyDeliveries() {
                 {/* Customer & Location */}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 12, marginBottom: 14 }}>
                   <div style={{ padding: 12, background: 'var(--bg-tertiary)', borderRadius: 10 }}>
-                    <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--text-muted)', marginBottom: 4 }}>📍 DELIVERY LOCATION</div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                      <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--text-muted)' }}>📍 DELIVERY LOCATION</div>
+                      <a
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(order.customerAddress || order.customerName)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', gap: 4,
+                          padding: '4px 10px', borderRadius: 8,
+                          background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
+                          color: '#fff', fontSize: 10, fontWeight: 700,
+                          textDecoration: 'none', cursor: 'pointer',
+                          boxShadow: '0 2px 8px rgba(59,130,246,0.3)',
+                          transition: 'all 0.2s',
+                        }}
+                        onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(59,130,246,0.4)'; }}
+                        onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(59,130,246,0.3)'; }}
+                      >
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                        Navigate
+                      </a>
+                    </div>
                     <div style={{ fontWeight: 700, fontSize: 13 }}>{order.customerName}</div>
                     <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{order.customerAddress}</div>
                   </div>
                   <div style={{ padding: 12, background: 'var(--bg-tertiary)', borderRadius: 10 }}>
-                    <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--text-muted)', marginBottom: 4 }}>🏪 PICKUP FROM</div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                      <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--text-muted)' }}>🏪 PICKUP FROM</div>
+                      <a
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(order.restaurantAddress || 'Koramangala')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', gap: 4,
+                          padding: '4px 10px', borderRadius: 8,
+                          background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                          color: '#fff', fontSize: 10, fontWeight: 700,
+                          textDecoration: 'none', cursor: 'pointer',
+                          boxShadow: '0 2px 8px rgba(34,197,94,0.3)',
+                          transition: 'all 0.2s',
+                        }}
+                        onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(34,197,94,0.4)'; }}
+                        onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(34,197,94,0.3)'; }}
+                      >
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                        Navigate
+                      </a>
+                    </div>
                     <div style={{ fontWeight: 700, fontSize: 13 }}>{order.restaurantName || 'FitBites Kitchen'}</div>
                     <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{order.restaurantAddress || 'Koramangala'}</div>
                   </div>

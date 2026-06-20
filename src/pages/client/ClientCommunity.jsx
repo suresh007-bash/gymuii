@@ -4,312 +4,796 @@ import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationContext';
 import { GYMS } from '../../data/mockUsers';
 
-const COMMUNITY_POSTS = [
-  { id: 1, author: 'Coach Marcus', avatar: 'CM', role: 'Trainer', time: '6 hours ago', content: '💡 Tip: Having protein within 30 mins of your workout boosts muscle recovery by 40%. Try our Grilled Chicken Bowl post-workout!', likes: 24, comments: 8 },
-  { id: 2, author: 'FitBites Team', avatar: 'FB', role: 'Official', time: '5 hours ago', content: '🎉 New menu item alert! Introducing the Avocado Protein Toast — 380 kcal, 28g protein. Available now!', likes: 42, comments: 15 },
-  { id: 3, author: 'Priya Sharma', avatar: 'PS', role: 'Member', time: '1 day ago', content: 'Just completed my 30-day nutrition challenge! Lost 3kg while hitting my protein targets daily. FitBites meal scheduling made it so easy 🔥', likes: 56, comments: 21 },
-  { id: 4, author: 'Coach Deepa', avatar: 'CD', role: 'Trainer', time: '2 days ago', content: '🥗 Weekly meal prep tip: Order your nutrient packs for the entire week on Sunday. Schedule morning, noon, and evening — automation is key!', likes: 31, comments: 12 },
-  { id: 5, author: 'Ravi Kumar', avatar: 'RK', role: 'Member', time: '3 days ago', content: 'The Quinoa Power Bowl is seriously underrated. 450 kcal, 35g protein, and it tastes amazing! Highly recommend for the muscle gain crew 💪', likes: 18, comments: 6 },
-];
-
-// Mock achievements for trainers
-const TRAINER_ACHIEVEMENTS = {
-  't1': { successRate: 94, transformations: 38, avgWeightLoss: '8.5kg', topGoal: 'Strength', rating: 4.9, yearsExp: 6 },
-  't2': { successRate: 91, transformations: 25, avgWeightLoss: '6.2kg', topGoal: 'HIIT/Cardio', rating: 4.7, yearsExp: 4 },
-  't3': { successRate: 96, transformations: 42, avgWeightLoss: '5.8kg', topGoal: 'Yoga', rating: 4.8, yearsExp: 8 },
+const AMENITY_ICONS = {
+  'Free Weights': '🏋️', 'Cardio Zone': '🫀', 'Yoga Studio': '🧘', 'Steam & Sauna': '♨️',
+  'Locker Rooms': '🔐', 'Protein Bar': '🥤', 'Parking': '🅿️', 'CrossFit Area': '💪',
+  'Boxing Ring': '🥊', 'Shower Rooms': '🚿', 'Juice Bar': '🧃', 'AC Training Hall': '❄️',
+  'Olympic Weights': '🥇', 'Squat Racks': '🦵', 'Deadlift Platforms': '🔩', 'Swimming Pool': '🏊',
+  'Sports Nutrition Store': '🛒', 'Recovery Zone': '💆', 'Personal Training Rooms': '🚪',
 };
 
 export default function ClientCommunity() {
   const { user, allUsers, getUsersByRole, updateUser } = useAuth();
   const { showToast } = useNotifications();
-  const [tab, setTab] = useState('trainers');
-  const [newPost, setNewPost] = useState('');
-  const [posts, setPosts] = useState(COMMUNITY_POSTS);
-  const [likedPosts, setLikedPosts] = useState([]);
-  const [trainerRequests, setTrainerRequests] = useState(() => {
-    const saved = localStorage.getItem('trainer_requests');
-    return saved ? JSON.parse(saved) : [];
-  });
+
+  const userGym = user?.gymId ? GYMS.find(g => g.id === user.gymId) : null;
+
+  const [view, setView] = useState(userGym ? 'myGym' : 'browse');
+  const [selectedGym, setSelectedGym] = useState(null);
+  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [showPayment, setShowPayment] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('upi');
+  const [processing, setProcessing] = useState(false);
+  const [showTrainerPayment, setShowTrainerPayment] = useState(false);
   const [selectedTrainer, setSelectedTrainer] = useState(null);
+  const [imageIndex, setImageIndex] = useState(0);
+  const [hoveredCard, setHoveredCard] = useState(null);
+  const [hoveredPlan, setHoveredPlan] = useState(null);
+  const [hoveredTrainer, setHoveredTrainer] = useState(null);
+  const [hoveredAmenity, setHoveredAmenity] = useState(null);
 
-  // Sync requests to localStorage
   useEffect(() => {
-    localStorage.setItem('trainer_requests', JSON.stringify(trainerRequests));
-  }, [trainerRequests]);
+    if (userGym && view === 'browse') setView('myGym');
+  }, [user?.gymId]);
 
-  // Re-read requests periodically to catch trainer accepts
   useEffect(() => {
-    const interval = setInterval(() => {
-      const saved = localStorage.getItem('trainer_requests');
-      if (saved) setTrainerRequests(JSON.parse(saved));
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
+    setImageIndex(0);
+  }, [selectedGym?.id]);
 
-  const trainers = getUsersByRole('trainer');
-
-  const getTrainerGym = (trainer) => {
-    const gym = GYMS.find(g => g.id === trainer.gymId);
-    return gym || null;
+  const getTrainersForGym = (gymId) => {
+    return getUsersByRole('trainer').filter(t => t.gymId === gymId);
   };
 
   const getTrainerStudentCount = (trainerId) => {
     return allUsers.filter(u => u.role === 'client' && u.trainerId === trainerId).length;
   };
 
-  const getRequestStatus = (trainerId) => {
-    // If user is already connected to this trainer
-    if (user?.trainerId === trainerId) return 'connected';
-    const req = trainerRequests.find(r => r.clientId === user?.id && r.trainerId === trainerId);
-    if (req) return req.status; // 'pending' or 'accepted' or 'rejected'
-    return null;
+  const handleJoinGym = () => {
+    if (!selectedPlan || !selectedGym) return;
+    setProcessing(true);
+    setTimeout(() => {
+      updateUser(user.id, { gymId: selectedGym.id });
+      showToast(`🎉 Welcome to ${selectedGym.name}! Your ${selectedPlan.name} membership is active.`);
+      setProcessing(false);
+      setShowPayment(false);
+      setSelectedPlan(null);
+      setView('myGym');
+    }, 2000);
   };
 
-  const sendRequest = (trainerId) => {
-    const existing = trainerRequests.find(r => r.clientId === user?.id && r.trainerId === trainerId);
-    if (existing) {
-      showToast('Request already sent!', 'warning');
-      return;
-    }
-    const trainer = trainers.find(t => t.id === trainerId);
-    const newReq = {
-      id: 'req_' + Date.now(),
-      clientId: user.id,
-      clientName: user.name,
-      clientAvatar: user.avatar,
-      clientEmail: user.email,
-      clientGoal: user.goal || 'General Fitness',
-      trainerId: trainerId,
-      trainerName: trainer?.name || '',
-      status: 'pending',
-      requestedAt: new Date().toISOString(),
-    };
-    const updated = [...trainerRequests, newReq];
-    setTrainerRequests(updated);
-    localStorage.setItem('trainer_requests', JSON.stringify(updated));
-    showToast(`✅ Request sent to ${trainer?.name}! They'll review it shortly.`);
-    setSelectedTrainer(null);
+  const handleHireTrainer = () => {
+    if (!selectedTrainer) return;
+    setProcessing(true);
+    setTimeout(() => {
+      updateUser(user.id, { trainerId: selectedTrainer.id });
+      showToast(`💪 ${selectedTrainer.name} is now your personal trainer!`);
+      setProcessing(false);
+      setShowTrainerPayment(false);
+      setSelectedTrainer(null);
+    }, 2000);
   };
 
-  const addPost = () => {
-    if (!newPost.trim()) return;
-    setPosts([{ id: Date.now(), author: user?.name, avatar: user?.avatar, role: 'Member', time: 'Just now', content: newPost, likes: 0, comments: 0 }, ...posts]);
-    setNewPost('');
-    showToast('Post published! 📝');
-  };
-
-  const toggleLike = (id) => {
-    if (likedPosts.includes(id)) {
-      setLikedPosts(l => l.filter(x => x !== id));
-      setPosts(p => p.map(x => x.id === id ? { ...x, likes: x.likes - 1 } : x));
-    } else {
-      setLikedPosts(l => [...l, id]);
-      setPosts(p => p.map(x => x.id === id ? { ...x, likes: x.likes + 1 } : x));
-    }
-  };
-
-  const cardStyle = {
-    background: 'var(--bg-secondary)',
-    borderRadius: 16,
-    border: '1px solid var(--border)',
-    overflow: 'hidden',
-    transition: 'all 0.3s ease',
-  };
-
-  const statBox = {
-    textAlign: 'center',
-    padding: '10px 6px',
-    background: 'var(--bg-tertiary)',
-    borderRadius: 12,
-    flex: 1,
-  };
-
-  return (
-    <DashboardLayout title="Request for Trainer">
-
-      {tab === 'feed' && (
-        <div style={{ maxWidth: 600, margin: '0 auto' }}>
-          {/* New Post */}
-          <div className="card" style={{ marginBottom: 16 }}>
-            <div style={{ display: 'flex', gap: 12 }}>
-              <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 800, color: '#fff', flexShrink: 0 }}>{user?.avatar}</div>
-              <div style={{ flex: 1 }}>
-                <textarea className="form-input" style={{ minHeight: 60, resize: 'none' }} value={newPost} onChange={e => setNewPost(e.target.value)} placeholder="Share a tip, achievement, or meal recommendation..." />
-                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 8 }}>
-                  <button className="btn btn-primary btn-sm" onClick={addPost} disabled={!newPost.trim()}>📝 Post</button>
-                </div>
-              </div>
-            </div>
+  // ─── Browse Gyms View ───
+  const renderBrowse = () => (
+    <div style={{ maxWidth: 800, margin: '0 auto' }}>
+      {/* Header */}
+      <div className="card" style={{
+        padding: 24, marginBottom: 24,
+        background: 'linear-gradient(135deg, rgba(249,115,22,0.1), rgba(251,146,60,0.06))',
+        borderColor: 'rgba(249,115,22,0.25)',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <div style={{
+            width: 56, height: 56, borderRadius: 16,
+            background: 'linear-gradient(135deg, #f97316, #fb923c)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 28, boxShadow: '0 6px 20px rgba(249,115,22,0.3)',
+          }}>🏢</div>
+          <div>
+            <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 20, marginBottom: 4 }}>
+              Find Your Perfect Gym
+            </h3>
+            <p style={{ color: 'var(--text-muted)', fontSize: 13, lineHeight: 1.5 }}>
+              Browse premium fitness centers, compare plans, and join with a single tap. Your fitness journey starts here!
+            </p>
           </div>
-
-          {/* Feed */}
-          {posts.map(post => (
-            <div key={post.id} className="card" style={{ marginBottom: 12, animation: 'fadeInUp 0.3s ease' }}>
-              <div style={{ display: 'flex', gap: 10, marginBottom: 12 }}>
-                <div style={{ width: 40, height: 40, borderRadius: '50%', background: post.role === 'Official' ? 'linear-gradient(135deg, #f97316, #22c55e)' : post.role === 'Trainer' ? 'linear-gradient(135deg, #3b82f6, #8b5cf6)' : 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 800, color: '#fff', flexShrink: 0 }}>{post.avatar}</div>
-                <div>
-                  <div style={{ fontWeight: 800, fontSize: 14 }}>{post.author} <span className={`badge ${post.role === 'Official' ? 'badge-orange' : post.role === 'Trainer' ? 'badge-purple' : 'badge-blue'}`} style={{ fontSize: 9 }}>{post.role}</span></div>
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{post.time}</div>
-                </div>
-              </div>
-              <p style={{ fontSize: 14, lineHeight: 1.6, marginBottom: 12 }}>{post.content}</p>
-              <div style={{ display: 'flex', gap: 16, borderTop: '1px solid var(--border)', paddingTop: 10 }}>
-                <button onClick={() => toggleLike(post.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, color: likedPosts.includes(post.id) ? 'var(--accent-red)' : 'var(--text-muted)' }}>
-                  {likedPosts.includes(post.id) ? '❤️' : '🤍'} {post.likes}
-                </button>
-                <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>💬 {post.comments}</span>
-              </div>
-            </div>
-          ))}
         </div>
-      )}
+      </div>
 
-      {tab === 'trainers' && (
-        <div style={{ maxWidth: 700, margin: '0 auto' }}>
-          {/* Header */}
-          <div className="card" style={{ padding: 20, marginBottom: 20, background: 'linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.08))', borderColor: 'rgba(99,102,241,0.2)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-              <div style={{ fontSize: 36 }}>🏋️</div>
-              <div>
-                <h3 style={{ fontWeight: 800, fontSize: 18, marginBottom: 4 }}>Find Your Perfect Trainer</h3>
-                <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>Browse trainers across gyms. See their stats, achievements & student success — then send a request to get started!</p>
+      {/* Gym Grid */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(340, 1fr))',
+        gap: 20,
+      }}>
+        {GYMS.map((gym, idx) => (
+          <div
+            key={gym.id}
+            className="card"
+            style={{
+              overflow: 'hidden', padding: 0, cursor: 'pointer',
+              transform: hoveredCard === gym.id ? 'translateY(-4px)' : 'translateY(0)',
+              boxShadow: hoveredCard === gym.id ? '0 12px 32px rgba(0,0,0,0.12)' : '0 2px 8px rgba(0,0,0,0.06)',
+              transition: 'all 0.3s cubic-bezier(0.4,0,0.2,1)',
+            }}
+            onMouseEnter={() => setHoveredCard(gym.id)}
+            onMouseLeave={() => setHoveredCard(null)}
+            onClick={() => { setSelectedGym(gym); setSelectedPlan(gym.plans.find(p => p.popular) || gym.plans[0]); setView('detail'); }}
+          >
+            {/* Cover Image */}
+            <div style={{ position: 'relative', height: 180, overflow: 'hidden' }}>
+              <img
+                src={gym.images[0]}
+                alt={gym.name}
+                style={{
+                  width: '100%', height: '100%', objectFit: 'cover',
+                  transition: 'transform 0.5s ease',
+                  transform: hoveredCard === gym.id ? 'scale(1.06)' : 'scale(1)',
+                }}
+              />
+              <div style={{
+                position: 'absolute', bottom: 0, left: 0, right: 0, height: 80,
+                background: 'linear-gradient(transparent, rgba(0,0,0,0.6))',
+              }} />
+              <div style={{
+                position: 'absolute', top: 12, right: 12,
+                background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)',
+                padding: '5px 10px', borderRadius: 20,
+                color: '#fff', fontSize: 12, fontWeight: 700,
+                display: 'flex', alignItems: 'center', gap: 4,
+              }}>
+                ⭐ {gym.rating}
+              </div>
+              <div style={{
+                position: 'absolute', bottom: 12, left: 14,
+                color: '#fff', fontSize: 11, fontWeight: 600,
+                display: 'flex', alignItems: 'center', gap: 4,
+              }}>
+                📍 {gym.location}
+              </div>
+            </div>
+
+            {/* Content */}
+            <div style={{ padding: '16px 18px 18px' }}>
+              <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 17, marginBottom: 10 }}>
+                {gym.name}
+              </h4>
+
+              <div style={{ display: 'flex', gap: 12, marginBottom: 14 }}>
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: 5,
+                  fontSize: 12, color: 'var(--text-muted)', fontWeight: 600,
+                }}>
+                  👥 {gym.members} members
+                </div>
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: 5,
+                  fontSize: 12, color: 'var(--text-muted)', fontWeight: 600,
+                }}>
+                  🏋️ {gym.trainers} trainers
+                </div>
+              </div>
+
+              <div style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              }}>
+                <div>
+                  <span style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 600 }}>From </span>
+                  <span style={{
+                    fontFamily: 'Outfit', fontWeight: 800, fontSize: 17,
+                    background: 'linear-gradient(135deg, #f97316, #fb923c)',
+                    WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                  }}>₹1,000</span>
+                  <span style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 600 }}>/mo</span>
+                </div>
+                <button
+                  className="btn btn-primary btn-sm"
+                  style={{
+                    background: 'linear-gradient(135deg, #f97316, #fb923c)',
+                    border: 'none', fontFamily: 'Outfit', fontWeight: 700,
+                    fontSize: 12, padding: '8px 16px', borderRadius: 10,
+                  }}
+                  onClick={(e) => { e.stopPropagation(); setSelectedGym(gym); setSelectedPlan(gym.plans.find(p => p.popular) || gym.plans[0]); setView('detail'); }}
+                >
+                  View Details →
+                </button>
               </div>
             </div>
           </div>
+        ))}
+      </div>
+    </div>
+  );
 
-          {/* Already connected banner */}
-          {user?.trainerId && (() => {
-            const myTrainer = trainers.find(t => t.id === user.trainerId);
-            const myGym = myTrainer ? getTrainerGym(myTrainer) : null;
-            return myTrainer ? (
-              <div className="card" style={{ padding: 16, marginBottom: 20, background: 'linear-gradient(135deg, rgba(34,197,94,0.08), rgba(16,185,129,0.08))', borderColor: 'rgba(34,197,94,0.3)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(135deg, #22c55e, #10b981)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, fontWeight: 800, color: '#fff', flexShrink: 0 }}>{myTrainer.avatar}</div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 12, color: '#22c55e', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5 }}>✅ Your Current Trainer</div>
-                    <div style={{ fontWeight: 800, fontSize: 15 }}>{myTrainer.name}</div>
-                    <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{myGym?.name || 'Gym'} • {myTrainer.specialization}</div>
-                  </div>
-                </div>
+  // ─── Gym Detail View ───
+  const renderDetail = () => {
+    if (!selectedGym) return null;
+    const gymTrainers = getTrainersForGym(selectedGym.id);
+    const images = selectedGym.images || [];
+
+    return (
+      <div style={{ maxWidth: 700, margin: '0 auto' }}>
+        {/* Back Button */}
+        <button
+          onClick={() => { setView('browse'); setSelectedGym(null); setSelectedPlan(null); }}
+          style={{
+            background: 'none', border: 'none', cursor: 'pointer',
+            color: 'var(--text-muted)', fontSize: 13, fontWeight: 700,
+            display: 'flex', alignItems: 'center', gap: 6,
+            marginBottom: 16, padding: 0, fontFamily: 'Outfit',
+          }}
+        >
+          ← Back to all gyms
+        </button>
+
+        {/* Image Carousel */}
+        <div className="card" style={{ overflow: 'hidden', padding: 0, marginBottom: 20, borderRadius: 18 }}>
+          <div style={{ position: 'relative', height: 260, overflow: 'hidden' }}>
+            {images.map((img, i) => (
+              <img
+                key={i}
+                src={img}
+                alt={`${selectedGym.name} ${i + 1}`}
+                style={{
+                  position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+                  objectFit: 'cover',
+                  opacity: imageIndex === i ? 1 : 0,
+                  transition: 'opacity 0.6s ease-in-out',
+                }}
+              />
+            ))}
+            {/* Navigation Arrows */}
+            <button
+              onClick={() => setImageIndex((imageIndex - 1 + images.length) % images.length)}
+              style={{
+                position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)',
+                width: 36, height: 36, borderRadius: '50%',
+                background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(6px)',
+                border: 'none', cursor: 'pointer', color: '#fff', fontSize: 16,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'background 0.2s',
+              }}
+            >‹</button>
+            <button
+              onClick={() => setImageIndex((imageIndex + 1) % images.length)}
+              style={{
+                position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)',
+                width: 36, height: 36, borderRadius: '50%',
+                background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(6px)',
+                border: 'none', cursor: 'pointer', color: '#fff', fontSize: 16,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'background 0.2s',
+              }}
+            >›</button>
+            {/* Dots */}
+            <div style={{
+              position: 'absolute', bottom: 14, left: '50%', transform: 'translateX(-50%)',
+              display: 'flex', gap: 8,
+            }}>
+              {images.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setImageIndex(i)}
+                  style={{
+                    width: imageIndex === i ? 24 : 8, height: 8, borderRadius: 4,
+                    background: imageIndex === i ? '#f97316' : 'rgba(255,255,255,0.5)',
+                    border: 'none', cursor: 'pointer', padding: 0,
+                    transition: 'all 0.3s ease',
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Gym Info */}
+        <div className="card" style={{ marginBottom: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 12 }}>
+            <div>
+              <h2 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 22, marginBottom: 6 }}>
+                {selectedGym.name}
+              </h2>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                <span style={{ fontSize: 13, color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
+                  📍 {selectedGym.location}
+                </span>
+                <span style={{ fontSize: 13, color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
+                  ⭐ {selectedGym.rating}
+                </span>
               </div>
-            ) : null;
-          })()}
+            </div>
+          </div>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '8px 14px', borderRadius: 10,
+            background: 'var(--bg-tertiary)', fontSize: 12, color: 'var(--text-muted)', fontWeight: 600,
+          }}>
+            🕐 {selectedGym.hours}
+          </div>
+        </div>
 
-          {/* Trainer Cards */}
-          <div style={{ display: 'grid', gap: 16 }}>
-            {trainers.map(trainer => {
-              const gym = getTrainerGym(trainer);
-              const studentCount = getTrainerStudentCount(trainer.id);
-              const achievements = TRAINER_ACHIEVEMENTS[trainer.id] || { successRate: 85, transformations: 10, avgWeightLoss: '5kg', topGoal: 'General', rating: 4.5, yearsExp: 3 };
-              const reqStatus = getRequestStatus(trainer.id);
+        {/* About */}
+        <div className="card" style={{ marginBottom: 16 }}>
+          <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15, marginBottom: 10, display: 'flex', alignItems: 'center', gap: 8 }}>
+            📖 About
+          </h4>
+          <p style={{ fontSize: 13, lineHeight: 1.7, color: 'var(--text-secondary)' }}>
+            {selectedGym.description}
+          </p>
+        </div>
 
+        {/* Amenities */}
+        <div className="card" style={{ marginBottom: 16 }}>
+          <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+            ✨ Amenities
+          </h4>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+            {selectedGym.amenities.map((a, i) => (
+              <div
+                key={i}
+                onMouseEnter={() => setHoveredAmenity(i)}
+                onMouseLeave={() => setHoveredAmenity(null)}
+                style={{
+                  padding: '8px 14px', borderRadius: 12,
+                  background: hoveredAmenity === i ? 'rgba(249,115,22,0.1)' : 'var(--bg-tertiary)',
+                  border: hoveredAmenity === i ? '1px solid rgba(249,115,22,0.3)' : '1px solid var(--border)',
+                  fontSize: 12, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6,
+                  transition: 'all 0.2s ease', cursor: 'default',
+                }}
+              >
+                <span>{AMENITY_ICONS[a] || '🔹'}</span> {a}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Membership Plans */}
+        <div className="card" style={{ marginBottom: 16 }}>
+          <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+            💎 Membership Plans
+          </h4>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
+            {selectedGym.plans.map((plan, i) => {
+              const isSelected = selectedPlan?.name === plan.name;
               return (
-                <div key={trainer.id} style={cardStyle}>
-                  {/* Trainer Header */}
-                  <div style={{ padding: '20px 20px 0', display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                <div
+                  key={plan.name}
+                  onClick={() => setSelectedPlan(plan)}
+                  onMouseEnter={() => setHoveredPlan(i)}
+                  onMouseLeave={() => setHoveredPlan(null)}
+                  style={{
+                    position: 'relative', padding: '18px 14px', borderRadius: 16,
+                    border: isSelected ? '2px solid #f97316' : '1.5px solid var(--border)',
+                    background: isSelected ? 'rgba(249,115,22,0.06)' : hoveredPlan === i ? 'var(--bg-tertiary)' : 'var(--bg-secondary)',
+                    cursor: 'pointer', textAlign: 'center',
+                    transition: 'all 0.25s ease',
+                    transform: (isSelected || hoveredPlan === i) ? 'translateY(-2px)' : 'translateY(0)',
+                    boxShadow: isSelected ? '0 6px 20px rgba(249,115,22,0.15)' : 'none',
+                  }}
+                >
+                  {plan.popular && (
                     <div style={{
-                      width: 56, height: 56, borderRadius: 16, flexShrink: 0,
-                      background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 18, fontWeight: 800, color: '#fff',
-                      boxShadow: '0 4px 14px rgba(99,102,241,0.3)',
+                      position: 'absolute', top: -10, left: '50%', transform: 'translateX(-50%)',
+                      padding: '3px 12px', borderRadius: 20, fontSize: 9, fontWeight: 800,
+                      background: 'linear-gradient(135deg, #f97316, #fb923c)',
+                      color: '#fff', textTransform: 'uppercase', letterSpacing: 0.5,
+                      whiteSpace: 'nowrap',
                     }}>
-                      {trainer.avatar}
+                      🔥 Most Popular
                     </div>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
-                        <h4 style={{ fontWeight: 800, fontSize: 16 }}>{trainer.name}</h4>
-                        <span className="badge badge-purple" style={{ fontSize: 9 }}>Trainer</span>
-                      </div>
-                      <div style={{ fontSize: 13, color: 'var(--text-secondary)', fontWeight: 600 }}>
-                        {trainer.specialization}
-                      </div>
-                      <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2, display: 'flex', alignItems: 'center', gap: 4 }}>
-                        🏢 {gym?.name || 'Gym'} <span style={{ opacity: 0.5 }}>•</span> 📍 {gym?.location || 'Location'}
-                      </div>
+                  )}
+                  <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 8, color: 'var(--text-secondary)' }}>
+                    {plan.name}
+                  </div>
+                  <div style={{
+                    fontFamily: 'Outfit', fontWeight: 900, fontSize: 24, marginBottom: 4,
+                    background: isSelected ? 'linear-gradient(135deg, #f97316, #fb923c)' : 'none',
+                    WebkitBackgroundClip: isSelected ? 'text' : 'unset',
+                    WebkitTextFillColor: isSelected ? 'transparent' : 'inherit',
+                  }}>
+                    ₹{plan.price.toLocaleString()}
+                  </div>
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 600 }}>
+                    {plan.duration}
+                  </div>
+                  {isSelected && (
+                    <div style={{
+                      marginTop: 10, fontSize: 10, fontWeight: 700,
+                      color: '#f97316', textTransform: 'uppercase', letterSpacing: 0.5,
+                    }}>
+                      ✓ Selected
                     </div>
-
-                  </div>
-
-
-
-
-
-                  {/* Action Button */}
-                  <div style={{ padding: '0 20px 16px' }}>
-                    {reqStatus === 'connected' ? (
-                      <div style={{
-                        width: '100%', padding: '10px 16px', borderRadius: 12, textAlign: 'center',
-                        background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)',
-                        color: '#22c55e', fontWeight: 700, fontSize: 13,
-                      }}>
-                        ✅ Your Trainer — Connected
-                      </div>
-                    ) : reqStatus === 'pending' ? (
-                      <div style={{
-                        width: '100%', padding: '10px 16px', borderRadius: 12, textAlign: 'center',
-                        background: 'rgba(251,191,36,0.1)', border: '1px solid rgba(251,191,36,0.3)',
-                        color: '#f59e0b', fontWeight: 700, fontSize: 13,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                      }}>
-                        <span style={{ animation: 'pulse 2s infinite' }}>⏳</span> Request Pending — Awaiting Trainer Response
-                      </div>
-                    ) : reqStatus === 'accepted' ? (
-                      <div style={{
-                        width: '100%', padding: '10px 16px', borderRadius: 12, textAlign: 'center',
-                        background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)',
-                        color: '#22c55e', fontWeight: 700, fontSize: 13,
-                      }}>
-                        ✅ Accepted — You're connected!
-                      </div>
-                    ) : reqStatus === 'rejected' ? (
-                      <div style={{
-                        width: '100%', padding: '10px 16px', borderRadius: 12, textAlign: 'center',
-                        background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)',
-                        color: '#ef4444', fontWeight: 700, fontSize: 13,
-                      }}>
-                        ❌ Request Declined
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => setSelectedTrainer(trainer)}
-                        style={{
-                          width: '100%', padding: '11px 16px', borderRadius: 12, border: 'none',
-                          background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                          color: '#fff',
-                          fontWeight: 700, fontSize: 13, cursor: 'pointer',
-                          fontFamily: 'Outfit', transition: 'all 0.2s ease',
-                          boxShadow: '0 4px 14px rgba(99,102,241,0.3)',
-                        }}
-                      >
-                        🤝 Request to Join
-                      </button>
-                    )}
-                  </div>
+                  )}
                 </div>
               );
             })}
           </div>
-
-          {trainers.length === 0 && (
-            <div className="card" style={{ padding: 40, textAlign: 'center' }}>
-              <div style={{ fontSize: 48, marginBottom: 12 }}>🏋️</div>
-              <h3 style={{ fontWeight: 800, marginBottom: 8 }}>No Trainers Available</h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>Check back later for trainer profiles!</p>
-            </div>
-          )}
         </div>
-      )}
 
-      {/* Confirmation Modal */}
-      {selectedTrainer && (
-        <div className="modal-overlay" onClick={() => setSelectedTrainer(null)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 440 }}>
-            <div className="modal-header">
-              <h3 className="modal-title">🤝 Send Training Request</h3>
-              <button className="modal-close" onClick={() => setSelectedTrainer(null)}>✕</button>
+        {/* Trainers at this Gym */}
+        {gymTrainers.length > 0 && (
+          <div className="card" style={{ marginBottom: 16 }}>
+            <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+              🏋️ Available Trainers
+            </h4>
+            <div style={{ display: 'grid', gap: 10 }}>
+              {gymTrainers.map(trainer => (
+                <div key={trainer.id} style={{
+                  display: 'flex', alignItems: 'center', gap: 12,
+                  padding: 14, borderRadius: 14,
+                  background: 'var(--bg-tertiary)', border: '1px solid var(--border)',
+                  transition: 'all 0.2s ease',
+                }}>
+                  <div style={{
+                    width: 44, height: 44, borderRadius: 14, flexShrink: 0,
+                    background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 15, fontWeight: 800, color: '#fff',
+                    boxShadow: '0 4px 12px rgba(99,102,241,0.25)',
+                  }}>{trainer.avatar}</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 800, fontSize: 14 }}>{trainer.name}</div>
+                    <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 600 }}>
+                      {trainer.specialization}
+                    </div>
+                  </div>
+                  <span className="badge badge-purple" style={{ fontSize: 10 }}>Trainer</span>
+                </div>
+              ))}
             </div>
-            <div style={{ textAlign: 'center', padding: '16px 0' }}>
+          </div>
+        )}
+
+        {/* Join CTA */}
+        <button
+          onClick={() => setShowPayment(true)}
+          disabled={!selectedPlan}
+          style={{
+            width: '100%', padding: '15px 24px', borderRadius: 14, border: 'none',
+            background: selectedPlan ? 'linear-gradient(135deg, #f97316, #fb923c)' : 'var(--bg-tertiary)',
+            color: selectedPlan ? '#fff' : 'var(--text-muted)',
+            fontFamily: 'Outfit', fontWeight: 800, fontSize: 16, cursor: selectedPlan ? 'pointer' : 'not-allowed',
+            boxShadow: selectedPlan ? '0 6px 24px rgba(249,115,22,0.35)' : 'none',
+            transition: 'all 0.3s ease', marginBottom: 20,
+          }}
+        >
+          {selectedPlan ? `🚀 Join ${selectedGym.name} — ₹${selectedPlan.price.toLocaleString()}` : 'Select a plan to continue'}
+        </button>
+      </div>
+    );
+  };
+
+  // ─── My Gym View ───
+  const renderMyGym = () => {
+    const gym = GYMS.find(g => g.id === user?.gymId);
+    if (!gym) {
+      return (
+        <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center', padding: 40 }}>
+          <div style={{ fontSize: 56, marginBottom: 16 }}>🏢</div>
+          <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 20, marginBottom: 8 }}>No Gym Yet</h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: 13, marginBottom: 20 }}>Browse and join a gym to get started!</p>
+          <button className="btn btn-primary" onClick={() => setView('browse')}
+            style={{ background: 'linear-gradient(135deg, #f97316, #fb923c)', border: 'none', fontFamily: 'Outfit', fontWeight: 700 }}
+          >
+            🔍 Browse Gyms
+          </button>
+        </div>
+      );
+    }
+
+    const gymTrainers = getTrainersForGym(gym.id);
+
+    return (
+      <div style={{ maxWidth: 700, margin: '0 auto' }}>
+        {/* My Gym Banner */}
+        <div className="card" style={{
+          overflow: 'hidden', padding: 0, marginBottom: 20, borderRadius: 18,
+          border: '1.5px solid rgba(34,197,94,0.3)',
+        }}>
+          <div style={{ position: 'relative', height: 200, overflow: 'hidden' }}>
+            <img
+              src={gym.images ? gym.images[0] : ''}
+              alt={gym.name}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+            <div style={{
+              position: 'absolute', bottom: 0, left: 0, right: 0,
+              padding: '40px 20px 16px',
+              background: 'linear-gradient(transparent, rgba(0,0,0,0.75))',
+            }}>
+              <div style={{
+                display: 'inline-block', padding: '4px 12px', borderRadius: 20,
+                background: 'rgba(34,197,94,0.9)', color: '#fff',
+                fontSize: 10, fontWeight: 800, letterSpacing: 0.5, marginBottom: 8,
+                textTransform: 'uppercase',
+              }}>✅ Your Current Gym</div>
+              <h2 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 22, color: '#fff', marginBottom: 4 }}>
+                {gym.name}
+              </h2>
+              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
+                📍 {gym.location} <span style={{ opacity: 0.5 }}>•</span> ⭐ {gym.rating}
+              </div>
+            </div>
+          </div>
+          <div style={{ padding: '16px 20px' }}>
+            <div style={{
+              display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 14,
+            }}>
+              <div style={{
+                flex: 1, minWidth: 100, textAlign: 'center', padding: '10px 8px',
+                background: 'var(--bg-tertiary)', borderRadius: 12,
+              }}>
+                <div style={{ fontSize: 18, fontWeight: 800 }}>👥 {gym.members}</div>
+                <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 600 }}>Members</div>
+              </div>
+              <div style={{
+                flex: 1, minWidth: 100, textAlign: 'center', padding: '10px 8px',
+                background: 'var(--bg-tertiary)', borderRadius: 12,
+              }}>
+                <div style={{ fontSize: 18, fontWeight: 800 }}>🏋️ {gym.trainers}</div>
+                <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 600 }}>Trainers</div>
+              </div>
+              <div style={{
+                flex: 1, minWidth: 100, textAlign: 'center', padding: '10px 8px',
+                background: 'var(--bg-tertiary)', borderRadius: 12,
+              }}>
+                <div style={{ fontSize: 18, fontWeight: 800 }}>⭐ {gym.rating}</div>
+                <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 600 }}>Rating</div>
+              </div>
+            </div>
+            <div style={{
+              padding: '8px 14px', borderRadius: 10,
+              background: 'var(--bg-tertiary)', fontSize: 12,
+              color: 'var(--text-muted)', fontWeight: 600,
+            }}>
+              🕐 {gym.hours}
+            </div>
+          </div>
+        </div>
+
+        {/* About */}
+        <div className="card" style={{ marginBottom: 16 }}>
+          <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15, marginBottom: 10, display: 'flex', alignItems: 'center', gap: 8 }}>
+            📖 About
+          </h4>
+          <p style={{ fontSize: 13, lineHeight: 1.7, color: 'var(--text-secondary)' }}>
+            {gym.description}
+          </p>
+        </div>
+
+        {/* Amenities */}
+        <div className="card" style={{ marginBottom: 16 }}>
+          <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+            ✨ Amenities
+          </h4>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+            {gym.amenities.map((a, i) => (
+              <div key={i} style={{
+                padding: '8px 14px', borderRadius: 12,
+                background: 'var(--bg-tertiary)', border: '1px solid var(--border)',
+                fontSize: 12, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6,
+              }}>
+                <span>{AMENITY_ICONS[a] || '🔹'}</span> {a}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Available Trainers */}
+        {gymTrainers.length > 0 && (
+          <div className="card" style={{ marginBottom: 20 }}>
+            <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+              🏋️ Available Trainers
+            </h4>
+            <div style={{ display: 'grid', gap: 12 }}>
+              {gymTrainers.map((trainer, idx) => {
+                const studentCount = getTrainerStudentCount(trainer.id);
+                const isMyTrainer = user?.trainerId === trainer.id;
+                return (
+                  <div
+                    key={trainer.id}
+                    onMouseEnter={() => setHoveredTrainer(trainer.id)}
+                    onMouseLeave={() => setHoveredTrainer(null)}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 14,
+                      padding: 16, borderRadius: 16,
+                      background: isMyTrainer ? 'linear-gradient(135deg, rgba(34,197,94,0.06), rgba(16,185,129,0.04))' : 'var(--bg-tertiary)',
+                      border: isMyTrainer ? '1.5px solid rgba(34,197,94,0.3)' : '1px solid var(--border)',
+                      transition: 'all 0.25s ease',
+                      transform: hoveredTrainer === trainer.id ? 'translateY(-2px)' : 'translateY(0)',
+                      boxShadow: hoveredTrainer === trainer.id ? '0 6px 20px rgba(0,0,0,0.08)' : 'none',
+                    }}
+                  >
+                    <div style={{
+                      width: 52, height: 52, borderRadius: 16, flexShrink: 0,
+                      background: isMyTrainer
+                        ? 'linear-gradient(135deg, #22c55e, #4ade80)'
+                        : 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: 17, fontWeight: 800, color: '#fff',
+                      boxShadow: isMyTrainer
+                        ? '0 4px 14px rgba(34,197,94,0.3)'
+                        : '0 4px 14px rgba(99,102,241,0.25)',
+                    }}>
+                      {trainer.avatar}
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 800, fontSize: 14, marginBottom: 2 }}>
+                        {trainer.name}
+                        {isMyTrainer && (
+                          <span style={{
+                            marginLeft: 8, fontSize: 10, fontWeight: 700, color: '#22c55e',
+                          }}>✅ Your Trainer</span>
+                        )}
+                      </div>
+                      <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 600, marginBottom: 4 }}>
+                        {trainer.specialization}
+                      </div>
+                      <div style={{ display: 'flex', gap: 12, fontSize: 11, color: 'var(--text-muted)' }}>
+                        <span>👥 {studentCount} students</span>
+                        <span>📜 {trainer.certifications}</span>
+                      </div>
+                    </div>
+                    {isMyTrainer ? (
+                      <div style={{
+                        padding: '8px 14px', borderRadius: 10,
+                        background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)',
+                        color: '#22c55e', fontWeight: 700, fontSize: 11, whiteSpace: 'nowrap',
+                      }}>
+                        ✅ Hired
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => { setSelectedTrainer(trainer); setShowTrainerPayment(true); }}
+                        style={{
+                          padding: '9px 14px', borderRadius: 10, border: 'none',
+                          background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                          color: '#fff', fontWeight: 700, fontSize: 11, cursor: 'pointer',
+                          fontFamily: 'Outfit', whiteSpace: 'nowrap',
+                          boxShadow: '0 4px 12px rgba(99,102,241,0.25)',
+                          transition: 'all 0.2s ease',
+                        }}
+                      >
+                        Hire — ₹1,500/mo
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // ─── Payment Modal (Gym) ───
+  const renderPaymentModal = () => {
+    if (!showPayment || !selectedGym || !selectedPlan) return null;
+    const paymentMethods = [
+      { key: 'upi', label: 'UPI', icon: '📱' },
+      { key: 'card', label: 'Card', icon: '💳' },
+      { key: 'netbanking', label: 'Net Banking', icon: '🏦' },
+    ];
+
+    return (
+      <div className="modal-overlay" onClick={() => { if (!processing) { setShowPayment(false); } }}>
+        <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 440 }}>
+          <div className="modal-header">
+            <h3 className="modal-title">💳 Complete Payment</h3>
+            {!processing && <button className="modal-close" onClick={() => setShowPayment(false)}>✕</button>}
+          </div>
+          <div style={{ padding: '8px 0 16px' }}>
+            {/* Order Summary */}
+            <div style={{
+              padding: 16, borderRadius: 14, marginBottom: 18,
+              background: 'linear-gradient(135deg, rgba(249,115,22,0.06), rgba(251,146,60,0.04))',
+              border: '1px solid rgba(249,115,22,0.15)',
+            }}>
+              <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 600, marginBottom: 4, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                Joining
+              </div>
+              <div style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 16, marginBottom: 2 }}>
+                {selectedGym.name}
+              </div>
+              <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 600 }}>
+                📍 {selectedGym.location}
+              </div>
+              <div style={{
+                marginTop: 12, paddingTop: 12, borderTop: '1px solid var(--border)',
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              }}>
+                <span style={{ fontSize: 13, fontWeight: 700 }}>{selectedPlan.name} Plan ({selectedPlan.duration})</span>
+                <span style={{
+                  fontFamily: 'Outfit', fontWeight: 900, fontSize: 20,
+                  background: 'linear-gradient(135deg, #f97316, #fb923c)',
+                  WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                }}>₹{selectedPlan.price.toLocaleString()}</span>
+              </div>
+            </div>
+
+            {/* Payment Methods */}
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                Payment Method
+              </div>
+              <div style={{ display: 'flex', gap: 10 }}>
+                {paymentMethods.map(m => (
+                  <button
+                    key={m.key}
+                    onClick={() => setPaymentMethod(m.key)}
+                    style={{
+                      flex: 1, padding: '12px 8px', borderRadius: 12, cursor: 'pointer',
+                      border: paymentMethod === m.key ? '2px solid #f97316' : '1.5px solid var(--border)',
+                      background: paymentMethod === m.key ? 'rgba(249,115,22,0.06)' : 'var(--bg-secondary)',
+                      textAlign: 'center', transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <div style={{ fontSize: 22, marginBottom: 4 }}>{m.icon}</div>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: paymentMethod === m.key ? '#f97316' : 'var(--text-secondary)' }}>
+                      {m.label}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="modal-footer">
+            {!processing && (
+              <button className="btn btn-outline" onClick={() => setShowPayment(false)}>Cancel</button>
+            )}
+            <button
+              className="btn btn-primary"
+              onClick={handleJoinGym}
+              disabled={processing}
+              style={{
+                background: 'linear-gradient(135deg, #f97316, #fb923c)',
+                border: 'none', fontFamily: 'Outfit', fontWeight: 700,
+                minWidth: 160, position: 'relative', overflow: 'hidden',
+              }}
+            >
+              {processing ? (
+                <span style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'center' }}>
+                  <span style={{
+                    width: 16, height: 16, border: '2px solid rgba(255,255,255,0.3)',
+                    borderTopColor: '#fff', borderRadius: '50%',
+                    animation: 'spin 0.8s linear infinite', display: 'inline-block',
+                  }} />
+                  Processing...
+                </span>
+              ) : (
+                `Pay ₹${selectedPlan.price.toLocaleString()}`
+              )}
+            </button>
+          </div>
+        </div>
+        <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
+      </div>
+    );
+  };
+
+  // ─── Trainer Payment Modal ───
+  const renderTrainerPaymentModal = () => {
+    if (!showTrainerPayment || !selectedTrainer) return null;
+    const paymentMethods = [
+      { key: 'upi', label: 'UPI', icon: '📱' },
+      { key: 'card', label: 'Card', icon: '💳' },
+      { key: 'netbanking', label: 'Net Banking', icon: '🏦' },
+    ];
+
+    return (
+      <div className="modal-overlay" onClick={() => { if (!processing) { setShowTrainerPayment(false); setSelectedTrainer(null); } }}>
+        <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 440 }}>
+          <div className="modal-header">
+            <h3 className="modal-title">🏋️ Hire Personal Trainer</h3>
+            {!processing && <button className="modal-close" onClick={() => { setShowTrainerPayment(false); setSelectedTrainer(null); }}>✕</button>}
+          </div>
+          <div style={{ padding: '8px 0 16px' }}>
+            {/* Trainer Info */}
+            <div style={{
+              textAlign: 'center', padding: '12px 0 20px',
+            }}>
               <div style={{
                 width: 64, height: 64, borderRadius: 18, margin: '0 auto 12px',
                 background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
@@ -320,32 +804,125 @@ export default function ClientCommunity() {
                 {selectedTrainer.avatar}
               </div>
               <h3 style={{ fontWeight: 800, fontSize: 17, marginBottom: 4 }}>{selectedTrainer.name}</h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: 13, marginBottom: 4 }}>{selectedTrainer.specialization}</p>
-              <p style={{ color: 'var(--text-muted)', fontSize: 12 }}>
-                🏢 {getTrainerGym(selectedTrainer)?.name} • 📍 {getTrainerGym(selectedTrainer)?.location}
-              </p>
+              <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>{selectedTrainer.specialization}</p>
             </div>
+
+            {/* Price */}
             <div style={{
-              padding: 14, borderRadius: 12, marginBottom: 16,
-              background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.12)',
+              padding: 16, borderRadius: 14, marginBottom: 18,
+              background: 'linear-gradient(135deg, rgba(99,102,241,0.06), rgba(139,92,246,0.04))',
+              border: '1px solid rgba(99,102,241,0.15)',
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
             }}>
-              <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-                📋 Your request will include your profile info (name, goal, fitness details). The trainer will review and accept or decline your request.
-              </p>
+              <span style={{ fontSize: 13, fontWeight: 700 }}>Personal Training (Monthly)</span>
+              <span style={{
+                fontFamily: 'Outfit', fontWeight: 900, fontSize: 20,
+                background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+              }}>₹1,500</span>
             </div>
-            <div className="modal-footer">
-              <button className="btn btn-outline" onClick={() => setSelectedTrainer(null)}>Cancel</button>
-              <button
-                className="btn btn-primary"
-                onClick={() => sendRequest(selectedTrainer.id)}
-                style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', border: 'none' }}
-              >
-                🚀 Send Request
-              </button>
+
+            {/* Payment Methods */}
+            <div style={{ marginBottom: 8 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                Payment Method
+              </div>
+              <div style={{ display: 'flex', gap: 10 }}>
+                {paymentMethods.map(m => (
+                  <button
+                    key={m.key}
+                    onClick={() => setPaymentMethod(m.key)}
+                    style={{
+                      flex: 1, padding: '12px 8px', borderRadius: 12, cursor: 'pointer',
+                      border: paymentMethod === m.key ? '2px solid #6366f1' : '1.5px solid var(--border)',
+                      background: paymentMethod === m.key ? 'rgba(99,102,241,0.06)' : 'var(--bg-secondary)',
+                      textAlign: 'center', transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <div style={{ fontSize: 22, marginBottom: 4 }}>{m.icon}</div>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: paymentMethod === m.key ? '#6366f1' : 'var(--text-secondary)' }}>
+                      {m.label}
+                    </div>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
+
+          <div className="modal-footer">
+            {!processing && (
+              <button className="btn btn-outline" onClick={() => { setShowTrainerPayment(false); setSelectedTrainer(null); }}>Cancel</button>
+            )}
+            <button
+              className="btn btn-primary"
+              onClick={handleHireTrainer}
+              disabled={processing}
+              style={{
+                background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                border: 'none', fontFamily: 'Outfit', fontWeight: 700,
+                minWidth: 160, position: 'relative', overflow: 'hidden',
+              }}
+            >
+              {processing ? (
+                <span style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'center' }}>
+                  <span style={{
+                    width: 16, height: 16, border: '2px solid rgba(255,255,255,0.3)',
+                    borderTopColor: '#fff', borderRadius: '50%',
+                    animation: 'spin 0.8s linear infinite', display: 'inline-block',
+                  }} />
+                  Processing...
+                </span>
+              ) : (
+                'Pay ₹1,500'
+              )}
+            </button>
+          </div>
+        </div>
+        <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
+      </div>
+    );
+  };
+
+  return (
+    <DashboardLayout title="Join Gym">
+      {/* View Tabs (only when user has a gym) */}
+      {user?.gymId && (
+        <div style={{
+          display: 'flex', gap: 8, marginBottom: 20,
+          maxWidth: 700, margin: '0 auto 20px',
+        }}>
+          {[
+            { key: 'myGym', label: '🏢 My Gym' },
+            { key: 'browse', label: '🔍 Browse Gyms' },
+          ].map(t => (
+            <button
+              key={t.key}
+              onClick={() => { setView(t.key); if (t.key === 'browse') { setSelectedGym(null); setSelectedPlan(null); } }}
+              style={{
+                padding: '10px 20px', borderRadius: 12, border: 'none',
+                background: view === t.key || (view === 'detail' && t.key === 'browse')
+                  ? 'linear-gradient(135deg, #f97316, #fb923c)'
+                  : 'var(--bg-tertiary)',
+                color: view === t.key || (view === 'detail' && t.key === 'browse') ? '#fff' : 'var(--text-secondary)',
+                fontWeight: 700, fontSize: 13, cursor: 'pointer',
+                fontFamily: 'Outfit', transition: 'all 0.25s ease',
+                boxShadow: view === t.key || (view === 'detail' && t.key === 'browse')
+                  ? '0 4px 14px rgba(249,115,22,0.3)'
+                  : 'none',
+              }}
+            >
+              {t.label}
+            </button>
+          ))}
         </div>
       )}
+
+      {view === 'browse' && renderBrowse()}
+      {view === 'detail' && renderDetail()}
+      {view === 'myGym' && renderMyGym()}
+
+      {renderPaymentModal()}
+      {renderTrainerPaymentModal()}
     </DashboardLayout>
   );
 }

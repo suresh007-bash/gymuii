@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Icon, Package, Edit, CheckCircle2, LogOut } from '../../components/Icons';
 import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../components/DashboardLayout';
 import { useAuth } from '../../context/AuthContext';
@@ -16,7 +17,7 @@ export default function ClientProfile() {
 
   const handleSave = () => {
     updateUser(user.id, { ...form, avatar: form.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) });
-    showToast('Profile updated! ✅');
+    showToast('Profile updated!');
   };
 
   const handleLogout = () => { logout(); navigate('/'); };
@@ -28,10 +29,10 @@ export default function ClientProfile() {
         <div className="card" style={{ textAlign: 'center', padding: 32, marginBottom: 20 }}>
           <div style={{ width: 72, height: 72, borderRadius: '50%', background: 'linear-gradient(135deg, #f97316, #22c55e)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, fontWeight: 900, color: '#fff', margin: '0 auto 12px' }}>{user?.avatar}</div>
           <h2 style={{ fontFamily: 'Outfit', fontWeight: 800, marginBottom: 4 }}>{user?.name}</h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>{user?.email} • 📦 {totalOrders} orders</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>{user?.email} • <Package size={13} style={{marginRight:3, verticalAlign:'middle'}} /> {totalOrders} orders</p>
         </div>
         <div className="card" style={{ padding: 24 }}>
-          <h3 className="card-title" style={{ marginBottom: 16 }}>✏️ Edit Profile</h3>
+          <h3 className="card-title" style={{ marginBottom: 16, display:'flex', alignItems:'center', gap:6 }}><Edit size={16} /> Edit Profile</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 14 }}>
             <div style={{ gridColumn: '1 / -1' }}><label className="form-label">Full Name</label><input style={inp} value={form.name} onChange={e => upd('name', e.target.value)} /></div>
             <div><label className="form-label">Email</label><input style={inp} value={form.email} onChange={e => upd('email', e.target.value)} /></div>
@@ -44,8 +45,8 @@ export default function ClientProfile() {
             <div><label className="form-label">Allergies</label><input style={inp} value={form.allergies} onChange={e => upd('allergies', e.target.value)} /></div>
           </div>
           <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
-            <button className="btn btn-success" style={{ flex: 1 }} onClick={handleSave}>✅ Save Changes</button>
-            <button className="btn btn-danger" onClick={handleLogout}>🚪 Logout</button>
+            <button className="btn btn-success" style={{ flex: 1, display:'flex', alignItems:'center', justifyContent:'center', gap:6 }} onClick={handleSave}><CheckCircle2 size={14} /> Save Changes</button>
+            <button className="btn btn-danger" style={{display:'flex', alignItems:'center', gap:6}} onClick={handleLogout}><LogOut size={14} /> Logout</button>
           </div>
         </div>
       </div>
