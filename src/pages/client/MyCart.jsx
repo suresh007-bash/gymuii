@@ -27,6 +27,8 @@ export default function MyCart() {
   const total = subtotal + deliveryFee + tip;
   const cartCal = cart.reduce((a, c) => a + (c.calories || 0) * c.qty, 0);
   const cartPro = cart.reduce((a, c) => a + (c.protein || 0) * c.qty, 0);
+  const cartCarb = cart.reduce((a, c) => a + (c.carbs || 0) * c.qty, 0);
+  const cartFat = cart.reduce((a, c) => a + (c.fat || 0) * c.qty, 0);
 
   const handlePlaceOrder = () => {
     if (cart.length === 0) { showToast('Cart is empty', 'error'); return; }
@@ -89,10 +91,12 @@ export default function MyCart() {
             </div>
 
             {/* Nutrition summary */}
-            <div style={{ display: 'flex', gap: 16, padding: '10px 0', marginBottom: 8, borderBottom: '1px solid var(--border)' }}>
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', padding: '10px 0', marginBottom: 8, borderBottom: '1px solid var(--border)' }}>
               <span style={{ fontSize: 12, color: '#f97316', fontWeight: 700 }}>🔥 {cartCal} kcal</span>
               <span style={{ fontSize: 12, color: '#22c55e', fontWeight: 700 }}>💪 {cartPro}g protein</span>
-              <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{cart.reduce((a, c) => a + c.qty, 0)} items total</span>
+              <span style={{ fontSize: 12, color: '#3b82f6', fontWeight: 700 }}>🌾 {cartCarb}g carbs</span>
+              <span style={{ fontSize: 12, color: '#eab308', fontWeight: 700 }}>🥑 {cartFat}g fats</span>
+              <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>({cart.reduce((a, c) => a + c.qty, 0)} items)</span>
             </div>
 
             {cart.map(item => (
@@ -100,7 +104,9 @@ export default function MyCart() {
                 <img src={item.image} alt="" style={{ width: 56, height: 56, borderRadius: 10, objectFit: 'cover' }} />
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 800, fontSize: 14 }}>{item.name}</div>
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>🔥{item.calories * item.qty} kcal • 💪{item.protein * item.qty}g</div>
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', margin: '4px 0' }}>
+                    🔥{(item.calories || 0) * item.qty} kcal • 💪{(item.protein || 0) * item.qty}g • 🌾{(item.carbs || 0) * item.qty}g • 🥑{(item.fat || 0) * item.qty}g
+                  </div>
                   <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--accent-green)' }}>₹{item.price} each</div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>

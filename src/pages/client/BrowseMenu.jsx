@@ -78,7 +78,7 @@ const Ring = ({ value, target, color, size = 90, stroke = 8, icon, label, unit }
 
 export default function BrowseMenu() {
   const { user } = useAuth();
-  const { getDietPlansByClient } = useOrders();
+  const { getDietPlansByClient, getTodayNutrition } = useOrders();
   const { showToast } = useNotifications();
   const navigate = useNavigate();
   const foodGridRef = useRef(null);
@@ -88,7 +88,7 @@ export default function BrowseMenu() {
   const [tab, setTab] = useState('menu');
   const [cart, setCart] = useState(() => JSON.parse(localStorage.getItem('synnoviq_cart') || '[]'));
   const [showSchedule, setShowSchedule] = useState(false);
-  const [showRings, setShowRings] = useState(false);
+  const [showRings, setShowRings] = useState(true);
   const [showTargetEditor, setShowTargetEditor] = useState(false);
   const [schedForm, setSchedForm] = useState({ dates: '', timing: 'morning', items: [] });
   const [targets, setTargets] = useState(() => JSON.parse(localStorage.getItem('synnoviq_targets') || 'null') || { calories: 2500, protein: 180, carbs: 280, fat: 80 });
@@ -402,26 +402,26 @@ export default function BrowseMenu() {
 
         {/* Animated Circular Nutrition Tracker */}
         {showRings && (() => {
-          const cartCal = cart.reduce((a, c) => a + (c.calories || 0) * c.qty, 0);
-          const cartPro = cart.reduce((a, c) => a + (c.protein || 0) * c.qty, 0);
-          const cartCarb = cart.reduce((a, c) => a + (c.carbs || 0) * c.qty, 0);
-          const cartFat = cart.reduce((a, c) => a + (c.fat || 0) * c.qty, 0);
+          const todayNutr = getTodayNutrition ? getTodayNutrition(user?.id) : { calories: 0, protein: 0, carbs: 0, fat: 0 };
+          const calVal = todayNutr.calories;
+          const proVal = todayNutr.protein;
+          const carbVal = todayNutr.carbs;
+          const fatVal = todayNutr.fat;
           return (
              <div style={{ padding: 12, marginBottom: 0, animation: 'fadeInUp 0.3s ease' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
                 <div>
                   <span style={{ fontFamily: 'Outfit', fontSize: 15, fontWeight: 800 }}>🎯 Daily Nutrition</span>
-                  {cart.length > 0 && <span style={{ fontSize: 11, color: 'var(--text-muted)', marginLeft: 8 }}>({cart.reduce((a, c) => a + c.qty, 0)} items in cart)</span>}
                 </div>
                 <button className="btn btn-outline btn-sm" onClick={() => { setEditTargets({ ...targets }); setShowTargetEditor(true); }} style={{ fontSize: 11 }}>
                   ⚙️ Edit Targets
                 </button>
               </div>
               <div className="nutrition-rings" style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
-                <Ring value={cartCal} target={targets.calories} color="#f97316" icon="🔥" label="Calories" unit="kcal" size={100} stroke={9} />
-                <Ring value={cartPro} target={targets.protein} color="#22c55e" icon="💪" label="Protein" unit="g" />
-                <Ring value={cartCarb} target={targets.carbs} color="#3b82f6" icon="🌾" label="Carbs" unit="g" />
-                <Ring value={cartFat} target={targets.fat} color="#eab308" icon="🥑" label="Fat" unit="g" />
+                <Ring value={calVal} target={targets.calories} color="#f97316" icon="🔥" label="Calories" unit="kcal" size={100} stroke={9} />
+                <Ring value={proVal} target={targets.protein} color="#22c55e" icon="💪" label="Protein" unit="g" />
+                <Ring value={carbVal} target={targets.carbs} color="#3b82f6" icon="🌾" label="Carbs" unit="g" />
+                <Ring value={fatVal} target={targets.fat} color="#eab308" icon="🥑" label="Fat" unit="g" />
               </div>
             </div>
           );
