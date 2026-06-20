@@ -39,7 +39,7 @@ export default function DeliveryDashboard() {
       </div>
 
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 16, marginBottom: 20 }}>
         <div className="card" style={{ borderLeft: '4px solid #f97316' }}>
           <h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}>⏳ Pending Requests</h4>
           <p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>

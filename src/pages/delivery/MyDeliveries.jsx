@@ -72,7 +72,7 @@ export default function MyDeliveries() {
 
               <div style={{ padding: 16 }}>
                 {/* Customer & Location */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 12, marginBottom: 14 }}>
                   <div style={{ padding: 12, background: 'var(--bg-tertiary)', borderRadius: 10 }}>
                     <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--text-muted)', marginBottom: 4 }}>📍 DELIVERY LOCATION</div>
                     <div style={{ fontWeight: 700, fontSize: 13 }}>{order.customerName}</div>
@@ -98,7 +98,7 @@ export default function MyDeliveries() {
                 </div>
 
                 {/* Payment Info */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, marginBottom: 14 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 8, marginBottom: 14 }}>
                   <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 8, textAlign: 'center' }}>
                     <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 700 }}>💰 TOTAL</div>
                     <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 18, color: 'var(--accent-green)' }}>₹{order.total}</div>

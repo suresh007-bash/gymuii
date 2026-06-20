@@ -419,7 +419,7 @@ export default function ScheduleForClients() {
           </div>
           <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 14 }}>Pick dates on the calendar. You can schedule multiple slots and foods for each date.</p>
           
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4, marginBottom: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(40px, 1fr))', gap: 4, marginBottom: 16 }}>
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
               <div key={d} style={{ textAlign: 'center', fontSize: 10, fontWeight: 800, color: 'var(--text-muted)', padding: 6 }}>{d}</div>
             ))}
@@ -803,7 +803,7 @@ export default function ScheduleForClients() {
                           <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>Target Goal: <span style={{ color: 'var(--accent-orange)', fontWeight: 700 }}>{clientObj.goal || 'Not Set'}</span></div>
                         </div>
                       </div>
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 12 }}>
                         <div>
                           <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 4, textTransform: 'uppercase' }}>Select Target Diagram</label>
                           <select style={{ width: '100%', padding: '8px 10px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 10, color: 'var(--text-primary)', fontSize: 12 }}

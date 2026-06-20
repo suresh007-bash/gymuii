@@ -11,22 +11,26 @@ export default function KitchenMenu() {
   });
   const [showAdd, setShowAdd] = useState(false);
   const [editItem, setEditItem] = useState(null);
-  const [form, setForm] = useState({ name: '', category: 'Protein', price: '', calories: '', protein: '', carbs: '', fat: '', description: '', image: '', available: true });
+  const [form, setForm] = useState({ name: '', category: 'Protein', price: '', calories: '', protein: '', carbs: '', fat: '', description: '', image: '', available: true, discount: 0 });
   const upd = (k, v) => setForm(p => ({ ...p, [k]: v }));
 
   const saveMenu = (newMenu) => { setMenu(newMenu); localStorage.setItem('synnoviq_menu', JSON.stringify(newMenu)); };
 
   const handleAdd = () => {
     if (!form.name || !form.price) { showToast('Name and price are required', 'error'); return; }
-    const newItem = { ...form, id: 'm' + Date.now(), price: Number(form.price), calories: Number(form.calories), protein: Number(form.protein), carbs: Number(form.carbs), fat: Number(form.fat), prepTime: 0, rating: 4.5, tags: [], image: form.image || '/images/grilled_chicken_salad_1781339721580.png' };
+    const disc = Number(form.discount) || 0;
+    const basePrice = Number(form.price);
+    const newItem = { ...form, id: 'm' + Date.now(), price: disc > 0 ? Math.round(basePrice * (1 - disc / 100)) : basePrice, originalPrice: disc > 0 ? basePrice : null, discount: disc, calories: Number(form.calories), protein: Number(form.protein), carbs: Number(form.carbs), fat: Number(form.fat), prepTime: 0, rating: 4.5, tags: [], image: form.image || '/images/grilled_chicken_salad_1781339721580.png' };
     saveMenu([...menu, newItem]);
     showToast('Menu item added! 🍽️');
     setShowAdd(false);
-    setForm({ name: '', category: 'Protein', price: '', calories: '', protein: '', carbs: '', fat: '', description: '', image: '', available: true });
+    setForm({ name: '', category: 'Protein', price: '', calories: '', protein: '', carbs: '', fat: '', description: '', image: '', available: true, discount: 0 });
   };
 
   const handleEdit = () => {
-    const updated = menu.map(m => m.id === editItem.id ? { ...m, ...form, price: Number(form.price), calories: Number(form.calories), protein: Number(form.protein), carbs: Number(form.carbs), fat: Number(form.fat), image: form.image || m.image } : m);
+    const disc = Number(form.discount) || 0;
+    const basePrice = Number(form.price);
+    const updated = menu.map(m => m.id === editItem.id ? { ...m, ...form, price: disc > 0 ? Math.round(basePrice * (1 - disc / 100)) : basePrice, originalPrice: disc > 0 ? basePrice : null, discount: disc, calories: Number(form.calories), protein: Number(form.protein), carbs: Number(form.carbs), fat: Number(form.fat), image: form.image || m.image } : m);
     saveMenu(updated);
     showToast('Menu item updated! ✅');
     setEditItem(null);
@@ -46,7 +50,7 @@ export default function KitchenMenu() {
 
   const openEdit = (item) => {
     setEditItem(item);
-    setForm({ name: item.name, category: item.category, price: item.price, calories: item.calories, protein: item.protein, carbs: item.carbs, fat: item.fat, description: item.description, image: item.image || '', available: item.available });
+    setForm({ name: item.name, category: item.category, price: item.originalPrice || item.price, calories: item.calories, protein: item.protein, carbs: item.carbs, fat: item.fat, description: item.description, image: item.image || '', available: item.available, discount: item.discount || 0 });
   };
 
   const inp = { width: '100%', padding: '10px 14px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 12, color: 'var(--text-primary)', fontSize: 14 };
@@ -57,11 +61,19 @@ export default function KitchenMenu() {
         <div className="modal-header"><h3 className="modal-title">{title}</h3><button className="modal-close" onClick={onClose}>✕</button></div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <div><label className="form-label">Name *</label><input style={inp} value={form.name} onChange={e => upd('name', e.target.value)} placeholder="Grilled Chicken Bowl" /></div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 12 }}>
             <div><label className="form-label">Category</label><select style={inp} value={form.category} onChange={e => upd('category', e.target.value)}><option>Protein</option><option>Salads</option><option>Smoothies</option><option>Snacks</option></select></div>
             <div><label className="form-label">Price (₹) *</label><input style={inp} type="number" value={form.price} onChange={e => upd('price', e.target.value)} /></div>
+            <div><label className="form-label">Discount (%)</label><input style={inp} type="number" min="0" max="99" value={form.discount} onChange={e => upd('discount', e.target.value)} placeholder="0" /></div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 12 }}>
+          {Number(form.discount) > 0 && Number(form.price) > 0 && (
+            <div style={{ padding: '8px 12px', background: 'rgba(34,197,94,0.08)', borderRadius: 10, fontSize: 13, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontWeight: 900, fontSize: 16, color: '#22c55e' }}>₹{Math.round(Number(form.price) * (1 - Number(form.discount) / 100))}</span>
+              <span style={{ textDecoration: 'line-through', color: 'var(--text-muted)', fontSize: 13 }}>₹{form.price}</span>
+              <span style={{ color: '#22c55e', fontWeight: 800, fontSize: 12 }}>{form.discount}% off</span>
+            </div>
+          )}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))', gap: 12 }}>
             <div><label className="form-label">Calories</label><input style={inp} type="number" value={form.calories} onChange={e => upd('calories', e.target.value)} /></div>
             <div><label className="form-label">Protein (g)</label><input style={inp} type="number" value={form.protein} onChange={e => upd('protein', e.target.value)} /></div>
             <div><label className="form-label">Carbs (g)</label><input style={inp} type="number" value={form.carbs} onChange={e => upd('carbs', e.target.value)} /></div>
@@ -128,7 +140,13 @@ export default function KitchenMenu() {
               <tr key={item.id}>
                 <td style={{ fontWeight: 700, fontSize: 13 }}>{item.name}</td>
                 <td><span className="badge badge-purple">{item.category}</span></td>
-                <td style={{ fontWeight: 700 }}>₹{item.price}</td>
+                <td style={{ fontWeight: 700 }}>
+                  ₹{item.price}
+                  {item.originalPrice && <>
+                    <span style={{ textDecoration: 'line-through', color: 'var(--text-muted)', fontSize: 11, marginLeft: 6 }}>₹{item.originalPrice}</span>
+                    <span style={{ color: '#22c55e', fontSize: 10, fontWeight: 800, marginLeft: 4 }}>{item.discount}% off</span>
+                  </>}
+                </td>
                 <td style={{ fontSize: 12 }}>🔥 {item.calories}</td>
                 <td style={{ fontSize: 12 }}>💪 {item.protein}g</td>
                 <td style={{ fontSize: 12 }}>⏱ {item.prepTime}m</td>

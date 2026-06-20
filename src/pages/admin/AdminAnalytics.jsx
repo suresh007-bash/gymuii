@@ -19,7 +19,7 @@ export default function AdminAnalytics() {
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 20 }}>
         <div className="card">
           <div className="card-header"><h3 className="card-title">📊 Orders by Status</h3></div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -57,7 +57,7 @@ export default function AdminAnalytics() {
 
       <div className="card" style={{ marginTop: 20 }}>
         <div className="card-header"><h3 className="card-title">📈 Key Metrics</h3></div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 16 }}>
           {[['Completion Rate', stats.total > 0 ? `${Math.round((stats.delivered / stats.total) * 100)}%` : '0%', '#22c55e'], ['Cancellation Rate', stats.total > 0 ? `${Math.round((stats.cancelled / stats.total) * 100)}%` : '0%', '#ef4444'], ['Active Rate', stats.total > 0 ? `${Math.round(((stats.pending + stats.preparing + stats.inTransit) / stats.total) * 100)}%` : '0%', '#3b82f6']].map(([label, val, color]) => (
             <div key={label} style={{ textAlign: 'center', padding: 20, background: 'var(--bg-tertiary)', borderRadius: 16 }}>
               <div style={{ fontFamily: 'Outfit', fontSize: 32, fontWeight: 900, color, marginBottom: 4 }}>{val}</div>

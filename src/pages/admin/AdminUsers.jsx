@@ -5,7 +5,7 @@ import { useNotifications } from '../../context/NotificationContext';
 import { GYMS } from '../../data/mockUsers';
 
 export default function AdminUsers() {
-  const { allUsers, addUser, deleteUser, blockUser, unblockUser, promoteUser, getUsersByRole } = useAuth();
+  const { user, allUsers, addUser, deleteUser, blockUser, unblockUser, promoteUser, getUsersByRole } = useAuth();
   const { showToast } = useNotifications();
   const [search, setSearch] = useState('');
   const [showAdd, setShowAdd] = useState(false);
@@ -83,17 +83,19 @@ export default function AdminUsers() {
 
   const handlePromote = () => {
     if (!promoteModal || newRole === promoteModal.role) { setPromoteModal(null); return; }
+    if (promoteModal.id === user?.id) { showToast('Cannot change your own role', 'error'); setPromoteModal(null); return; }
     const oldRole = promoteModal.role;
     const name = promoteModal.name;
+    const userId = promoteModal.id;
+    setPromoteModal(null);
     setConfirm({
       title: oldRole < newRole ? '⬆️ Promote User' : '⬇️ Change Role',
       msg: `Change "${name}" from ${oldRole.toUpperCase()} to ${newRole.toUpperCase()}?`,
       color: '#3b82f6',
       action: () => {
-        promoteUser(promoteModal.id, newRole);
+        promoteUser(userId, newRole);
         showToast(`${name} is now ${newRole.toUpperCase()}`);
         setConfirm(null);
-        setPromoteModal(null);
       }
     });
   };
@@ -269,36 +271,67 @@ export default function AdminUsers() {
         <button className="btn btn-primary" onClick={() => setShowAdd(true)}>+ Add User</button>
       </div>
 
-      {/* Active Users Table */}
+      {/* Active Users */}
       <div className="card" style={{ marginBottom: 24 }}>
         <div className="card-header">
           <div className="card-title">👥 Active Users ({activeUsers.length})</div>
         </div>
-        <table className="data-table">
-          <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Detail / Gym</th><th>Joined</th><th>Actions</th></tr></thead>
-          <tbody>
-            {activeUsers.map(u => (
-              <tr key={u.id}>
-                <td>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: '#fff' }}>{u.avatar}</div>
-                    <div style={{ fontWeight: 700, fontSize: 13 }}>{u.name}</div>
-                  </div>
-                </td>
-                <td style={{ fontSize: 12 }}>{u.email}</td>
-                <td><span className={`badge ${roleBadge[u.role] || 'badge-blue'}`}>{u.role.toUpperCase()}</span></td>
-                <td style={{ fontSize: 12 }}>{u.gymName || GYMS.find(g => g.id === u.gymId)?.name || u.kitchenName || (u.vehicleType ? `${u.vehicleType} (${u.licenseNo || 'No License'})` : '') || '—'}</td>
-                <td style={{ fontSize: 12, color: 'var(--text-muted)' }}>{u.joinDate || '—'}</td>
-                <td>
-                  <div style={{ display: 'flex', gap: 4 }}>
-                    <button className="btn btn-outline btn-sm" title="Change Role" onClick={() => openPromoteModal(u)}>🔄</button>
-                    <button className="btn btn-outline btn-sm" style={{ color: '#ef4444' }} title="Block User" onClick={() => handleBlock(u)}>🚫</button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+
+        {/* Desktop Table */}
+        <div className="admin-table-desktop">
+          <table className="data-table">
+            <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Detail / Gym</th><th>Joined</th><th>Actions</th></tr></thead>
+            <tbody>
+              {activeUsers.map(u => (
+                <tr key={u.id}>
+                  <td>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: '#fff' }}>{u.avatar}</div>
+                      <div style={{ fontWeight: 700, fontSize: 13 }}>{u.name}</div>
+                    </div>
+                  </td>
+                  <td style={{ fontSize: 12 }}>{u.email}</td>
+                  <td><span className={`badge ${roleBadge[u.role] || 'badge-blue'}`}>{u.role.toUpperCase()}</span></td>
+                  <td style={{ fontSize: 12 }}>{u.gymName || GYMS.find(g => g.id === u.gymId)?.name || u.kitchenName || (u.vehicleType ? `${u.vehicleType} (${u.licenseNo || 'No License'})` : '') || '—'}</td>
+                  <td style={{ fontSize: 12, color: 'var(--text-muted)' }}>{u.joinDate || '—'}</td>
+                  <td>
+                    <div style={{ display: 'flex', gap: 4 }}>
+                      <button className="btn btn-outline btn-sm" title="Change Role" onClick={() => openPromoteModal(u)}>🔄</button>
+                      <button className="btn btn-outline btn-sm" style={{ color: '#ef4444' }} title="Block User" onClick={() => handleBlock(u)}>🚫</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Mobile Cards */}
+        <div className="admin-cards-mobile" style={{ display: 'none' }}>
+          {activeUsers.map(u => (
+            <div key={u.id} style={{
+              padding: 14, borderBottom: '1px solid var(--border)',
+              display: 'flex', flexDirection: 'column', gap: 10,
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 800, color: '#fff', flexShrink: 0 }}>{u.avatar}</div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontWeight: 800, fontSize: 14 }}>{u.name}</div>
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{u.email}</div>
+                </div>
+                <span className={`badge ${roleBadge[u.role] || 'badge-blue'}`} style={{ flexShrink: 0 }}>{u.role.toUpperCase()}</span>
+              </div>
+              <div style={{ display: 'flex', gap: 8, fontSize: 11, color: 'var(--text-muted)', flexWrap: 'wrap' }}>
+                <span>🏢 {u.gymName || GYMS.find(g => g.id === u.gymId)?.name || u.kitchenName || (u.vehicleType ? `${u.vehicleType}` : '—')}</span>
+                <span>📅 {u.joinDate || '—'}</span>
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 12 }} onClick={() => openPromoteModal(u)}>🔄 Change Role</button>
+                <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 12, color: '#ef4444', borderColor: 'rgba(239,68,68,0.3)' }} onClick={() => handleBlock(u)}>🚫 Block</button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Blocked Users Section */}
@@ -307,33 +340,63 @@ export default function AdminUsers() {
           <div className="card-header" style={{ borderBottom: '1px solid rgba(239,68,68,0.15)' }}>
             <div className="card-title" style={{ color: '#ef4444' }}>🚫 Blocked Accounts ({blockedUsers.length})</div>
           </div>
-          <table className="data-table">
-            <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Blocked On</th><th>Actions</th></tr></thead>
-            <tbody>
-              {blockedUsers.map(u => (
-                <tr key={u.id} style={{ opacity: 0.7 }}>
-                  <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#6b7280', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: '#fff' }}>{u.avatar}</div>
-                      <div>
-                        <div style={{ fontWeight: 700, fontSize: 13 }}>{u.name}</div>
-                        <div style={{ fontSize: 10, color: '#ef4444', fontWeight: 600 }}>BLOCKED</div>
+
+          {/* Desktop Table */}
+          <div className="admin-table-desktop">
+            <table className="data-table">
+              <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Blocked On</th><th>Actions</th></tr></thead>
+              <tbody>
+                {blockedUsers.map(u => (
+                  <tr key={u.id} style={{ opacity: 0.7 }}>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#6b7280', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: '#fff' }}>{u.avatar}</div>
+                        <div>
+                          <div style={{ fontWeight: 700, fontSize: 13 }}>{u.name}</div>
+                          <div style={{ fontSize: 10, color: '#ef4444', fontWeight: 600 }}>BLOCKED</div>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td style={{ fontSize: 12 }}>{u.email}</td>
-                  <td><span className={`badge ${roleBadge[u.role] || 'badge-blue'}`}>{u.role.toUpperCase()}</span></td>
-                  <td style={{ fontSize: 12, color: 'var(--text-muted)' }}>{u.blockedAt || '—'}</td>
-                  <td>
-                    <div style={{ display: 'flex', gap: 4 }}>
-                      <button className="btn btn-outline btn-sm" style={{ color: '#22c55e' }} title="Unblock" onClick={() => handleUnblock(u)}>✅ Restore</button>
-                      <button className="btn btn-outline btn-sm" style={{ color: '#ef4444' }} title="Delete Permanently" onClick={() => handleDeletePermanent(u)}>🗑️</button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    </td>
+                    <td style={{ fontSize: 12 }}>{u.email}</td>
+                    <td><span className={`badge ${roleBadge[u.role] || 'badge-blue'}`}>{u.role.toUpperCase()}</span></td>
+                    <td style={{ fontSize: 12, color: 'var(--text-muted)' }}>{u.blockedAt || '—'}</td>
+                    <td>
+                      <div style={{ display: 'flex', gap: 4 }}>
+                        <button className="btn btn-outline btn-sm" style={{ color: '#22c55e' }} title="Unblock" onClick={() => handleUnblock(u)}>✅ Restore</button>
+                        <button className="btn btn-outline btn-sm" style={{ color: '#ef4444' }} title="Delete Permanently" onClick={() => handleDeletePermanent(u)}>🗑️</button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile Cards */}
+          <div className="admin-cards-mobile" style={{ display: 'none' }}>
+            {blockedUsers.map(u => (
+              <div key={u.id} style={{
+                padding: 14, borderBottom: '1px solid rgba(239,68,68,0.1)',
+                display: 'flex', flexDirection: 'column', gap: 10, opacity: 0.8,
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#6b7280', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 800, color: '#fff', flexShrink: 0 }}>{u.avatar}</div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontWeight: 800, fontSize: 14 }}>{u.name}</div>
+                    <div style={{ fontSize: 10, color: '#ef4444', fontWeight: 700 }}>🚫 BLOCKED</div>
+                  </div>
+                  <span className={`badge ${roleBadge[u.role] || 'badge-blue'}`} style={{ flexShrink: 0 }}>{u.role.toUpperCase()}</span>
+                </div>
+                <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>
+                  {u.email} • Blocked: {u.blockedAt || '—'}
+                </div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 12, color: '#22c55e', borderColor: 'rgba(34,197,94,0.3)' }} onClick={() => handleUnblock(u)}>✅ Restore</button>
+                  <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 12, color: '#ef4444', borderColor: 'rgba(239,68,68,0.3)' }} onClick={() => handleDeletePermanent(u)}>🗑️ Delete</button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </DashboardLayout>

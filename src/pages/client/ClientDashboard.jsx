@@ -26,7 +26,7 @@ export default function ClientDashboard() {
       </div>
 
       {/* ═══ MEAL TIMING CARDS ═══ */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 16, marginBottom: 20 }}>
         <div className="card" style={{ borderLeft: '4px solid #f97316' }}>
           <h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}>🌅 Breakfast order timing</h4>
           <p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>Order breakfast by 8:00 AM to receive it fresh by 9:00 AM. Best for early training and morning recovery.</p>

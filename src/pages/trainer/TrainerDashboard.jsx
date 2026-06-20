@@ -49,7 +49,7 @@ export default function TrainerDashboard() {
         <div className="modal-overlay" onClick={() => setShowTarget(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="modal-header"><h3 className="modal-title">🎯 Assign Target — {targetClient.name}</h3><button className="modal-close" onClick={() => setShowTarget(false)}>✕</button></div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 12 }}>
               {[['Calories', 'calories'], ['Protein (g)', 'protein'], ['Carbs (g)', 'carbs'], ['Fat (g)', 'fat']].map(([l, k]) => (
                 <div key={k}><label className="form-label">{l}</label><input className="form-input" type="number" value={targets[k]} onChange={e => setTargets(p => ({ ...p, [k]: e.target.value }))} /></div>
               ))}
@@ -67,7 +67,7 @@ export default function TrainerDashboard() {
       </div>
 
       {/* ═══ MEAL TIMING CARDS ═══ */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 16, marginBottom: 20 }}>
         <div className="card" style={{ borderLeft: '4px solid #f97316' }}>
           <h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}>📅 Client Meal Scheduling</h4>
           <p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>Create and manage meal schedules for your clients. Set breakfast, lunch & dinner for any dates.</p>

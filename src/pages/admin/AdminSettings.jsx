@@ -13,22 +13,40 @@ export default function AdminSettings() {
   const [promoGym, setPromoGym] = useState('');
   const [kitchenForm, setKitchenForm] = useState({ name: '', email: '', phone: '', kitchenName: '', kitchenLocation: '' });
 
+  const [confirm, setConfirm] = useState(null);
+
+  const askConfirm = (title, msg, color, action) => setConfirm({ title, msg, color, action: () => { action(); setConfirm(null); } });
+
   const handlePromote = () => {
     if (!promoUserId || !promoRole) { showToast('Select user and role', 'error'); return; }
-    const extra = {};
-    if (promoRole === 'trainer' && promoGym) extra.gymId = promoGym;
-    if (promoRole === 'owner' && promoGym) extra.gymId = promoGym;
-    promoteUser(promoUserId, promoRole, extra);
     const user = allUsers.find(u => u.id === promoUserId);
-    showToast(`✅ ${user?.name} promoted to ${promoRole.toUpperCase()}!`);
-    setPromoUserId(''); setPromoRole('trainer');
+    askConfirm(
+      '⬆️ Promote User',
+      `Are you sure you want to promote "${user?.name}" to ${promoRole.toUpperCase()}?`,
+      '#3b82f6',
+      () => {
+        const extra = {};
+        if (promoRole === 'trainer' && promoGym) extra.gymId = promoGym;
+        if (promoRole === 'owner' && promoGym) extra.gymId = promoGym;
+        promoteUser(promoUserId, promoRole, extra);
+        showToast(`✅ ${user?.name} promoted to ${promoRole.toUpperCase()}!`);
+        setPromoUserId(''); setPromoRole('trainer');
+      }
+    );
   };
 
   const handleAddKitchen = () => {
     if (!kitchenForm.name || !kitchenForm.email || !kitchenForm.kitchenName) { showToast('Fill all required fields', 'error'); return; }
-    addUser({ ...kitchenForm, role: 'kitchen', avatar: kitchenForm.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) });
-    showToast(`👨‍🍳 Kitchen team "${kitchenForm.kitchenName}" added!`);
-    setKitchenForm({ name: '', email: '', phone: '', kitchenName: '', kitchenLocation: '' });
+    askConfirm(
+      '👨‍🍳 Add Kitchen Team',
+      `Add "${kitchenForm.name}" as kitchen staff for "${kitchenForm.kitchenName}"?`,
+      '#22c55e',
+      () => {
+        addUser({ ...kitchenForm, role: 'kitchen', avatar: kitchenForm.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) });
+        showToast(`👨‍🍳 Kitchen team "${kitchenForm.kitchenName}" added!`);
+        setKitchenForm({ name: '', email: '', phone: '', kitchenName: '', kitchenLocation: '' });
+      }
+    );
   };
 
   const clients = allUsers.filter(u => u.role === 'client');
@@ -36,6 +54,20 @@ export default function AdminSettings() {
 
   return (
     <DashboardLayout title="Admin Settings">
+      {/* Confirmation Modal */}
+      {confirm && (
+        <div className="modal-overlay" onClick={() => setConfirm(null)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 420, textAlign: 'center' }}>
+            <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
+            <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+              <button className="btn btn-outline" onClick={() => setConfirm(null)}>Cancel</button>
+              <button className="btn" style={{ background: confirm.color, color: '#fff', border: 'none', padding: '10px 24px', borderRadius: 10, fontWeight: 700, cursor: 'pointer' }} onClick={confirm.action}>Confirm</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="tabs" style={{ marginBottom: 20 }}>
         <button className={`tab ${tab === 'promote' ? 'active' : ''}`} onClick={() => setTab('promote')}>⬆️ Promote User</button>
         <button className={`tab ${tab === 'kitchen' ? 'active' : ''}`} onClick={() => setTab('kitchen')}>👨‍🍳 Add Kitchen Team</button>
@@ -84,7 +116,7 @@ export default function AdminSettings() {
           <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16 }}>Register a new kitchen/food provider team to the system.</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             <div><label className="form-label">Person Name *</label><input className="form-input" value={kitchenForm.name} onChange={e => setKitchenForm(p => ({ ...p, name: e.target.value }))} placeholder="Chef Name" /></div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 14 }}>
               <div><label className="form-label">Email *</label><input className="form-input" value={kitchenForm.email} onChange={e => setKitchenForm(p => ({ ...p, email: e.target.value }))} /></div>
               <div><label className="form-label">Phone</label><input className="form-input" value={kitchenForm.phone} onChange={e => setKitchenForm(p => ({ ...p, phone: e.target.value }))} /></div>
             </div>
@@ -97,7 +129,7 @@ export default function AdminSettings() {
 
       {/* Role Overview */}
       {tab === 'roles' && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 20 }}>
           {[['client', '🏋️', '#f97316'], ['trainer', '💪', '#22c55e'], ['owner', '👑', '#3b82f6'], ['kitchen', '👨‍🍳', '#14b8a6'], ['delivery', '🚗', '#8b5cf6'], ['admin', '⚙️', '#64748b']].map(([role, icon, color]) => {
             const users = allUsers.filter(u => u.role === role);
             return (

@@ -68,7 +68,7 @@ export default function TrainerCart() {
           <button className="btn btn-primary" onClick={() => navigate('/trainer/menu')}>Browse Menu</button>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 24, alignItems: 'start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: 24, alignItems: 'start' }}>
           <div>
             <div className="card" style={{ marginBottom: 16 }}>
               <div className="card-header"><h3 className="card-title">🛒 Cart ({cart.length})</h3></div>
@@ -94,7 +94,7 @@ export default function TrainerCart() {
                   <button key={k} className={`btn btn-sm ${timing === k ? 'btn-primary' : 'btn-outline'}`} onClick={() => setTiming(k)} style={{ flex: 1 }}>{l}</button>
                 ))}
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4, marginBottom: 12 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(40px, 1fr))', gap: 4, marginBottom: 12 }}>
                 {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={i} style={{ textAlign: 'center', fontSize: 10, fontWeight: 800, color: 'var(--text-muted)', padding: 4 }}>{d}</div>)}
                 {Array.from({ length: new Date(calendarDays[0]).getDay() }, (_, i) => <div key={'e' + i} />)}
                 {calendarDays.map(dateStr => {

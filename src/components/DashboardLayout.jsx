@@ -7,7 +7,7 @@ import {
   Home, ClipboardList, ShoppingCart, CalendarDays, Package, BarChart3,
   TrendingUp, Gem, Users, LifeBuoy, User, Settings, Dumbbell,
   UtensilsCrossed, Rocket, ScrollText, Truck, ShieldCheck, Bell,
-  Search, Menu, LogOut, ChefHat, UserPlus, LayoutDashboard, CalendarClock, Building2
+  Search, Menu, LogOut, ChefHat, UserPlus, LayoutDashboard, CalendarClock, Building2, X, ArrowLeft
 } from 'lucide-react';
 
 // Icon component wrapper with animation
@@ -81,7 +81,7 @@ const NAV = {
   ]},
 };
 
-export default function DashboardLayout({ children, title }) {
+export default function DashboardLayout({ children, title, flush }) {
   const { user, logout } = useAuth();
   const { getUnreadCount } = useNotifications();
   const { t } = useLanguage();
@@ -95,15 +95,20 @@ export default function DashboardLayout({ children, title }) {
   const links = config.links;
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-primary)' }}>
+    <div className="dashboard-root">
       {/* Sidebar Overlay (mobile) */}
-      {sidebarOpen && <div onClick={() => setSidebarOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 998 }} />}
+      {sidebarOpen && <div className="sidebar-backdrop" onClick={() => setSidebarOpen(false)} />}
 
       {/* Sidebar */}
-      <aside className={`sidebar ${sidebarOpen ? 'sidebar-open' : ''}`} style={{ width: 240, background: 'var(--bg-secondary)', borderRight: '1px solid var(--border)', display: 'flex', flexDirection: 'column', flexShrink: 0, position: 'fixed', left: 0, top: 0, bottom: 0, zIndex: 999, transition: 'transform 0.3s cubic-bezier(0.4,0,0.2,1)', transform: sidebarOpen ? 'translateX(0)' : undefined }}>
+      <aside className={`dashboard-sidebar ${sidebarOpen ? 'open' : ''}`}>
+        {/* Close button (mobile) */}
+        <button className="sidebar-close-btn" onClick={() => setSidebarOpen(false)}>
+          <X size={20} />
+        </button>
+
         {/* Brand */}
-        <div style={{ padding: '20px 18px 8px', borderBottom: '1px solid var(--border)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+        <div className="sidebar-brand-section">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <UtensilsCrossed size={22} style={{ color: '#f97316' }} />
             <div>
               <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 18, background: config.gradient, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{config.brand}</div>
@@ -113,61 +118,56 @@ export default function DashboardLayout({ children, title }) {
         </div>
 
         {/* User Info */}
-        <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{ width: 36, height: 36, borderRadius: '50%', background: config.gradient, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 900, color: '#fff' }}>{user.avatar || '?'}</div>
-          <div>
-            <div style={{ fontWeight: 800, fontSize: 13 }}>{user.name}</div>
+        <div className="sidebar-user-info">
+          <div style={{ width: 36, height: 36, borderRadius: '50%', background: config.gradient, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 900, color: '#fff', flexShrink: 0 }}>{user.avatar || '?'}</div>
+          <div style={{ minWidth: 0 }}>
+            <div style={{ fontWeight: 800, fontSize: 13, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.name}</div>
             <div style={{ fontSize: 10, color: '#f97316', fontWeight: 700, textTransform: 'uppercase' }}>{role}</div>
           </div>
         </div>
 
         {/* Nav Links */}
-        <nav style={{ flex: 1, overflowY: 'auto', padding: '8px 10px' }}>
+        <nav className="sidebar-nav">
           {links.map(link => {
             const isActive = location.pathname === link.path;
             const label = link.tKey ? t(link.tKey) : link.label;
             return (
-              <Link key={link.path} to={link.path} onClick={() => setSidebarOpen(false)} style={{
-                display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', marginBottom: 2, borderRadius: 10,
-                background: isActive ? 'rgba(249,115,22,0.08)' : 'transparent',
-                color: isActive ? '#f97316' : 'var(--text-secondary)',
-                fontWeight: isActive ? 800 : 600, fontSize: 13, textDecoration: 'none',
-                transition: 'all 0.2s',
-              }}>
+              <Link key={link.path} to={link.path} onClick={() => setSidebarOpen(false)} className={`sidebar-link ${isActive ? 'active' : ''}`}>
                 <SideIcon Icon={link.icon} isActive={isActive} />
-                <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{label}</span>
+                <span>{label}</span>
               </Link>
             );
           })}
         </nav>
 
         {/* Logout */}
-        <div style={{ padding: '12px 14px', borderTop: '1px solid var(--border)' }}>
-          <button onClick={() => { logout(); navigate('/login'); }} style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 8, padding: '10px 12px', borderRadius: 10, background: 'rgba(239,68,68,0.06)', border: 'none', color: '#ef4444', fontWeight: 700, fontSize: 13, cursor: 'pointer' }}>
+        <div className="sidebar-logout">
+          <button onClick={() => { logout(); navigate('/login'); }} className="sidebar-logout-btn">
             <LogOut size={16} /> {t('logout')}
           </button>
         </div>
       </aside>
 
       {/* Main Content */}
-      <div style={{ flex: 1, marginLeft: 240, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+      <div className="dashboard-main">
         {/* Top Bar */}
-        <header style={{ background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border)', padding: '0 clamp(16px, 3vw, 28px)', height: 56, display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 100 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <button className="mobile-menu-btn" onClick={() => setSidebarOpen(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-primary)', display: 'none' }}><Menu size={22} /></button>
-            <h2 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(16px, 2.5vw, 20px)', color: 'var(--text-primary)', margin: 0 }}>{title}</h2>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <button onClick={() => navigate(links[0]?.path)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}><Search size={18} /></button>
-            <button onClick={() => navigate(`/${role}/orders`)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', position: 'relative' }}>
-              <Bell size={18} />
-              {getUnreadCount() > 0 && <span style={{ position: 'absolute', top: -4, right: -4, width: 16, height: 16, background: '#ef4444', borderRadius: '50%', fontSize: 9, fontWeight: 800, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{getUnreadCount()}</span>}
-            </button>
+        <header className="dashboard-topbar">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            {location.pathname === links[0]?.path ? (
+              <button className="topbar-hamburger" onClick={() => setSidebarOpen(true)}>
+                <Menu size={22} />
+              </button>
+            ) : (
+              <button className="topbar-back-btn" onClick={() => navigate(-1)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-primary)', padding: 4 }}>
+                <ArrowLeft size={22} />
+              </button>
+            )}
+            <h2 className="topbar-title">{title}</h2>
           </div>
         </header>
 
         {/* Page Content */}
-        <main style={{ flex: 1, padding: 'clamp(16px, 3vw, 28px)' }}>
+        <main className={`dashboard-content${flush ? ' flush-top' : ''}`}>
           {children}
         </main>
       </div>

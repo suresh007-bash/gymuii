@@ -72,7 +72,7 @@ export default function ClientSubscriptions() {
       )}
 
       {/* Plans */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 20 }}>
         {PLANS.map(plan => (
           <div key={plan.id} className="card" style={{ position: 'relative', border: plan.popular ? '2px solid var(--accent-orange)' : undefined }}>
             {plan.popular && <div style={{ position: 'absolute', top: -10, left: '50%', transform: 'translateX(-50%)', background: 'var(--gradient-primary)', color: '#fff', padding: '3px 16px', borderRadius: 20, fontSize: 10, fontWeight: 800 }}>MOST POPULAR</div>}
@@ -96,7 +96,7 @@ export default function ClientSubscriptions() {
       {/* Benefits */}
       <div className="card" style={{ marginTop: 20 }}>
         <div className="card-header"><h3 className="card-title">🎁 Membership Benefits</h3></div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))', gap: 12 }}>
           {[{ icon: '🚀', label: 'Priority Delivery', desc: 'Get your meals first' }, { icon: '💰', label: '10% Discount', desc: 'On all orders' }, { icon: '📦', label: 'Free Packs', desc: 'Monthly nutrient pack' }, { icon: '🎯', label: 'AI Suggestions', desc: 'Personalized meals' }].map((b, i) => (
             <div key={i} style={{ textAlign: 'center', padding: 16, background: 'var(--bg-tertiary)', borderRadius: 12 }}>
               <div style={{ fontSize: 28, marginBottom: 6 }}>{b.icon}</div>

@@ -108,7 +108,7 @@ export default function MyOwner() {
                 <span className="badge badge-orange" style={{ fontSize: 10 }}>GYM OWNER</span>
               </div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 16 }}>
               <div>
                 <div style={labelStyle}>Email</div>
                 <div style={valueStyle}>{owner.email}</div>

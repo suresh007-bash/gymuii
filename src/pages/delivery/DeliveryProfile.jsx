@@ -27,11 +27,11 @@ export default function DeliveryProfile() {
           <h3 className="card-title" style={{ marginBottom: 16 }}>✏️ Edit Profile</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             <div><label className="form-label">Full Name</label><input style={inp} value={form.name} onChange={e => upd('name', e.target.value)} /></div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 14 }}>
               <div><label className="form-label">Email</label><input style={inp} value={form.email} onChange={e => upd('email', e.target.value)} /></div>
               <div><label className="form-label">Phone</label><input style={inp} value={form.phone} onChange={e => upd('phone', e.target.value)} /></div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 14 }}>
               <div><label className="form-label">Vehicle Type</label><select style={inp} value={form.vehicleType} onChange={e => upd('vehicleType', e.target.value)}><option>Bike</option><option>Scooter</option><option>Car</option></select></div>
               <div><label className="form-label">License No</label><input style={inp} value={form.licenseNo} onChange={e => upd('licenseNo', e.target.value)} /></div>
             </div>

@@ -173,7 +173,7 @@ export default function AssignedClients() {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 14 }}>
               <div>
                 <label style={memberLbl}>Full Name</label>
                 <input style={memberInp} value={profileForm.name || ''} readOnly={!isEditingProfile} onChange={e => setProfileForm(p => ({ ...p, name: e.target.value }))} />

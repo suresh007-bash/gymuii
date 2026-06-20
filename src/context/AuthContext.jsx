@@ -44,6 +44,7 @@ export function AuthProvider({ children }) {
 
   const promoteUser = (userId, newRole, extra = {}) => {
     setAllUsers(prev => prev.map(u => u.id === userId ? { ...u, role: newRole, ...extra } : u));
+    // Don't update the logged-in user's role to prevent ProtectedRoute redirect
   };
 
   const blockUser = (userId) => {

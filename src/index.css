@@ -72,8 +72,8 @@
 
 /* ═══ RESET ═══ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body, #root { width: 100%; min-height: 100vh; overflow-x: hidden; }
-body { font-family: var(--font-body); background: var(--bg-primary); color: var(--text-primary); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+html, body, #root { width: 100%; min-height: 100vh; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+body { font-family: var(--font-body); background: var(--bg-primary); color: var(--text-primary); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overscroll-behavior: none; }
 a { text-decoration: none; color: inherit; }
 button { font-family: inherit; cursor: pointer; border: none; outline: none; background: none; }
 input, select, textarea { font-family: inherit; outline: none; }
@@ -328,29 +328,80 @@ img { max-width: 100%; display: block; }
 .food-card-price { font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: var(--accent-green); }
 .food-card-actions { display: flex; gap: 8px; margin-top: 10px; }
 
+/* ═══ DASHBOARD LAYOUT CLASSES ═══ */
+.dashboard-root { display: flex; min-height: 100vh; background: var(--bg-primary); }
+.dashboard-sidebar {
+  width: 240px; background: var(--bg-secondary); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; flex-shrink: 0;
+  position: fixed; left: 0; top: 0; bottom: 0; z-index: 999;
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.sidebar-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 998;
+  backdrop-filter: blur(4px); animation: fadeIn 0.2s ease;
+}
+.sidebar-close-btn {
+  display: none; position: absolute; top: 12px; right: 12px; z-index: 10;
+  background: none; border: none; color: var(--text-muted); cursor: pointer;
+}
+.sidebar-brand-section { padding: 20px 18px 8px; border-bottom: 1px solid var(--border); }
+.sidebar-user-info { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10; }
+.sidebar-nav { flex: 1; overflow-y: auto; padding: 8px 10px; }
+.sidebar-link {
+  display: flex; align-items: center; gap: 10; padding: 10px 12px; margin-bottom: 2px; border-radius: 10;
+  background: transparent; color: var(--text-secondary);
+  font-weight: 600; font-size: 13px; text-decoration: none; transition: all 0.2s;
+}
+.sidebar-link:hover { background: rgba(249,115,22,0.04); color: var(--text-primary); }
+.sidebar-link.active { background: rgba(249,115,22,0.08); color: #f97316; font-weight: 800; }
+.sidebar-link span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sidebar-logout { padding: 12px 14px; border-top: 1px solid var(--border); }
+.sidebar-logout-btn {
+  width: 100%; display: flex; align-items: center; gap: 8; padding: 10px 12px; border-radius: 10;
+  background: rgba(239,68,68,0.06); border: none; color: #ef4444; font-weight: 700; font-size: 13px; cursor: pointer;
+}
+.dashboard-main { flex: 1; margin-left: 240px; display: flex; flex-direction: column; min-width: 0; height: 100vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; scroll-behavior: smooth; }
+.dashboard-topbar {
+  background: var(--bg-secondary); border-bottom: 1px solid var(--border);
+  padding: 0 clamp(16px, 3vw, 28px); height: 56px; display: flex; align-items: center;
+  justify-content: space-between; position: sticky; top: 0; z-index: 100;
+}
+.topbar-hamburger { display: none; background: none; border: none; cursor: pointer; color: var(--text-primary); padding: 4px; }
+.topbar-title { font-family: 'Outfit'; font-weight: 800; font-size: clamp(16px, 2.5vw, 20px); color: var(--text-primary); margin: 0; }
+.topbar-icon-btn { background: none; border: none; cursor: pointer; color: var(--text-muted); padding: 4px; }
+.topbar-badge {
+  position: absolute; top: -4px; right: -4px; width: 16px; height: 16px;
+  background: #ef4444; border-radius: 50%; font-size: 9px; font-weight: 800;
+  color: #fff; display: flex; align-items: center; justify-content: center;
+}
+.dashboard-content { flex: 1; padding: clamp(12px, 3vw, 28px); }
+.dashboard-content.flush-top { padding-top: 0; }
+
 /* ═══ RESPONSIVE — TABLET (≤1024px) ═══ */
 @media (max-width: 1024px) {
-  :root { --sidebar-width: 220px; }
+  .dashboard-sidebar { width: 220px; }
+  .dashboard-main { margin-left: 220px; }
   .stats-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
   .food-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
   .form-row { grid-template-columns: 1fr; }
-  .topbar-search input { width: 200px; }
-  .app-content { padding: 20px; }
   .kds-kanban-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 /* ═══ RESPONSIVE — MOBILE (≤768px) ═══ */
 @media (max-width: 768px) {
-  .app-sidebar { transform: translateX(-100%); width: 280px; box-shadow: none; }
-  .app-sidebar.open { transform: translateX(0); box-shadow: 8px 0 30px rgba(0,0,0,0.25); }
-  .app-main { margin-left: 0; }
-  .topbar-burger { display: flex; }
-  .sidebar-overlay.show { display: block; }
-  .app-topbar { padding: 0 16px; }
-  .topbar-search input { width: 160px; font-size: 12px; }
+  .dashboard-sidebar { transform: translateX(-100%); width: 280px; box-shadow: none; }
+  .dashboard-sidebar.open { transform: translateX(0); box-shadow: 8px 0 30px rgba(0,0,0,0.25); }
+  .sidebar-close-btn { display: block; }
+  .dashboard-main { margin-left: 0; }
+  .topbar-hamburger { display: flex; }
+  .topbar-back-btn { display: flex !important; }
+  .dashboard-topbar { padding: 0 16px; }
   .topbar-title { font-size: 16px; }
-  .topbar-avatar { width: 32px; height: 32px; font-size: 11px; }
-  .app-content { padding: 16px; }
+  .dashboard-content { padding: 16px; }
+
+  /* Admin: table→cards on mobile */
+  .admin-table-desktop { display: none !important; }
+  .admin-cards-mobile { display: block !important; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .stat-card { padding: 14px; }
   .stat-value { font-size: 22px; }
@@ -368,60 +419,84 @@ img { max-width: 100%; display: block; }
   .btn { padding: 8px 16px; font-size: 12px; }
   .btn-lg { padding: 12px 20px; font-size: 14px; }
   .kds-kanban-grid { grid-template-columns: 1fr; }
-  .cal-magic-cell { padding: 10px 2px !important; font-size: 13px !important; border-radius: 8px !important; }
   .mobile-only { display: flex !important; }
   .mobile-hidden { display: none !important; }
+  .card-header { flex-wrap: wrap; gap: 8px; }
+
+  /* Prevent mobile shaking */
+  .dashboard-main { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+  .dashboard-topbar { will-change: transform; transform: translateZ(0); backface-visibility: hidden; }
+  .dashboard-content { overflow-x: hidden; }
+  .food-card { transform: translateZ(0); }
+  .hero-banner { transform: translateZ(0); }
 }
 
 /* ═══ RESPONSIVE — SMALL MOBILE (≤480px) ═══ */
 @media (max-width: 480px) {
-  .app-content { padding: 12px; }
-  .topbar-search { display: none; }
+  .dashboard-content { padding: 10px; }
+  .dashboard-topbar { padding: 0 10px; height: 48px; }
+  .nutrition-tracker-sticky { margin: -10px -10px 10px !important; padding: 8px 10px !important; top: 48px !important; }
   .topbar-title { font-size: 14px; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .app-topbar { padding: 0 12px; }
-  .topbar-right { gap: 4px; }
-  .topbar-btn { width: 34px; height: 34px; }
-  .stats-grid { grid-template-columns: 1fr; gap: 8px; }
-  .stat-card { padding: 12px; display: flex; align-items: center; gap: 12px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat-card { padding: 12px; }
   .stat-icon { font-size: 20px; margin-bottom: 0; }
-  .stat-value { font-size: 20px; }
+  .stat-value { font-size: 18px; }
   .food-grid { grid-template-columns: 1fr; gap: 12px; }
   .food-card-img img { height: 140px !important; }
   .card { padding: 12px; border-radius: 12px; }
   .card-header { flex-direction: column; gap: 8px; align-items: flex-start; }
   .badge { padding: 3px 8px; font-size: 10px; }
-  .modal-content { width: 100vw !important; max-width: 100vw !important; min-height: 50vh; border-radius: 16px 16px 0 0 !important; }
-  .cal-magic-cell { padding: 8px 2px !important; font-size: 12px !important; }
+  .modal-overlay { align-items: flex-end; }
+  .modal-content { width: 100vw !important; max-width: 100vw !important; min-height: 40vh; border-radius: 16px 16px 0 0 !important; margin: 0 !important; }
   .form-label { font-size: 11px; }
   .btn { padding: 8px 14px; font-size: 12px; }
   .btn-sm { padding: 5px 10px; font-size: 11px; }
+  .sidebar-link { padding: 12px 14px; font-size: 14px; }
+  .sidebar-nav { padding: 8px 6px; }
 }
 
-/* ═══ SIDEBAR OVERLAY (Mobile) ═══ */
-.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 99; backdrop-filter: blur(2px); }
-.sidebar-overlay.show { display: block; }
+/* ═══ RESPONSIVE — VERY SMALL (≤360px) ═══ */
+@media (max-width: 360px) {
+  .dashboard-content { padding: 8px; }
+  .nutrition-tracker-sticky { margin: -8px -8px 8px !important; padding: 6px 8px !important; top: 48px !important; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .card { padding: 10px; }
+  .modal-content { padding: 12px !important; }
+  .btn { padding: 6px 12px; font-size: 11px; }
+  .food-grid { gap: 8px; }
+}
 
 /* ═══ TOUCH DEVICES ═══ */
 @media (hover: none) and (pointer: coarse) {
-  .sidebar-link { padding: 12px 16px; margin: 3px 8px; }
+  .sidebar-link { padding: 12px 16px; margin: 3px 8px; min-height: 44px; }
   .btn { min-height: 42px; }
   .tab { min-height: 40px; }
   .data-table td, .data-table th { padding: 12px 14px; }
+  .topbar-icon-btn { min-width: 40px; min-height: 40px; display: flex; align-items: center; justify-content: center; }
+  .topbar-hamburger { min-width: 40px; min-height: 40px; display: flex; align-items: center; justify-content: center; }
 }
 
 /* ═══ LANDSCAPE MOBILE ═══ */
 @media (max-height: 500px) and (orientation: landscape) {
-  .app-sidebar { padding-top: 8px; }
-  .sidebar-brand { padding: 12px 16px; }
-  .sidebar-user { padding: 10px 16px; }
-  .sidebar-link { padding: 8px 16px; }
-  .app-topbar { height: 48px; }
+  .dashboard-sidebar { padding-top: 4px; }
+  .sidebar-brand-section { padding: 10px 14px 6px; }
+  .sidebar-user-info { padding: 8px 14px; }
+  .sidebar-link { padding: 7px 12px; font-size: 12px; }
+  .dashboard-topbar { height: 44px; }
+  .sidebar-nav { padding: 4px 8px; }
 }
 
 /* ═══ LARGE DESKTOP (≥1440px) ═══ */
 @media (min-width: 1440px) {
-  .app-content { padding: 28px 32px; max-width: 1400px; }
+  .dashboard-content { padding: 28px 32px; max-width: 1400px; }
   .food-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+}
+
+/* ═══ ULTRA-WIDE (≥1920px) ═══ */
+@media (min-width: 1920px) {
+  .dashboard-sidebar { width: 260px; }
+  .dashboard-main { margin-left: 260px; }
+  .dashboard-content { max-width: 1600px; padding: 32px 40px; }
 }
 
 /* ═══ KITCHEN KANBAN BOARD (KDS) ═══ */
@@ -438,4 +513,93 @@ img { max-width: 100%; display: block; }
 .kds-instr { font-size: 10px; color: var(--accent-orange); margin-top: 2px; font-weight: 700; }
 .kds-empty { text-align: center; padding: 30px; color: var(--text-muted); font-size: 12px; font-style: italic; }
 .mobile-only { display: none; }
+
+/* ═══ RESPONSIVE UTILITY CLASSES ═══ */
+.responsive-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.responsive-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.responsive-flex-wrap { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* Sticky nutrition tracker — ALL SCREENS */
+.nutrition-tracker-sticky {
+  position: sticky; top: 56px; z-index: 50;
+  background: var(--bg-secondary); border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  border-radius: 0;
+  margin: calc(-1 * clamp(12px, 3vw, 28px)) calc(-1 * clamp(12px, 3vw, 28px)) 16px;
+  padding: 12px clamp(12px, 3vw, 28px);
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+/* When sticky is the first meaningful child, kill top gap */
+.dashboard-content > .nutrition-tracker-sticky:first-child {
+  margin-top: calc(-1 * clamp(12px, 3vw, 28px));
+}
+.dashboard-content.flush-top .nutrition-tracker-sticky {
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  .responsive-grid-2 { grid-template-columns: 1fr; }
+  .responsive-grid-3 { grid-template-columns: 1fr; }
+
+  /* Compact sticky on mobile */
+  .nutrition-tracker-sticky {
+    margin: -16px -16px 12px; padding: 10px 12px; top: 56px;
+  }
+  .nutrition-tracker-sticky .nutrition-rings {
+    display: grid !important; grid-template-columns: 1fr 1fr !important;
+    gap: 4px !important; justify-items: center;
+  }
+  .nutrition-tracker-sticky .ring-container svg { width: 48px !important; height: 48px !important; }
+  .nutrition-tracker-sticky .ring-container { text-align: center; }
+  .nutrition-tracker-sticky .ring-container .ring-icon { font-size: 11px !important; }
+  .nutrition-tracker-sticky .ring-container .ring-value { font-size: 11px !important; }
+  .nutrition-tracker-sticky .ring-container .ring-label { font-size: 9px !important; margin-top: 2px !important; }
+  .nutrition-tracker-sticky .ring-container .ring-sub { font-size: 8px !important; }
+
+  /* 2-column food grid on mobile */
+  .food-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+  .food-card-body { padding: 8px !important; }
+  .food-card-name { font-size: 12px !important; }
+  .food-card-price { font-size: 14px !important; }
+  .food-card-actions .btn { padding: 5px 8px !important; font-size: 10px !important; }
+  .food-card-macros { gap: 4px !important; }
+  .food-card-macros .badge { font-size: 9px !important; padding: 2px 5px !important; }
+
+  /* Sticky cart bottom bar */
+  .sticky-cart-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    background: var(--bg-secondary); border-top: 1px solid var(--border);
+    padding: 10px 16px; display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    animation: slideUp 0.3s ease;
+  }
+  
+  /* Add bottom padding to content for sticky cart bar */
+  .dashboard-content { padding-bottom: 80px !important; }
+
+  /* Mobile back button */
+  .mobile-back-btn {
+    display: flex !important; align-items: center; gap: 6px;
+    padding: 6px 12px; background: var(--bg-tertiary); border: 1px solid var(--border);
+    border-radius: 10px; color: var(--text-primary); font-size: 12px; font-weight: 700;
+    cursor: pointer; margin-bottom: 12px;
+  }
+}
+
+@media (min-width: 769px) {
+  .sticky-cart-bar { display: none; }
+  .mobile-back-btn { display: none !important; }
+}
+
+@media (max-width: 480px) {
+  .responsive-flex-wrap { gap: 8px; }
+  .food-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 6px !important; }
+  .food-card-img img { height: 100px !important; }
+  .nutrition-tracker-sticky { padding: 8px 10px; top: 48px; }
+  .sticky-cart-bar { padding: 8px 12px; }
+}
+
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 

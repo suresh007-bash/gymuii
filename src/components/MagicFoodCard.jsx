@@ -60,6 +60,10 @@ export function MagicFoodCard({ children, glowColor = DEFAULT_COLOR, className =
     const el = cardRef.current;
     if (!el) return;
 
+    // Skip heavy animations on touch/mobile devices to prevent shaking
+    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches || 'ontouchstart' in window;
+    if (isTouchDevice) return;
+
     const onEnter = () => {
       isHovered.current = true;
       // spawn 8 particles
@@ -133,6 +137,10 @@ export function FoodSpotlight({ gridRef, spotlightRadius = 300, glowColor = DEFA
 
   useEffect(() => {
     if (!gridRef?.current) return;
+
+    // Skip on touch/mobile devices
+    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches || 'ontouchstart' in window;
+    if (isTouchDevice) return;
 
     const spot = document.createElement('div');
     spot.className = 'global-food-spotlight';

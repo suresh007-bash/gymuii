@@ -24,7 +24,7 @@ export default function AdminDashboard() {
         <p style={{ fontSize: 14, opacity: 0.85 }}>{allUsers.length} users • {stats.total} orders • ₹{stats.revenue.toLocaleString()} revenue</p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 16, marginBottom: 20 }}>
         <div className="card" style={{ borderLeft: '4px solid #f97316' }}><h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}>📦 Order Management</h4><p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>{stats.pending} pending, {stats.preparing} preparing, {stats.inTransit} in transit. Manage all orders.</p><Link to="/admin/orders" style={{ fontSize: 11, color: 'var(--accent-orange)', fontWeight: 700 }}>Manage Orders →</Link></div>
         <div className="card" style={{ borderLeft: '4px solid #22c55e' }}><h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}>👥 User Management</h4><p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>{allUsers.length} registered users across all roles. Promote, edit, or manage access.</p><Link to="/admin/users" style={{ fontSize: 11, color: 'var(--accent-green)', fontWeight: 700 }}>Manage Users →</Link></div>
       </div>
@@ -37,7 +37,7 @@ export default function AdminDashboard() {
         <div style={{ display: 'flex', gap: 16, overflowX: 'auto', paddingBottom: 8 }}>{MIND_CATS.map((cat, i) => (<Link key={i} to={['/admin/users','/admin/orders','/admin/analytics','/admin/delivery','/admin/settings','/admin/settings','/admin/analytics','/admin/settings'][i]} style={{ textDecoration: 'none', textAlign: 'center', flexShrink: 0 }}><div style={{ width: 80, height: 80, borderRadius: '50%', overflow: 'hidden', marginBottom: 6, border: '2px solid #eee' }}><img src={cat.img} alt={cat.label} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div><div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-primary)' }}>{cat.label}</div></Link>))}</div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 20 }}>
         <div className="card">
           <div className="card-header"><h3 className="card-title">📦 Recent Orders</h3><Link to="/admin/orders" style={{ color: 'var(--accent-orange)', fontSize: 12, fontWeight: 700 }}>View All →</Link></div>
           {recentOrders.map(o => (

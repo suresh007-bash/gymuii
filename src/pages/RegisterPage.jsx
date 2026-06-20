@@ -44,7 +44,7 @@ export default function RegisterPage() {
             {/* Role Selection */}
             <div style={{ marginBottom: 20 }}>
               <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#6b7280', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 }}>I am a...</label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 8 }}>
                 {roleOptions.map(r => (
                   <button key={r.id} type="button" onClick={() => upd('role', r.id)} style={{ padding: 12, background: form.role === r.id ? `${r.color}10` : '#f9fafb', border: `2px solid ${form.role === r.id ? r.color : '#e5e7eb'}`, borderRadius: 12, cursor: 'pointer', textAlign: 'center', transition: 'all 0.2s', color: '#111827' }}>
                     <div style={{ fontSize: 22, marginBottom: 4 }}>{r.icon}</div>
@@ -63,7 +63,7 @@ export default function RegisterPage() {
               <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#6b7280', marginBottom: 6, textTransform: 'uppercase' }}>Email</label>
               <input type="email" value={form.email} onChange={e => upd('email', e.target.value)} placeholder="john@email.com" required style={{ width: '100%', padding: '12px 16px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 12, color: '#111827', fontSize: 14 }} />
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 14, marginBottom: 14 }}>
               <div>
                 <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#6b7280', marginBottom: 6, textTransform: 'uppercase' }}>Phone</label>
                 <input value={form.phone} onChange={e => upd('phone', e.target.value)} placeholder="9876543210" style={{ width: '100%', padding: '12px 16px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 12, color: '#111827', fontSize: 14 }} />

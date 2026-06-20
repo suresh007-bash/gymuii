@@ -56,7 +56,7 @@ export default function DispatchPage() {
         <button className={`tab ${tab === 'transit' ? 'active' : ''}`} onClick={() => setTab('transit')}>🚗 In Transit ({inTransitOrders.length})</button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 20 }}>
         {/* Orders */}
         <div>
           {displayOrders.length === 0 ? (

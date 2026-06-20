@@ -39,7 +39,7 @@ export default function TrainerProfile() {
         </div>
         <div className="card" style={{ padding: 24 }}>
           <h3 className="card-title" style={{ marginBottom: 16 }}>✏️ Edit Profile</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 14 }}>
             <div style={{ gridColumn: '1 / -1' }}><label className="form-label">Full Name</label><input style={inp} value={form.name} onChange={e => upd('name', e.target.value)} /></div>
             <div><label className="form-label">Email</label><input style={inp} value={form.email} onChange={e => upd('email', e.target.value)} /></div>
             <div><label className="form-label">Phone</label><input style={inp} value={form.phone} onChange={e => upd('phone', e.target.value)} /></div>

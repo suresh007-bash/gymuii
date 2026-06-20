@@ -16,6 +16,7 @@ export default function GlareHover({
   const [isHovered, setIsHovered] = useState(false);
   const [hasPlayed, setHasPlayed] = useState(false);
   const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 });
+  const isTouchRef = useRef(typeof window !== 'undefined' && (window.matchMedia('(hover: none) and (pointer: coarse)').matches || 'ontouchstart' in window));
 
   const handleMouseMove = useCallback((e) => {
     if (playOnce && hasPlayed) return;
@@ -57,11 +58,11 @@ export default function GlareHover({
       style={{
         position: 'relative',
         overflow: 'hidden',
-        transform: isHovered
+        transform: isTouchRef.current ? 'none' : (isHovered
           ? `perspective(800px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg) scale(1.02)`
-          : 'perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)',
-        transition: `transform ${transitionDuration}ms cubic-bezier(0.23, 1, 0.32, 1)`,
-        willChange: 'transform',
+          : 'perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)'),
+        transition: isTouchRef.current ? 'none' : `transform ${transitionDuration}ms cubic-bezier(0.23, 1, 0.32, 1)`,
+        willChange: isTouchRef.current ? 'auto' : 'transform',
         ...style,
       }}
     >

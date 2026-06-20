@@ -177,7 +177,7 @@ export default function ClientMealPlans() {
               <label className="form-label">
                 {showOrder.schedule ? 'Scheduled Delivery Dates (Locked)' : `Select Delivery Dates (${selectedDates.length} selected)`}
               </label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(40px, 1fr))', gap: 4 }}>
                 {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
                   <div key={d} style={{ textAlign: 'center', fontSize: 10, fontWeight: 800, color: 'var(--text-muted)', padding: 4 }}>{d}</div>
                 ))}

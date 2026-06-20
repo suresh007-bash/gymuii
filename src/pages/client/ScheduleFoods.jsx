@@ -416,7 +416,7 @@ export default function ScheduleFoods() {
         <div className="card" style={{ maxWidth: 640, margin: '0 auto' }}>
           <div className="card-header"><h3 className="card-title">📅 Step 1: Select Delivery Dates</h3></div>
           <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 14 }}>Pick dates. For each date you can add as many time slots as you need and select food for each.</p>
-          <div className="cal-grid-magic" ref={calGridRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4, marginBottom: 16, position: 'relative' }}>
+          <div className="cal-grid-magic" ref={calGridRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(40px, 1fr))', gap: 4, marginBottom: 16, position: 'relative' }}>
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
               <div key={d} style={{ textAlign: 'center', fontSize: 10, fontWeight: 800, color: 'var(--text-muted)', padding: 6 }}>{d}</div>
             ))}

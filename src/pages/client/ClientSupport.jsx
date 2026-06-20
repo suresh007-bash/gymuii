@@ -34,8 +34,6 @@ export default function ClientSupport() {
     <DashboardLayout title="Help & Support">
       <div className="tabs" style={{ marginBottom: 20 }}>
         <button className={`tab ${tab === 'help' ? 'active' : ''}`} onClick={() => setTab('help')}>❓ FAQs</button>
-        <button className={`tab ${tab === 'ticket' ? 'active' : ''}`} onClick={() => setTab('ticket')}>🎫 New Ticket</button>
-        <button className={`tab ${tab === 'history' ? 'active' : ''}`} onClick={() => setTab('history')}>📜 My Tickets ({tickets.length})</button>
       </div>
 
       {tab === 'help' && (
@@ -56,45 +54,11 @@ export default function ClientSupport() {
         </div>
       )}
 
-      {tab === 'ticket' && (
-        <div className="card" style={{ maxWidth: 500 }}>
-          <div className="card-header"><h3 className="card-title">🎫 Create Support Ticket</h3></div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <div><label className="form-label">Category</label>
-              <select className="form-select" value={form.category} onChange={e => setForm(p => ({ ...p, category: e.target.value }))}>
-                {['Order Issue', 'Payment', 'Delivery', 'Menu', 'Account', 'Subscription', 'Other'].map(c => <option key={c}>{c}</option>)}
-              </select>
-            </div>
-            <div><label className="form-label">Subject</label><input className="form-input" value={form.subject} onChange={e => setForm(p => ({ ...p, subject: e.target.value }))} placeholder="Brief description of your issue" /></div>
-            <div><label className="form-label">Message</label><textarea className="form-input" style={{ minHeight: 100 }} value={form.message} onChange={e => setForm(p => ({ ...p, message: e.target.value }))} placeholder="Describe your issue in detail..." /></div>
-          </div>
-          <button className="btn btn-success" style={{ marginTop: 16 }} onClick={submitTicket}>📨 Submit Ticket</button>
-        </div>
-      )}
-
-      {tab === 'history' && (
-        <div className="card">
-          <div className="card-header"><h3 className="card-title">📜 My Tickets</h3></div>
-          {tickets.length === 0 ? <p style={{ color: 'var(--text-muted)', padding: 20, textAlign: 'center' }}>No support tickets</p> :
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {tickets.map(t => (
-              <div key={t.id} style={{ padding: 14, background: 'var(--bg-tertiary)', borderRadius: 12 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                  <span style={{ fontWeight: 700, fontSize: 13 }}>{t.subject}</span>
-                  <span className={`badge ${t.status === 'open' ? 'badge-orange' : 'badge-green'}`}>{t.status.toUpperCase()}</span>
-                </div>
-                <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{t.category} • {new Date(t.date).toLocaleDateString()}</div>
-                <p style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 4 }}>{t.message}</p>
-              </div>
-            ))}
-          </div>}
-        </div>
-      )}
 
       {/* Quick Contact */}
       <div className="card" style={{ marginTop: 20 }}>
         <div className="card-header"><h3 className="card-title">📞 Quick Contact</h3></div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 12 }}>
           {[{ icon: '📧', label: 'Email', val: 'support@fitbites.com' }, { icon: '📱', label: 'Phone', val: '+91 98765 43210' }, { icon: '💬', label: 'Chat', val: 'Available 9AM-9PM' }].map((c, i) => (
             <div key={i} style={{ textAlign: 'center', padding: 16, background: 'var(--bg-tertiary)', borderRadius: 12 }}>
               <div style={{ fontSize: 24, marginBottom: 6 }}>{c.icon}</div>

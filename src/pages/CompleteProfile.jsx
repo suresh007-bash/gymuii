@@ -41,12 +41,12 @@ export default function CompleteProfile() {
           {(user.role === 'client' || user.role === 'trainer' || user.role === 'owner') && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14, borderBottom: (user.role === 'trainer' || user.role === 'owner') ? '1px solid #e5e7eb' : 'none', paddingBottom: (user.role === 'trainer' || user.role === 'owner') ? 20 : 0, marginBottom: (user.role === 'trainer' || user.role === 'owner') ? 20 : 0 }}>
               <h3 style={{ fontSize: 13, fontWeight: 800, color: '#f97316', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>Health & Diet Profile</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 14 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 14 }}>
                 <div><label style={lbl}>Age</label><input style={inp} type="number" value={form.age} onChange={e => upd('age', e.target.value)} placeholder="25" /></div>
                 <div><label style={lbl}>Height (cm)</label><input style={inp} type="number" value={form.height} onChange={e => upd('height', e.target.value)} placeholder="175" /></div>
                 <div><label style={lbl}>Weight (kg)</label><input style={inp} type="number" value={form.weight} onChange={e => upd('weight', e.target.value)} placeholder="72" /></div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 14 }}>
                 <div><label style={lbl}>Gender</label><select style={inp} value={form.gender} onChange={e => upd('gender', e.target.value)}><option>Male</option><option>Female</option><option>Other</option></select></div>
                 <div><label style={lbl}>Fitness Goal</label><select style={inp} value={form.goal} onChange={e => upd('goal', e.target.value)}><option>Weight Loss</option><option>Muscle Gain</option><option>Maintenance</option></select></div>
               </div>

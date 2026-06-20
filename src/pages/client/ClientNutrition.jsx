@@ -36,10 +36,6 @@ function Ring({ val, max, color, label, unit }) {
         <text x="55" y="50" textAnchor="middle" fontSize="20" fontWeight="900" fill={isOver ? '#ef4444' : 'var(--text-primary)'} fontFamily="Outfit">{displayed}</text>
         <text x="55" y="66" textAnchor="middle" fontSize="10" fill="var(--text-muted)">{unit}</text>
       </svg>
-      <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-secondary)', marginTop: 2 }}>{label}</div>
-      <div style={{ fontSize: 9, color: isOver ? '#ef4444' : 'var(--text-muted)', fontWeight: 600 }}>
-        {isOver ? `⚠️ +${val - max} over` : pct >= 100 ? '🎯 Target hit!' : `${max - val}${unit} left`}
-      </div>
     </div>
   );
 }
@@ -110,18 +106,11 @@ export default function ClientNutrition() {
 
       {/* Today's Macro Progress Diagram based on Preference */}
       <div className="card" style={{ marginBottom: 20 }}>
-        <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h3 className="card-title">
-            {user?.preferredDiagram === 'bar' ? '📊 Today\'s Macro Progress (Bars)' : 
-             user?.preferredDiagram === 'cards' ? '🎯 Today\'s Macro Progress (Cards)' : 
-             '⭕ Today\'s Macro Progress (Rings)'}
-          </h3>
-          <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>🎯 Visual style assigned by Trainer</span>
-        </div>
+
 
         {/* 1. Circular Rings */}
         {(!user?.preferredDiagram || user?.preferredDiagram === 'ring') && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, justifyItems: 'center', padding: '16px 0' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))', gap: 16, justifyItems: 'center', padding: '16px 0' }}>
             <Ring val={nutrition.calories} max={targets.calories} color="#f97316" label="Calories" unit=" kcal" />
             <Ring val={nutrition.protein} max={targets.protein} color="#22c55e" label="Protein" unit="g" />
             <Ring val={nutrition.carbs} max={targets.carbs} color="#3b82f6" label="Carbs" unit="g" />
@@ -160,7 +149,7 @@ export default function ClientNutrition() {
 
         {/* 3. Goal Progress Cards */}
         {user?.preferredDiagram === 'cards' && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, padding: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 12, padding: '16px' }}>
             {[
               { name: 'Calories', val: nutrition.calories, max: targets.calories, unit: 'kcal', color: '#f97316', icon: <StatIcon name="calories" />, desc: 'Energy intake target' },
               { name: 'Protein', val: nutrition.protein, max: targets.protein, unit: 'g', color: '#22c55e', icon: <StatIcon name="protein" />, desc: 'Muscle repair & growth' },
@@ -198,17 +187,13 @@ export default function ClientNutrition() {
           </div>
         )}
 
-        {todayOrders.length > 0 && (
-          <div style={{ textAlign: 'center', padding: '4px 0 12px', fontSize: 13, fontWeight: 700, color: totalPct >= 100 ? '#22c55e' : totalPct >= 80 ? '#f97316' : 'var(--text-muted)' }}>
-            {totalPct >= 100 ? '🎉 You hit your daily calorie target!' : totalPct >= 80 ? `🔥 ${totalPct}% — almost there!` : `📊 ${totalPct}% of daily calorie goal`}
-          </div>
-        )}
+
       </div>
 
       {/* Daily Targets Bars */}
       <div className="card" style={{ marginBottom: 20 }}>
         <div className="card-header"><h3 className="card-title">🎯 Daily Targets</h3></div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 12 }}>
           {[['Calories', nutrition.calories, targets.calories, 'kcal', '#f97316'], ['Protein', nutrition.protein, targets.protein, 'g', '#22c55e'], ['Carbs', nutrition.carbs, targets.carbs, 'g', '#3b82f6'], ['Fat', nutrition.fat, targets.fat, 'g', '#8b5cf6']].map(([name, val, max, unit, color]) => (
             <div key={name} style={{ background: 'var(--bg-tertiary)', borderRadius: 12, padding: 16 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}><span style={{ fontWeight: 700, fontSize: 13 }}>{name}</span><span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{val}/{max}{unit}</span></div>
@@ -280,7 +265,7 @@ export default function ClientNutrition() {
                     )}
                   </div>
                   {/* Mini progress bars */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))', gap: 8 }}>
                     {[
                       { label: '🔥 Cal', val: data.calories, max: targets.calories, color: '#f97316', unit: '' },
                       { label: '💪 Pro', val: data.protein, max: targets.protein, color: '#22c55e', unit: 'g' },

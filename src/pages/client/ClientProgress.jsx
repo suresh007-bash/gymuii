@@ -132,7 +132,7 @@ export default function ClientProgress() {
 
           <div className="card" style={{ marginBottom: 20 }}>
             <div className="card-header"><h3 className="card-title">📊 Daily Targets</h3></div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))', gap: 12 }}>
               {[['Calories', calTarget, 'kcal', '#f97316'], ['Protein', proTarget, 'g', '#22c55e'], ['Carbs', user?.targetCarbs || 250, 'g', '#3b82f6'], ['Fat', user?.targetFat || 70, 'g', '#8b5cf6']].map(([name, val, unit, color]) => (
                 <div key={name} style={{ textAlign: 'center', padding: 20, background: 'var(--bg-tertiary)', borderRadius: 16 }}>
                   <div style={{ fontSize: 28, fontWeight: 900, color, fontFamily: 'Outfit' }}>{val}</div>
@@ -144,7 +144,7 @@ export default function ClientProgress() {
 
           <div className="card">
             <div className="card-header"><h3 className="card-title">🏅 Achievements</h3></div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 12 }}>
               {[{ icon: <StatIcon name="calories" />, title: 'First Order', desc: 'Placed your first order', done: totalOrders >= 1 }, { icon: <StatIcon name="protein" />, title: '5 Orders', desc: 'Reached 5 total orders', done: totalOrders >= 5 }, { icon: <StatIcon name="target" />, title: 'On Target', desc: 'Hit calorie target for a day', done: daysOnTarget >= 1 }, { icon: <StatIcon name="calendar" />, title: '7-Day Streak', desc: 'Ordered 7 consecutive days', done: dates.length >= 7 }, { icon: <StatIcon name="dumbbell" />, title: 'Protein King', desc: 'Hit protein target 3 times', done: dates.filter(d => byDate[d].protein >= proTarget).length >= 3 }, { icon: <StatIcon name="star" />, title: 'Loyal Member', desc: 'Spent ₹5000+ total', done: totalSpent >= 5000 }].map((a, i) => (
                 <div key={i} style={{ textAlign: 'center', padding: 16, background: a.done ? 'rgba(34,197,94,0.06)' : 'var(--bg-tertiary)', borderRadius: 12, border: a.done ? '1px solid rgba(34,197,94,0.3)' : '1px solid var(--border)', opacity: a.done ? 1 : 0.5 }}>
                   <div style={{ fontSize: 28, marginBottom: 6 }}>{a.icon}</div>

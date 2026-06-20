@@ -137,7 +137,7 @@ export default function FoodScheduling() {
               <input className="form-input" placeholder="🔍 Search foods..." value={search} onChange={e => setSearch(e.target.value)} />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, maxHeight: 240, overflowY: 'auto', marginBottom: 16 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 6, maxHeight: 240, overflowY: 'auto', marginBottom: 16 }}>
               {filteredMenu.map(item => (
                 <div key={item.id} onClick={() => toggleItem(item.id)} style={{
                   padding: 10, borderRadius: 10, cursor: 'pointer', transition: 'all 0.2s',

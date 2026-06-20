@@ -105,7 +105,7 @@ export default function LandingPage() {
             <div style={{ fontSize: 13, fontWeight: 800, color: '#22c55e', letterSpacing: 2, marginBottom: 8 }}>OUR MENU</div>
             <h2 style={{ fontSize: 36, fontWeight: 900, marginBottom: 12 }}>Fresh, Healthy & Delicious</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))', gap: 20 }}>
             {MENU_ITEMS.slice(0, 8).map(item => (
               <div key={item.id} style={{ background: '#fff', borderRadius: 16, overflow: 'hidden', border: '1px solid #eee', transition: 'transform 0.3s' }}
                 onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'} onMouseLeave={e => e.currentTarget.style.transform = 'none'}>
@@ -183,7 +183,7 @@ export default function LandingPage() {
             </ul>
             <Link to="/register" style={{ padding: '14px 32px', background: 'linear-gradient(135deg, #22c55e, #4ade80)', color: '#fff', borderRadius: 50, fontWeight: 800, fontSize: 14, textDecoration: 'none', display: 'inline-block' }}>Partner With Us →</Link>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 16 }}>
             {[{ icon: '👥', val: '500+', label: 'Gym Members' }, { icon: '💪', val: '50+', label: 'Trainers' }, { icon: '🏢', val: '20+', label: 'Gym Partners' }, { icon: '📦', val: '10K+', label: 'Orders/Month' }].map((s, i) => (
               <div key={i} style={{ background: '#fafafa', borderRadius: 16, padding: 24, textAlign: 'center', border: '1px solid #eee' }}>
                 <div style={{ fontSize: 28, marginBottom: 8 }}>{s.icon}</div>

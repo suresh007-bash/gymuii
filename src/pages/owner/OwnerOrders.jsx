@@ -40,7 +40,7 @@ export default function OwnerOrders() {
                 <button key={k} className={`btn btn-sm ${newTiming === k ? 'btn-primary' : 'btn-outline'}`} onClick={() => setNewTiming(k)} style={{ flex: 1 }}>{l}</button>
               ))}
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4, marginBottom: 12 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(40px, 1fr))', gap: 4, marginBottom: 12 }}>
               {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={i} style={{ textAlign: 'center', fontSize: 10, fontWeight: 800, color: 'var(--text-muted)', padding: 4 }}>{d}</div>)}
               {Array.from({ length: new Date(calendarDays[0]).getDay() }, (_, i) => <div key={'e' + i} />)}
               {calendarDays.map(ds => <button key={ds} onClick={() => toggleDate(ds)} style={{ padding: '8px 4px', borderRadius: 8, border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 700, background: newDates.includes(ds) ? 'var(--accent-orange)' : 'var(--bg-tertiary)', color: newDates.includes(ds) ? '#fff' : 'var(--text-primary)' }}>{new Date(ds).getDate()}</button>)}

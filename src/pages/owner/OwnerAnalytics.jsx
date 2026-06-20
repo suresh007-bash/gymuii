@@ -20,7 +20,7 @@ export default function OwnerAnalytics() {
           <div key={i} className="stat-card"><div className="stat-icon">{s.icon}</div><div className="stat-value" style={{ color: s.color }}>{s.val}</div><div className="stat-label">{s.label}</div></div>
         ))}
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 20 }}>
         <div className="card">
           <div className="card-header"><h3 className="card-title">🎯 Goal Distribution</h3></div>
           {['Weight Loss', 'Muscle Gain', 'Maintenance'].map(goal => {
