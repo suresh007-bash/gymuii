@@ -305,7 +305,7 @@ export default function BrowseMenu() {
             fontSize: 18, display: 'flex', alignItems: 'center',
             transition: 'all 0.3s ease', color: showRings ? '#fff' : 'var(--text-primary)',
           }}>
-            🏆
+            🎯
           </button>
           <button onClick={() => navigate(`/${user?.role === 'owner' ? 'owner' : user?.role === 'trainer' ? 'trainer' : 'client'}/cart`)} style={{
             background: 'linear-gradient(135deg, #f97316, #fb923c)',
