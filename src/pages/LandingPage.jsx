@@ -1,3 +1,4 @@
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { NUTRIENT_PACKS, CATEGORIES } from '../data/mockMenu';
@@ -34,12 +35,34 @@ export default function LandingPage() {
   const { user } = useAuth();
   const roleMap = { client: '/client/menu', trainer: '/trainer/home', owner: '/owner/menu', kitchen: '/kitchen/dashboard', delivery: '/delivery/dashboard', admin: '/admin/dashboard' };
 
+  // Carousel state
+  const [carouselIdx, setCarouselIdx] = useState(0);
+  const totalSlides = 3;
+  const nextSlide = useCallback(() => setCarouselIdx(p => (p + 1) % totalSlides), []);
+  const prevSlide = useCallback(() => setCarouselIdx(p => (p - 1 + totalSlides) % totalSlides), []);
+
+  useEffect(() => {
+    const timer = setInterval(nextSlide, 5000);
+    return () => clearInterval(timer);
+  }, [nextSlide]);
+
   return (
     <div style={{ fontFamily: "'Outfit', 'Inter', sans-serif", background: '#fff', color: '#1a1a1a', minHeight: '100vh', height: 'auto', overflow: 'visible', position: 'relative' }}>
       <style>{`
         .landing-menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
         @media (max-width: 900px) { .landing-menu-grid { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 600px) { .landing-menu-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+        .landing-carousel { position: relative; overflow: hidden; }
+        .landing-carousel-track { display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .landing-carousel-slide { min-width: 100%; flex-shrink: 0; }
+        .carousel-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; width: 44px; height: 44px; border-radius: 50%; border: none; background: rgba(0,0,0,0.06); color: #333; font-size: 20px; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; backdrop-filter: blur(8px); }
+        .carousel-arrow:hover { background: var(--accent-orange, #f97316); color: #fff; transform: translateY(-50%) scale(1.1); }
+        .carousel-arrow.left { left: 12px; }
+        .carousel-arrow.right { right: 12px; }
+        .carousel-dots { display: flex; justify-content: center; gap: 8px; padding: 16px 0; }
+        .carousel-dot { width: 10px; height: 10px; border-radius: 50%; border: none; cursor: pointer; transition: all 0.3s; }
+        .carousel-dot.active { background: var(--accent-orange, #f97316); transform: scale(1.3); }
+        .carousel-dot:not(.active) { background: #ddd; }
       `}</style>
 
       {/* ═══ NAVBAR ═══ */}
@@ -83,25 +106,89 @@ export default function LandingPage() {
         <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, marginTop: 40, animation: 'fadeInUp 2s ease infinite' }}>Scroll down ▼</div>
       </section>
 
-      {/* ═══ FEATURES ═══ */}
-      <section style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)', maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 48 }}>
-          <div style={{ fontSize: 13, fontWeight: 800, color: '#f97316', letterSpacing: 2, marginBottom: 8 }}>WHY FITBITES</div>
-          <h2 style={{ fontSize: 36, fontWeight: 900, marginBottom: 12 }}>Built for Fitness Enthusiasts</h2>
-          <p style={{ color: '#888', maxWidth: 500, margin: '0 auto' }}>Every feature designed to help you achieve your nutrition goals faster</p>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
-          {FEATURES.map((f, i) => (
-            <div key={i} style={{ padding: 28, borderRadius: 20, border: '1px solid #eee', transition: 'all 0.3s', cursor: 'default' }}
-              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 40px rgba(249,115,22,0.1)'; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'; }}>
-              <div style={{ marginBottom: 12 }}>{f.icon}</div>
-              <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>{f.title}</h3>
-              <p style={{ fontSize: 14, color: '#888', lineHeight: 1.6 }}>{f.desc}</p>
+      {/* ═══ CAROUSEL: FEATURES / HOW IT WORKS / FOR GYMS ═══ */}
+      <div className="landing-carousel">
+        <button className="carousel-arrow left" onClick={prevSlide}>‹</button>
+        <button className="carousel-arrow right" onClick={nextSlide}>›</button>
+        <div className="landing-carousel-track" style={{ transform: `translateX(-${carouselIdx * 100}%)` }}>
+
+          {/* SLIDE 1: FEATURES */}
+          <div className="landing-carousel-slide">
+            <div style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)', maxWidth: 1100, margin: '0 auto' }}>
+              <div style={{ textAlign: 'center', marginBottom: 48 }}>
+                <div style={{ fontSize: 13, fontWeight: 800, color: '#f97316', letterSpacing: 2, marginBottom: 8 }}>WHY FITBITES</div>
+                <h2 style={{ fontSize: 36, fontWeight: 900, marginBottom: 12 }}>Built for Fitness Enthusiasts</h2>
+                <p style={{ color: '#888', maxWidth: 500, margin: '0 auto' }}>Every feature designed to help you achieve your nutrition goals faster</p>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
+                {FEATURES.map((f, i) => (
+                  <div key={i} style={{ padding: 28, borderRadius: 20, border: '1px solid #eee', transition: 'all 0.3s', cursor: 'default' }}
+                    onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 40px rgba(249,115,22,0.1)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'; }}>
+                    <div style={{ marginBottom: 12 }}>{f.icon}</div>
+                    <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>{f.title}</h3>
+                    <p style={{ fontSize: 14, color: '#888', lineHeight: 1.6 }}>{f.desc}</p>
+                  </div>
+                ))}
+              </div>
             </div>
+          </div>
+
+          {/* SLIDE 2: HOW IT WORKS */}
+          <div className="landing-carousel-slide">
+            <div style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)', maxWidth: 1100, margin: '0 auto' }}>
+              <div style={{ textAlign: 'center', marginBottom: 48 }}>
+                <div style={{ fontSize: 13, fontWeight: 800, color: '#f97316', letterSpacing: 2, marginBottom: 8 }}>HOW IT WORKS</div>
+                <h2 style={{ fontSize: 36, fontWeight: 900 }}>4 Simple Steps</h2>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 28 }}>
+                {[{ step: '01', icon: '👤', title: 'Sign Up', desc: 'Create your profile with fitness goals & dietary preferences' }, { step: '02', icon: '🍽️', title: 'Browse Menu', desc: 'Explore macro-tracked meals, nutrient packs & diet plans' }, { step: '03', icon: '📦', title: 'Place Order', desc: 'Add to cart, schedule meals, choose payment method' }, { step: '04', icon: '🚀', title: 'Get Delivered', desc: 'Fresh meals delivered in 30 min with live tracking' }].map((s, i) => (
+                  <div key={i} style={{ textAlign: 'center' }}>
+                    <div style={{ width: 70, height: 70, borderRadius: '50%', background: 'linear-gradient(135deg, #f97316, #22c55e)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, margin: '0 auto 16px', color: '#fff' }}>{s.icon}</div>
+                    <div style={{ fontSize: 12, fontWeight: 900, color: '#f97316', marginBottom: 4 }}>STEP {s.step}</div>
+                    <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>{s.title}</h3>
+                    <p style={{ fontSize: 13, color: '#888', lineHeight: 1.5 }}>{s.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* SLIDE 3: FOR GYMS */}
+          <div className="landing-carousel-slide">
+            <div style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)', maxWidth: 1100, margin: '0 auto' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'clamp(24px, 4vw, 60px)', alignItems: 'center' }}>
+                <div>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: '#22c55e', letterSpacing: 2, marginBottom: 8 }}>FOR GYM OWNERS</div>
+                  <h2 style={{ fontSize: 36, fontWeight: 900, marginBottom: 16 }}>Power Your Gym With FitBites</h2>
+                  <p style={{ color: '#888', fontSize: 15, lineHeight: 1.7, marginBottom: 24 }}>Give your members access to nutritionist-crafted meals. Manage trainers, track client nutrition, create diet plans — all from one dashboard.</p>
+                  <ul style={{ listStyle: 'none', padding: 0, marginBottom: 24 }}>
+                    {['Trainer & client management portal', 'Create & assign nutrient packs', 'Track member nutrition goals', 'Revenue analytics & insights', 'Custom branding options'].map((f, i) => (
+                      <li key={i} style={{ fontSize: 14, padding: '8px 0', display: 'flex', alignItems: 'center', gap: 8, color: '#555' }}>✅ {f}</li>
+                    ))}
+                  </ul>
+                  <Link to="/register" style={{ padding: '14px 32px', background: 'linear-gradient(135deg, #22c55e, #4ade80)', color: '#fff', borderRadius: 50, fontWeight: 800, fontSize: 14, textDecoration: 'none', display: 'inline-block' }}>Partner With Us →</Link>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
+                  {[{ icon: '👥', val: '500+', label: 'Gym Members' }, { icon: '💪', val: '50+', label: 'Trainers' }, { icon: '🏢', val: '20+', label: 'Gym Partners' }, { icon: '📦', val: '10K+', label: 'Orders/Month' }].map((s, i) => (
+                    <div key={i} style={{ background: '#fafafa', borderRadius: 16, padding: 24, textAlign: 'center', border: '1px solid #eee' }}>
+                      <div style={{ fontSize: 28, marginBottom: 8 }}>{s.icon}</div>
+                      <div style={{ fontSize: 28, fontWeight: 900, color: '#22c55e' }}>{s.val}</div>
+                      <div style={{ fontSize: 12, color: '#888', fontWeight: 600 }}>{s.label}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div className="carousel-dots">
+          {[0, 1, 2].map(i => (
+            <button key={i} className={`carousel-dot ${carouselIdx === i ? 'active' : ''}`} onClick={() => setCarouselIdx(i)} />
           ))}
         </div>
-      </section>
+      </div>
 
       {/* ═══ MENU PREVIEW ═══ */}
       <section id="menu" style={{ padding: 'clamp(40px, 8vw, 80px) 0', background: '#fafafa' }}>
@@ -132,26 +219,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══ HOW IT WORKS ═══ */}
-      <section style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)', maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 48 }}>
-          <div style={{ fontSize: 13, fontWeight: 800, color: '#f97316', letterSpacing: 2, marginBottom: 8 }}>HOW IT WORKS</div>
-          <h2 style={{ fontSize: 36, fontWeight: 900 }}>4 Simple Steps</h2>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 28 }}>
-          {[{ step: '01', icon: '👤', title: 'Sign Up', desc: 'Create your profile with fitness goals & dietary preferences' }, { step: '02', icon: '🍽️', title: 'Browse Menu', desc: 'Explore macro-tracked meals, nutrient packs & diet plans' }, { step: '03', icon: '📦', title: 'Place Order', desc: 'Add to cart, schedule meals, choose payment method' }, { step: '04', icon: '🚀', title: 'Get Delivered', desc: 'Fresh meals delivered in 30 min with live tracking' }].map((s, i) => (
-            <div key={i} style={{ textAlign: 'center' }}>
-              <div style={{ width: 70, height: 70, borderRadius: '50%', background: 'linear-gradient(135deg, #f97316, #22c55e)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, margin: '0 auto 16px', color: '#fff' }}>{s.icon}</div>
-              <div style={{ fontSize: 12, fontWeight: 900, color: '#f97316', marginBottom: 4 }}>STEP {s.step}</div>
-              <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>{s.title}</h3>
-              <p style={{ fontSize: 13, color: '#888', lineHeight: 1.5 }}>{s.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* ═══ PRICING ═══ */}
-      <section id="pricing" style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)', background: '#fafafa' }}>
+      <section id="pricing" style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)', background: '#fff' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <div style={{ fontSize: 13, fontWeight: 800, color: '#22c55e', letterSpacing: 2, marginBottom: 8 }}>PRICING</div>
@@ -174,31 +243,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══ FOR GYMS ═══ */}
-      <section id="gyms" style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)', maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'clamp(24px, 4vw, 60px)', alignItems: 'center' }}>
-          <div>
-            <div style={{ fontSize: 13, fontWeight: 800, color: '#22c55e', letterSpacing: 2, marginBottom: 8 }}>FOR GYM OWNERS</div>
-            <h2 style={{ fontSize: 36, fontWeight: 900, marginBottom: 16 }}>Power Your Gym With FitBites</h2>
-            <p style={{ color: '#888', fontSize: 15, lineHeight: 1.7, marginBottom: 24 }}>Give your members access to nutritionist-crafted meals. Manage trainers, track client nutrition, create diet plans — all from one dashboard.</p>
-            <ul style={{ listStyle: 'none', padding: 0, marginBottom: 24 }}>
-              {['Trainer & client management portal', 'Create & assign nutrient packs', 'Track member nutrition goals', 'Revenue analytics & insights', 'Custom branding options'].map((f, i) => (
-                <li key={i} style={{ fontSize: 14, padding: '8px 0', display: 'flex', alignItems: 'center', gap: 8, color: '#555' }}>✅ {f}</li>
-              ))}
-            </ul>
-            <Link to="/register" style={{ padding: '14px 32px', background: 'linear-gradient(135deg, #22c55e, #4ade80)', color: '#fff', borderRadius: 50, fontWeight: 800, fontSize: 14, textDecoration: 'none', display: 'inline-block' }}>Partner With Us →</Link>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 16 }}>
-            {[{ icon: '👥', val: '500+', label: 'Gym Members' }, { icon: '💪', val: '50+', label: 'Trainers' }, { icon: '🏢', val: '20+', label: 'Gym Partners' }, { icon: '📦', val: '10K+', label: 'Orders/Month' }].map((s, i) => (
-              <div key={i} style={{ background: '#fafafa', borderRadius: 16, padding: 24, textAlign: 'center', border: '1px solid #eee' }}>
-                <div style={{ fontSize: 28, marginBottom: 8 }}>{s.icon}</div>
-                <div style={{ fontSize: 28, fontWeight: 900, color: '#22c55e' }}>{s.val}</div>
-                <div style={{ fontSize: 12, color: '#888', fontWeight: 600 }}>{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ═══ TESTIMONIALS ═══ */}
 
       {/* ═══ TESTIMONIALS ═══ */}
       <section style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)', background: '#fafafa' }}>
