@@ -100,6 +100,7 @@ export default function BrowseMenu() {
     activityLevel: 'moderate',
   });
   const [editTargets, setEditTargets] = useState({ ...targets });
+  const bannerCfg = JSON.parse(localStorage.getItem('synnoviq_banner_config') || 'null');
 
   useEffect(() => { localStorage.setItem(targetKey, JSON.stringify(targets)); }, [targets, targetKey]);
 
@@ -205,7 +206,7 @@ export default function BrowseMenu() {
       {/* ═══ HERO BANNER ═══ */}
       <div style={{
         borderRadius: 24, overflow: 'hidden', position: 'relative', marginBottom: 24,
-        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #0f172a 100%)',
+        background: bannerCfg?.gradientStart ? `linear-gradient(135deg, ${bannerCfg.gradientStart} 0%, ${bannerCfg.gradientEnd || bannerCfg.gradientStart} 40%, ${bannerCfg.gradientStart} 100%)` : 'linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #0f172a 100%)',
         padding: '0', color: '#fff', minHeight: 'clamp(200px, 40vw, 340px)',
         display: 'flex', flexWrap: 'wrap', alignItems: 'center',
         boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
@@ -218,14 +219,14 @@ export default function BrowseMenu() {
         {/* Left: Text Content */}
         <div style={{ flex: '1 1 300px', padding: 'clamp(24px, 4vw, 48px) clamp(16px, 3vw, 44px)', position: 'relative', zIndex: 2 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, fontWeight: 800, background: 'linear-gradient(135deg, #f97316, #fb923c)', padding: '6px 16px', borderRadius: 24, marginBottom: 16, letterSpacing: 1.2, textTransform: 'uppercase' }}>
-            <Leaf size={14} style={{marginRight:4}} /> NUTRIENT POWERED
+            <Leaf size={14} style={{marginRight:4}} /> {bannerCfg?.badge || 'NUTRIENT POWERED'}
           </div>
           <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(30px, 4vw, 46px)', fontWeight: 900, lineHeight: 1.1, marginBottom: 16, maxWidth: 420 }}>
-            Make a{' '}
-            <span style={{ background: 'linear-gradient(135deg, #f97316, #22c55e)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Better Life</span>
+            {bannerCfg?.headlineStart || 'Make a'}{' '}
+            <span style={{ background: 'linear-gradient(135deg, #f97316, #22c55e)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{bannerCfg?.headlineHighlight || 'Better Life'}</span>
           </h1>
           <p style={{ fontSize: 15, opacity: 0.7, maxWidth: 380, lineHeight: 1.7, marginBottom: 24, fontWeight: 400 }}>
-            Fuel your body with chef-crafted, nutrient-rich meals — designed for your fitness goals and delivered fresh to your door.
+            {bannerCfg?.subtitle || 'Fuel your body with chef-crafted, nutrient-rich meals — designed for your fitness goals and delivered fresh to your door.'}
           </p>
           <div style={{ display: 'flex', gap: 'clamp(12px, 3vw, 24px)', flexWrap: 'wrap' }}>
             <div style={{ textAlign: 'center' }}>
@@ -260,7 +261,7 @@ export default function BrowseMenu() {
             boxShadow: '0 20px 50px rgba(249,115,22,0.25), 0 0 80px rgba(249,115,22,0.08)',
           }}>
             <img
-              src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=90"
+              src={bannerCfg?.imageUrl || 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=90'}
               alt="Healthy nutrient bowl"
               style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scale(1.1)' }}
             />
@@ -277,19 +278,19 @@ export default function BrowseMenu() {
             background: 'rgba(34,197,94,0.15)', backdropFilter: 'blur(10px)',
             border: '1px solid rgba(34,197,94,0.25)', animation: 'float 3s ease-in-out infinite',
             fontSize: 12, fontWeight: 700, color: '#4ade80', whiteSpace: 'nowrap',
-          }}><Beef size={12} style={{marginRight:4}} /> High Protein</div>
+          }}><Beef size={12} style={{marginRight:4}} /> {bannerCfg?.tag1 || 'High Protein'}</div>
           <div style={{
             position: 'absolute', bottom: 40, left: 0, padding: '8px 14px', borderRadius: 16,
             background: 'rgba(249,115,22,0.15)', backdropFilter: 'blur(10px)',
             border: '1px solid rgba(249,115,22,0.25)', animation: 'float 4s ease-in-out infinite 1s',
             fontSize: 12, fontWeight: 700, color: '#fb923c', whiteSpace: 'nowrap',
-          }}><Flame size={12} style={{marginRight:4}} /> Low Calorie</div>
+          }}><Flame size={12} style={{marginRight:4}} /> {bannerCfg?.tag2 || 'Low Calorie'}</div>
           <div style={{
             position: 'absolute', top: '55%', right: 15, padding: '8px 14px', borderRadius: 16,
             background: 'rgba(99,102,241,0.15)', backdropFilter: 'blur(10px)',
             border: '1px solid rgba(99,102,241,0.25)', animation: 'float 5s ease-in-out infinite 0.5s',
             fontSize: 12, fontWeight: 700, color: '#818cf8', whiteSpace: 'nowrap',
-          }}><Beef size={12} style={{marginRight:4}} /> Macro Balanced</div>
+          }}><Beef size={12} style={{marginRight:4}} /> {bannerCfg?.tag3 || 'Macro Balanced'}</div>
         </div>
       </div>
 

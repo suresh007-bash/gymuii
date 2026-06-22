@@ -113,7 +113,7 @@ export default function DashboardLayout({ children, title, flush }) {
         {/* Brand */}
         <div className="sidebar-brand-section">
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <UtensilsCrossed size={22} style={{ color: '#f97316' }} />
+            <UtensilsCrossed size={22} style={{ color: 'var(--accent-orange)' }} />
             <div>
               <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 18, background: config.gradient, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{config.brand}</div>
               <div style={{ fontSize: 9, fontWeight: 800, color: 'var(--text-muted)', letterSpacing: 1.5 }}>{config.sub}</div>
@@ -126,7 +126,7 @@ export default function DashboardLayout({ children, title, flush }) {
           <div style={{ width: 36, height: 36, borderRadius: '50%', background: config.gradient, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 900, color: '#fff', flexShrink: 0 }}>{user.avatar || '?'}</div>
           <div style={{ minWidth: 0 }}>
             <div style={{ fontWeight: 800, fontSize: 13, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.name}</div>
-            <div style={{ fontSize: 10, color: '#f97316', fontWeight: 700, textTransform: 'uppercase' }}>{role}</div>
+            <div style={{ fontSize: 10, color: 'var(--accent-orange)', fontWeight: 700, textTransform: 'uppercase' }}>{role}</div>
           </div>
         </div>
 

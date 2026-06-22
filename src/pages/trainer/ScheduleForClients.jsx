@@ -101,6 +101,7 @@ export default function ScheduleForClients() {
   const [activeDate, setActiveDate] = useState(null);
   const [activeSlotId, setActiveSlotId] = useState(null);
   const [showFoodPicker, setShowFoodPicker] = useState(false);
+  const [slotSnapshot, setSlotSnapshot] = useState(null);
   const [showCopyPicker, setShowCopyPicker] = useState(false);
   const [copyTargetDates, setCopyTargetDates] = useState([]);
   const [targets] = useState(() => JSON.parse(localStorage.getItem('synnoviq_targets') || 'null') || { calories: 2500, protein: 180, carbs: 280, fat: 80 });
@@ -455,11 +456,11 @@ export default function ScheduleForClients() {
         <div>
           {/* Food Picker Modal — FULL WIDTH */}
           {showFoodPicker && (
-            <div className="modal-overlay" onClick={() => { setShowFoodPicker(false); setSearch(''); setFoodCat('All'); setNutriSort(null); }}>
-              <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 800, width: '95vw' }}>
+            <div className="modal-overlay" onClick={() => { setSchedule(prev => { const s = { ...prev }; s[activeDate] = s[activeDate].map(sl => sl.id === activeSlotId ? { ...sl, items: slotSnapshot || [] } : sl); return s; }); setShowFoodPicker(false); setSlotSnapshot(null); setSearch(''); setFoodCat('All'); setNutriSort(null); }}>
+              <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 800, width: '95vw', display: 'flex', flexDirection: 'column', maxHeight: '90vh' }}>
                 <div className="modal-header">
                   <h3 className="modal-title">🍽️ Add Food — {(() => { const s = (schedule[activeDate] || []).find(s => s.id === activeSlotId); return s ? `${s.label} (${formatTime12(s.time)})` : ''; })()}, {fmtDate(activeDate)}</h3>
-                  <button className="modal-close" onClick={() => { setShowFoodPicker(false); setSearch(''); setFoodCat('All'); setNutriSort(null); }}>✕</button>
+                  <button className="modal-close" onClick={() => { setSchedule(prev => { const s = { ...prev }; s[activeDate] = s[activeDate].map(sl => sl.id === activeSlotId ? { ...sl, items: slotSnapshot || [] } : sl); return s; }); setShowFoodPicker(false); setSlotSnapshot(null); setSearch(''); setFoodCat('All'); setNutriSort(null); }}>✕</button>
                 </div>
 
                 {/* Live Nutrition Rings */}
@@ -469,7 +470,6 @@ export default function ScheduleForClients() {
                   const dPro = dateSlots.reduce((a, s) => a + s.items.reduce((b, i) => b + (i.protein || 0) * i.qty, 0), 0);
                   const dCarb = dateSlots.reduce((a, s) => a + s.items.reduce((b, i) => b + (i.carbs || 0) * i.qty, 0), 0);
                   const dFat = dateSlots.reduce((a, s) => a + s.items.reduce((b, i) => b + (i.fat || 0) * i.qty, 0), 0);
-                  const pct = Math.round((dCal / targets.calories) * 100);
                   return (
                     <div style={{ padding: '10px 0 12px', borderBottom: '1px solid var(--border)', marginBottom: 10 }}>
                       <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
@@ -477,14 +477,6 @@ export default function ScheduleForClients() {
                         <Ring value={dPro} target={targets.protein} color="#22c55e" icon="💪" label="Pro" unit="g" size={64} stroke={6} />
                         <Ring value={dCarb} target={targets.carbs} color="#3b82f6" icon="🌾" label="Carb" unit="g" size={64} stroke={6} />
                         <Ring value={dFat} target={targets.fat} color="#eab308" icon="🥑" label="Fat" unit="g" size={64} stroke={6} />
-                      </div>
-                      <div style={{ textAlign: 'center', marginTop: 6 }}>
-                        <div style={{ height: 5, background: 'var(--bg-tertiary)', borderRadius: 4, overflow: 'hidden', margin: '0 20px' }}>
-                          <div style={{ height: '100%', width: `${Math.min(pct, 100)}%`, background: pct >= 100 ? '#22c55e' : pct > 80 ? '#f97316' : '#3b82f6', borderRadius: 4, transition: 'width 0.4s ease' }} />
-                        </div>
-                        <span style={{ fontSize: 10, fontWeight: 700, color: pct >= 100 ? '#22c55e' : 'var(--text-muted)', marginTop: 2, display: 'inline-block' }}>
-                          {pct >= 100 ? '✅ Daily target reached!' : `${pct}% of daily target`}
-                        </span>
                       </div>
                     </div>
                   );
@@ -527,7 +519,7 @@ export default function ScheduleForClients() {
                 </div>
 
                 {/* Food List */}
-                <div style={{ maxHeight: 420, overflowY: 'auto' }}>
+                <div style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
                   {filteredMenu.length === 0 && (
                     <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 13 }}>No food items found</div>
                   )}
@@ -563,9 +555,9 @@ export default function ScheduleForClients() {
                     );
                   })}
                 </div>
-                <div className="modal-footer" style={{ marginTop: 8 }}>
+                <div className="modal-footer" style={{ position: 'sticky', bottom: 0, marginTop: 0, padding: '10px 16px', background: 'var(--bg-primary)', borderTop: '1.5px solid var(--border)', zIndex: 5, flexShrink: 0 }}>
                   <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{activeSlotItems.length} items in this meal</span>
-                  <button className="btn btn-primary" style={{ fontSize: 14, padding: '10px 28px' }} onClick={() => { setShowFoodPicker(false); setSearch(''); setFoodCat('All'); setNutriSort(null); }}>✅ Done</button>
+                  <button className="btn btn-primary" style={{ fontSize: 14, padding: '10px 28px' }} onClick={() => { setShowFoodPicker(false); setSlotSnapshot(null); setSearch(''); setFoodCat('All'); setNutriSort(null); }}>✅ Done</button>
                 </div>
               </div>
             </div>
@@ -728,41 +720,264 @@ export default function ScheduleForClients() {
                       </div>
                     </div>
 
-                    {/* Items */}
-                    <div style={{ padding: '8px 14px' }}>
-                      {slot.items.length === 0 ? (
-                        <div style={{ textAlign: 'center', padding: '8px 0', color: 'var(--text-muted)', fontSize: 12 }}>No food added</div>
-                      ) : (
-                        <div style={{ marginBottom: 6 }}>
-                          {slot.items.map(item => (
-                            <div key={item.id} style={{ display: 'flex', gap: 8, alignItems: 'center', padding: '5px 0', borderBottom: '1px solid var(--border)' }}>
-                              <img src={item.image} alt="" style={{ width: 30, height: 30, borderRadius: 6, objectFit: 'cover' }} />
-                              <div style={{ flex: 1 }}>
-                                <div style={{ fontWeight: 700, fontSize: 11 }}>{item.name}</div>
-                                <div style={{ fontSize: 9, color: 'var(--text-muted)' }}>🔥{item.calories * item.qty} • ₹{item.price * item.qty}</div>
+                    {/* Items — Horizontal Grid Pack Layout */}
+                    <div style={{ padding: '12px 14px' }}>
+                      {/* Pack Title */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                        <span style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
+                          {slot.items.length > 0 ? `${slot.items.reduce((a, i) => a + i.qty, 0)} Pack` : 'Empty Pack'}
+                        </span>
+                        {slot.items.length > 0 && (
+                          <span style={{ fontSize: 10, fontWeight: 700, color }}>
+                            🔥 {slotCal} kcal • ₹{slotTotal}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Horizontal scroll of food items */}
+                      <div style={{
+                        display: 'flex',
+                        gap: 6,
+                        overflowX: 'auto',
+                        paddingBottom: 4,
+                        marginBottom: 8,
+                      }}>
+                        {slot.items.map((item, itemIdx) => (
+                          <div key={item.id} style={{
+                            position: 'relative',
+                            width: 80, minWidth: 80, height: 100,
+                            borderRadius: 8,
+                            overflow: 'hidden',
+                            border: `1.5px solid ${color}30`,
+                            background: 'var(--bg-tertiary)',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s',
+                            flexShrink: 0,
+                          }}
+                          onMouseEnter={e => { e.currentTarget.style.borderColor = color; e.currentTarget.style.transform = 'scale(1.04)'; }}
+                          onMouseLeave={e => { e.currentTarget.style.borderColor = `${color}30`; e.currentTarget.style.transform = 'scale(1)'; }}
+                          >
+                            {/* Slot Number Badge */}
+                            <div style={{
+                              position: 'absolute', top: 2, left: 2, zIndex: 2,
+                              width: 14, height: 14, borderRadius: '50%',
+                              background: color, color: '#fff',
+                              display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              fontSize: 7, fontWeight: 900,
+                              boxShadow: `0 1px 4px ${color}60`,
+                            }}>{itemIdx + 1}</div>
+
+                            {/* Remove button */}
+                            <button onClick={() => removeItem(activeDate, slot.id, item.id)} style={{
+                              position: 'absolute', top: 2, right: 2, zIndex: 2,
+                              width: 12, height: 12, borderRadius: '50%',
+                              background: 'rgba(239,68,68,0.85)', color: '#fff',
+                              border: 'none', cursor: 'pointer', fontSize: 6,
+                              display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              fontWeight: 900,
+                            }}>✕</button>
+
+                            {/* Food Image */}
+                            <img src={item.image} alt={item.name} style={{
+                              width: '100%', height: 48, objectFit: 'cover',
+                            }} />
+
+                            {/* Food Info */}
+                            <div style={{ padding: '2px 3px', textAlign: 'center' }}>
+                              <div style={{
+                                fontSize: 7, fontWeight: 800, color: 'var(--text-primary)',
+                                lineHeight: 1.1, whiteSpace: 'nowrap',
+                                overflow: 'hidden', textOverflow: 'ellipsis',
+                              }}>{item.name}</div>
+                              <div style={{ fontSize: 6, color: 'var(--text-muted)' }}>
+                                🔥{item.calories * item.qty} • ₹{item.price * item.qty}
                               </div>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-                                <button className="btn btn-outline" style={{ width: 22, height: 22, padding: 0, fontSize: 12, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => { if (item.qty <= 1) removeItem(activeDate, slot.id, item.id); else updateQty(activeDate, slot.id, item.id, -1); }}>−</button>
-                                <span style={{ fontWeight: 900, fontSize: 11, minWidth: 14, textAlign: 'center' }}>{item.qty}</span>
-                                <button className="btn btn-outline" style={{ width: 22, height: 22, padding: 0, fontSize: 12, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => updateQty(activeDate, slot.id, item.id, 1)}>+</button>
+                              {/* Qty Controls */}
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, marginTop: 1 }}>
+                                <button onClick={() => { if (item.qty <= 1) removeItem(activeDate, slot.id, item.id); else updateQty(activeDate, slot.id, item.id, -1); }}
+                                  style={{
+                                    width: 13, height: 13, borderRadius: 3, border: `1px solid ${color}50`,
+                                    background: 'var(--bg-primary)', cursor: 'pointer', fontSize: 8,
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    color: 'var(--text-primary)', fontWeight: 900, padding: 0,
+                                  }}>−</button>
+                                <span style={{ fontSize: 8, fontWeight: 900, minWidth: 8, textAlign: 'center', color }}>{item.qty}</span>
+                                <button onClick={() => updateQty(activeDate, slot.id, item.id, 1)}
+                                  style={{
+                                    width: 13, height: 13, borderRadius: 3, border: `1px solid ${color}50`,
+                                    background: 'var(--bg-primary)', cursor: 'pointer', fontSize: 8,
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    color: 'var(--text-primary)', fontWeight: 900, padding: 0,
+                                  }}>+</button>
                               </div>
-                              <button onClick={() => removeItem(activeDate, slot.id, item.id)} style={{ color: 'var(--accent-red)', fontSize: 11, cursor: 'pointer', background: 'none', border: 'none' }}>✕</button>
                             </div>
-                          ))}
-                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, marginTop: 4, color: 'var(--text-muted)' }}>
-                            <span>🔥 {slotCal} kcal • {slot.items.length} items</span>
-                            <span style={{ fontWeight: 800, color }}>₹{slotTotal}</span>
                           </div>
-                        </div>
-                      )}
+                        ))}
+
+                        {/* Empty placeholder slots */}
+                        {Array.from({ length: 1 }, (_, i) => (
+                          <div key={`empty-${i}`}
+                            onClick={() => { setActiveSlotId(slot.id); setSlotSnapshot(JSON.parse(JSON.stringify(slot.items))); setShowFoodPicker(true); setSearch(''); }}
+                            style={{
+                              width: 80, minWidth: 80, height: 100,
+                              borderRadius: 8,
+                              border: `1.5px dashed ${color}25`,
+                              background: `${color}04`,
+                              display: 'flex', flexDirection: 'column',
+                              alignItems: 'center', justifyContent: 'center',
+                              cursor: 'pointer', transition: 'all 0.2s',
+                              flexShrink: 0,
+                            }}
+                            onMouseEnter={e => { e.currentTarget.style.borderColor = `${color}60`; e.currentTarget.style.background = `${color}10`; }}
+                            onMouseLeave={e => { e.currentTarget.style.borderColor = `${color}25`; e.currentTarget.style.background = `${color}04`; }}
+                          >
+                            <div style={{
+                              width: 14, height: 14, borderRadius: '50%',
+                              background: `${color}15`, color: `${color}50`,
+                              display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              fontSize: 7, fontWeight: 900, marginBottom: 2,
+                            }}>{slot.items.length + i + 1}</div>
+                            <div style={{ fontSize: 12, color: `${color}35` }}>+</div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Add Food Button */}
                       <button className="btn btn-outline btn-sm" style={{ width: '100%', borderColor: `${color}40`, color }}
-                        onClick={() => { setActiveSlotId(slot.id); setShowFoodPicker(true); setSearch(''); }}>
-                        + Add Food
+                        onClick={() => { setActiveSlotId(slot.id); setSlotSnapshot(JSON.parse(JSON.stringify(slot.items))); setShowFoodPicker(true); setSearch(''); }}>
+                        + Add Food to {slot.label}
                       </button>
+
+                      {/* Meal Total Footer with Full Nutrition */}
+                      {slot.items.length > 0 && (() => {
+                        const mealPro = slot.items.reduce((a, i) => a + (i.protein || 0) * i.qty, 0);
+                        const mealCarb = slot.items.reduce((a, i) => a + (i.carbs || 0) * i.qty, 0);
+                        const mealFat = slot.items.reduce((a, i) => a + (i.fat || 0) * i.qty, 0);
+                        return (
+                          <div style={{
+                            marginTop: 8, padding: '8px 10px', borderRadius: 8,
+                            background: `${color}08`, border: `1px solid ${color}15`,
+                          }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                              <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)' }}>
+                                {slot.label} Total ({slot.items.reduce((a, i) => a + i.qty, 0)} items)
+                              </span>
+                              <span style={{ fontSize: 13, fontWeight: 900, color }}>
+                                ₹{slotTotal}
+                              </span>
+                            </div>
+                            <div style={{ display: 'flex', gap: 10, fontSize: 10, fontWeight: 700 }}>
+                              <span style={{ color: '#f97316' }}>🔥 {slotCal} kcal</span>
+                              <span style={{ color: '#22c55e' }}>💪 {mealPro}g protein</span>
+                              <span style={{ color: '#3b82f6' }}>🌾 {mealCarb}g carbs</span>
+                              <span style={{ color: '#eab308' }}>🥑 {mealFat}g fat</span>
+                            </div>
+                          </div>
+                        );
+                      })()}
                     </div>
                   </div>
                 );
               })}
+
+              {/* ═══ DAY TOTAL SUMMARY ═══ */}
+              {activeDate && (() => {
+                const dateSlots = schedule[activeDate] || [];
+                const dayItems = dateSlots.reduce((a, s) => a + s.items.reduce((b, i) => b + i.qty, 0), 0);
+                const dayTotal = dateSlots.reduce((a, s) => a + s.items.reduce((b, i) => b + i.price * i.qty, 0), 0);
+                const dayCal = dateSlots.reduce((a, s) => a + s.items.reduce((b, i) => b + (i.calories || 0) * i.qty, 0), 0);
+                const dayPro = dateSlots.reduce((a, s) => a + s.items.reduce((b, i) => b + (i.protein || 0) * i.qty, 0), 0);
+                const dayCarb = dateSlots.reduce((a, s) => a + s.items.reduce((b, i) => b + (i.carbs || 0) * i.qty, 0), 0);
+                const dayFat = dateSlots.reduce((a, s) => a + s.items.reduce((b, i) => b + (i.fat || 0) * i.qty, 0), 0);
+                if (dayItems === 0) return null;
+                return (
+                  <div className="card" style={{
+                    padding: 0, overflow: 'hidden',
+                    border: '2px solid var(--accent-orange)',
+                    background: 'linear-gradient(135deg, rgba(249,115,22,0.03), rgba(34,197,94,0.03))',
+                  }}>
+                    <div style={{
+                      padding: '10px 14px',
+                      background: 'rgba(249,115,22,0.06)',
+                      borderBottom: '1px solid rgba(249,115,22,0.12)',
+                      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                    }}>
+                      <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 13, color: 'var(--text-primary)' }}>
+                        🧾 {fmtDate(activeDate)} — Cost & Nutrition Summary
+                      </span>
+                      <span style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700 }}>
+                        {dayItems} items total
+                      </span>
+                    </div>
+                    <div style={{ padding: '8px 14px' }}>
+                      {dateSlots.map((slot, idx) => {
+                        const mealTotal = slot.items.reduce((a, i) => a + i.price * i.qty, 0);
+                        const mealItems = slot.items.reduce((a, i) => a + i.qty, 0);
+                        const mCal = slot.items.reduce((a, i) => a + (i.calories || 0) * i.qty, 0);
+                        const mPro = slot.items.reduce((a, i) => a + (i.protein || 0) * i.qty, 0);
+                        const mCarb = slot.items.reduce((a, i) => a + (i.carbs || 0) * i.qty, 0);
+                        const mFat = slot.items.reduce((a, i) => a + (i.fat || 0) * i.qty, 0);
+                        if (mealItems === 0) return null;
+                        return (
+                          <div key={slot.id} style={{
+                            padding: '6px 0',
+                            borderBottom: idx < dateSlots.length - 1 ? '1px solid var(--border)' : 'none',
+                          }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                <div style={{
+                                  width: 20, height: 20, borderRadius: '50%',
+                                  background: slotColors[idx % slotColors.length],
+                                  color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                  fontSize: 9, fontWeight: 900,
+                                }}>{idx + 1}</div>
+                                <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-primary)' }}>
+                                  {slot.label}
+                                </span>
+                                <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>
+                                  ({mealItems} items)
+                                </span>
+                              </div>
+                              <span style={{ fontSize: 13, fontWeight: 800, color: slotColors[idx % slotColors.length] }}>
+                                ₹{mealTotal}
+                              </span>
+                            </div>
+                            <div style={{ display: 'flex', gap: 8, fontSize: 9, fontWeight: 600, marginTop: 2, marginLeft: 26, color: 'var(--text-muted)' }}>
+                              <span style={{ color: '#f97316' }}>🔥{mCal}</span>
+                              <span style={{ color: '#22c55e' }}>💪{mPro}g</span>
+                              <span style={{ color: '#3b82f6' }}>🌾{mCarb}g</span>
+                              <span style={{ color: '#eab308' }}>🥑{mFat}g</span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                      {/* Grand Total */}
+                      <div style={{
+                        padding: '10px 0 4px 0',
+                        marginTop: 4, borderTop: '2px solid var(--accent-orange)',
+                      }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span style={{ fontSize: 14, fontWeight: 900, color: 'var(--text-primary)' }}>
+                            💰 Day Total
+                          </span>
+                          <span style={{
+                            fontSize: 18, fontWeight: 900, color: 'var(--accent-orange)',
+                            fontFamily: 'Outfit',
+                          }}>
+                            ₹{dayTotal}
+                          </span>
+                        </div>
+                        <div style={{ display: 'flex', gap: 12, fontSize: 11, fontWeight: 800, marginTop: 4 }}>
+                          <span style={{ color: '#f97316' }}>🔥 {dayCal} kcal</span>
+                          <span style={{ color: '#22c55e' }}>💪 {dayPro}g protein</span>
+                          <span style={{ color: '#3b82f6' }}>🌾 {dayCarb}g carbs</span>
+                          <span style={{ color: '#eab308' }}>🥑 {dayFat}g fat</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
 
               {/* Add new time slot */}
               <button className="btn btn-outline" onClick={() => addSlot(activeDate)}
