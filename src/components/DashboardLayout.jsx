@@ -92,6 +92,7 @@ export default function DashboardLayout({ children, title, flush }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   if (!user) return null;
   const role = user.role;
@@ -159,11 +160,26 @@ export default function DashboardLayout({ children, title, flush }) {
 
         {/* Logout */}
         <div className="sidebar-logout">
-          <button onClick={() => { logout(); navigate('/login'); }} className="sidebar-logout-btn">
+          <button onClick={() => { setSidebarOpen(false); setShowLogoutConfirm(true); }} className="sidebar-logout-btn">
             <LogOut size={16} /> {t('logout')}
           </button>
         </div>
       </aside>
+
+      {/* Logout Confirmation Modal */}
+      {showLogoutConfirm && (
+        <div className="modal-overlay" onClick={() => setShowLogoutConfirm(false)} style={{ zIndex: 2000 }}>
+          <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 380, textAlign: 'center', padding: 28 }}>
+            <div style={{ fontSize: 48, marginBottom: 12 }}>👋</div>
+            <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>Logout Confirmation</h3>
+            <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 24, lineHeight: 1.6 }}>Are you sure you want to sign out? You'll need to log in again to access your account.</p>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button className="btn btn-outline" style={{ flex: 1 }} onClick={() => setShowLogoutConfirm(false)}>Cancel</button>
+              <button className="btn" style={{ flex: 1, background: '#ef4444', color: '#fff' }} onClick={() => { setShowLogoutConfirm(false); logout(); navigate('/login'); }}>Yes, Logout</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Content */}
       <div className="dashboard-main">

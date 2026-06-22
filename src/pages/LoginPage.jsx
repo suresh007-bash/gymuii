@@ -14,7 +14,7 @@ const demoCredentials = [
 ];
 
 export default function LoginPage() {
-  const { login, user } = useAuth();
+  const { login, logout, user } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,7 +22,26 @@ export default function LoginPage() {
 
   if (user) {
     if (user.requirePasswordChange) return <Navigate to="/change-password" replace />;
-    return <Navigate to={roleMap[user.role]} replace />;
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, background: 'linear-gradient(135deg, #0f172a, #1e293b)' }}>
+        <div style={{ maxWidth: 400, width: '100%', textAlign: 'center', animation: 'scaleIn 0.5s cubic-bezier(0.16,1,0.3,1)' }}>
+          <div style={{
+            background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(24px)',
+            borderRadius: 20, padding: 32, border: '1px solid rgba(255,255,255,0.12)',
+          }}>
+            <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'linear-gradient(135deg, #f97316, #22c55e)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 22, fontWeight: 900, color: '#fff' }}>{user.avatar || '?'}</div>
+            <h2 style={{ color: '#fff', fontSize: 20, fontWeight: 800, marginBottom: 4 }}>Welcome back, {user.name?.split(' ')[0]}!</h2>
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, marginBottom: 24 }}>You're signed in as <span style={{ color: '#f97316', fontWeight: 700 }}>{user.role?.toUpperCase()}</span></p>
+            <button onClick={() => navigate(roleMap[user.role])} style={{ width: '100%', padding: 14, background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 12, fontSize: 15, fontWeight: 800, cursor: 'pointer', border: 'none', marginBottom: 10, boxShadow: '0 4px 20px rgba(249,115,22,0.4)' }}>
+              Continue to Dashboard →
+            </button>
+            <button onClick={() => { logout(); }} style={{ width: '100%', padding: 12, background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.6)', borderRadius: 12, fontSize: 13, fontWeight: 700, cursor: 'pointer', border: '1px solid rgba(255,255,255,0.1)' }}>
+              Switch Account / Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   const handleLogin = (e) => {

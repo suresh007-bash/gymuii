@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import { useNotifications } from './context/NotificationContext';
+import WeatherOverlay from './components/WeatherOverlay';
 
 // Pages
 import LandingPage from './pages/LandingPage';
@@ -110,6 +111,7 @@ export default function App() {
   return (
     <>
       <ToastContainer />
+      <WeatherOverlay />
       <Routes>
         {/* Public */}
         <Route path="/" element={<LandingPage />} />

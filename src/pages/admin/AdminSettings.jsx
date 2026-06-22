@@ -3,6 +3,7 @@ import DashboardLayout from '../../components/DashboardLayout';
 import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationContext';
 import { useTheme } from '../../context/ThemeContext';
+import { EFFECTS } from '../../components/WeatherOverlay';
 import { GYMS } from '../../data/mockUsers';
 
 export default function AdminSettings() {
@@ -31,6 +32,9 @@ export default function AdminSettings() {
       return JSON.parse(localStorage.getItem('synnoviq_banner_config')) || {};
     } catch { return {}; }
   });
+
+  // Weather effect state
+  const [weatherEffect, setWeatherEffect] = useState(() => localStorage.getItem('synnoviq_weather_effect') || 'none');
 
   const askConfirm = (title, msg, color, action) => setConfirm({ title, msg, color, action: () => { action(); setConfirm(null); } });
 
@@ -427,6 +431,44 @@ export default function AdminSettings() {
             <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
               <button className="btn btn-primary" onClick={handleSaveBanner}>💾 Save Banner</button>
               <button className="btn btn-outline" onClick={handleResetBanner}>🔄 Reset Banner</button>
+            </div>
+          </div>
+
+          {/* Weather / Atmosphere Effects */}
+          <div className="card">
+            <div className="card-header" style={{ marginBottom: 16 }}>
+              <h3 className="card-title">🌦️ Atmosphere Effects</h3>
+            </div>
+            <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16 }}>
+              Add a live weather or atmosphere animation overlay across all pages. These effects are purely visual and don't affect functionality.
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 12 }}>
+              {[['none', '🚫', 'No Effect', '#64748b'],
+                ['rain', '🌧️', 'Rainy Storm', '#60a5fa'],
+              ].map(([key, emoji, label, color]) => (
+                <div
+                  key={key}
+                  onClick={() => {
+                    setWeatherEffect(key);
+                    localStorage.setItem('synnoviq_weather_effect', key);
+                    window.dispatchEvent(new Event('synnoviq_weather_change'));
+                    showToast(`${emoji} Atmosphere set to: ${label}`);
+                  }}
+                  style={{
+                    padding: 16, borderRadius: 14, cursor: 'pointer', textAlign: 'center',
+                    border: `2.5px solid ${weatherEffect === key ? color : 'var(--border)'}`,
+                    background: weatherEffect === key ? `${color}10` : 'var(--bg-secondary)',
+                    transition: 'all 0.25s ease',
+                    transform: weatherEffect === key ? 'scale(1.03)' : 'scale(1)',
+                  }}
+                >
+                  <div style={{ fontSize: 32, marginBottom: 6, filter: weatherEffect === key ? 'none' : 'grayscale(0.5)' }}>{emoji}</div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: weatherEffect === key ? color : 'var(--text-secondary)' }}>{label}</div>
+                  {weatherEffect === key && (
+                    <div style={{ fontSize: 9, fontWeight: 800, color, marginTop: 4 }}>✓ ACTIVE</div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
 
