@@ -374,12 +374,55 @@ export default function ClientMealPlans() {
         </div>
       )}
 
-      {/* Empty State */}
-      {myPlans.length === 0 && mySchedules.length === 0 && (
-        <div className="card" style={{ textAlign: 'center', padding: 50 }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>📋</div>
-          <h3 style={{ fontWeight: 800, marginBottom: 8 }}>No recommendations yet</h3>
-          <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>Your trainer will assign personalized meal plans and recommendations here. You can also browse the menu to order directly!</p>
+      {/* Empty State — Waiting for Trainer */}
+      {myPlans.length === 0 && (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '55vh' }}>
+          <div className="card" style={{ textAlign: 'center', padding: 'clamp(28px, 5vw, 50px)', maxWidth: 500 }}>
+            <div style={{
+              width: 100, height: 100, borderRadius: '50%', margin: '0 auto 20px',
+              background: 'linear-gradient(135deg, rgba(249,115,22,0.08), rgba(34,197,94,0.08))',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              border: '2px dashed rgba(249,115,22,0.25)',
+              animation: 'float 4s ease-in-out infinite',
+            }}>
+              <span style={{ fontSize: 44 }}>⏳</span>
+            </div>
+            <h3 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 20, marginBottom: 8 }}>
+              Waiting for Trainer Recommendation
+            </h3>
+            <p style={{ color: 'var(--text-muted)', fontSize: 14, lineHeight: 1.7, marginBottom: 20 }}>
+              Your trainer hasn't scheduled any meals for you yet. Once your trainer creates a personalized diet plan or schedules foods, it will appear right here.
+            </p>
+
+            <div style={{
+              background: 'var(--bg-tertiary)', borderRadius: 14, padding: 16, marginBottom: 20,
+              border: '1px solid var(--border)', textAlign: 'left',
+            }}>
+              <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--text-secondary)', marginBottom: 10 }}>💡 What to expect:</div>
+              {[
+                ['🍽️', 'Personalized meal plans based on your fitness goals'],
+                ['📅', 'Scheduled meals for breakfast, lunch & dinner'],
+                ['📊', 'Macro-tracked recommendations matching your targets'],
+                ['📦', 'One-click ordering for trainer-assigned meals'],
+              ].map(([icon, text], i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 0' }}>
+                  <span style={{ fontSize: 16 }}>{icon}</span>
+                  <span style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.5 }}>{text}</span>
+                </div>
+              ))}
+            </div>
+
+            <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 16 }}>
+              In the meantime, you can browse the menu and order your own meals!
+            </p>
+            <button
+              className="btn btn-primary"
+              onClick={() => navigate('/client/menu')}
+              style={{ padding: '12px 28px', borderRadius: 12, fontWeight: 700, fontSize: 14 }}
+            >
+              🍔 Browse Menu
+            </button>
+          </div>
         </div>
       )}
     </DashboardLayout>

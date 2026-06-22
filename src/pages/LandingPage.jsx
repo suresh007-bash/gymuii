@@ -36,6 +36,11 @@ export default function LandingPage() {
 
   return (
     <div style={{ fontFamily: "'Outfit', 'Inter', sans-serif", background: '#fff', color: '#1a1a1a', minHeight: '100vh', height: 'auto', overflow: 'visible', position: 'relative' }}>
+      <style>{`
+        .landing-menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+        @media (max-width: 900px) { .landing-menu-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 600px) { .landing-menu-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+      `}</style>
 
       {/* ═══ NAVBAR ═══ */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000, padding: '16px clamp(16px, 4vw, 40px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(20px)' }}>
@@ -99,13 +104,13 @@ export default function LandingPage() {
       </section>
 
       {/* ═══ MENU PREVIEW ═══ */}
-      <section id="menu" style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 32px)', background: '#fafafa' }}>
-        <div style={{ width: '100%' }}>
+      <section id="menu" style={{ padding: 'clamp(40px, 8vw, 80px) 0', background: '#fafafa' }}>
+        <div style={{ width: '100%', padding: '0 clamp(12px, 2vw, 20px)' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <div style={{ fontSize: 13, fontWeight: 800, color: '#22c55e', letterSpacing: 2, marginBottom: 8 }}>OUR MENU</div>
             <h2 style={{ fontSize: 36, fontWeight: 900, marginBottom: 12 }}>Fresh, Healthy & Delicious</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16 }}>
+          <div className="landing-menu-grid">
             {MENU_ITEMS.map(item => (
               <div key={item.id} style={{ background: '#fff', borderRadius: 16, overflow: 'hidden', border: '1px solid #eee', transition: 'transform 0.3s' }}
                 onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'} onMouseLeave={e => e.currentTarget.style.transform = 'none'}>
