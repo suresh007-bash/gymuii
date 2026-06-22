@@ -99,14 +99,14 @@ export default function LandingPage() {
       </section>
 
       {/* ═══ MENU PREVIEW ═══ */}
-      <section id="menu" style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)', background: '#fafafa' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+      <section id="menu" style={{ padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 32px)', background: '#fafafa' }}>
+        <div style={{ width: '100%' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <div style={{ fontSize: 13, fontWeight: 800, color: '#22c55e', letterSpacing: 2, marginBottom: 8 }}>OUR MENU</div>
             <h2 style={{ fontSize: 36, fontWeight: 900, marginBottom: 12 }}>Fresh, Healthy & Delicious</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))', gap: 20 }}>
-            {MENU_ITEMS.slice(0, 8).map(item => (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16 }}>
+            {MENU_ITEMS.map(item => (
               <div key={item.id} style={{ background: '#fff', borderRadius: 16, overflow: 'hidden', border: '1px solid #eee', transition: 'transform 0.3s' }}
                 onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'} onMouseLeave={e => e.currentTarget.style.transform = 'none'}>
                 <img src={item.image} alt={item.name} style={{ width: '100%', height: 140, objectFit: 'cover' }} />
@@ -154,15 +154,15 @@ export default function LandingPage() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
             {PLANS.map((p, i) => (
-              <div key={i} style={{ background: '#fff', borderRadius: 20, padding: 32, border: p.popular ? '2px solid #f97316' : '1px solid #eee', position: 'relative', transition: 'transform 0.3s' }}
+              <div key={i} style={{ background: '#fff', borderRadius: 20, padding: 32, border: p.popular ? '2px solid #f97316' : '1px solid #eee', position: 'relative', transition: 'transform 0.3s', display: 'flex', flexDirection: 'column' }}
                 onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'} onMouseLeave={e => e.currentTarget.style.transform = 'none'}>
                 {p.popular && <div style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', padding: '4px 20px', borderRadius: 20, fontSize: 11, fontWeight: 800 }}>MOST POPULAR</div>}
                 <h3 style={{ fontSize: 22, fontWeight: 900, marginBottom: 4 }}>{p.name}</h3>
                 <div style={{ marginBottom: 20 }}><span style={{ fontSize: 36, fontWeight: 900, color: '#f97316' }}>₹{p.price}</span><span style={{ color: '#888', fontSize: 14 }}>{p.period}</span></div>
-                <ul style={{ listStyle: 'none', padding: 0, marginBottom: 24 }}>
+                <ul style={{ listStyle: 'none', padding: 0, marginBottom: 24, flex: 1 }}>
                   {p.features.map((f, j) => (<li key={j} style={{ fontSize: 14, padding: '6px 0', color: '#555', display: 'flex', alignItems: 'center', gap: 8 }}>✅ {f}</li>))}
                 </ul>
-                <Link to="/register" style={{ display: 'block', textAlign: 'center', padding: '12px 0', background: p.popular ? 'linear-gradient(135deg, #f97316, #fb923c)' : '#fff', color: p.popular ? '#fff' : '#f97316', border: p.popular ? 'none' : '2px solid #f97316', borderRadius: 12, fontWeight: 800, fontSize: 14, textDecoration: 'none' }}>Get Started</Link>
+                <Link to="/register" style={{ display: 'block', textAlign: 'center', padding: '12px 0', background: p.popular ? 'linear-gradient(135deg, #f97316, #fb923c)' : '#fff', color: p.popular ? '#fff' : '#f97316', border: p.popular ? 'none' : '2px solid #f97316', borderRadius: 12, fontWeight: 800, fontSize: 14, textDecoration: 'none', marginTop: 'auto' }}>Get Started</Link>
               </div>
             ))}
           </div>
