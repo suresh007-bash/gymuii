@@ -2,16 +2,191 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
+    <!-- ================================
+         FAVICON
+    ================================= -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- ================================
+         RESPONSIVE VIEWPORT
+         (VERY IMPORTANT FOR IPAD + MOBILE)
+    ================================= -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ================================
+         TITLE + SEO
+    ================================= -->
     <title>Synnoviq Suite — Gym Fitness & Food Delivery</title>
-    <meta name="description" content="Unified Portal for Fitness, Nutrition, and Food Operations. 6 role-based portals for clients, trainers, gym owners, kitchen staff, delivery, and admin." />
+
+    <meta
+      name="description"
+      content="Unified Portal for Fitness, Nutrition, and Food Operations"
+    />
+
+    <!-- ================================
+         GOOGLE FONT
+    ================================= -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ================================
+         GLOBAL CSS SYSTEM
+         (FULL TYPOGRAPHY FIX)
+    ================================= -->
+    <style>
+      /* RESET */
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Nunito Sans', sans-serif;
+        background: #fff;
+        color: #111;
+
+        /* 🔥 FONT RENDERING FIX (VERY IMPORTANT) */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+
+        /* Prevent mobile zoom text bug */
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+
+        letter-spacing: 0.2px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      /* ================================
+         BASE TYPOGRAPHY SYSTEM
+      ================================= */
+      body {
+        font-size: 16px;        /* base clarity */
+        line-height: 1.75;     /* readability */
+        font-weight: 500;
+      }
+
+      /* HEADINGS (PREMIUM LOOK) */
+      h1, h2, h3, h4 {
+        font-weight: 800;
+        color: #111;
+        letter-spacing: -0.3px;
+      }
+
+      h1 { font-size: 2.6rem; }
+      h2 { font-size: 2.1rem; }
+      h3 { font-size: 1.5rem; }
+
+      /* ================================
+         INPUT SYSTEM (iOS/IPAD FIX)
+         THIS FIXES BLUR ISSUE 90%
+      ================================= */
+      input, select, textarea, button {
+        font-family: 'Nunito Sans', sans-serif;
+
+        font-size: 16px !important; /* CRITICAL FIX */
+        font-weight: 600;
+
+        color: #111;
+
+        /* improves sharp rendering */
+        transform: translateZ(0);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ================================
+         LABEL SYSTEM (CLEAR TEXT)
+      ================================= */
+      label {
+        font-size: 14px;
+        font-weight: 700;
+        color: #333;
+        letter-spacing: 0.2px;
+      }
+
+      /* ================================
+         BUTTON STYLE BASE
+      ================================= */
+      button {
+        cursor: pointer;
+        font-family: inherit;
+      }
+
+      /* ================================
+         HERO IMAGE SHARPNESS FIX
+      ================================= */
+      .hero-bg {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+      }
+
+      /* ================================
+         TABLET / IPAD MINI FIX
+         (MOST IMPORTANT SECTION)
+      ================================= */
+      @media (min-width: 768px) and (max-width: 1024px) {
+
+        body {
+          font-size: 17px;     /* bigger clarity */
+          line-height: 1.8;
+        }
+
+        input, select, textarea {
+          font-size: 17px !important;
+          font-weight: 600;
+        }
+
+        label {
+          font-size: 14px !important;
+          font-weight: 700;
+          color: #222;
+        }
+
+        h1 { font-size: 2.8rem; }
+        h2 { font-size: 2.2rem; }
+      }
+
+      /* ================================
+         MOBILE FIX
+      ================================= */
+      @media (max-width: 768px) {
+        body {
+          font-size: 15px;
+          line-height: 1.7;
+        }
+
+        input, select, textarea {
+          font-size: 16px !important;
+        }
+
+        label {
+          font-size: 13px;
+        }
+      }
+
+      /* ================================
+         EXTRA SAFETY FIX
+         (ANTI BLUR ON SOME BROWSERS)
+      ================================= */
+      body, input, textarea, select {
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+      }
+    </style>
   </head>
+
   <body>
+    <!-- React Root -->
     <div id="root"></div>
+
+    <!-- App Entry -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

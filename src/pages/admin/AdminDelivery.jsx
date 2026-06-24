@@ -10,74 +10,98 @@ export default function AdminDelivery() {
 
   return (
     <DashboardLayout title="Delivery Management">
+
       {/* Stats */}
       <div className="stats-grid" style={{ marginBottom: 24 }}>
-        {[{ icon: <StatIcon name="truck" />, val: drivers.length, label: 'Total Drivers' }, { icon: <StatIcon name="check" />, val: drivers.filter(d => d.available).length, label: 'Available' }, { icon: <StatIcon name="orders" />, val: activeDeliveries.length, label: 'Active Deliveries' }, { icon: <StatIcon name="star" />, val: '4.8', label: 'Avg Rating' }].map((s, i) => (
-          <div key={i} className="stat-card"><div className="stat-icon">{s.icon}</div><div className="stat-value">{s.val}</div><div className="stat-label">{s.label}</div></div>
+        {[
+          { icon: <StatIcon name="truck" />, val: drivers.length, label: 'Total Drivers', color: '#3b82f6' },
+          { icon: <StatIcon name="check" />, val: drivers.filter(d => d.available).length, label: 'Available', color: '#22c55e' },
+          { icon: <StatIcon name="orders" />, val: activeDeliveries.length, label: 'Active Deliveries', color: '#f97316' },
+          { icon: <StatIcon name="star" />, val: '4.8', label: 'Avg Rating', color: '#eab308' }
+        ].map((s, i) => (
+          <div key={i} className="stat-card">
+            <div className="stat-icon">{s.icon}</div>
+            <div className="stat-value" style={{ color: s.color, fontSize: 'clamp(20px, 3vw, 28px)' }}>{s.val}</div>
+            <div className="stat-label" style={{ fontSize: 'clamp(12px, 1.5vw, 14px)' }}>{s.label}</div>
+          </div>
         ))}
       </div>
 
       {/* Driver Cards */}
-      <h3 style={{ fontFamily: 'Outfit', fontWeight: 700, marginBottom: 16 }}><Car size={16} style={{marginRight:4}} /> Delivery Drivers</h3>
-{/* UPDATED CODE */}
-<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16, marginBottom: 24 }}>        {drivers.map(d => (
+      <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(16px, 2.5vw, 20px)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 6 }}>
+        <Car size={20} /> Delivery Drivers
+      </h3>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: 16, marginBottom: 28 }}>
+        {drivers.map(d => (
           <div key={d.id} className="card" style={{ animation: 'fadeInUp 0.4s ease' }}>
-            <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 12 }}>
-              <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 800, color: '#fff' }}>{d.avatar}</div>
+            <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginBottom: 14 }}>
+              <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 800, color: '#fff', flexShrink: 0 }}>{d.avatar}</div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontWeight: 700, fontSize: 14 }}>{d.name}</div>
-                <div style={{ fontSize: 11, color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{d.vehicleType} • {d.licenseNo}</div>
+                <div style={{ fontWeight: 800, fontSize: 'clamp(15px, 2vw, 17px)', marginBottom: 2 }}>{d.name}</div>
+                <div style={{ fontSize: 'clamp(12px, 1.5vw, 13px)', color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{d.vehicleType} • {d.licenseNo}</div>
               </div>
-              <span className={`badge ${d.available ? 'badge-green' : 'badge-red'}`} style={{ flexShrink: 0, fontSize: 10 }}>{d.available ? '🟢 Free' : '🔴 Busy'}</span>
+              <span className={`badge ${d.available ? 'badge-green' : 'badge-red'}`} style={{ flexShrink: 0, fontSize: 12, padding: '5px 10px', fontWeight: 700 }}>
+                {d.available ? '🟢 Free' : '🔴 Busy'}
+              </span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '8px 0', borderTop: '1px solid var(--border)' }}>
-              <span><Star size={12} style={{marginRight:2}} /> {d.rating} rating</span>
-              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '60%' }}>{d.email}</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 1.5vw, 14px)', padding: '10px 0', borderTop: '1px solid var(--border)' }}>
+              <span style={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
+                <Star size={14} /> {d.rating} rating
+              </span>
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '60%', color: 'var(--text-muted)' }}>{d.email}</span>
             </div>
           </div>
         ))}
       </div>
 
       {/* Active Deliveries */}
-      <h3 style={{ fontFamily: 'Outfit', fontWeight: 700, marginBottom: 16 }}><Package size={16} style={{marginRight:4}} /> Live Deliveries</h3>
+      <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(16px, 2.5vw, 20px)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 6 }}>
+        <Package size={20} /> Live Deliveries
+      </h3>
       <div className="card">
         {/* Desktop Table */}
         <div className="admin-table-desktop">
           <table className="data-table">
-            <thead><tr><th>Order</th><th>Driver</th><th>Customer</th><th>Restaurant</th><th>Status</th><th>ETA</th></tr></thead>
+            <thead>
+              <tr><th>Order</th><th>Driver</th><th>Customer</th><th>Restaurant</th><th>Status</th><th>ETA</th></tr>
+            </thead>
             <tbody>
               {activeDeliveries.length === 0 ? (
-                <tr><td colSpan="6" style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)' }}>No active deliveries right now</td></tr>
+                <tr><td colSpan="6" style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 15 }}>No active deliveries right now</td></tr>
               ) : activeDeliveries.map(o => (
                 <tr key={o.id}>
-                  <td style={{ fontWeight: 700 }}>#{o.id}</td>
-                  <td>{o.driverName || '—'}</td>
-                  <td>{o.customerName}</td>
-                  <td style={{ fontSize: 12 }}>{o.restaurantName}</td>
-                  <td><span className="badge badge-purple"><Car size={12} style={{marginRight:2}} /> In Transit</span></td>
-                  <td>{o.eta}</td>
+                  <td style={{ fontWeight: 800, fontSize: 15 }}>#{o.id}</td>
+                  <td style={{ fontSize: 14 }}>{o.driverName || '—'}</td>
+                  <td style={{ fontSize: 14 }}>{o.customerName}</td>
+                  <td style={{ fontSize: 13, color: 'var(--text-muted)' }}>{o.restaurantName}</td>
+                  <td><span className="badge badge-purple" style={{ fontSize: 12 }}><Car size={12} style={{ marginRight: 2 }} /> In Transit</span></td>
+                  <td style={{ fontSize: 14, fontWeight: 700 }}>{o.eta}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
 
-        {/* Mobile Cards */}
+        {/* Mobile Cards — larger fonts */}
         <div className="admin-cards-mobile" style={{ display: 'none' }}>
           {activeDeliveries.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)' }}>No active deliveries right now</div>
+            <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 15 }}>No active deliveries right now</div>
           ) : activeDeliveries.map(o => (
-            <div key={o.id} style={{ padding: 14, borderBottom: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div key={o.id} style={{ padding: '16px', borderBottom: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: 10 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ fontWeight: 800, fontSize: 14 }}>#{o.id}</div>
-                <span className="badge badge-purple" style={{ fontSize: 10 }}><Car size={12} style={{marginRight:2}} /> In Transit</span>
+                <div style={{ fontWeight: 900, fontSize: 18 }}>#{o.id}</div>
+                <span className="badge badge-purple" style={{ fontSize: 12, padding: '5px 12px' }}><Car size={13} style={{ marginRight: 3 }} /> In Transit</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
-                <span><User size={12} style={{marginRight:2}} /> {o.customerName}</span>
-                <span><Clock size={12} style={{marginRight:2}} /> {o.eta}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 15 }}>
+                <span style={{ fontWeight: 700, display: 'flex', alignItems: 'center', gap: 5 }}>
+                  <User size={14} /> {o.customerName}
+                </span>
+                <span style={{ fontWeight: 700, display: 'flex', alignItems: 'center', gap: 5, color: '#f97316' }}>
+                  <Clock size={14} /> {o.eta}
+                </span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--text-muted)' }}>
-                <span><Car size={12} style={{marginRight:2}} /> {o.driverName || '—'}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: 'var(--text-muted)' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><Car size={13} /> {o.driverName || '—'}</span>
                 <span>🏪 {o.restaurantName}</span>
               </div>
             </div>

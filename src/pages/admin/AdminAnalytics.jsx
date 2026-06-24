@@ -17,7 +17,7 @@ export default function AdminAnalytics() {
     ['Delivered', stats.delivered, '#22c55e'],
     ['Cancelled', stats.cancelled, '#ef4444']
   ];
-  
+
   const byRole = [
     ['Client', <StatIcon name="dumbbell" />, '#f97316'],
     ['Trainer', <StatIcon name="protein" />, '#22c55e'],
@@ -30,32 +30,39 @@ export default function AdminAnalytics() {
   return (
     <DashboardLayout title="Analytics">
       {/* Top Stats Grid */}
-      <div className="stats-grid">
-        {[{ icon: <StatIcon name="revenue" />, val: `₹${stats.revenue.toLocaleString()}`, label: 'Total Revenue', color: '#22c55e' }, { icon: <StatIcon name="orders" />, val: stats.total, label: 'Total Orders', color: '#3b82f6' }, { icon: <StatIcon name="users" />, val: allUsers.length, label: 'Total Users', color: '#f97316' }, { icon: <StatIcon name="barChart" />, val: stats.avgOrderValue > 0 ? `₹${stats.avgOrderValue}` : '₹0', label: 'Avg Order Value', color: '#8b5cf6' }].map((s, i) => (
+      <div className="stats-grid" style={{ marginBottom: 20 }}>
+        {[
+          { icon: <StatIcon name="revenue" />, val: `₹${stats.revenue.toLocaleString()}`, label: 'Total Revenue', color: '#22c55e' },
+          { icon: <StatIcon name="orders" />, val: stats.total, label: 'Total Orders', color: '#3b82f6' },
+          { icon: <StatIcon name="users" />, val: allUsers.length, label: 'Total Users', color: '#f97316' },
+          { icon: <StatIcon name="barChart" />, val: stats.avgOrderValue > 0 ? `₹${stats.avgOrderValue}` : '₹0', label: 'Avg Order Value', color: '#8b5cf6' }
+        ].map((s, i) => (
           <div key={i} className="stat-card">
             <div className="stat-icon">{s.icon}</div>
-            <div className="stat-value" style={{ color: s.color }}>{s.val}</div>
-            <div className="stat-label">{s.label}</div>
+            <div className="stat-value" style={{ color: s.color, fontSize: 'clamp(20px, 3vw, 28px)' }}>{s.val}</div>
+            <div className="stat-label" style={{ fontSize: 'clamp(12px, 1.5vw, 14px)' }}>{s.label}</div>
           </div>
         ))}
       </div>
 
       {/* Main Charts Section */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 20, alignItems: 'stretch' }}>
-        
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: 20, alignItems: 'stretch', marginBottom: 20 }}>
+
         {/* Orders by Status */}
         <div className="card" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
           <div className="card-header">
-            <h3 className="card-title"><BarChartIcon size={16} style={{ marginRight: 4 }} /> Orders by Status</h3>
+            <h3 className="card-title" style={{ fontSize: 16, fontWeight: 800 }}>
+              <BarChartIcon size={18} style={{ marginRight: 6 }} /> Orders by Status
+            </h3>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flex: 1, justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, flex: 1, justifyContent: 'space-between' }}>
             {byStatus.map(([label, val, color]) => (
-              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 12, height: 32 }}>
-                <span style={{ fontSize: 13, minWidth: 80, fontWeight: 600 }}>{label}</span>
-                <div style={{ flex: 1, height: 10, background: 'var(--bg-tertiary)', borderRadius: 5, overflow: 'hidden' }}>
-                  <div style={{ width: `${stats.total ? (val / stats.total) * 100 : 0}%`, height: '100%', background: color, borderRadius: 5, transition: 'width 1s ease' }} />
+              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 12, minHeight: 36 }}>
+                <span style={{ fontSize: 14, minWidth: 84, fontWeight: 700, color: 'var(--text-primary)' }}>{label}</span>
+                <div style={{ flex: 1, height: 12, background: 'var(--bg-tertiary)', borderRadius: 6, overflow: 'hidden' }}>
+                  <div style={{ width: `${stats.total ? (val / stats.total) * 100 : 0}%`, height: '100%', background: color, borderRadius: 6, transition: 'width 1s ease' }} />
                 </div>
-                <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 16, minWidth: 30, color, textAlign: 'right' }}>{val}</span>
+                <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 18, minWidth: 32, color, textAlign: 'right' }}>{val}</span>
               </div>
             ))}
           </div>
@@ -64,41 +71,44 @@ export default function AdminAnalytics() {
         {/* Users by Role */}
         <div className="card" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
           <div className="card-header">
-            <h3 className="card-title"><Users size={16} style={{ marginRight: 4 }} /> Users by Role</h3>
+            <h3 className="card-title" style={{ fontSize: 16, fontWeight: 800 }}>
+              <Users size={18} style={{ marginRight: 6 }} /> Users by Role
+            </h3>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flex: 1, justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, flex: 1, justifyContent: 'space-between' }}>
             {byRole.map(([role, icon, color]) => {
               const count = allUsers.filter(u => u.role === role.toLowerCase()).length;
               return (
-                <div key={role} style={{ display: 'flex', alignItems: 'center', gap: 12, height: 32 }}>
-                  <span style={{ fontSize: 18, display: 'flex', alignItems: 'center' }}>{icon}</span>
-                  <span style={{ fontSize: 13, minWidth: 60, fontWeight: 600 }}>{role}</span>
-                  <div style={{ flex: 1, height: 10, background: 'var(--bg-tertiary)', borderRadius: 5, overflow: 'hidden' }}>
-                    <div style={{ width: `${allUsers.length ? (count / allUsers.length) * 100 : 0}%`, height: '100%', background: color, borderRadius: 5 }} />
+                <div key={role} style={{ display: 'flex', alignItems: 'center', gap: 12, minHeight: 36 }}>
+                  <span style={{ fontSize: 20, display: 'flex', alignItems: 'center', flexShrink: 0 }}>{icon}</span>
+                  <span style={{ fontSize: 14, minWidth: 64, fontWeight: 700, color: 'var(--text-primary)' }}>{role}</span>
+                  <div style={{ flex: 1, height: 12, background: 'var(--bg-tertiary)', borderRadius: 6, overflow: 'hidden' }}>
+                    <div style={{ width: `${allUsers.length ? (count / allUsers.length) * 100 : 0}%`, height: '100%', background: color, borderRadius: 6, transition: 'width 1s ease' }} />
                   </div>
-                  <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 16, minWidth: 30, color, textAlign: 'right' }}>{count}</span>
+                  <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 18, minWidth: 32, color, textAlign: 'right' }}>{count}</span>
                 </div>
               );
             })}
           </div>
         </div>
-
       </div>
 
       {/* Key Metrics Section */}
-      <div className="card" style={{ marginTop: 20 }}>
+      <div className="card">
         <div className="card-header">
-          <h3 className="card-title"><TrendingUp size={16} style={{ marginRight: 4 }} /> Key Metrics</h3>
+          <h3 className="card-title" style={{ fontSize: 16, fontWeight: 800 }}>
+            <TrendingUp size={18} style={{ marginRight: 6 }} /> Key Metrics
+          </h3>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: 16 }}>
           {[
             ['Completion Rate', stats.total > 0 ? `${Math.round((stats.delivered / stats.total) * 100)}%` : '0%', '#22c55e'],
             ['Cancellation Rate', stats.total > 0 ? `${Math.round((stats.cancelled / stats.total) * 100)}%` : '0%', '#ef4444'],
             ['Active Rate', stats.total > 0 ? `${Math.round(((stats.pending + stats.preparing + stats.inTransit) / stats.total) * 100)}%` : '0%', '#3b82f6']
           ].map(([label, val, color]) => (
-            <div key={label} style={{ textAlign: 'center', padding: 20, background: 'var(--bg-tertiary)', borderRadius: 16 }}>
-              <div style={{ fontFamily: 'Outfit', fontSize: 32, fontWeight: 900, color, marginBottom: 4 }}>{val}</div>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 700 }}>{label}</div>
+            <div key={label} style={{ textAlign: 'center', padding: '20px 16px', background: 'var(--bg-tertiary)', borderRadius: 16 }}>
+              <div style={{ fontFamily: 'Outfit', fontSize: 'clamp(28px, 5vw, 36px)', fontWeight: 900, color, marginBottom: 6 }}>{val}</div>
+              <div style={{ fontSize: 'clamp(12px, 1.5vw, 14px)', color: 'var(--text-muted)', fontWeight: 700 }}>{label}</div>
             </div>
           ))}
         </div>

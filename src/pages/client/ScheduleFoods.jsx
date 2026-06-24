@@ -43,7 +43,6 @@ const Ring = ({ value, target, color, size = 72, stroke = 7, icon, label, unit }
         {pct > 3 && <circle cx={size/2 + r * Math.cos(dotAngle)} cy={size/2 + r * Math.sin(dotAngle)} r={stroke/2 + 1} fill={isOver ? '#ef4444' : color} style={{ filter: `drop-shadow(0 0 3px ${isOver ? '#ef4444' : color})`, opacity: 0.8 }} />}
       </svg>
       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center' }}>
-        <div style={{ fontSize: 12 }}>{icon}</div>
         <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 11, color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{displayed}</div>
       </div>
       <div style={{ fontSize: 9, fontWeight: 700, color: 'var(--text-muted)', marginTop: 2 }}>{label}</div>
@@ -494,7 +493,7 @@ export default function ScheduleFoods() {
                   const dFat = dateSlots.reduce((a, s) => a + s.items.reduce((b, i) => b + (i.fat || 0) * i.qty, 0), 0);
                   return (
                     <div style={{ padding: '10px 0 12px', borderBottom: '1px solid var(--border)', marginBottom: 10 }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+                      <div className="nutrition-rings-grid">
                         <Ring value={dCal} target={targets.calories} color="#f97316" icon="🔥" label="Cal" unit="kcal" size={64} stroke={6} />
                         <Ring value={dPro} target={targets.protein} color="#22c55e" icon="💪" label="Pro" unit="g" size={64} stroke={6} />
                         <Ring value={dCarb} target={targets.carbs} color="#3b82f6" icon="🌾" label="Carb" unit="g" size={64} stroke={6} />
@@ -688,7 +687,7 @@ export default function ScheduleFoods() {
                     {calPct >= 100 ? '✅ Target reached!' : calPct > 80 ? `🔥 ${calPct}% almost there` : `${calPct}%`}
                   </span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+                <div className="nutrition-rings-grid">
                   <Ring value={dateCal} target={targets.calories} color="#f97316" icon="🔥" label="Calories" unit="kcal" />
                   <Ring value={datePro} target={targets.protein} color="#22c55e" icon="💪" label="Protein" unit="g" />
                   <Ring value={dateCarb} target={targets.carbs} color="#3b82f6" icon="🌾" label="Carbs" unit="g" />
@@ -1084,7 +1083,7 @@ export default function ScheduleFoods() {
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, marginBottom: 6 }}><span style={{ color: 'var(--text-muted)' }}>Delivery (×{filledDates.length} days)</span><span>₹{deliveryFee}</span></div>
             {tip > 0 && <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, marginBottom: 6 }}><span style={{ color: 'var(--text-muted)' }}>Tip</span><span>₹{tip}</span></div>}
             <hr style={{ border: 'none', borderTop: '1px solid var(--border)', margin: '8px 0' }} />
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 20, fontWeight: 900, fontFamily: 'Outfit' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 26, fontWeight: 900, fontFamily: 'Outfit' }}>
               <span>Total</span><span style={{ color: 'var(--accent-green)' }}>₹{total}</span>
             </div>
           </div>

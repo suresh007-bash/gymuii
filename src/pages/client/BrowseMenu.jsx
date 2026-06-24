@@ -78,7 +78,6 @@ const Ring = ({ value, target, color, size = 90, stroke = 8, icon, label, unit }
           justifyContent: 'center',
           alignItems: 'center'
         }}>
-          <div className="ring-icon" style={{ fontSize: 14, marginBottom: 1 }}>{icon}</div>
           <div className="ring-value" style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 14, color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{displayed}</div>
         </div>
       </div>
@@ -434,15 +433,6 @@ export default function BrowseMenu() {
                 <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)' }}><Search size={16} color="var(--text-muted)" /></span>
                 <input className="form-input" style={{ paddingLeft: 38 }} placeholder="Search meals..." value={search} onChange={e => setSearch(e.target.value)} />
               </div>
-              <button onClick={() => setShowRings(p => !p)} style={{
-                background: showRings ? 'linear-gradient(135deg, #f97316, #fb923c)' : 'var(--bg-tertiary)',
-                border: showRings ? 'none' : '1px solid var(--border)',
-                borderRadius: 12, padding: '8px 12px', cursor: 'pointer',
-                fontSize: 18, display: 'flex', alignItems: 'center',
-                transition: 'all 0.3s ease', color: showRings ? '#fff' : 'var(--text-primary)',
-              }}>
-                <Target size={18} />
-              </button>
               <button onClick={() => navigate(`/${user?.role === 'owner' ? 'owner' : user?.role === 'trainer' ? 'trainer' : 'client'}/cart`)} style={{
                 background: 'linear-gradient(135deg, #f97316, #fb923c)',
                 border: 'none', borderRadius: 12, padding: '8px 12px', cursor: 'pointer',

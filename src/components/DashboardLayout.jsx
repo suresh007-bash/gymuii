@@ -149,8 +149,15 @@ export default function DashboardLayout({ children, title, flush }) {
             }
             const isActive = location.pathname === link.path;
             const label = link.tKey ? t(link.tKey) : link.label;
+            const isLargeFontRole = role === 'client' || role === 'delivery';
             return (
-              <Link key={link.path} to={link.path} onClick={() => setSidebarOpen(false)} className={`sidebar-link ${isActive ? 'active' : ''}`}>
+              <Link 
+                key={link.path} 
+                to={link.path} 
+                onClick={() => setSidebarOpen(false)} 
+                className={`sidebar-link ${isActive ? 'active' : ''}`}
+                style={isLargeFontRole ? { fontSize: '16px', fontWeight: 700, padding: '14px 16px' } : {}}
+              >
                 <SideIcon Icon={link.icon} isActive={isActive} />
                 <span>{label}</span>
               </Link>

@@ -5,8 +5,6 @@ export const MENU_ITEMS = [
   { id: 'm4', name: 'Whey Protein Shake', category: 'Smoothies', price: 180, image: '/images/whey_protein_shake_1781339757035.png', rating: 4.6, prepTime: 5, calories: 250, protein: 30, carbs: 20, fat: 6, description: 'Premium whey protein blended with banana, almond milk and peanut butter', tags: ['High Protein', 'Post-Workout'], available: true },
   { id: 'm5', name: 'Keto Beef Bowl', category: 'Protein', price: 450, image: '/images/keto_beef_bowl_1781339778415.png', rating: 4.8, prepTime: 20, calories: 520, protein: 45, carbs: 5, fat: 35, description: 'Grass-fed beef with cauliflower rice, avocado and cheese', tags: ['Keto', 'High Protein'], available: true },
   { id: 'm6', name: 'Oatmeal & Berries', category: 'Snacks', price: 150, image: '/images/oatmeal_berries_1781339790972.png', rating: 4.5, prepTime: 6, calories: 320, protein: 12, carbs: 48, fat: 8, description: 'Steel-cut oats with fresh mixed berries, honey and chia seeds', tags: ['High Fiber', 'Breakfast'], available: true },
-  { id: 'm7', name: 'Weight Loss Protocol', category: 'Protein', price: 380, image: '/images/weight_loss_protocol_1781339802834.png', rating: 4.7, prepTime: 12, calories: 280, protein: 35, carbs: 15, fat: 10, description: 'Lean turkey breast with steamed vegetables and brown rice', tags: ['Weight Loss', 'Low Fat'], available: false },
-  { id: 'm8', name: 'Hypertrophy Stack', category: 'Protein', price: 550, image: '/images/hypertrophy_stack_1781339815556.png', rating: 4.9, prepTime: 15, calories: 680, protein: 55, carbs: 60, fat: 22, description: 'Double chicken breast, sweet potato, eggs and mixed nuts', tags: ['Muscle Gain', 'High Calorie'], available: true },
 ];
 
 export const CATEGORIES = ['All', 'Protein', 'Salads', 'Smoothies', 'Snacks', 'Keto', 'Vegan'];
@@ -28,9 +26,54 @@ export const OFFERS = [
 ];
 
 export const SUBSCRIPTION_PLANS = [
-  { id: 'sp1', name: 'Daily Fit', duration: 'Daily', price: 299, meals: 3, description: '3 meals per day - breakfast, lunch, dinner', features: ['Macro-tracked meals', 'Free delivery', 'Daily menu choice'] },
-  { id: 'sp2', name: 'Weekly Warrior', duration: 'Weekly', price: 1799, meals: 21, description: '3 meals per day for 7 days', features: ['Macro-tracked meals', 'Free delivery', 'Weekly menu rotation', '5% savings'] },
-  { id: 'sp3', name: 'Monthly Champion', duration: 'Monthly', price: 5999, meals: 90, description: '3 meals per day for 30 days', features: ['Macro-tracked meals', 'Free delivery', 'Priority support', 'Custom menu', '15% savings'] },
+  {
+    id: 'sp1',
+    name: 'Daily Fit',
+    duration: 'Daily',
+    price: 299,
+    meals: 3,
+    description: 'Perfect starter plan for healthy daily nutrition',
+    features: [
+      'Macro-tracked meals',
+      'Free delivery',
+      'Daily menu choice',
+      'Calorie tracking',
+      'Healthy meal plans',
+      'Basic support'
+    ]
+  },
+  {
+    id: 'sp2',
+    name: 'Weekly Warrior',
+    duration: 'Weekly',
+    price: 1799,
+    meals: 21,
+    description: 'Balanced weekly plan for fitness enthusiasts',
+    features: [
+      'Macro-tracked meals',
+      'Free delivery',
+      'Weekly menu rotation',
+      '5% savings',
+      'Trainer diet plans',
+      'Meal scheduling'
+    ]
+  },
+  {
+    id: 'sp3',
+    name: 'Monthly Champion',
+    duration: 'Monthly',
+    price: 5999,
+    meals: 90,
+    description: 'Premium monthly nutrition program for serious results',
+    features: [
+      'Macro-tracked meals',
+      'Free delivery',
+      'Priority support',
+      'Custom menu',
+      '15% savings',
+      'Personal nutritionist'
+    ]
+  }
 ];
 
 export const ACHIEVEMENTS = [
