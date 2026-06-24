@@ -112,6 +112,13 @@ export default function AdminSettings() {
     cursor: 'pointer', outline: 'none', padding: 0, background: 'none',
   };
 
+  // Reusable Grid Structure wrapper to prevent layout stretching issues across large monitors
+  const LayoutGrid = ({ children }) => (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 460px), 1fr))', gap: 20, alignItems: 'start' }}>
+      {children}
+    </div>
+  );
+
   return (
     <DashboardLayout title="Admin Settings">
       {/* Confirmation Modal */}
@@ -135,86 +142,156 @@ export default function AdminSettings() {
         <button className={`tab ${tab === 'theme' ? 'active' : ''}`} onClick={() => setTab('theme')}>🎨 Theme & Branding</button>
       </div>
 
-      {/* Promote User */}
+      {/* Promote User Layout */}
       {tab === 'promote' && (
-        <div className="card" style={{ maxWidth: 500 }}>
-          <div className="card-header"><h3 className="card-title">⬆️ Promote User</h3></div>
-          <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16 }}>Promote a client to trainer, or a user to gym owner role.</p>
-          <div style={{ marginBottom: 14 }}>
-            <label className="form-label">Select User to Promote</label>
-            <select className="form-select" value={promoUserId} onChange={e => setPromoUserId(e.target.value)}>
-              <option value="">Choose user...</option>
-              {allUsers.filter(u => ['client', 'trainer'].includes(u.role)).map(u => (
-                <option key={u.id} value={u.id}>{u.name} — {u.role.toUpperCase()} ({u.email})</option>
-              ))}
-            </select>
-          </div>
-          <div style={{ marginBottom: 14 }}>
-            <label className="form-label">Promote To</label>
-            <div style={{ display: 'flex', gap: 8 }}>
-              {[['trainer', '💪 Trainer'], ['owner', '👑 Owner'], ['admin', '⚙️ Admin']].map(([role, label]) => (
-                <button key={role} className={`btn btn-sm ${promoRole === role ? 'btn-primary' : 'btn-outline'}`} onClick={() => setPromoRole(role)}>{label}</button>
-              ))}
-            </div>
-          </div>
-          {(promoRole === 'trainer' || promoRole === 'owner') && (
+        <LayoutGrid>
+          <div className="card" style={{ width: '100%' }}>
+            <div className="card-header"><h3 className="card-title">⬆️ Promote User</h3></div>
+            <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16 }}>Promote a client to trainer, or a user to gym owner role.</p>
             <div style={{ marginBottom: 14 }}>
-              <label className="form-label">Assign to Gym</label>
-              <select className="form-select" value={promoGym} onChange={e => setPromoGym(e.target.value)}>
-                <option value="">Select gym...</option>
-                {GYMS.map(g => <option key={g.id} value={g.id}>{g.name} — {g.location}</option>)}
+              <label className="form-label">Select User to Promote</label>
+              <select className="form-select" value={promoUserId} onChange={e => setPromoUserId(e.target.value)}>
+                <option value="">Choose user...</option>
+                {allUsers.filter(u => ['client', 'trainer'].includes(u.role)).map(u => (
+                  <option key={u.id} value={u.id}>{u.name} — {u.role.toUpperCase()} ({u.email})</option>
+                ))}
               </select>
             </div>
-          )}
-          <button className="btn btn-success" onClick={handlePromote} disabled={!promoUserId}>⬆️ Promote User</button>
-        </div>
+            <div style={{ marginBottom: 14 }}>
+              <label className="form-label">Promote To</label>
+              <div style={{ display: 'flex', gap: 8 }}>
+                {[['trainer', '💪 Trainer'], ['owner', '👑 Owner'], ['admin', '⚙️ Admin']].map(([role, label]) => (
+                  <button key={role} className={`btn btn-sm ${promoRole === role ? 'btn-primary' : 'btn-outline'}`} onClick={() => setPromoRole(role)}>{label}</button>
+                ))}
+              </div>
+            </div>
+            {(promoRole === 'trainer' || promoRole === 'owner') && (
+              <div style={{ marginBottom: 14 }}>
+                <label className="form-label">Assign to Gym</label>
+                <select className="form-select" value={promoGym} onChange={e => setPromoGym(e.target.value)}>
+                  <option value="">Select gym...</option>
+                  {GYMS.map(g => <option key={g.id} value={g.id}>{g.name} — {g.location}</option>)}
+                </select>
+              </div>
+            )}
+            <button className="btn btn-success" style={{ width: '100%', padding: '12px 0', marginTop: 10 }} onClick={handlePromote} disabled={!promoUserId}>⬆️ Promote User</button>
+          </div>
+
+          {/* Context Summary Counterbalanced Side Info Panel */}
+          <div className="card" style={{ width: '100%', height: '100%' }}>
+            <div className="card-header"><h3 className="card-title">ℹ️ System Guidelines</h3></div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14, fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+              <div>
+                <strong style={{ color: 'var(--text-primary)' }}>💪 Trainer Access:</strong>
+                <p style={{ margin: '4px 0 0 0', color: 'var(--text-muted)' }}>Grants administrative rights over custom meal allocations, client scheduling plans, and specific assigned gym infrastructure logs.</p>
+              </div>
+              <hr style={{ border: '0', borderTop: '1px solid var(--border)' }} />
+              <div>
+                <strong style={{ color: 'var(--text-primary)' }}>👑 Owner Access:</strong>
+                <p style={{ margin: '4px 0 0 0', color: 'var(--text-muted)' }}>Provides absolute visual telemetry over branch finances, subscription structures, and macro inventory charts.</p>
+              </div>
+            </div>
+          </div>
+        </LayoutGrid>
       )}
 
-      {/* Add Kitchen Team */}
+      {/* Add Kitchen Team Layout */}
       {tab === 'kitchen' && (
-        <div className="card" style={{ maxWidth: 500 }}>
-          <div className="card-header"><h3 className="card-title">👨‍🍳 Add Food Providing Team</h3></div>
-          <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16 }}>Register a new kitchen/food provider team to the system.</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <div><label className="form-label">Person Name *</label><input className="form-input" value={kitchenForm.name} onChange={e => setKitchenForm(p => ({ ...p, name: e.target.value }))} placeholder="Chef Name" /></div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 14 }}>
-              <div><label className="form-label">Email *</label><input className="form-input" value={kitchenForm.email} onChange={e => setKitchenForm(p => ({ ...p, email: e.target.value }))} /></div>
-              <div><label className="form-label">Phone</label><input className="form-input" value={kitchenForm.phone} onChange={e => setKitchenForm(p => ({ ...p, phone: e.target.value }))} /></div>
+        <LayoutGrid>
+          <div className="card" style={{ width: '100%' }}>
+            <div className="card-header"><h3 className="card-title">👨‍🍳 Add Food Providing Team</h3></div>
+            <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16 }}>Register a new kitchen/food provider team to the system.</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div><label className="form-label">Person Name *</label><input className="form-input" value={kitchenForm.name} onChange={e => setKitchenForm(p => ({ ...p, name: e.target.value }))} placeholder="Chef Name" /></div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: 14 }}>
+                <div><label className="form-label">Email *</label><input className="form-input" value={kitchenForm.email} onChange={e => setKitchenForm(p => ({ ...p, email: e.target.value }))} /></div>
+                <div><label className="form-label">Phone</label><input className="form-input" value={kitchenForm.phone} onChange={e => setKitchenForm(p => ({ ...p, phone: e.target.value }))} /></div>
+              </div>
+              <div><label className="form-label">Kitchen Name *</label><input className="form-input" value={kitchenForm.kitchenName} onChange={e => setKitchenForm(p => ({ ...p, kitchenName: e.target.value }))} placeholder="FitBites Kitchen" /></div>
+              <div><label className="form-label">Kitchen Location</label><input className="form-input" value={kitchenForm.kitchenLocation} onChange={e => setKitchenForm(p => ({ ...p, kitchenLocation: e.target.value }))} placeholder="City, Area" /></div>
             </div>
-            <div><label className="form-label">Kitchen Name *</label><input className="form-input" value={kitchenForm.kitchenName} onChange={e => setKitchenForm(p => ({ ...p, kitchenName: e.target.value }))} placeholder="FitBites Kitchen" /></div>
-            <div><label className="form-label">Kitchen Location</label><input className="form-input" value={kitchenForm.kitchenLocation} onChange={e => setKitchenForm(p => ({ ...p, kitchenLocation: e.target.value }))} placeholder="City, Area" /></div>
+            <button className="btn btn-success" style={{ marginTop: 20, width: '100%', padding: '12px 0' }} onClick={handleAddKitchen}>➕ Add Kitchen Team</button>
           </div>
-          <button className="btn btn-success" style={{ marginTop: 16 }} onClick={handleAddKitchen}>➕ Add Kitchen Team</button>
-        </div>
+
+          <div className="card" style={{ width: '100%', height: '100%' }}>
+            <div className="card-header"><h3 className="card-title">📌 Operational Notes</h3></div>
+            <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6 }}>
+              Adding a kitchen service agent initiates automated dynamic routing configuration. Fresh logs are appended to fulfillment lists, and corresponding platform personnel profiles will be automatically provisioned with default login tokens dispatched directly to the listed organizational mail inbox.
+            </p>
+          </div>
+        </LayoutGrid>
       )}
 
       {/* Role Overview */}
       {tab === 'roles' && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 20 }}>
-          {[['client', '🏋️', '#f97316'], ['trainer', '💪', '#22c55e'], ['owner', '👑', '#3b82f6'], ['kitchen', '👨‍🍳', '#14b8a6'], ['delivery', '🚗', '#8b5cf6'], ['admin', '⚙️', '#64748b']].map(([role, icon, color]) => {
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))', // Increased min-width from 260px to 340px to neatly split 6 items into an elegant 3x2 matrix on desktop
+          gridAutoRows: '1fr', 
+          gap: 20,
+          alignItems: 'stretch'
+        }}>
+          {[
+            ['client', '🏋️', '#f97316', 'Clients'], 
+            ['trainer', '💪', '#22c55e', 'Trainers'], 
+            ['owner', '👑', '#3b82f6', 'Owners'], 
+            ['kitchen', '👨‍🍳', '#14b8a6', 'Kitchens'], 
+            ['delivery', '🚗', '#8b5cf6', 'Deliveries'], 
+            ['admin', '⚙️', '#64748b', 'Admins']
+          ].map(([role, icon, color, labelText]) => {
             const users = allUsers.filter(u => u.role === role);
             return (
-              <div key={role} className="card">
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+              <div key={role} className="card" style={{ 
+                height: '100%',             
+                display: 'flex', 
+                flexDirection: 'column',
+                margin: 0,
+                boxSizing: 'border-box',
+                minHeight: '280px'          
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
                   <span style={{ fontSize: 24 }}>{icon}</span>
-                  <div><span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 16 }}>{role.charAt(0).toUpperCase() + role.slice(1)}s</span><span style={{ marginLeft: 8, fontWeight: 900, color }}>{users.length}</span></div>
-                </div>
-                {users.slice(0, 5).map(u => (
-                  <div key={u.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid var(--border)', fontSize: 12 }}>
-                    <span style={{ fontWeight: 600 }}>{u.name}</span><span style={{ color: 'var(--text-muted)' }}>{u.email}</span>
+                  <div>
+                    <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 16 }}>
+                      {labelText}
+                    </span>
+                    <span style={{ marginLeft: 8, fontWeight: 900, color, fontSize: 16 }}>
+                      {users.length}
+                    </span>
                   </div>
-                ))}
-                {users.length > 5 && <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 6 }}>+{users.length - 5} more</div>}
+                </div>
+                
+                {/* User List Container */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1 }}>
+                  {users.slice(0, 5).map(u => (
+                    <div key={u.id} style={{ 
+                      display: 'flex', 
+                      justifyContent: 'space-between', 
+                      alignItems: 'center',
+                      padding: '8px 0', 
+                      borderBottom: '1px solid var(--border)', 
+                      fontSize: 12 
+                    }}>
+                      <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{u.name}</span>
+                      <span style={{ color: 'var(--text-muted)' }}>{u.email}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {users.length > 5 && (
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 'auto', paddingTop: 10, fontWeight: 600 }}>
+                    +{users.length - 5} more
+                  </div>
+                )}
               </div>
             );
           })}
         </div>
       )}
 
-      {/* ═══ THEME & BRANDING ═══ */}
+      {/* Theme & Branding */}
       {tab === 'theme' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-
           {/* Theme Presets */}
           <div className="card">
             <div className="card-header" style={{ marginBottom: 16 }}>
@@ -401,7 +478,7 @@ export default function AdminSettings() {
                 background: `linear-gradient(135deg, ${bannerCfg.gradientStart || '#0f172a'} 0%, ${bannerCfg.gradientEnd || '#1e293b'} 40%, ${bannerCfg.gradientStart || '#0f172a'} 100%)`,
                 color: '#fff', padding: '24px 28px', minHeight: 140,
               }}>
-                <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)', marginBottom: 8, color: 'rgba(255,255,255,0.5)' }}>BANNER PREVIEW</div>
+                <div style={{ fontSize: 10, fontWeight: 700, marginBottom: 8, color: 'rgba(255,255,255,0.5)' }}>BANNER PREVIEW</div>
                 <div style={{
                   display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 9, fontWeight: 800,
                   background: `linear-gradient(135deg, ${themePrimary}, ${themeSecondary})`,
@@ -471,7 +548,6 @@ export default function AdminSettings() {
               ))}
             </div>
           </div>
-
         </div>
       )}
     </DashboardLayout>

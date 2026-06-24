@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Dumbbell, Users, Crown, ChefHat, Truck, Settings } from 'lucide-react';
+import { Dumbbell, Users, Crown, ChefHat, Truck, Settings, ArrowLeft } from 'lucide-react';
 
 const roleMap = { client: '/client/menu', trainer: '/trainer/home', owner: '/owner/menu', kitchen: '/kitchen/dashboard', delivery: '/delivery/dashboard', admin: '/admin/dashboard' };
 const demoCredentials = [
@@ -58,6 +58,22 @@ export default function LoginPage() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, position: 'relative', overflow: 'hidden' }}>
+
+      {/* Back to Dashboard Button */}
+      <Link to="/" style={{
+        position: 'absolute', top: 24, left: 24, zIndex: 10,
+        display: 'flex', alignItems: 'center', gap: 8,
+        color: 'rgba(255,255,255,0.7)', textDecoration: 'none',
+        fontSize: 14, fontWeight: 700, padding: '10px 18px',
+        background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)',
+        borderRadius: 30, backdropFilter: 'blur(24px)', transition: 'all 0.2s',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+      }}
+        onMouseEnter={e => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.background = 'rgba(255,255,255,0.15)'; e.currentTarget.style.transform = 'translateX(-2px)'; }}
+        onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.transform = 'none'; }}
+      >
+        <ArrowLeft size={16} /> Back to Dashboard
+      </Link>
 
       {/* Background Video */}
       <video

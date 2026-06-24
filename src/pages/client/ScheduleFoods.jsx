@@ -414,35 +414,59 @@ export default function ScheduleFoods() {
 
       {/* ═══ STEP 1 ═══ */}
       {step === 1 && (
-        <div className="card" style={{ maxWidth: 640, margin: '0 auto' }}>
-          <div className="card-header"><h3 className="card-title">📅 Step 1: Select Delivery Dates</h3></div>
-          <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 14 }}>Pick dates. For each date you can add as many time slots as you need and select food for each.</p>
-          <div className="cal-grid-magic" ref={calGridRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(40px, 1fr))', gap: 4, marginBottom: 16, position: 'relative' }}>
+        /* Increased maxWidth from 640 to 800 and padded the card for a larger layout */
+        <div className="card" style={{ maxWidth: 800, margin: '0 auto', padding: '24px' }}>
+          <div className="card-header" style={{ marginBottom: 16 }}>
+            <h3 className="card-title" style={{ fontSize: '1.4rem' }}>📅 Step 1: Select Delivery Dates</h3>
+          </div>
+          <p style={{ fontSize: 14, color: 'var(--text-muted)', marginBottom: 20 }}>
+            Pick dates. For each date you can add as many time slots as you need and select food for each.
+          </p>
+          
+          <div className="cal-grid-magic" ref={calGridRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '10px', marginBottom: 24, position: 'relative', width: '100%' }}>
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
-              <div key={d} style={{ textAlign: 'center', fontSize: 10, fontWeight: 800, color: 'var(--text-muted)', padding: 6 }}>{d}</div>
+              <div key={d} style={{ textAlign: 'center', fontSize: 12, fontWeight: 800, color: 'var(--text-muted)', padding: '8px 0' }}>{d}</div>
             ))}
             {Array.from({ length: new Date(calendarDays[0]).getDay() }, (_, i) => <div key={'e' + i} />)}
             {calendarDays.map(dateStr => {
               const isSelected = selectedDates.includes(dateStr);
               const isToday = dateStr === today.toISOString().split('T')[0];
               return (
-                <button key={dateStr} onClick={() => toggleDate(dateStr)} className="cal-magic-cell" style={{
-                  padding: '12px 4px', borderRadius: 10, border: isSelected ? '2px solid var(--accent-orange)' : '2px solid transparent',
-                  cursor: 'pointer', fontSize: 14, fontWeight: 700, transition: 'all 0.2s',
-                  background: isSelected ? 'var(--accent-orange)' : isToday ? 'rgba(249,115,22,0.08)' : 'var(--bg-tertiary)',
-                  color: isSelected ? '#fff' : 'var(--text-primary)',
-                  position: 'relative', overflow: 'hidden',
-                  '--glow-x': '50%', '--glow-y': '50%', '--glow-intensity': '0', '--glow-radius': '120px',
-                }}>{new Date(dateStr).getDate()}</button>
+                <button 
+                  key={dateStr} 
+                  onClick={() => toggleDate(dateStr)} 
+                  className="cal-magic-cell" 
+                  style={{
+                    /* Increased vertical padding from 8px to 18px to scale button heights */
+                    padding: '18px 0', 
+                    minWidth: 0, 
+                    borderRadius: 12, 
+                    border: isSelected ? '2px solid var(--accent-orange)' : '2px solid transparent',
+                    cursor: 'pointer', 
+                    /* Increased font size from 14 to 16 for better visibility */
+                    fontSize: 16, 
+                    fontWeight: 700, 
+                    transition: 'all 0.2s',
+                    background: isSelected ? 'var(--accent-orange)' : isToday ? 'rgba(249,115,22,0.08)' : 'var(--bg-tertiary)',
+                    color: isSelected ? '#fff' : 'var(--text-primary)',
+                    position: 'relative', 
+                    overflow: 'hidden',
+                    '--glow-x': '50%', '--glow-y': '50%', '--glow-intensity': '0', '--glow-radius': '150px',
+                  }}
+                >
+                  {new Date(dateStr).getDate()}
+                </button>
               );
             })}
           </div>
+
           {selectedDates.length > 0 && (
-            <div style={{ padding: 12, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 14, fontSize: 13 }}>
+            <div style={{ padding: 16, background: 'rgba(34,197,94,0.06)', borderRadius: 12, marginBottom: 20, fontSize: 14 }}>
               <strong>✅ {selectedDates.length} date{selectedDates.length > 1 ? 's' : ''}:</strong> {selectedDates.sort().map(d => fmtDate(d)).join(' • ')}
             </div>
           )}
-          <button className="btn btn-primary btn-lg" style={{ width: '100%' }}
+
+          <button className="btn btn-primary btn-lg" style={{ width: '100%', padding: '16px 0', fontSize: 16 }}
             onClick={() => { if (selectedDates.length === 0) { showToast('Select at least one date', 'error'); return; } selectedDates.forEach(d => { if (!schedule[d]) setSchedule(p => ({ ...p, [d]: defaultSlots() })); }); setActiveDate(selectedDates.sort()[0]); setStep(2); }}
             disabled={selectedDates.length === 0}>
             {selectedDates.length > 0 ? `Next → Set Time Slots (${selectedDates.length} date${selectedDates.length > 1 ? 's' : ''})` : 'Select dates first'}
@@ -606,15 +630,16 @@ export default function ScheduleFoods() {
           </div>
 
           {/* Date tabs */}
-          <div style={{ display: 'flex', gap: 6, marginBottom: 16, overflowX: 'auto', paddingBottom: 4 }}>
+         {/* Date tabs */}
+          <div className="scrolling-tabs-container" style={{ flexWrap: 'nowrap' }}>
             {selectedDates.sort().map(dateStr => {
               const count = getDateTotalItems(dateStr);
               const slotCount = (schedule[dateStr] || []).length;
               const isActive = activeDate === dateStr;
               return (
-                <div key={dateStr} style={{ display: 'flex', alignItems: 'center', gap: 0, position: 'relative' }}>
+                <div key={dateStr} style={{ display: 'inline-flex', alignItems: 'center', position: 'relative', flexShrink: 0 }}>
                   <button onClick={() => setActiveDate(dateStr)} style={{
-                    padding: '10px 30px 10px 14px', borderRadius: 12, border: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
+                    padding: '10px 34px 10px 14px', borderRadius: 12, border: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
                     background: isActive ? 'var(--accent-orange)' : count > 0 ? 'rgba(34,197,94,0.1)' : 'var(--bg-tertiary)',
                     color: isActive ? '#fff' : count > 0 ? 'var(--accent-green)' : 'var(--text-muted)',
                     fontWeight: 800, fontSize: 12, transition: 'all 0.2s',
@@ -630,7 +655,7 @@ export default function ScheduleFoods() {
                     else if (activeDate === dateStr) setActiveDate(remaining.sort()[0]);
                     showToast(`🗑️ ${fmtDate(dateStr)} removed`);
                   }} style={{
-                    position: 'absolute', right: 4, top: '50%', transform: 'translateY(-50%)',
+                    position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)',
                     width: 20, height: 20, borderRadius: '50%', border: 'none', cursor: 'pointer', fontSize: 10,
                     display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900,
                     background: isActive ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.08)',

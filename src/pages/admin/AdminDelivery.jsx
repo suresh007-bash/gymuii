@@ -19,8 +19,8 @@ export default function AdminDelivery() {
 
       {/* Driver Cards */}
       <h3 style={{ fontFamily: 'Outfit', fontWeight: 700, marginBottom: 16 }}><Car size={16} style={{marginRight:4}} /> Delivery Drivers</h3>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16, marginBottom: 24 }}>
-        {drivers.map(d => (
+{/* UPDATED CODE */}
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16, marginBottom: 24 }}>        {drivers.map(d => (
           <div key={d.id} className="card" style={{ animation: 'fadeInUp 0.4s ease' }}>
             <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 12 }}>
               <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 800, color: '#fff' }}>{d.avatar}</div>

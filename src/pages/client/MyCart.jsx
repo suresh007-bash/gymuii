@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Icon, ShoppingCart, Trash2, Flame, Beef, Wheat, Droplets, Package, Utensils, Calendar, CheckCircle2, Sparkles, ClipboardList, Banknote, Smartphone, CreditCard } from '../../components/Icons';
 import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../components/DashboardLayout';
@@ -18,6 +18,22 @@ export default function MyCart() {
   const [tip, setTip] = useState(0);
   const [payment, setPayment] = useState('COD');
   const [orderPlaced, setOrderPlaced] = useState(null);
+  const [loading, setLoading] = useState(() => {
+    const c = JSON.parse(localStorage.getItem('synnoviq_cart') || '[]');
+    return c.length > 0;
+  });
+  const [fade, setFade] = useState(false);
+
+  useEffect(() => {
+    if (loading) {
+      const fadeTimer = setTimeout(() => setFade(true), 1800);
+      const loadTimer = setTimeout(() => setLoading(false), 2300);
+      return () => {
+        clearTimeout(fadeTimer);
+        clearTimeout(loadTimer);
+      };
+    }
+  }, [loading]);
 
   const updateQty = (id, delta) => { const c = cart.map(i => i.id === id ? { ...i, qty: Math.max(1, i.qty + delta) } : i); setCart(c); localStorage.setItem('synnoviq_cart', JSON.stringify(c)); };
   const remove = (id) => { const c = cart.filter(i => i.id !== id); setCart(c); localStorage.setItem('synnoviq_cart', JSON.stringify(c)); };
@@ -71,8 +87,29 @@ export default function MyCart() {
   );
 
   return (
-    <DashboardLayout title="My Cart">
-      {cart.length === 0 ? (
+    <>
+      {loading && cart.length > 0 && (
+        <div className={`pancake-loader-container ${fade ? 'fade-out' : ''}`}>
+          <div className="loader">
+            <div className="tall-stack">
+              <div className="butter falling-element"></div>
+              <div className="pancake falling-element"></div>
+              <div className="pancake falling-element"></div>
+              <div className="pancake falling-element"></div>
+              <div className="pancake falling-element"></div>
+              <div className="pancake falling-element"></div>
+              <div className="pancake falling-element"></div>
+              <div className="plate">
+                <div className="plate-bottom"></div>
+                <div className="shadow"></div>
+              </div>
+            </div>
+            <div className="loader-text">PREPARING YOUR FITBITES STACK...</div>
+          </div>
+        </div>
+      )}
+      <DashboardLayout title="My Cart">
+        {cart.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 60 }}>
           <div style={{ fontSize: 64, marginBottom: 16 }}><ShoppingCart size={64} color="var(--text-muted)" /></div>
           <h2 style={{ fontFamily: 'Outfit', fontSize: 24, fontWeight: 800, marginBottom: 8 }}>Your cart is empty</h2>
@@ -171,5 +208,6 @@ export default function MyCart() {
         </div>
       )}
     </DashboardLayout>
+    </>
   );
 }

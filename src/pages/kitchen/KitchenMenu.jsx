@@ -7,8 +7,132 @@ export default function KitchenMenu() {
   const { showToast } = useNotifications();
   const [menu, setMenu] = useState(() => {
     const saved = localStorage.getItem('synnoviq_menu');
-    return saved ? JSON.parse(saved) : MENU_ITEMS;
+    let baseItems = saved ? JSON.parse(saved) : MENU_ITEMS;
+
+    // Check if the custom items have already been appended to avoid duplication
+    if (!baseItems.some(item => item.id === 'k-custom-7')) {
+      baseItems = [
+        ...baseItems,
+        {
+          id: 'k-custom-7',
+          name: 'Avocado Toast & Eggs',
+          category: 'Protein',
+          price: 240,
+          originalPrice: null,
+          discount: 0,
+          calories: 390,
+          protein: 18,
+          carbs: 32,
+          fat: 14,
+          prepTime: 10,
+          rating: 4.7,
+          tags: ['Healthy Fats', 'Breakfast'],
+          image: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=500&q=80',
+          available: true,
+          description: 'Toasted whole wheat sourdough spread with fresh mashed avocado and topped with sunny-side-up eggs.'
+        },
+        {
+          id: 'k-custom-8',
+          name: 'High-Protein Chicken Wrap',
+          category: 'Protein',
+          price: 290,
+          originalPrice: null,
+          discount: 0,
+          calories: 460,
+          protein: 38,
+          carbs: 40,
+          fat: 11,
+          prepTime: 12,
+          rating: 4.6,
+          tags: ['High Protein', 'Post-Workout'],
+          // FIXED: Replaced the non-loading image with a valid food photography asset URL for chicken wraps
+          image: 'https://images.unsplash.com/photo-1626700051175-6518c4793f4f?w=500&q=80',
+          available: true,
+          description: 'Grilled protein-packed chicken breast strips packed inside a whole wheat tortilla with Greek yogurt dressing.'
+        },
+        {
+          id: 'k-custom-9',
+          name: 'PB & Banana Recovery Smoothie',
+          category: 'Smoothies',
+          price: 190,
+          originalPrice: null,
+          discount: 0,
+          calories: 320,
+          protein: 26,
+          carbs: 42,
+          fat: 8,
+          prepTime: 5,
+          rating: 4.8,
+          tags: ['Energy Boost', 'Smoothies'],
+          image: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=500&q=80',
+          available: true,
+          description: 'Creamy high-protein blend of peanut butter, ripe bananas, almond milk, and whey protein isolate.'
+        },
+        {
+          id: 'k-custom-10',
+          name: 'Grilled Salmon Bowl',
+          category: 'Protein',
+          price: 380,
+          originalPrice: null,
+          discount: 0,
+          calories: 520,
+          protein: 42,
+          carbs: 38,
+          fat: 18,
+          prepTime: 15,
+          rating: 4.9,
+          tags: ['Omega-3', 'Lean Protein'],
+          image: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&q=80',
+          available: true,
+          description: 'Premium grilled Atlantic salmon fillet served over a bed of wild brown rice with steamed broccoli florets.'
+        },
+        {
+          id: 'k-custom-11',
+          name: 'Keto Almond Crust Pizza',
+          category: 'Snacks',
+          price: 320,
+          originalPrice: null,
+          discount: 0,
+          calories: 410,
+          protein: 28,
+          carbs: 12,
+          fat: 24,
+          prepTime: 14,
+          rating: 4.7,
+          tags: ['Low Carb', 'Keto Friendly'],
+          image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&q=80',
+          available: true,
+          description: 'Low-carb personal pizza prepared on an almond flour crust, topped with fresh marinara, shredded mozzarella, and grilled bell peppers.'
+        }
+      ];
+      localStorage.setItem('synnoviq_menu', JSON.stringify(baseItems));
+    } else if (!baseItems.some(item => item.id === 'k-custom-11')) {
+      baseItems = [
+        ...baseItems,
+        {
+          id: 'k-custom-11',
+          name: 'Keto Almond Crust Pizza',
+          category: 'Snacks',
+          price: 320,
+          originalPrice: null,
+          discount: 0,
+          calories: 410,
+          protein: 28,
+          carbs: 12,
+          fat: 24,
+          prepTime: 14,
+          rating: 4.7,
+          tags: ['Low Carb', 'Keto Friendly'],
+          image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&q=80',
+          available: true,
+          description: 'Low-carb personal pizza prepared on an almond flour crust, topped with fresh marinara, shredded mozzarella, and grilled bell peppers.'
+        }
+      ];
+      localStorage.setItem('synnoviq_menu', JSON.stringify(baseItems));
+    }
+    return baseItems;
   });
+
   const [showAdd, setShowAdd] = useState(false);
   const [editItem, setEditItem] = useState(null);
   const [form, setForm] = useState({ name: '', category: 'Protein', price: '', calories: '', protein: '', carbs: '', fat: '', description: '', image: '', available: true, discount: 0 });

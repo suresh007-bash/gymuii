@@ -28,6 +28,25 @@ export default function TrainerMenu() {
 
   return (
     <DashboardLayout title="Browse Menu">
+      {/* Dynamic style block patch to cleanly adjust cards size behavior */}
+      <style>{`
+        .trainer-menu-grid {
+          display: grid;
+          /* auto-fit and 1fr work together to automatically upscale card widths to completely swallow gaps */
+          grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)) !important;
+          gap: 24px !important;
+          width: 100% !important;
+        }
+
+        .trainer-card-wrapper {
+          display: flex !important;
+          flex-direction: column !important;
+          height: 100% !important;
+          width: 100% !important;
+          margin: 0 !important;
+        }
+      `}</style>
+
       <div style={{ display: 'flex', gap: 12, marginBottom: 16, flexWrap: 'wrap' }}>
         <input className="form-input" placeholder="Search food..." value={search} onChange={e => setSearch(e.target.value)} style={{ flex: 1, minWidth: 200 }} />
         <select className="form-select" value={sort} onChange={e => setSort(e.target.value)}>
@@ -41,21 +60,29 @@ export default function TrainerMenu() {
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
+      {/* Grid container with self-adjusting auto-fit dimensions */}
+      <div className="trainer-menu-grid">
         {filtered.map(item => (
-          <div key={item.id} className="card" style={{ overflow: 'hidden', padding: 0, transition: 'transform 0.2s' }}
+          <div 
+            key={item.id} 
+            className="card trainer-card-wrapper" 
+            style={{ overflow: 'hidden', padding: 0, transition: 'transform 0.2s' }}
             onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
-            onMouseLeave={e => e.currentTarget.style.transform = 'none'}>
-            <img src={item.image} alt={item.name} style={{ width: '100%', height: 140, objectFit: 'cover' }} />
-            <div style={{ padding: 14 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: 4 }}>
-                <div style={{ fontWeight: 800, fontSize: 14 }}>{item.name}</div>
-                <span style={{ fontFamily: 'Outfit', fontWeight: 900, color: 'var(--accent-green)' }}>₹{item.price}</span>
+            onMouseLeave={e => e.currentTarget.style.transform = 'none'}
+          >
+            {/* Expanded the thumbnail height slightly to keep balance with wider cards */}
+            <img src={item.image} alt={item.name} style={{ width: '100%', height: 160, objectFit: 'cover', display: 'block' }} />
+            <div style={{ padding: 14, display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: 6, gap: 8 }}>
+                  <div style={{ fontWeight: 800, fontSize: 14, lineHeight: 1.2 }}>{item.name}</div>
+                  <span style={{ fontFamily: 'Outfit', fontWeight: 900, color: 'var(--accent-green)', whiteSpace: 'nowrap' }}>₹{item.price}</span>
+                </div>
+                <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 12 }}>
+                  <Icon icon={Flame} size={12} style={{marginRight:2}} /> {item.calories} kcal • <Icon icon={Beef} size={12} style={{marginRight:2}} /> {item.protein}g • {item.category}
+                </div>
               </div>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 8 }}>
-                <Icon icon={Flame} size={12} style={{marginRight:2}} /> {item.calories} kcal • <Icon icon={Beef} size={12} style={{marginRight:2}} /> {item.protein}g • {item.category}
-              </div>
-              <button className="btn btn-primary btn-sm" style={{ width: '100%' }} onClick={() => addToCart(item)}><Icon icon={ShoppingCart} size={14} style={{marginRight:4}} /> Add to Cart</button>
+              <button className="btn btn-primary btn-sm" style={{ width: '100%', marginTop: 'auto' }} onClick={() => addToCart(item)}><Icon icon={ShoppingCart} size={14} style={{marginRight:4}} /> Add to Cart</button>
             </div>
           </div>
         ))}
