@@ -98,7 +98,6 @@ export default function DashboardLayout({ children, title, flush }) {
   const role = user.role;
   const config = NAV[role] || NAV.client;
   const links = config.links;
-
   return (
     <div className="dashboard-root">
       {/* Sidebar Overlay (mobile) */}
@@ -121,7 +120,6 @@ export default function DashboardLayout({ children, title, flush }) {
             </div>
           </div>
         </div>
-
         {/* User Info */}
         <div className="sidebar-user-info">
           <div style={{ width: 36, height: 36, borderRadius: '50%', background: config.gradient, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 900, color: '#fff', flexShrink: 0 }}>{user.avatar || '?'}</div>
@@ -130,7 +128,6 @@ export default function DashboardLayout({ children, title, flush }) {
             <div style={{ fontSize: 10, color: 'var(--accent-orange)', fontWeight: 700, textTransform: 'uppercase' }}>{role}</div>
           </div>
         </div>
-
         {/* Nav Links */}
         <nav className="sidebar-nav">
           {links.map((link, idx) => {

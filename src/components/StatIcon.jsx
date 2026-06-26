@@ -1,6 +1,6 @@
 import {
   Flame, Beef, Wheat, Droplets, Clock, Star, TrendingUp, TrendingDown,
-  ShoppingCart, Package, CalendarCheck, Truck, Users, DollarSign,
+  ShoppingCart, Package, CalendarCheck, Truck, Users, DollarSign, IndianRupee,
   Target, Award, Heart, ThumbsUp, Zap, Scale, Activity, Dumbbell,
   Utensils, ChefHat, MapPin, Timer, CheckCircle2, XCircle, AlertCircle,
   BarChart3, PieChart, LineChart, Salad, Apple, Carrot, Fish, Egg,
@@ -52,7 +52,7 @@ export default function StatIcon({ name, size = 28, color, className = '' }) {
     wallet: { icon: Wallet, color: '#14b8a6' },
     payment: { icon: CreditCard, color: '#3b82f6' },
     receipt: { icon: Receipt, color: '#f97316' },
-    revenue: { icon: DollarSign, color: '#22c55e' },
+    revenue: { icon: IndianRupee, color: '#22c55e' },
     
     // Delivery
     truck: { icon: Truck, color: '#14b8a6' },

@@ -78,12 +78,12 @@ const Ring = ({ value, target, color, size = 90, stroke = 8, icon, label, unit }
           justifyContent: 'center',
           alignItems: 'center'
         }}>
-          <div className="ring-value" style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 14, color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{displayed}</div>
+          <div className="ring-value" style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 17, color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{displayed}</div>
         </div>
       </div>
 
-      <div className="ring-label" style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-primary)', whiteSpace: 'nowrap' }}>{label}</div>
-      <div className="ring-sub" style={{ fontSize: 10, color: isOver ? '#ef4444' : 'var(--text-muted)', marginTop: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', whiteSpace: 'nowrap' }}>
+      <div className="ring-label" style={{ fontSize: 13, fontWeight: 800, color: 'var(--text-primary)', whiteSpace: 'nowrap' }}>{label}</div>
+      <div className="ring-sub" style={{ fontSize: 12, color: isOver ? '#ef4444' : 'var(--text-muted)', marginTop: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', whiteSpace: 'nowrap' }}>
         {isOver ? <><AlertTriangle size={10} style={{ marginRight: 2 }} /> +{value - target}</> : `${target - value}`} {unit} {isOver ? 'over' : 'left'}
       </div>
     </div>
@@ -104,6 +104,7 @@ export default function BrowseMenu() {
   const [showSchedule, setShowSchedule] = useState(false);
   const [showRings, setShowRings] = useState(true);
   const [showTargetEditor, setShowTargetEditor] = useState(false);
+  const [showAlternatives, setShowAlternatives] = useState(false);
   const [schedForm, setSchedForm] = useState({ dates: '', timing: 'morning', items: [] });
   const targetKey = `synnoviq_targets_${user?.id || 'default'}`;
   const [targets, setTargets] = useState(() => JSON.parse(localStorage.getItem(targetKey) || 'null') || { calories: 0, protein: 0, carbs: 0, fat: 0 });
@@ -611,19 +612,80 @@ export default function BrowseMenu() {
             {/* ═══ MASTER CATALOG MAIN FOOD GRID (COMBINED & SINGLE FLOW) ═══ */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12, margin: 0 }}>
 
-              {/* Optional Section Indicator for Custom Goals */}
+              {/* Smart Meal Optimization Section */}
               {showSuggested && (
-                <div style={{
-                  padding: '14px 18px', borderRadius: 14,
-                  background: 'rgba(249,115,22,0.06)', border: `1px solid ${cfg.border}`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  marginBottom: 4
-                }}>
-                  <div>
-                    <div style={{ fontWeight: 800, fontSize: 15, color: cfg.color, display: 'flex', alignItems: 'center', gap: 6 }}><Icon icon={cfg.LabelIcon} size={16} color={cfg.color} /> {cfg.label}</div>
-                    <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>Top highlighted matches are placed first in your feed based on your goal: <strong>{userGoal}</strong></div>
+                <div style={{ marginBottom: 12 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
+                    <Icon icon={cfg.LabelIcon} size={18} color={cfg.color} />
+                    <span style={{ fontWeight: 800, fontSize: 16, color: cfg.color }}>Smart Meal Optimization</span>
                   </div>
-                  <Target size={24} color={cfg.color} />
+                  <div style={{ fontSize: 14, color: 'var(--text-muted)', marginBottom: 16 }}>
+                    Based on your <strong>[{userGoal}]</strong> goal and body profile, here are options rated for balanced macros.
+                  </div>
+
+                  {/* Recommended Functional Add-ons — full width now that Live Analyzer is removed */}
+                  {suggested[1] && (
+                    <div className="card" style={{ padding: 16, border: '1px solid var(--border)', background: 'var(--bg-secondary)', borderRadius: 12 }}>
+                      <div style={{ fontWeight: 800, fontSize: 15, marginBottom: 14 }}>Recommended Functional Add-ons</div>
+
+                      {/* Current suggested item */}
+                      <div style={{ border: '1px solid var(--border)', borderRadius: 10, padding: 14, background: 'var(--bg-primary)', marginBottom: showAlternatives ? 12 : 0 }}>
+                        <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
+                          <img src={suggested[1].image} alt={suggested[1].name} style={{ width: 72, height: 72, borderRadius: 12, objectFit: 'cover' }} />
+                          <div style={{ flex: 1 }}>
+                            <div style={{ fontWeight: 800, fontSize: 16 }}>{suggested[1].name}</div>
+                            <div style={{ fontSize: 13, color: 'var(--text-muted)', margin: '4px 0' }}>Built for {userGoal.toLowerCase()}, fueled for results.</div>
+                            <div style={{ display: 'flex', gap: 12, fontSize: 12, color: 'var(--text-muted)' }}>
+                              <span>{suggested[1].calories} kcal</span>
+                              <span>{suggested[1].protein}g prot.</span>
+                              <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>Score 9.5</span>
+                            </div>
+                          </div>
+                          <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+                            <button className="btn btn-primary btn-sm" style={{ padding: '8px 18px', fontSize: 13 }} onClick={() => addToCart(suggested[1])}>Order</button>
+                            <button
+                              className="btn btn-outline btn-sm"
+                              style={{ padding: '8px 14px', fontSize: 12, background: showAlternatives ? 'rgba(249,115,22,0.08)' : 'transparent', borderColor: showAlternatives ? 'var(--accent-orange)' : undefined, color: showAlternatives ? 'var(--accent-orange)' : undefined }}
+                              onClick={() => setShowAlternatives(v => !v)}
+                            >
+                              {showAlternatives ? '✕ Close' : 'Not right?\nAlternatives'}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Alternatives panel — appears when "Not right?" is clicked */}
+                      {showAlternatives && (
+                        <div style={{ animation: 'fadeInUp 0.25s ease' }}>
+                          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-muted)', marginBottom: 8 }}>🔄 Alternative Suggestions for <strong>{userGoal}</strong></div>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                            {suggested.filter((_, i) => i !== 1).map((alt) => (
+                              <div key={alt.id} style={{
+                                display: 'flex', gap: 10, alignItems: 'center',
+                                padding: '10px 12px', borderRadius: 10,
+                                border: '1.5px solid var(--border)', background: 'var(--bg-primary)',
+                                transition: 'all 0.2s',
+                              }}
+                                onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--accent-orange)'}
+                                onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
+                              >
+                                <img src={alt.image} alt={alt.name} style={{ width: 48, height: 48, borderRadius: 8, objectFit: 'cover' }} />
+                                <div style={{ flex: 1 }}>
+                                  <div style={{ fontWeight: 800, fontSize: 13 }}>{alt.name}</div>
+                                  <div style={{ display: 'flex', gap: 8, fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>
+                                    <span>🔥 {alt.calories} kcal</span>
+                                    <span>💪 {alt.protein}g</span>
+                                    <span style={{ color: 'var(--accent-green)', fontWeight: 700 }}>₹{alt.price}</span>
+                                  </div>
+                                </div>
+                                <button className="btn btn-primary btn-sm" style={{ padding: '6px 14px', fontSize: 12, whiteSpace: 'nowrap' }} onClick={() => { addToCart(alt); setShowAlternatives(false); }}>+ Add</button>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -632,49 +694,7 @@ export default function BrowseMenu() {
               {/* SINGLE Wrapper Grid Area for both collections to completely prevent Row Breaks */}
               <div className="food-grid bento-section" ref={foodGridRef} style={{ ...sharedGridStyle, margin: 0 }}>
 
-                {/* 1. RENDER SUGGESTED ITEMS AT THE VERY FRONT */}
-                {showSuggested && suggested.map(item => (
-                  <div key={`suggested-${item.id}`} style={{
-                    borderRadius: 14, overflow: 'hidden',
-                    background: 'var(--bg-secondary)', border: `2px solid ${cfg.border}`,
-                    transition: 'all 0.2s ease',
-                  }}>
-                    <div style={{ position: 'relative', height: 160, overflow: 'hidden' }}>
-                      <img src={item.image} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      <div style={{ position: 'absolute', top: 6, right: 6 }}>
-                        <span style={{
-                          fontSize: 9, fontWeight: 800, padding: '3px 8px', borderRadius: 20,
-                          background: cfg.color, color: '#fff',
-                        }}><Star size={10} style={{ marginRight: 2 }} /> {userGoal === 'Weight Loss' ? 'Low Cal' : userGoal === 'Muscle Gain' ? 'High Protein' : 'Balanced'}</span>
-                      </div>
-                    </div>
-                    <div style={{ padding: '12px' }}>
-                      <div style={{ fontWeight: 800, fontSize: 14, marginBottom: 8 }}>{item.name}</div>
-
-                      <div className="food-card-macros" style={{ marginBottom: 6 }}>
-                        {item.tags.map(t => <span key={t} className="badge badge-purple" style={{ fontSize: 10, marginRight: 4 }}>{t}</span>)}
-                      </div>
-
-                      <div style={{ display: 'flex', gap: 8, fontSize: 10, color: 'var(--text-muted)', marginBottom: 12 }}>
-                        <span><Flame size={10} style={{ marginRight: 2 }} /> {item.calories} kcal</span>
-                        <span><Beef size={10} style={{ marginRight: 2 }} /> {item.protein}g</span>
-                        <span><Wheat size={10} style={{ marginRight: 2 }} /> {item.carbs}g</span>
-                        <span><Droplets size={10} style={{ marginRight: 2 }} /> {item.fat}g</span>
-                      </div>
-
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                          <span style={{ fontWeight: 900, fontSize: 15, color: 'var(--accent-green)' }}>₹{item.price}</span>
-                          {item.originalPrice && <>
-                            <span style={{ textDecoration: 'line-through', color: 'var(--text-muted)', fontSize: 11 }}>₹{item.originalPrice}</span>
-                            <span style={{ color: '#22c55e', fontSize: 9, fontWeight: 800 }}>{item.discount}% off</span>
-                          </>}
-                        </div>
-                        <button className="btn btn-primary btn-sm" onClick={() => addToCart(item)} style={{ fontSize: 11 }}>+ Add</button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                {/* SUGGESTED ITEMS REMOVED (Replaced by Smart Meal Optimization above) */}
 
                 {/* 2. RENDER MASTER FILTERED CATALOG CONTINUOUSLY */}
                 {filtered.map((item, i) => {

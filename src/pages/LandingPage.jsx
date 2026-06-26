@@ -88,24 +88,42 @@ export default function LandingPage() {
           max-width: 100%; 
           flex-shrink: 0; 
           box-sizing: border-box; 
+          height: 0;
+          overflow: hidden;
+          opacity: 0;
+          transition: opacity 0.6s ease;
+        }
+        .landing-carousel-slide.active-slide {
           height: auto;
+          overflow: visible;
+          opacity: 1;
         }
         .slide-content {
           height: auto;
         }
-        .how-it-works-grid {
+        .landing-cards-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 24px;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 16px;
         }
-        @media (max-width: 992px) {
-          .how-it-works-grid {
-            grid-template-columns: repeat(2, 1fr);
+        @media (min-width: 1025px) {
+          .landing-cards-grid {
+            grid-template-columns: repeat(4, 1fr);
           }
         }
-        @media (max-width: 600px) {
-          .how-it-works-grid {
+        .landing-pricing-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 28px;
+          justify-content: center;
+          width: 100%;
+          max-width: 1000px;
+          margin: 0 auto;
+        }
+        @media (max-width: 1024px) {
+          .landing-pricing-grid {
             grid-template-columns: 1fr;
+            max-width: 600px;
           }
         }
         .carousel-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; width: 44px; height: 44px; border-radius: 50%; border: none; background: rgba(255,255,255,0.8); color: #333; font-size: 20px; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; backdrop-filter: blur(8px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
@@ -172,14 +190,17 @@ export default function LandingPage() {
         <div className="landing-carousel-track" style={{ transform: `translateX(-${carouselIdx * 100}%)` }}>
 
           {/* SLIDE 1: FEATURES */}
-          <div className="landing-carousel-slide">
+          <div className={`landing-carousel-slide ${carouselIdx === 0 ? 'active-slide' : ''}`}>
             <div
               className="slide-content"
               style={{
                 padding: 'clamp(20px, 4vw, 40px) clamp(24px, 6vw, 40px)',
                 maxWidth: 1100,
                 margin: '0 auto',
-                boxSizing: 'border-box'
+                boxSizing: 'border-box',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center'
               }}
             >
               <div style={{ maxWidth: 700, margin: '0 auto 24px', textAlign: 'center' }}>
@@ -206,12 +227,16 @@ export default function LandingPage() {
                       padding: 24,
                       borderRadius: 20,
                       border: '1px solid #eee',
-                      background: '#fff'
+                      background: '#fff',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      textAlign: 'center'
                     }}
                   >
                     <div style={{ marginBottom: 12 }}>{f.icon}</div>
-                    <h3>{f.title}</h3>
-                    <p style={{ color: '#888' }}>{f.desc}</p>
+                    <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 10 }}>{f.title}</h3>
+                    <p style={{ color: '#888', fontSize: 13, lineHeight: 1.6 }}>{f.desc}</p>
                   </div>
                 ))}
               </div>
@@ -219,14 +244,17 @@ export default function LandingPage() {
           </div>
 
           {/* SLIDE 2: HOW IT WORKS */}
-          <div className="landing-carousel-slide">
+          <div className={`landing-carousel-slide ${carouselIdx === 1 ? 'active-slide' : ''}`}>
             <div
               className="slide-content"
               style={{
                 padding: 'clamp(20px, 4vw, 40px) clamp(24px, 6vw, 40px)',
                 maxWidth: 1100,
                 margin: '0 auto',
-                boxSizing: 'border-box'
+                boxSizing: 'border-box',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center'
               }}
             >
               <div style={{ maxWidth: 700, margin: '0 auto 24px', textAlign: 'center' }}>
@@ -275,10 +303,9 @@ export default function LandingPage() {
                     key={i}
                     style={{
                       background: '#fff',
-                      borderRadius: 18,
+                      borderRadius: 20,
                       border: '1px solid #eee',
                       padding: 24,
-                      minHeight: 250,
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
@@ -287,16 +314,16 @@ export default function LandingPage() {
                   >
                     <div
                       style={{
-                        width: 70,
-                        height: 70,
+                        width: 56,
+                        height: 56,
                         borderRadius: '50%',
                         background: 'linear-gradient(135deg,#f97316,#22c55e)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: 28,
+                        fontSize: 24,
                         color: '#fff',
-                        marginBottom: 16
+                        marginBottom: 12
                       }}
                     >
                       {s.icon}
@@ -313,23 +340,11 @@ export default function LandingPage() {
                       STEP {s.step}
                     </div>
 
-                    <h3
-                      style={{
-                        fontSize: 18,
-                        fontWeight: 800,
-                        marginBottom: 10
-                      }}
-                    >
+                    <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 10 }}>
                       {s.title}
                     </h3>
 
-                    <p
-                      style={{
-                        fontSize: 13,
-                        color: '#888',
-                        lineHeight: 1.6
-                      }}
-                    >
+                    <p style={{ fontSize: 13, color: '#888', lineHeight: 1.6 }}>
                       {s.desc}
                     </p>
                   </div>
@@ -339,7 +354,7 @@ export default function LandingPage() {
           </div>
 
           {/* SLIDE 3: FOR GYMS */}
-          <div className="landing-carousel-slide">
+          <div className={`landing-carousel-slide ${carouselIdx === 2 ? 'active-slide' : ''}`}>
             <div
               className="slide-content"
               style={{
@@ -347,8 +362,9 @@ export default function LandingPage() {
                 maxWidth: 1100,
                 margin: '0 auto',
                 boxSizing: 'border-box',
-                textAlign: 'center',
-                minHeight: 'auto'
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center'
               }}
             >
               <div style={{ maxWidth: 700, margin: '0 auto 24px', textAlign: 'center' }}>
@@ -379,25 +395,30 @@ export default function LandingPage() {
                     className="stat-card"
                     style={{
                       background: '#fafafa',
-                      borderRadius: 16,
+                      borderRadius: 20,
                       padding: 24,
                       border: '1px solid #eee',
-                      textAlign: 'center'
+                      textAlign: 'center',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
                   >
-                    <div style={{ fontSize: 28 }}>{s.icon}</div>
+                    <div style={{ fontSize: 28, marginBottom: 8 }}>{s.icon}</div>
 
                     <div
                       style={{
                         fontSize: 28,
                         fontWeight: 900,
-                        color: '#22c55e'
+                        color: '#22c55e',
+                        marginBottom: 4
                       }}
                     >
                       {s.val}
                     </div>
 
-                    <div style={{ color: '#888' }}>
+                    <div style={{ color: '#888', fontSize: 14, fontWeight: 600 }}>
                       {s.label}
                     </div>
                   </div>
@@ -479,15 +500,6 @@ export default function LandingPage() {
 
     <div
       className="landing-pricing-grid"
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
-        gap: 28,
-        justifyContent: 'center',
-        width: '100%',
-        maxWidth: 1000,
-        margin: '0 auto'
-      }}
     >
       {PLANS.map((p, i) => (
         <div

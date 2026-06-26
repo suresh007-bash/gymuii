@@ -82,6 +82,7 @@ export default function ScheduleFoods() {
   const calGridRef = useRef(null);
   const [foodCat, setFoodCat] = useState('All');
   const [nutriSort, setNutriSort] = useState(null); // 'highProtein','lowCal','lowFat','lowCarb'
+  const [showSchedAlternatives, setShowSchedAlternatives] = useState(false);
 
   // ═══ MagicBento effect for calendar grid ═══
   useEffect(() => {
@@ -407,6 +408,16 @@ export default function ScheduleFoods() {
   // Slot color based on index
   const slotColors = ['#f97316', '#22c55e', '#3b82f6', '#8b5cf6', '#ef4444', '#eab308', '#14b8a6', '#ec4899'];
 
+  // Goal-based suggestion logic for Smart Meal Optimization
+  const userGoal = user?.goal || 'Maintenance';
+  const goalConfig = {
+    'Weight Loss': { label: 'Low-Cal Picks for Weight Loss', filter: (m) => m.calories <= 400 && m.protein >= 15, color: '#ef4444' },
+    'Muscle Gain': { label: 'High-Protein for Muscle Gain', filter: (m) => m.protein >= 35, color: '#22c55e' },
+    'Maintenance': { label: 'Balanced Meals for Maintenance', filter: (m) => m.calories >= 300 && m.calories <= 500, color: '#3b82f6' },
+  };
+  const cfg = goalConfig[userGoal] || goalConfig['Maintenance'];
+  const suggested = MENU_ITEMS.filter(m => m.available && cfg.filter(m)).slice(0, 4);
+
   return (
     <DashboardLayout title="Schedule Foods">
       <StepBar />
@@ -484,6 +495,75 @@ export default function ScheduleFoods() {
                   <h3 className="modal-title">🍽️ Add Food — {(() => { const s = (schedule[activeDate] || []).find(s => s.id === activeSlotId); return s ? `${s.label} (${formatTime12(s.time)})` : ''; })()}, {fmtDate(activeDate)}</h3>
                   <button className="modal-close" onClick={() => { setSchedule(prev => { const s = { ...prev }; s[activeDate] = s[activeDate].map(sl => sl.id === activeSlotId ? { ...sl, items: slotSnapshot || [] } : sl); return s; }); setShowFoodPicker(false); setSlotSnapshot(null); setSearch(''); setFoodCat('All'); setNutriSort(null); }}>✕</button>
                 </div>
+
+                {/* Smart Meal Optimization Section */}
+                {suggested.length > 0 && (
+                  <div style={{ marginBottom: 12, padding: '16px 20px', background: 'rgba(249,115,22,0.03)', borderBottom: '1px solid var(--border)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                      <span style={{ fontWeight: 800, fontSize: 14, color: cfg.color }}>Smart Meal Optimization</span>
+                    </div>
+                    <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 12 }}>
+                      Based on your <strong>[{userGoal}]</strong> goal and body profile, here are options rated for balanced macros.
+                    </div>
+
+                    {/* Recommended Add-on item */}
+                    {suggested[1] && (
+                      <div>
+                        <div style={{ border: '1px solid var(--border)', borderRadius: 10, padding: 12, background: 'var(--bg-secondary)', marginBottom: showSchedAlternatives ? 12 : 0 }}>
+                          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                            <img src={suggested[1].image} alt={suggested[1].name} style={{ width: 56, height: 56, borderRadius: 8, objectFit: 'cover' }} />
+                            <div style={{ flex: 1 }}>
+                              <div style={{ fontWeight: 800, fontSize: 13 }}>{suggested[1].name}</div>
+                              <div style={{ fontSize: 11, color: 'var(--text-muted)', margin: '2px 0' }}>Built for {userGoal.toLowerCase()}, fueled for results.</div>
+                              <div style={{ display: 'flex', gap: 8, fontSize: 10, color: 'var(--text-muted)' }}>
+                                <span>{suggested[1].calories} kcal</span>
+                                <span>{suggested[1].protein}g prot.</span>
+                                <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>Score 9.5</span>
+                              </div>
+                            </div>
+                            <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+                              <button className="btn btn-primary btn-sm" style={{ fontSize: 12 }} onClick={() => addItem(activeDate, activeSlotId, suggested[1])}>Order</button>
+                              <button
+                                className="btn btn-outline btn-sm"
+                                style={{ fontSize: 11, background: showSchedAlternatives ? 'rgba(249,115,22,0.08)' : 'transparent', borderColor: showSchedAlternatives ? 'var(--accent-orange)' : undefined, color: showSchedAlternatives ? 'var(--accent-orange)' : undefined }}
+                                onClick={() => setShowSchedAlternatives(v => !v)}
+                              >
+                                {showSchedAlternatives ? '✕' : 'Not right?\nAlternatives'}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Alternatives panel */}
+                        {showSchedAlternatives && (
+                          <div style={{ animation: 'fadeInUp 0.2s ease' }}>
+                            <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', marginBottom: 6 }}>🔄 Alternatives for <strong>{userGoal}</strong></div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                              {suggested.filter((_, i) => i !== 1).map(alt => (
+                                <div key={alt.id} style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '8px 10px', borderRadius: 8, border: '1.5px solid var(--border)', background: 'var(--bg-secondary)', transition: 'all 0.2s' }}
+                                  onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--accent-orange)'}
+                                  onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
+                                >
+                                  <img src={alt.image} alt={alt.name} style={{ width: 40, height: 40, borderRadius: 6, objectFit: 'cover' }} />
+                                  <div style={{ flex: 1 }}>
+                                    <div style={{ fontWeight: 800, fontSize: 12 }}>{alt.name}</div>
+                                    <div style={{ display: 'flex', gap: 6, fontSize: 10, color: 'var(--text-muted)', marginTop: 2 }}>
+                                      <span>🔥 {alt.calories} kcal</span>
+                                      <span>💪 {alt.protein}g</span>
+                                      <span style={{ color: 'var(--accent-green)', fontWeight: 700 }}>₹{alt.price}</span>
+                                    </div>
+                                  </div>
+                                  <button className="btn btn-primary btn-sm" style={{ padding: '4px 10px', fontSize: 11 }} onClick={() => { addItem(activeDate, activeSlotId, alt); setShowSchedAlternatives(false); }}>+ Add</button>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {/* Live Nutrition Rings */}
                 {(() => {
                   const dateSlots = schedule[activeDate] || [];

@@ -44,8 +44,8 @@
   --sidebar-active-text: #f97316;
   --navbar-height: 64px;
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --font-heading: 'Nunito Sans', sans-serif;
-  --font-body: 'Nunito Sans', sans-serif;
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
 }
 
 [data-theme="dark"] {
@@ -105,6 +105,8 @@ body {
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 a {
@@ -757,7 +759,7 @@ img {
 /* ═══ STAT CARDS ═══ */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   margin-bottom: 24px;
 }
@@ -1780,6 +1782,153 @@ img {
 
   .kds-kanban-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ═══ RESPONSIVE — IPAD AIR / IPAD MINI (768px–1024px) ═══ */
+/* Boost text to readable sizes so user doesn't need to zoom */
+@media (min-width: 768px) and (max-width: 1024px) {
+
+  /* Base body text — large & readable */
+  body {
+    font-size: 18px !important;
+    line-height: 1.75;
+  }
+
+  /* All generic text elements */
+  p, span, div, li, td, th, label {
+    font-size: inherit;
+  }
+
+  /* Input fields — no zoom on focus (iOS fix) */
+  input, select, textarea {
+    font-size: 17px !important;
+  }
+
+  /* Headings */
+  h1 { font-size: 2.4rem !important; }
+  h2 { font-size: 1.9rem !important; }
+  h3 { font-size: 1.4rem !important; }
+  h4 { font-size: 1.1rem !important; }
+
+  /* Topbar title */
+  .topbar-title {
+    font-size: 20px !important;
+  }
+
+  /* Dashboard content — more breathing room */
+  .dashboard-content {
+    padding: 24px 20px !important;
+  }
+
+  /* Cards */
+  .card {
+    padding: 20px !important;
+  }
+
+  /* Card title */
+  .card-title {
+    font-size: 18px !important;
+  }
+
+  /* Sidebar links — taller tap targets */
+  .sidebar-link {
+    font-size: 15px !important;
+    padding: 14px 16px !important;
+    min-height: 48px !important;
+  }
+
+  /* Buttons — larger tap area */
+  .btn {
+    font-size: 15px !important;
+    padding: 11px 20px !important;
+    min-height: 44px !important;
+  }
+
+  .btn-sm {
+    font-size: 13px !important;
+    padding: 8px 14px !important;
+    min-height: 36px !important;
+  }
+
+  .btn-lg {
+    font-size: 17px !important;
+    padding: 14px 28px !important;
+  }
+
+  /* Form labels */
+  .form-label {
+    font-size: 14px !important;
+    font-weight: 700;
+  }
+
+  /* Form inputs */
+  .form-input, .form-select {
+    font-size: 16px !important;
+    padding: 12px 14px !important;
+  }
+
+  /* Badges */
+  .badge {
+    font-size: 11px !important;
+    padding: 4px 10px !important;
+  }
+
+  /* Tabs */
+  .tab {
+    font-size: 14px !important;
+    padding: 10px 18px !important;
+    min-height: 42px !important;
+  }
+
+  /* Stats grid — 2 columns on iPad */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+
+  /* Stat values */
+  .stat-value {
+    font-size: 26px !important;
+  }
+
+  .stat-label {
+    font-size: 13px !important;
+  }
+
+  /* Food grid */
+  .food-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important;
+    gap: 20px !important;
+  }
+
+  .food-card-name {
+    font-size: 16px !important;
+  }
+
+  .food-card-price {
+    font-size: 18px !important;
+  }
+
+  /* Table cells */
+  .data-table td,
+  .data-table th {
+    font-size: 14px !important;
+    padding: 14px 16px !important;
+  }
+
+  /* Modal */
+  .modal-content {
+    padding: 28px !important;
+  }
+
+  .modal-title {
+    font-size: 18px !important;
+  }
+
+  /* Nutrition rings section */
+  .nutrition-rings-grid {
+    gap: 28px !important;
   }
 }
 
