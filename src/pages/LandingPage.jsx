@@ -149,7 +149,7 @@ export default function LandingPage() {
           <span style={{ color: '#22c55e' }}>Fit</span>Bites
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px, 3vw, 32px)' }}>
-          <Link to="/login" style={{ padding: '10px 24px', background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 30, fontWeight: 800, fontSize: 'calc(18px + 0.5vw)', textDecoration: 'none' }}>Get Started →</Link>
+          <Link to="/login" style={{ padding: '10px 24px', background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 30, fontWeight: 800, fontSize: 'calc(18px + 0.5vw)', textDecoration: 'none' }}>Get Started</Link>
         </div>
       </nav>
 
@@ -184,14 +184,8 @@ export default function LandingPage() {
         <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'calc(17px + 0.5vw)', marginTop: 40 }}>Scroll down ▼</div>
       </section>
 
-      {/* ═══ CAROUSEL ═══ */}
-      <div className="landing-carousel" style={{ overflow: 'hidden', height: 'auto' }}>
-        <button className="carousel-arrow left" onClick={prevSlide}>‹</button>
-        <button className="carousel-arrow right" onClick={nextSlide}>›</button>
-        <div className="landing-carousel-track" style={{ transform: `translateX(-${carouselIdx * 100}%)` }}>
-
-          {/* SLIDE 1: FEATURES */}
-          <div className={`landing-carousel-slide ${carouselIdx === 0 ? 'active-slide' : ''}`}>
+      {/* ═══ FEATURES ═══ */}
+      <section style={{ padding: '40px 0', background: '#fff' }}>
             <div
               className="slide-content"
               style={{
@@ -242,10 +236,10 @@ export default function LandingPage() {
                 ))}
               </div>
             </div>
-          </div>
+          </section>
 
-          {/* SLIDE 2: HOW IT WORKS */}
-          <div className={`landing-carousel-slide ${carouselIdx === 1 ? 'active-slide' : ''}`}>
+          {/* ═══ HOW IT WORKS ═══ */}
+          <section style={{ padding: '40px 0', background: '#fafafa' }}>
             <div
               className="slide-content"
               style={{
@@ -269,7 +263,7 @@ export default function LandingPage() {
                   Order healthy meals in just a few clicks. Freshly prepared and delivered on time to your home or gym.
                 </p>
                 <Link to="/register" style={{ padding: '14px 32px', background: 'linear-gradient(135deg,#f97316,#fb923c)', color: '#fff', borderRadius: 50, textDecoration: 'none', fontWeight: 800, display: 'inline-block' }}>
-                  Get Started →
+                  Get Started
                 </Link>
               </div>
 
@@ -352,10 +346,10 @@ export default function LandingPage() {
                 ))}
               </div>
             </div>
-          </div>
+          </section>
 
-          {/* SLIDE 3: FOR GYMS */}
-          <div className={`landing-carousel-slide ${carouselIdx === 2 ? 'active-slide' : ''}`}>
+          {/* ═══ FOR GYMS ═══ */}
+          <section style={{ padding: '40px 0', background: '#fff' }}>
             <div
               className="slide-content"
               style={{
@@ -426,15 +420,7 @@ export default function LandingPage() {
                 ))}
               </div>
             </div>
-          </div>
-
-        </div>
-        <div className="carousel-dots">
-          {[0, 1, 2].map(i => (
-            <button key={i} className={`carousel-dot ${carouselIdx === i ? 'active' : ''}`} onClick={() => setCarouselIdx(i)} />
-          ))}
-        </div>
-      </div>
+          </section>
 
       {/* ═══ MENU PREVIEW ═══ */}
       <section id="menu" style={{ padding: 'clamp(20px, 4vw, 40px) 0', background: '#fafafa' }}>
@@ -650,7 +636,7 @@ export default function LandingPage() {
       <section style={{ padding: 'clamp(20px, 4vw, 40px) clamp(16px, 4vw, 40px)', background: 'linear-gradient(135deg, #f97316, #22c55e)', textAlign: 'center', boxSizing: 'border-box' }}>
         <h2 style={{ fontSize: 'calc(36px + 0.5vw)', fontWeight: 900, color: '#fff', marginBottom: 12 }}>Ready to Eat Healthy?</h2>
         <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 'calc(20px + 0.5vw)', marginBottom: 28 }}>Join thousands of gym members who fuel their fitness with FitBites</p>
-        <Link to="/login" style={{ padding: '16px 40px', background: '#fff', color: '#f97316', borderRadius: 50, fontWeight: 900, fontSize: 'calc(20px + 0.5vw)', textDecoration: 'none', display: 'inline-block', boxShadow: '0 8px 32px rgba(0,0,0,0.2)' }}>Get Started — It's Free →</Link>
+        <Link to="/login" style={{ padding: '16px 40px', background: '#fff', color: '#f97316', borderRadius: 50, fontWeight: 900, fontSize: 'calc(20px + 0.5vw)', textDecoration: 'none', display: 'inline-block', boxShadow: '0 8px 32px rgba(0,0,0,0.2)' }}>Get Started — It's Free</Link>
       </section>
 
       {/* ═══ FOOTER ═══ */}
