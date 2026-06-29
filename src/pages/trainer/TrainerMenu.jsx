@@ -63,26 +63,33 @@ export default function TrainerMenu() {
       {/* Grid container with self-adjusting auto-fit dimensions */}
       <div className="trainer-menu-grid">
         {filtered.map(item => (
-          <div 
-            key={item.id} 
+          <div key={item.id} 
             className="card trainer-card-wrapper" 
             style={{ overflow: 'hidden', padding: 0, transition: 'transform 0.2s' }}
             onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
             onMouseLeave={e => e.currentTarget.style.transform = 'none'}
           >
-            {/* Expanded the thumbnail height slightly to keep balance with wider cards */}
             <img src={item.image} alt={item.name} style={{ width: '100%', height: 160, objectFit: 'cover', display: 'block' }} />
-            <div style={{ padding: 14, display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: 6, gap: 8 }}>
-                  <div style={{ fontWeight: 800, fontSize: 'calc(18px + 0.5vw)', lineHeight: 1.2 }}>{item.name}</div>
-                  <span style={{ fontFamily: 'Outfit', fontWeight: 900, color: 'var(--accent-green)', whiteSpace: 'nowrap' }}>₹{item.price}</span>
-                </div>
-                <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 12 }}>
-                  <Icon icon={Flame} size={12} style={{marginRight:2}} /> {item.calories} kcal • <Icon icon={Beef} size={12} style={{marginRight:2}} /> {item.protein}g Protein • {item.category}
-                </div>
+            <div style={{ padding: '12px 14px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+              {/* Name — single line, truncated */}
+              <div style={{ fontWeight: 700, fontSize: 'clamp(13px, 1.1vw, 15px)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: 6 }}>{item.name}</div>
+              {/* Macros — compact single row */}
+              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 10, display: 'flex', gap: 8, flexWrap: 'nowrap', overflow: 'hidden' }}>
+                <span><Icon icon={Flame} size={10} style={{marginRight:2}} />{item.calories} kcal</span>
+                <span>·</span>
+                <span>{item.protein}g Prot</span>
+                <span>·</span>
+                <span>{item.carbs}g Carb</span>
+                <span>·</span>
+                <span>{item.fat}g Fat</span>
               </div>
-              <button className="btn btn-primary btn-sm" style={{ width: '100%', marginTop: 'auto' }} onClick={() => addToCart(item)}><Icon icon={ShoppingCart} size={14} style={{marginRight:4}} /> Add to Cart</button>
+              {/* Price + Button — always at bottom */}
+              <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontFamily: 'Outfit', fontWeight: 900, color: 'var(--accent-green)', fontSize: 15 }}>₹{item.price}</span>
+                <button className="btn btn-primary btn-sm" onClick={() => addToCart(item)}>
+                  <Icon icon={ShoppingCart} size={13} style={{marginRight:4}} /> Add
+                </button>
+              </div>
             </div>
           </div>
         ))}

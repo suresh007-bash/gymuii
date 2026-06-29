@@ -42,10 +42,10 @@ const Ring = ({ value, target, color, size = 72, stroke = 7, icon, label, unit }
         {pct > 3 && <circle cx={size/2 + r * Math.cos(dotAngle)} cy={size/2 + r * Math.sin(dotAngle)} r={stroke/2 + 1} fill={isOver ? '#ef4444' : color} style={{ filter: `drop-shadow(0 0 3px ${isOver ? '#ef4444' : color})`, opacity: 0.8 }} />}
       </svg>
       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center' }}>
-        <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'calc(15px + 0.5vw)', color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{displayed}</div>
+        <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(12px, 3vw, 15px)', color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{displayed}</div>
       </div>
-      <div style={{ fontSize: 'calc(13px + 0.5vw)', fontWeight: 700, color: 'var(--text-muted)', marginTop: 2 }}>{label}</div>
-      <div style={{ fontSize: 'calc(12px + 0.5vw)', color: isOver ? '#ef4444' : 'var(--text-muted)' }}>
+      <div style={{ fontSize: 'clamp(12px, 3vw, 13px)', fontWeight: 700, color: 'var(--text-muted)', marginTop: 2 }}>{label}</div>
+      <div style={{ fontSize: 'clamp(12px, 3vw, 12px)', color: isOver ? '#ef4444' : 'var(--text-muted)' }}>
         {isOver ? `+${value - target} over` : `${target - value} ${unit} left`}
       </div>
     </div>
@@ -309,15 +309,15 @@ export default function ScheduleForClients() {
   if (assignSuccess) return (
     <DashboardLayout title="Schedule Foods to Clients">
       <div style={{ textAlign: 'center', padding: 60 }}>
-        <div style={{ fontSize: 'calc(76px + 0.5vw)', marginBottom: 16 }}></div>
-        <h2 style={{ fontFamily: 'Outfit', fontSize: 'calc(32px + 0.5vw)', fontWeight: 800, marginBottom: 8 }}>Schedule Assigned!</h2>
-        <p style={{ color: 'var(--text-muted)', marginBottom: 16, fontSize: 'calc(17px + 0.5vw)' }}> {assignSuccess.dates.map(d => fmtDate(d)).join(' • ')}</p>
+        <div style={{ fontSize: 'clamp(57px, 3vw, 76px)', marginBottom: 16 }}></div>
+        <h2 style={{ fontFamily: 'Outfit', fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 800, marginBottom: 8 }}>Schedule Assigned!</h2>
+        <p style={{ color: 'var(--text-muted)', marginBottom: 16, fontSize: 'clamp(12px, 3vw, 17px)' }}> {assignSuccess.dates.map(d => fmtDate(d)).join(' • ')}</p>
         <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 24 }}>
           {assignSuccess.clients.map(name => (
-            <span key={name} className="badge badge-green" style={{ fontSize: 'calc(16px + 0.5vw)', padding: '6px 14px' }}> {name}</span>
+            <span key={name} className="badge badge-green" style={{ fontSize: 'clamp(12px, 3vw, 16px)', padding: '6px 14px' }}> {name}</span>
           ))}
         </div>
-        <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: 'calc(16px + 0.5vw)' }}>Clients can now view, edit, and order from this schedule.</p>
+        <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: 'clamp(12px, 3vw, 16px)' }}>Clients can now view, edit, and order from this schedule.</p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
           <button className="btn btn-primary btn-lg" onClick={() => setAssignSuccess(null)}> Assign More</button>
           <button className="btn btn-outline btn-lg" onClick={() => navigate(user?.role === 'owner' ? '/owner/menu' : '/trainer/dashboard')}> Back to Home</button>
@@ -329,7 +329,7 @@ export default function ScheduleForClients() {
   // ═══ STEP BAR ═══
   const StepBar = () => (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0, marginBottom: 20 }}>
-      {[{ num: 1, label: 'Select Clients', icon: '' }, { num: 2, label: 'Select Dates', icon: '' }, { num: 3, label: 'Time Slots & Food', icon: '️' }].map((s, i) => (
+      {[{ num: 1, label: 'Select Clients', icon: '' }, { num: 2, label: 'Select Dates', icon: '' }, { num: 3, label: 'Time Slots & Food', icon: '' }].map((s, i) => (
         <div key={s.num} style={{ display: 'flex', alignItems: 'center' }}>
           <div onClick={() => {
             if (s.num === 1) setStep(1);
@@ -339,9 +339,9 @@ export default function ScheduleForClients() {
             display: 'flex', alignItems: 'center', gap: 8, padding: '10px 18px', borderRadius: 12, cursor: 'pointer',
             background: step === s.num ? 'var(--accent-orange)' : step > s.num ? 'rgba(34,197,94,0.1)' : 'var(--bg-tertiary)',
             color: step === s.num ? '#fff' : step > s.num ? 'var(--accent-green)' : 'var(--text-muted)',
-            fontWeight: 700, fontSize: 'calc(17px + 0.5vw)', transition: 'all 0.3s',
+            fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)', transition: 'all 0.3s',
           }}>
-            <span style={{ fontSize: 'calc(20px + 0.5vw)' }}>{step > s.num ? '' : s.icon}</span><span>{s.label}</span>
+            <span style={{ fontSize: 'clamp(15px, 3vw, 20px)' }}>{step > s.num ? '' : s.icon}</span><span>{s.label}</span>
           </div>
           {i < 2 && <div style={{ width: 32, height: 2, background: step > s.num ? 'var(--accent-green)' : 'var(--border)' }} />}
         </div>
@@ -360,22 +360,22 @@ export default function ScheduleForClients() {
       {step === 1 && (
         <div className="card" style={{ maxWidth: 640, margin: '0 auto' }}>
           <div className="card-header"><h3 className="card-title"> Step 1: Select Clients</h3></div>
-          <p style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 14 }}>Choose the clients you want to assign the meal schedule and targets to.</p>
+          <p style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', marginBottom: 14 }}>Choose the clients you want to assign the meal schedule and targets to.</p>
           
           <div style={{ position: 'relative', marginBottom: 14 }}>
-            <input className="form-input" placeholder=" Search clients by name or email..." value={clientSearch} onChange={e => setClientSearch(e.target.value)} style={{ paddingLeft: 36, fontSize: 'calc(18px + 0.5vw)' }} />
+            <input className="form-input" placeholder=" Search clients by name or email..." value={clientSearch} onChange={e => setClientSearch(e.target.value)} style={{ paddingLeft: 36, fontSize: 'clamp(13px, 3vw, 18px)' }} />
           </div>
 
           {selectedClients.length > 0 && (
-            <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 14, fontSize: 'calc(17px + 0.5vw)' }}>
+            <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 14, fontSize: 'clamp(12px, 3vw, 17px)' }}>
               <strong> {selectedClients.length} client{selectedClients.length > 1 ? 's' : ''} selected:</strong> {selectedClients.map(id => clients.find(c => c.id === id)?.name).join(' • ')}
             </div>
           )}
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 350, overflowY: 'auto', marginBottom: 16 }}>
             {clients.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 'calc(17px + 0.5vw)' }}>
-                <div style={{ fontSize: 'calc(40px + 0.5vw)', marginBottom: 8 }}></div>
+              <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 'clamp(12px, 3vw, 17px)' }}>
+                <div style={{ fontSize: 'clamp(30px, 3vw, 40px)', marginBottom: 8 }}></div>
                 No clients assigned to you yet.
               </div>
             ) : (
@@ -388,13 +388,13 @@ export default function ScheduleForClients() {
                     border: `2px solid ${isSelected ? 'var(--accent-orange)' : 'var(--border)'}`,
                     transition: 'all 0.2s',
                   }}>
-                    <div style={{ width: 22, height: 22, borderRadius: 6, border: `2px solid ${isSelected ? 'var(--accent-orange)' : 'var(--border)'}`, background: isSelected ? 'var(--accent-orange)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 'calc(16px + 0.5vw)', fontWeight: 900, flexShrink: 0 }}>
+                    <div style={{ width: 22, height: 22, borderRadius: 6, border: `2px solid ${isSelected ? 'var(--accent-orange)' : 'var(--border)'}`, background: isSelected ? 'var(--accent-orange)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 900, flexShrink: 0 }}>
                       {isSelected && ''}
                     </div>
-                    <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'calc(16px + 0.5vw)', fontWeight: 800, color: '#fff', flexShrink: 0 }}>{client.avatar}</div>
+                    <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 800, color: '#fff', flexShrink: 0 }}>{client.avatar}</div>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontWeight: 700, fontSize: 'calc(17px + 0.5vw)' }}>{client.name}</div>
-                      <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)' }}>{client.email} • Target: <span style={{ color: 'var(--accent-orange)', fontWeight: 700 }}>{client.goal || 'Not Set'}</span></div>
+                      <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)' }}>{client.name}</div>
+                      <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)' }}>{client.email} • Target: <span style={{ color: 'var(--accent-orange)', fontWeight: 700 }}>{client.goal || 'Not Set'}</span></div>
                     </div>
                   </div>
                 );
@@ -417,11 +417,11 @@ export default function ScheduleForClients() {
             <h3 className="card-title"> Step 2: Select Delivery Dates</h3>
             <button className="btn btn-outline btn-sm" onClick={() => setStep(1)}>← Back to Clients</button>
           </div>
-          <p style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 14 }}>Pick dates on the calendar. You can schedule multiple slots and foods for each date.</p>
+          <p style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', marginBottom: 14 }}>Pick dates on the calendar. You can schedule multiple slots and foods for each date.</p>
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(40px, 1fr))', gap: 4, marginBottom: 16 }}>
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
-              <div key={d} style={{ textAlign: 'center', fontSize: 'calc(14px + 0.5vw)', fontWeight: 800, color: 'var(--text-muted)', padding: 6 }}>{d}</div>
+              <div key={d} style={{ textAlign: 'center', fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 800, color: 'var(--text-muted)', padding: 6 }}>{d}</div>
             ))}
             {Array.from({ length: new Date(calendarDays[0]).getDay() }, (_, i) => <div key={'e' + i} />)}
             {calendarDays.map(dateStr => {
@@ -430,7 +430,7 @@ export default function ScheduleForClients() {
               return (
                 <button key={dateStr} onClick={() => toggleDate(dateStr)} style={{
                   padding: '12px 4px', borderRadius: 10, border: isSelected ? '2px solid var(--accent-orange)' : '2px solid transparent',
-                  cursor: 'pointer', fontSize: 'calc(18px + 0.5vw)', fontWeight: 700, transition: 'all 0.2s',
+                  cursor: 'pointer', fontSize: 'clamp(13px, 3vw, 18px)', fontWeight: 700, transition: 'all 0.2s',
                   background: isSelected ? 'var(--accent-orange)' : isToday ? 'rgba(249,115,22,0.08)' : 'var(--bg-tertiary)',
                   color: isSelected ? '#fff' : 'var(--text-primary)',
                 }}>{new Date(dateStr).getDate()}</button>
@@ -438,7 +438,7 @@ export default function ScheduleForClients() {
             })}
           </div>
           {selectedDates.length > 0 && (
-            <div style={{ padding: 12, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 14, fontSize: 'calc(17px + 0.5vw)' }}>
+            <div style={{ padding: 12, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 14, fontSize: 'clamp(12px, 3vw, 17px)' }}>
               <strong> {selectedDates.length} date{selectedDates.length > 1 ? 's' : ''}:</strong> {selectedDates.sort().map(d => fmtDate(d)).join(' • ')}
             </div>
           )}
@@ -458,7 +458,7 @@ export default function ScheduleForClients() {
             <div className="modal-overlay" onClick={() => { setSchedule(prev => { const s = { ...prev }; s[activeDate] = s[activeDate].map(sl => sl.id === activeSlotId ? { ...sl, items: slotSnapshot || [] } : sl); return s; }); setShowFoodPicker(false); setSlotSnapshot(null); setSearch(''); setFoodCat('All'); setNutriSort(null); }}>
               <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 800, width: '95vw', display: 'flex', flexDirection: 'column', maxHeight: '90vh' }}>
                 <div className="modal-header">
-                  <h3 className="modal-title">️ Add Food — {(() => { const s = (schedule[activeDate] || []).find(s => s.id === activeSlotId); return s ? `${s.label} (${formatTime12(s.time)})` : ''; })()}, {fmtDate(activeDate)}</h3>
+                  <h3 className="modal-title"> Add Food — {(() => { const s = (schedule[activeDate] || []).find(s => s.id === activeSlotId); return s ? `${s.label} (${formatTime12(s.time)})` : ''; })()}, {fmtDate(activeDate)}</h3>
                   <button className="modal-close" onClick={() => { setSchedule(prev => { const s = { ...prev }; s[activeDate] = s[activeDate].map(sl => sl.id === activeSlotId ? { ...sl, items: slotSnapshot || [] } : sl); return s; }); setShowFoodPicker(false); setSlotSnapshot(null); setSearch(''); setFoodCat('All'); setNutriSort(null); }}></button>
                 </div>
 
@@ -485,7 +485,7 @@ export default function ScheduleForClients() {
                 <div style={{ display: 'flex', gap: 8, marginBottom: 10, alignItems: 'center' }}>
                   <div style={{ flex: 1, position: 'relative' }}>
                     <span style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)' }}></span>
-                    <input className="form-input" placeholder="Search food..." value={search} onChange={e => setSearch(e.target.value)} style={{ paddingLeft: 32, fontSize: 'calc(18px + 0.5vw)' }} />
+                    <input className="form-input" placeholder="Search food..." value={search} onChange={e => setSearch(e.target.value)} style={{ paddingLeft: 32, fontSize: 'clamp(13px, 3vw, 18px)' }} />
                   </div>
                 </div>
 
@@ -493,7 +493,7 @@ export default function ScheduleForClients() {
                 <div style={{ display: 'flex', gap: 4, marginBottom: 8, overflowX: 'auto', paddingBottom: 2 }}>
                   {CATEGORIES.map(c => (
                     <button key={c} onClick={() => setFoodCat(c)} style={{
-                      padding: '5px 12px', borderRadius: 20, border: 'none', cursor: 'pointer', fontSize: 'calc(15px + 0.5vw)', fontWeight: 700, whiteSpace: 'nowrap',
+                      padding: '5px 12px', borderRadius: 20, border: 'none', cursor: 'pointer', fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 700, whiteSpace: 'nowrap',
                       background: foodCat === c ? 'var(--accent-orange)' : 'var(--bg-tertiary)',
                       color: foodCat === c ? '#fff' : 'var(--text-muted)', transition: 'all 0.2s',
                     }}>{c}</button>
@@ -509,7 +509,7 @@ export default function ScheduleForClients() {
                     { key: 'lowCarb', label: ' Low Carb', color: '#3b82f6' },
                   ].map(f => (
                     <button key={f.key} onClick={() => setNutriSort(nutriSort === f.key ? null : f.key)} style={{
-                      padding: '4px 10px', borderRadius: 8, fontSize: 'calc(14px + 0.5vw)', fontWeight: 700, cursor: 'pointer',
+                      padding: '4px 10px', borderRadius: 8, fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 700, cursor: 'pointer',
                       border: `1.5px solid ${nutriSort === f.key ? f.color : 'var(--border)'}`,
                       background: nutriSort === f.key ? `${f.color}15` : 'transparent',
                       color: nutriSort === f.key ? f.color : 'var(--text-muted)', transition: 'all 0.2s',
@@ -520,7 +520,7 @@ export default function ScheduleForClients() {
                 {/* Food List */}
                 <div style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
                   {filteredMenu.length === 0 && (
-                    <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 'calc(17px + 0.5vw)' }}>No food items found</div>
+                    <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 'clamp(12px, 3vw, 17px)' }}>No food items found</div>
                   )}
                   {filteredMenu.map(item => {
                     const inSlot = activeSlotItems.find(i => i.id === item.id);
@@ -532,31 +532,31 @@ export default function ScheduleForClients() {
                       }}>
                         <img src={item.image} alt="" style={{ width: 56, height: 56, borderRadius: 10, objectFit: 'cover' }} />
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontWeight: 800, fontSize: 'calc(18px + 0.5vw)' }}>{item.name}</div>
-                          <div style={{ display: 'flex', gap: 10, fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', marginTop: 2 }}>
+                          <div style={{ fontWeight: 800, fontSize: 'clamp(13px, 3vw, 18px)' }}>{item.name}</div>
+                          <div style={{ display: 'flex', gap: 10, fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)', marginTop: 2 }}>
                             <span style={{ color: '#f97316' }}> {item.calories}</span>
                             <span style={{ color: '#22c55e' }}> {item.protein}g</span>
                             <span style={{ color: '#3b82f6' }}> {item.carbs}g</span>
                             <span style={{ color: '#eab308' }}> {item.fat}g</span>
                           </div>
-                          <div style={{ fontSize: 'calc(17px + 0.5vw)', fontWeight: 800, color: 'var(--accent-green)', marginTop: 2 }}>₹{item.price}</div>
+                          <div style={{ fontSize: 'clamp(12px, 3vw, 17px)', fontWeight: 800, color: 'var(--accent-green)', marginTop: 2 }}>₹{item.price}</div>
                         </div>
                         {inSlot ? (
                           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                            <button className="btn btn-outline" style={{ width: 30, height: 30, padding: 0, fontSize: 'calc(19px + 0.5vw)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => { if (inSlot.qty <= 1) removeItem(activeDate, activeSlotId, item.id); else updateQty(activeDate, activeSlotId, item.id, -1); }}>−</button>
-                            <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'calc(20px + 0.5vw)', minWidth: 22, textAlign: 'center' }}>{inSlot.qty}</span>
-                            <button className="btn btn-outline" style={{ width: 30, height: 30, padding: 0, fontSize: 'calc(19px + 0.5vw)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => updateQty(activeDate, activeSlotId, item.id, 1)}>+</button>
+                            <button className="btn btn-outline" style={{ width: 30, height: 30, padding: 0, fontSize: 'clamp(14px, 3vw, 19px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => { if (inSlot.qty <= 1) removeItem(activeDate, activeSlotId, item.id); else updateQty(activeDate, activeSlotId, item.id, -1); }}>−</button>
+                            <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(15px, 3vw, 20px)', minWidth: 22, textAlign: 'center' }}>{inSlot.qty}</span>
+                            <button className="btn btn-outline" style={{ width: 30, height: 30, padding: 0, fontSize: 'clamp(14px, 3vw, 19px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => updateQty(activeDate, activeSlotId, item.id, 1)}>+</button>
                           </div>
                         ) : (
-                          <button className="btn btn-primary" style={{ padding: '8px 18px', fontSize: 'calc(17px + 0.5vw)', fontWeight: 800 }} onClick={() => addItem(activeDate, activeSlotId, item)}>+ Add</button>
+                          <button className="btn btn-primary" style={{ padding: '8px 18px', fontSize: 'clamp(12px, 3vw, 17px)', fontWeight: 800 }} onClick={() => addItem(activeDate, activeSlotId, item)}>+ Add</button>
                         )}
                       </div>
                     );
                   })}
                 </div>
                 <div className="modal-footer" style={{ position: 'sticky', bottom: 0, marginTop: 0, padding: '10px 16px', background: 'var(--bg-primary)', borderTop: '1.5px solid var(--border)', zIndex: 5, flexShrink: 0 }}>
-                  <span style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)' }}>{activeSlotItems.length} items in this meal</span>
-                  <button className="btn btn-primary" style={{ fontSize: 'calc(18px + 0.5vw)', padding: '10px 28px' }} onClick={() => { setShowFoodPicker(false); setSlotSnapshot(null); setSearch(''); setFoodCat('All'); setNutriSort(null); }}> Done</button>
+                  <span style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)' }}>{activeSlotItems.length} items in this meal</span>
+                  <button className="btn btn-primary" style={{ fontSize: 'clamp(13px, 3vw, 18px)', padding: '10px 28px' }} onClick={() => { setShowFoodPicker(false); setSlotSnapshot(null); setSearch(''); setFoodCat('All'); setNutriSort(null); }}> Done</button>
                 </div>
               </div>
             </div>
@@ -570,7 +570,7 @@ export default function ScheduleForClients() {
                   <h3 className="modal-title"> Copy to Specific Dates</h3>
                   <button className="modal-close" onClick={() => { setShowCopyPicker(false); setCopyTargetDates([]); }}></button>
                 </div>
-                <p style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 12 }}>Select which dates to paste this meal plan to:</p>
+                <p style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', marginBottom: 12 }}>Select which dates to paste this meal plan to:</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 16 }}>
                   {selectedDates.sort().filter(d => d !== activeDate).map(dateStr => {
                     const isChecked = copyTargetDates.includes(dateStr);
@@ -581,12 +581,12 @@ export default function ScheduleForClients() {
                         background: isChecked ? 'rgba(249,115,22,0.08)' : 'var(--bg-tertiary)',
                         border: `1.5px solid ${isChecked ? 'var(--accent-orange)' : 'var(--border)'}`,
                       }}>
-                        <div style={{ width: 20, height: 20, borderRadius: 4, border: `2px solid ${isChecked ? 'var(--accent-orange)' : 'var(--border)'}`, background: isChecked ? 'var(--accent-orange)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 'calc(16px + 0.5vw)', fontWeight: 900 }}>
+                        <div style={{ width: 20, height: 20, borderRadius: 4, border: `2px solid ${isChecked ? 'var(--accent-orange)' : 'var(--border)'}`, background: isChecked ? 'var(--accent-orange)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 900 }}>
                           {isChecked && ''}
                         </div>
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontWeight: 700, fontSize: 'calc(17px + 0.5vw)' }}>{fmtDate(dateStr)}</div>
-                          {existingCount > 0 && <div style={{ fontSize: 'calc(14px + 0.5vw)', color: 'var(--accent-orange)' }}>️ Has {existingCount} items (will be replaced)</div>}
+                          <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)' }}>{fmtDate(dateStr)}</div>
+                          {existingCount > 0 && <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', color: 'var(--accent-orange)' }}> Has {existingCount} items (will be replaced)</div>}
                         </div>
                       </div>
                     );
@@ -618,7 +618,7 @@ export default function ScheduleForClients() {
                     padding: '10px 30px 10px 14px', borderRadius: 12, border: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
                     background: isActive ? 'var(--accent-orange)' : count > 0 ? 'rgba(34,197,94,0.1)' : 'var(--bg-tertiary)',
                     color: isActive ? '#fff' : count > 0 ? 'var(--accent-green)' : 'var(--text-muted)',
-                    fontWeight: 800, fontSize: 'calc(16px + 0.5vw)', transition: 'all 0.2s',
+                    fontWeight: 800, fontSize: 'clamp(12px, 3vw, 16px)', transition: 'all 0.2s',
                   }}>
                     {fmtDate(dateStr)} {count > 0 ? `(${count})` : ''} • {slotCount} slots
                   </button>
@@ -629,10 +629,10 @@ export default function ScheduleForClients() {
                     setSchedule(p => { const n = { ...p }; delete n[dateStr]; return n; });
                     if (remaining.length === 0) { setStep(2); setActiveDate(null); }
                     else if (activeDate === dateStr) setActiveDate(remaining.sort()[0]);
-                    showToast(`️ ${fmtDate(dateStr)} removed`);
+                    showToast(` ${fmtDate(dateStr)} removed`);
                   }} style={{
                     position: 'absolute', right: 4, top: '50%', transform: 'translateY(-50%)',
-                    width: 20, height: 20, borderRadius: '50%', border: 'none', cursor: 'pointer', fontSize: 'calc(14px + 0.5vw)',
+                    width: 20, height: 20, borderRadius: '50%', border: 'none', cursor: 'pointer', fontSize: 'clamp(12px, 3vw, 14px)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900,
                     background: isActive ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.08)',
                     color: isActive ? '#fff' : 'var(--text-muted)',
@@ -658,8 +658,8 @@ export default function ScheduleForClients() {
             return (
               <div className="card" style={{ padding: 14, marginBottom: 14 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                  <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(17px + 0.5vw)' }}> {fmtDate(activeDate)} — Nutrition</span>
-                  <span style={{ fontSize: 'calc(15px + 0.5vw)', fontWeight: 700, color: calPct >= 100 ? '#22c55e' : calPct > 80 ? '#f97316' : 'var(--text-muted)' }}>
+                  <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(12px, 3vw, 17px)' }}> {fmtDate(activeDate)} — Nutrition</span>
+                  <span style={{ fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 700, color: calPct >= 100 ? '#22c55e' : calPct > 80 ? '#f97316' : 'var(--text-muted)' }}>
                     {calPct >= 100 ? ' Target reached!' : calPct > 80 ? ` ${calPct}% almost there` : `${calPct}%`}
                   </span>
                 </div>
@@ -686,9 +686,9 @@ export default function ScheduleForClients() {
                     {/* Slot Header */}
                     <div style={{ padding: '10px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: `${color}08` }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <div style={{ width: 28, height: 28, borderRadius: '50%', background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 900, fontSize: 'calc(16px + 0.5vw)' }}>{idx + 1}</div>
+                        <div style={{ width: 28, height: 28, borderRadius: '50%', background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 900, fontSize: 'clamp(12px, 3vw, 16px)' }}>{idx + 1}</div>
                         <input value={slot.label} onChange={e => setSlotLabel(activeDate, slot.id, e.target.value)}
-                          style={{ border: 'none', background: 'transparent', fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(19px + 0.5vw)', color: color, width: 140, outline: 'none' }}
+                          style={{ border: 'none', background: 'transparent', fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 3vw, 19px)', color: color, width: 140, outline: 'none' }}
                           placeholder="Meal name" />
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -696,7 +696,7 @@ export default function ScheduleForClients() {
                           const parsed = parseTime(slot.time);
                           const selectStyle = {
                             padding: '5px 6px', borderRadius: 8, border: `1.5px solid ${color}40`,
-                            background: 'var(--bg-input)', color: 'var(--text-primary)', fontSize: 'calc(17px + 0.5vw)',
+                            background: 'var(--bg-input)', color: 'var(--text-primary)', fontSize: 'clamp(12px, 3vw, 17px)',
                             fontFamily: 'Outfit', fontWeight: 700, cursor: 'pointer', appearance: 'auto',
                           };
                           return (
@@ -715,7 +715,7 @@ export default function ScheduleForClients() {
                             </>
                           );
                         })()}
-                        <button onClick={() => removeSlot(activeDate, slot.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 'calc(18px + 0.5vw)', color: 'var(--accent-red)', marginLeft: 4 }} title="Remove slot">️</button>
+                        <button onClick={() => removeSlot(activeDate, slot.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 'clamp(13px, 3vw, 18px)', color: 'var(--accent-red)', marginLeft: 4 }} title="Remove slot"></button>
                       </div>
                     </div>
 
@@ -723,11 +723,11 @@ export default function ScheduleForClients() {
                     <div style={{ padding: '12px 14px' }}>
                       {/* Pack Title */}
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                        <span style={{ fontSize: 'calc(15px + 0.5vw)', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
+                        <span style={{ fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
                           {slot.items.length > 0 ? `${slot.items.reduce((a, i) => a + i.qty, 0)} Pack` : 'Empty Pack'}
                         </span>
                         {slot.items.length > 0 && (
-                          <span style={{ fontSize: 'calc(14px + 0.5vw)', fontWeight: 700, color }}>
+                          <span style={{ fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 700, color }}>
                              {slotCal} kcal • ₹{slotTotal}
                           </span>
                         )}
@@ -762,7 +762,7 @@ export default function ScheduleForClients() {
                               width: 14, height: 14, borderRadius: '50%',
                               background: color, color: '#fff',
                               display: 'flex', alignItems: 'center', justifyContent: 'center',
-                              fontSize: 'calc(11px + 0.5vw)', fontWeight: 900,
+                              fontSize: 'clamp(12px, 3vw, 11px)', fontWeight: 900,
                               boxShadow: `0 1px 4px ${color}60`,
                             }}>{itemIdx + 1}</div>
 
@@ -771,7 +771,7 @@ export default function ScheduleForClients() {
                               position: 'absolute', top: 2, right: 2, zIndex: 2,
                               width: 12, height: 12, borderRadius: '50%',
                               background: 'rgba(239,68,68,0.85)', color: '#fff',
-                              border: 'none', cursor: 'pointer', fontSize: 'calc(10px + 0.5vw)',
+                              border: 'none', cursor: 'pointer', fontSize: 'clamp(12px, 3vw, 10px)',
                               display: 'flex', alignItems: 'center', justifyContent: 'center',
                               fontWeight: 900,
                             }}></button>
@@ -784,11 +784,11 @@ export default function ScheduleForClients() {
                             {/* Food Info */}
                             <div style={{ padding: '2px 3px', textAlign: 'center' }}>
                               <div style={{
-                                fontSize: 'calc(11px + 0.5vw)', fontWeight: 800, color: 'var(--text-primary)',
+                                fontSize: 'clamp(12px, 3vw, 11px)', fontWeight: 800, color: 'var(--text-primary)',
                                 lineHeight: 1.1, whiteSpace: 'nowrap',
                                 overflow: 'hidden', textOverflow: 'ellipsis',
                               }}>{item.name}</div>
-                              <div style={{ fontSize: 'calc(10px + 0.5vw)', color: 'var(--text-muted)' }}>
+                              <div style={{ fontSize: 'clamp(12px, 3vw, 10px)', color: 'var(--text-muted)' }}>
                                 {item.calories * item.qty} • ₹{item.price * item.qty}
                               </div>
                               {/* Qty Controls */}
@@ -796,15 +796,15 @@ export default function ScheduleForClients() {
                                 <button onClick={() => { if (item.qty <= 1) removeItem(activeDate, slot.id, item.id); else updateQty(activeDate, slot.id, item.id, -1); }}
                                   style={{
                                     width: 13, height: 13, borderRadius: 3, border: `1px solid ${color}50`,
-                                    background: 'var(--bg-primary)', cursor: 'pointer', fontSize: 'calc(12px + 0.5vw)',
+                                    background: 'var(--bg-primary)', cursor: 'pointer', fontSize: 'clamp(12px, 3vw, 12px)',
                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                                     color: 'var(--text-primary)', fontWeight: 900, padding: 0,
                                   }}>−</button>
-                                <span style={{ fontSize: 'calc(12px + 0.5vw)', fontWeight: 900, minWidth: 8, textAlign: 'center', color }}>{item.qty}</span>
+                                <span style={{ fontSize: 'clamp(12px, 3vw, 12px)', fontWeight: 900, minWidth: 8, textAlign: 'center', color }}>{item.qty}</span>
                                 <button onClick={() => updateQty(activeDate, slot.id, item.id, 1)}
                                   style={{
                                     width: 13, height: 13, borderRadius: 3, border: `1px solid ${color}50`,
-                                    background: 'var(--bg-primary)', cursor: 'pointer', fontSize: 'calc(12px + 0.5vw)',
+                                    background: 'var(--bg-primary)', cursor: 'pointer', fontSize: 'clamp(12px, 3vw, 12px)',
                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                                     color: 'var(--text-primary)', fontWeight: 900, padding: 0,
                                   }}>+</button>
@@ -834,9 +834,9 @@ export default function ScheduleForClients() {
                               width: 14, height: 14, borderRadius: '50%',
                               background: `${color}15`, color: `${color}50`,
                               display: 'flex', alignItems: 'center', justifyContent: 'center',
-                              fontSize: 'calc(11px + 0.5vw)', fontWeight: 900, marginBottom: 2,
+                              fontSize: 'clamp(12px, 3vw, 11px)', fontWeight: 900, marginBottom: 2,
                             }}>{slot.items.length + i + 1}</div>
-                            <div style={{ fontSize: 'calc(16px + 0.5vw)', color: `${color}35` }}>+</div>
+                            <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: `${color}35` }}>+</div>
                           </div>
                         ))}
                       </div>
@@ -858,14 +858,14 @@ export default function ScheduleForClients() {
                             background: `${color}08`, border: `1px solid ${color}15`,
                           }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-                              <span style={{ fontSize: 'calc(15px + 0.5vw)', fontWeight: 700, color: 'var(--text-muted)' }}>
+                              <span style={{ fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 700, color: 'var(--text-muted)' }}>
                                 {slot.label} Total ({slot.items.reduce((a, i) => a + i.qty, 0)} items)
                               </span>
-                              <span style={{ fontSize: 'calc(17px + 0.5vw)', fontWeight: 900, color }}>
+                              <span style={{ fontSize: 'clamp(12px, 3vw, 17px)', fontWeight: 900, color }}>
                                 ₹{slotTotal}
                               </span>
                             </div>
-                            <div style={{ display: 'flex', gap: 10, fontSize: 'calc(14px + 0.5vw)', fontWeight: 700 }}>
+                            <div style={{ display: 'flex', gap: 10, fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 700 }}>
                               <span style={{ color: '#f97316' }}> {slotCal} kcal</span>
                               <span style={{ color: '#22c55e' }}> {mealPro}g protein</span>
                               <span style={{ color: '#3b82f6' }}> {mealCarb}g carbs</span>
@@ -901,10 +901,10 @@ export default function ScheduleForClients() {
                       borderBottom: '1px solid rgba(249,115,22,0.12)',
                       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                     }}>
-                      <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(17px + 0.5vw)', color: 'var(--text-primary)' }}>
+                      <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(12px, 3vw, 17px)', color: 'var(--text-primary)' }}>
                          {fmtDate(activeDate)} — Cost & Nutrition Summary
                       </span>
-                      <span style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 700 }}>
+                      <span style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)', fontWeight: 700 }}>
                         {dayItems} items total
                       </span>
                     </div>
@@ -928,20 +928,20 @@ export default function ScheduleForClients() {
                                   width: 20, height: 20, borderRadius: '50%',
                                   background: slotColors[idx % slotColors.length],
                                   color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                  fontSize: 'calc(13px + 0.5vw)', fontWeight: 900,
+                                  fontSize: 'clamp(12px, 3vw, 13px)', fontWeight: 900,
                                 }}>{idx + 1}</div>
-                                <span style={{ fontSize: 'calc(16px + 0.5vw)', fontWeight: 700, color: 'var(--text-primary)' }}>
+                                <span style={{ fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 700, color: 'var(--text-primary)' }}>
                                   {slot.label}
                                 </span>
-                                <span style={{ fontSize: 'calc(14px + 0.5vw)', color: 'var(--text-muted)' }}>
+                                <span style={{ fontSize: 'clamp(12px, 3vw, 14px)', color: 'var(--text-muted)' }}>
                                   ({mealItems} items)
                                 </span>
                               </div>
-                              <span style={{ fontSize: 'calc(17px + 0.5vw)', fontWeight: 800, color: slotColors[idx % slotColors.length] }}>
+                              <span style={{ fontSize: 'clamp(12px, 3vw, 17px)', fontWeight: 800, color: slotColors[idx % slotColors.length] }}>
                                 ₹{mealTotal}
                               </span>
                             </div>
-                            <div style={{ display: 'flex', gap: 8, fontSize: 'calc(13px + 0.5vw)', fontWeight: 600, marginTop: 2, marginLeft: 26, color: 'var(--text-muted)' }}>
+                            <div style={{ display: 'flex', gap: 8, fontSize: 'clamp(12px, 3vw, 13px)', fontWeight: 600, marginTop: 2, marginLeft: 26, color: 'var(--text-muted)' }}>
                               <span style={{ color: '#f97316' }}>{mCal}</span>
                               <span style={{ color: '#22c55e' }}>{mPro}g</span>
                               <span style={{ color: '#3b82f6' }}>{mCarb}g</span>
@@ -956,17 +956,17 @@ export default function ScheduleForClients() {
                         marginTop: 4, borderTop: '2px solid var(--accent-orange)',
                       }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <span style={{ fontSize: 'calc(18px + 0.5vw)', fontWeight: 900, color: 'var(--text-primary)' }}>
+                          <span style={{ fontSize: 'clamp(13px, 3vw, 18px)', fontWeight: 900, color: 'var(--text-primary)' }}>
                              Day Total
                           </span>
                           <span style={{
-                            fontSize: 'calc(22px + 0.5vw)', fontWeight: 900, color: 'var(--accent-orange)',
+                            fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 900, color: 'var(--accent-orange)',
                             fontFamily: 'Outfit',
                           }}>
                             ₹{dayTotal}
                           </span>
                         </div>
-                        <div style={{ display: 'flex', gap: 12, fontSize: 'calc(15px + 0.5vw)', fontWeight: 800, marginTop: 4 }}>
+                        <div style={{ display: 'flex', gap: 12, fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 800, marginTop: 4 }}>
                           <span style={{ color: '#f97316' }}> {dayCal} kcal</span>
                           <span style={{ color: '#22c55e' }}> {dayPro}g protein</span>
                           <span style={{ color: '#3b82f6' }}> {dayCarb}g carbs</span>
@@ -980,17 +980,17 @@ export default function ScheduleForClients() {
 
               {/* Add new time slot */}
               <button className="btn btn-outline" onClick={() => addSlot(activeDate)}
-                style={{ width: '100%', padding: 14, borderStyle: 'dashed', fontSize: 'calc(18px + 0.5vw)', fontWeight: 700 }}>
+                style={{ width: '100%', padding: 14, borderStyle: 'dashed', fontSize: 'clamp(13px, 3vw, 18px)', fontWeight: 700 }}>
                  Add Another Meal Slot
               </button>
 
               {/* Copy buttons — at bottom */}
               {selectedDates.length > 1 && getDateTotalItems(activeDate) > 0 && (
                 <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-                  <button className="btn btn-outline" style={{ flex: 1, fontSize: 'calc(16px + 0.5vw)' }} onClick={() => copyDayToAll(activeDate)}>
+                  <button className="btn btn-outline" style={{ flex: 1, fontSize: 'clamp(12px, 3vw, 16px)' }} onClick={() => copyDayToAll(activeDate)}>
                      Copy to ALL dates ({selectedDates.length - 1})
                   </button>
-                  <button className="btn btn-outline" style={{ flex: 1, fontSize: 'calc(16px + 0.5vw)' }} onClick={() => { setCopyTargetDates([]); setShowCopyPicker(true); }}>
+                  <button className="btn btn-outline" style={{ flex: 1, fontSize: 'clamp(12px, 3vw, 16px)' }} onClick={() => { setCopyTargetDates([]); setShowCopyPicker(true); }}>
                      Copy to specific dates
                   </button>
                 </div>
@@ -1000,12 +1000,12 @@ export default function ScheduleForClients() {
 }
 
           <div style={{ marginTop: 24, textAlign: 'center' }}>
-            <button className="btn btn-success btn-lg" style={{ minWidth: 300, fontSize: 'calc(20px + 0.5vw)' }}
+            <button className="btn btn-success btn-lg" style={{ minWidth: 300, fontSize: 'clamp(15px, 3vw, 20px)' }}
               onClick={handleAssign}
               disabled={filledDates.length === 0}>
                Publish Food Schedule
             </button>
-            <p style={{ fontSize: 'calc(14px + 0.5vw)', color: 'var(--text-muted)', marginTop: 8 }}>This will instantly update the food schedules for the selected clients.</p>
+            <p style={{ fontSize: 'clamp(12px, 3vw, 14px)', color: 'var(--text-muted)', marginTop: 8 }}>This will instantly update the food schedules for the selected clients.</p>
           </div>
         </div>
       )}

@@ -42,10 +42,10 @@ export default function ChangePassword() {
   const inputStyle = {
     width: '100%', padding: '12px 16px',
     background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)',
-    borderRadius: 12, color: '#fff', fontSize: 'calc(18px + 0.5vw)', outline: 'none', transition: 'border 0.3s',
+    borderRadius: 12, color: '#fff', fontSize: 'clamp(13px, 3vw, 18px)', outline: 'none', transition: 'border 0.3s',
   };
   const labelStyle = {
-    display: 'block', fontSize: 'calc(15px + 0.5vw)', fontWeight: 700,
+    display: 'block', fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 700,
     color: 'rgba(255,255,255,0.6)', marginBottom: 6,
     textTransform: 'uppercase', letterSpacing: 0.5,
   };
@@ -83,13 +83,13 @@ export default function ChangePassword() {
             width: 56, height: 56, borderRadius: 16, margin: '0 auto 14px',
             background: 'linear-gradient(135deg, #f97316, #22c55e)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 'calc(30px + 0.5vw)', boxShadow: '0 8px 32px rgba(249,115,22,0.3)',
+            fontSize: 'clamp(22px, 3vw, 30px)', boxShadow: '0 8px 32px rgba(249,115,22,0.3)',
             animation: 'float 3s ease-in-out infinite',
           }}></div>
-          <h1 style={{ fontFamily: 'Outfit', fontSize: 'calc(30px + 0.5vw)', fontWeight: 900, color: '#fff', marginBottom: 4 }}>
+          <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(22px, 3vw, 30px)', fontWeight: 900, color: '#fff', marginBottom: 4 }}>
             Create New Password
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'calc(17px + 0.5vw)' }}>
+          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'clamp(12px, 3vw, 17px)' }}>
             Welcome <strong style={{ color: '#f97316' }}>{user.name}</strong>! Please set your new password to continue.
           </p>
         </div>
@@ -104,10 +104,10 @@ export default function ChangePassword() {
           <div style={{
             padding: '10px 14px', borderRadius: 12, marginBottom: 20,
             background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.2)',
-            fontSize: 'calc(16px + 0.5vw)', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5,
+            fontSize: 'clamp(12px, 3vw, 16px)', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5,
             display: 'flex', alignItems: 'center', gap: 8,
           }}>
-            <span style={{ fontSize: 'calc(22px + 0.5vw)' }}>ℹ️</span>
+            <span style={{ fontSize: 'clamp(16px, 3vw, 22px)' }}>ℹ</span>
             Your account was created with a temporary password. Please set a new secure password.
           </div>
 
@@ -124,7 +124,7 @@ export default function ChangePassword() {
                 onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.12)'}
               />
               {newPassword && newPassword.length < 6 && (
-                <div style={{ fontSize: 'calc(15px + 0.5vw)', color: '#fbbf24', marginTop: 4 }}>️ Must be at least 6 characters</div>
+                <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: '#fbbf24', marginTop: 4 }}> Must be at least 6 characters</div>
               )}
             </div>
 
@@ -143,19 +143,19 @@ export default function ChangePassword() {
                 onBlur={e => e.target.style.borderColor = passwordsMatch ? 'rgba(34,197,94,0.5)' : passwordsMismatch ? 'rgba(239,68,68,0.5)' : 'rgba(255,255,255,0.12)'}
               />
               {passwordsMatch && (
-                <div style={{ fontSize: 'calc(15px + 0.5vw)', color: '#22c55e', marginTop: 4 }}> Passwords match</div>
+                <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: '#22c55e', marginTop: 4 }}> Passwords match</div>
               )}
               {passwordsMismatch && (
-                <div style={{ fontSize: 'calc(15px + 0.5vw)', color: '#ef4444', marginTop: 4 }}> Passwords do not match</div>
+                <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: '#ef4444', marginTop: 4 }}> Passwords do not match</div>
               )}
             </div>
 
-            {error && <p style={{ color: '#fca5a5', fontSize: 'calc(17px + 0.5vw)', marginBottom: 12, textAlign: 'center', background: 'rgba(239,68,68,0.15)', padding: '8px 12px', borderRadius: 10, border: '1px solid rgba(239,68,68,0.25)' }}> {error}</p>}
+            {error && <p style={{ color: '#fca5a5', fontSize: 'clamp(12px, 3vw, 17px)', marginBottom: 12, textAlign: 'center', background: 'rgba(239,68,68,0.15)', padding: '8px 12px', borderRadius: 10, border: '1px solid rgba(239,68,68,0.25)' }}> {error}</p>}
 
             <button type="submit" style={{
               width: '100%', padding: 14,
               background: passwordsMatch ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'linear-gradient(135deg, #f97316, #fb923c)',
-              color: '#fff', borderRadius: 12, fontSize: 'calc(19px + 0.5vw)', fontWeight: 800, cursor: 'pointer',
+              color: '#fff', borderRadius: 12, fontSize: 'clamp(14px, 3vw, 19px)', fontWeight: 800, cursor: 'pointer',
               border: 'none', boxShadow: `0 4px 20px ${passwordsMatch ? 'rgba(34,197,94,0.4)' : 'rgba(249,115,22,0.4)'}`,
               transition: 'all 0.3s',
             }}

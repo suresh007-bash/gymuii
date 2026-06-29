@@ -14,13 +14,13 @@ export default function TrainerNutrition() {
     return (
       <div className="card" style={{ marginBottom: 12 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontWeight: 700, fontSize: 'calc(18px + 0.5vw)', display: 'flex', alignItems: 'center', gap: 4 }}>{icon} {label}</span>
+          <span style={{ fontWeight: 700, fontSize: 'clamp(13px, 3vw, 18px)', display: 'flex', alignItems: 'center', gap: 4 }}>{icon} {label}</span>
           <span style={{ fontFamily: 'Outfit', fontWeight: 800 }}>{current} / {target}{label === 'Calories' ? ' kcal' : 'g'}</span>
         </div>
         <div style={{ height: 10, background: 'var(--bg-tertiary)', borderRadius: 10, overflow: 'hidden' }}>
           <div style={{ height: '100%', width: `${pct}%`, background: color, borderRadius: 10, transition: 'width 0.5s ease' }} />
         </div>
-        <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', marginTop: 4 }}>{Math.round(pct)}% of daily target</div>
+        <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)', marginTop: 4 }}>{Math.round(pct)}% of daily target</div>
       </div>
     );
   };

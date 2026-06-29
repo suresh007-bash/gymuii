@@ -4,17 +4,17 @@ import './MagicBento.css';
 
 // ═══ Color map: food tags → RGB glow colors ═══
 const TAG_COLORS = {
-  'High Protein':   '34, 197, 94',    // green
-  'Keto':           '249, 115, 22',    // orange
-  'Vegan':          '16, 185, 129',    // emerald
-  'Low Carb':       '59, 130, 246',    // blue
-  'High Fiber':     '168, 85, 247',    // purple
-  'Post-Workout':   '239, 68, 68',     // red
-  'Weight Loss':    '236, 72, 153',    // pink
-  'Muscle Gain':    '245, 158, 11',    // amber
-  'Low Fat':        '6, 182, 212',     // cyan
-  'High Calorie':   '251, 146, 60',    // warm orange
-  'Breakfast':      '250, 204, 21',    // yellow
+  'High Protein': '34, 197, 94', // green
+  'Keto': '249, 115, 22', // orange
+  'Vegan': '16, 185, 129', // emerald
+  'Low Carb': '59, 130, 246', // blue
+  'High Fiber': '168, 85, 247', // purple
+  'Post-Workout': '239, 68, 68', // red
+  'Weight Loss': '236, 72, 153', // pink
+  'Muscle Gain': '245, 158, 11', // amber
+  'Low Fat': '6, 182, 212', // cyan
+  'High Calorie': '251, 146, 60', // warm orange
+  'Breakfast': '250, 204, 21', // yellow
 };
 
 const DEFAULT_COLOR = '249, 115, 22'; // site orange

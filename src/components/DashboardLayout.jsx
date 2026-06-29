@@ -37,7 +37,7 @@ const NAV = {
     { icon: Package, tKey: 'myOrders', path: '/trainer/orders' },
     { icon: BarChart3, tKey: 'nutrition', path: '/trainer/nutrition' },
     { icon: Gem, tKey: 'subscriptions', path: '/trainer/subscriptions' },
-    { section: '️ Trainer Tools' },
+    { section: ' Trainer Tools' },
     { icon: Users, tKey: 'myClients', path: '/trainer/clients' },
     { icon: CalendarClock, tKey: 'scheduleForClients', path: '/trainer/schedule-for-clients' },
     { icon: Building2, tKey: 'myGymOwner', path: '/trainer/my-owner' },
@@ -50,13 +50,13 @@ const NAV = {
     { icon: Users, tKey: 'myClients', path: '/owner/clients' },
     { icon: CalendarClock, tKey: 'scheduleForClients', path: '/owner/schedule-for-clients' },
     { icon: TrendingUp, tKey: 'analytics', path: '/owner/analytics' },
-    { section: '️ Food & Orders' },
+    { section: ' Food & Orders' },
     { icon: ShoppingCart, tKey: 'myCart', path: '/owner/cart' },
     { icon: CalendarDays, tKey: 'scheduleFoods', path: '/owner/schedule' },
     { icon: Package, tKey: 'myOrders', path: '/owner/orders' },
     { icon: BarChart3, tKey: 'nutrition', path: '/owner/nutrition' },
     { icon: Gem, tKey: 'subscriptions', path: '/owner/subscriptions' },
-    { section: '️ Account' },
+    { section: ' Account' },
     { icon: LifeBuoy, label: 'Support', path: '/owner/support' },
     { icon: User, tKey: 'profile', path: '/owner/profile' },
     { icon: Settings, tKey: 'settings', path: '/owner/settings' },
@@ -106,7 +106,7 @@ export default function DashboardLayout({ children, title, flush }) {
       {/* Sidebar */}
       <aside className={`dashboard-sidebar ${sidebarOpen ? 'open' : ''}`}>
         {/* Close button (mobile) */}
-        <button className="sidebar-close-btn" onClick={() => setSidebarOpen(false)} style={{ fontSize: 'calc(16px + 0.5vw)', fontWeight: 'bold' }}>
+        <button className="sidebar-close-btn" onClick={() => setSidebarOpen(false)} style={{ fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 'bold' }}>
           Close
         </button>
 
@@ -114,17 +114,17 @@ export default function DashboardLayout({ children, title, flush }) {
         <div className="sidebar-brand-section">
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div>
-              <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'calc(22px + 0.5vw)', background: config.gradient, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{config.brand}</div>
-              <div style={{ fontSize: 'calc(13px + 0.5vw)', fontWeight: 800, color: 'var(--text-muted)', letterSpacing: 1.5 }}>{config.sub}</div>
+              <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(16px, 3vw, 22px)', background: config.gradient, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{config.brand}</div>
+              <div style={{ fontSize: 'clamp(12px, 3vw, 13px)', fontWeight: 800, color: 'var(--text-muted)', letterSpacing: 1.5 }}>{config.sub}</div>
             </div>
           </div>
         </div>
         {/* User Info */}
         <div className="sidebar-user-info">
-          <div style={{ width: 36, height: 36, borderRadius: '50%', background: config.gradient, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'calc(17px + 0.5vw)', fontWeight: 900, color: '#fff', flexShrink: 0 }}>{user.avatar || '?'}</div>
+          <div style={{ width: 36, height: 36, borderRadius: '50%', background: config.gradient, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(12px, 3vw, 17px)', fontWeight: 900, color: '#fff', flexShrink: 0 }}>{user.avatar || '?'}</div>
           <div style={{ minWidth: 0 }}>
-            <div style={{ fontWeight: 800, fontSize: 'calc(17px + 0.5vw)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.name}</div>
-            <div style={{ fontSize: 'calc(14px + 0.5vw)', color: 'var(--accent-orange)', fontWeight: 700, textTransform: 'uppercase' }}>{role}</div>
+            <div style={{ fontWeight: 800, fontSize: 'clamp(12px, 3vw, 17px)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.name}</div>
+            <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', color: 'var(--accent-orange)', fontWeight: 700, textTransform: 'uppercase' }}>{role}</div>
           </div>
         </div>
         {/* Nav Links */}
@@ -133,7 +133,7 @@ export default function DashboardLayout({ children, title, flush }) {
             if (link.section) {
               return (
                 <div key={'section-' + idx} style={{
-                  padding: '12px 16px 6px', fontSize: 'calc(14px + 0.5vw)', fontWeight: 800,
+                  padding: '12px 16px 6px', fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 800,
                   color: 'var(--text-muted)', textTransform: 'uppercase',
                   letterSpacing: 1.2, marginTop: idx > 0 ? 6 : 0,
                   borderTop: idx > 0 ? '1px solid var(--border)' : 'none',
@@ -172,9 +172,9 @@ export default function DashboardLayout({ children, title, flush }) {
       {showLogoutConfirm && (
         <div className="modal-overlay" onClick={() => setShowLogoutConfirm(false)} style={{ zIndex: 2000 }}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 380, textAlign: 'center', padding: 28 }}>
-            <div style={{ fontSize: 'calc(52px + 0.5vw)', marginBottom: 12 }}></div>
-            <h3 style={{ fontSize: 'calc(22px + 0.5vw)', fontWeight: 800, marginBottom: 6 }}>Logout Confirmation</h3>
-            <p style={{ fontSize: 'calc(17px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 24, lineHeight: 1.6 }}>Are you sure you want to sign out? You'll need to log in again to access your account.</p>
+            <div style={{ fontSize: 'clamp(39px, 3vw, 52px)', marginBottom: 12 }}></div>
+            <h3 style={{ fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 800, marginBottom: 6 }}>Logout Confirmation</h3>
+            <p style={{ fontSize: 'clamp(12px, 3vw, 17px)', color: 'var(--text-muted)', marginBottom: 24, lineHeight: 1.6 }}>Are you sure you want to sign out? You'll need to log in again to access your account.</p>
             <div style={{ display: 'flex', gap: 10 }}>
               <button className="btn btn-outline" style={{ flex: 1 }} onClick={() => setShowLogoutConfirm(false)}>Cancel</button>
               <button className="btn" style={{ flex: 1, background: '#ef4444', color: '#fff' }} onClick={() => { setShowLogoutConfirm(false); logout(); navigate('/login'); }}>Yes, Logout</button>
@@ -189,11 +189,11 @@ export default function DashboardLayout({ children, title, flush }) {
         <header className="dashboard-topbar">
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             {location.pathname === links[0]?.path ? (
-              <button className="topbar-hamburger" onClick={() => setSidebarOpen(true)} style={{ fontSize: 'calc(18px + 0.5vw)', fontWeight: 'bold' }}>
+              <button className="topbar-hamburger" onClick={() => setSidebarOpen(true)} style={{ fontSize: 'clamp(13px, 3vw, 18px)', fontWeight: 'bold' }}>
                 Menu
               </button>
             ) : (
-              <button className="topbar-back-btn" onClick={() => navigate(-1)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-primary)', padding: 4, fontSize: 'calc(18px + 0.5vw)', fontWeight: 'bold' }}>
+              <button className="topbar-back-btn" onClick={() => navigate(-1)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-primary)', padding: 4, fontSize: 'clamp(13px, 3vw, 18px)', fontWeight: 'bold' }}>
                 Back
               </button>
             )}

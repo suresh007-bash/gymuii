@@ -49,9 +49,9 @@ export default function MyDeliveries() {
 
       {displayOrders.length === 0 ? (
         <div className="card" style={{ textAlign: 'center', padding: 50 }}>
-          <div style={{ fontSize: 'calc(60px + 0.5vw)', marginBottom: 12 }}>{tab === 'pending' ? '' : ''}</div>
+          <div style={{ fontSize: 'clamp(45px, 3vw, 60px)', marginBottom: 12 }}>{tab === 'pending' ? '' : ''}</div>
           <h3 style={{ fontWeight: 700, marginBottom: 8 }}>No {tab === 'pending' ? 'pending' : 'active'} deliveries</h3>
-          <p style={{ color: 'var(--text-muted)', fontSize: 'calc(17px + 0.5vw)' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: 'clamp(12px, 3vw, 17px)' }}>
             {tab === 'pending' ? 'New orders will appear here when kitchen assigns you.' : 'Accept pending orders to start delivering.'}
           </p>
         </div>
@@ -62,8 +62,8 @@ export default function MyDeliveries() {
               {/* Header */}
               <div style={{ background: tab === 'pending' ? 'rgba(249,115,22,0.06)' : 'rgba(139,92,246,0.06)', padding: '14px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                  <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(20px + 0.5vw)' }}>#{order.id}</span>
-                  <span style={{ marginLeft: 8, fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)' }}>{new Date(order.orderTime).toLocaleString()}</span>
+                  <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(15px, 3vw, 20px)' }}>#{order.id}</span>
+                  <span style={{ marginLeft: 8, fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)' }}>{new Date(order.orderTime).toLocaleString()}</span>
                 </div>
                 <span className={`badge ${tab === 'pending' ? 'badge-orange' : 'badge-purple'}`}>
                   {tab === 'pending' ? ' PENDING' : ' IN TRANSIT'}
@@ -75,7 +75,7 @@ export default function MyDeliveries() {
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 12, marginBottom: 14 }}>
                   <div style={{ padding: 12, background: 'var(--bg-tertiary)', borderRadius: 10 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-                      <div style={{ fontSize: 'calc(14px + 0.5vw)', fontWeight: 800, color: 'var(--text-muted)' }}> DELIVERY LOCATION</div>
+                      <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 800, color: 'var(--text-muted)' }}> DELIVERY LOCATION</div>
                       <a
                         href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(order.customerAddress || order.customerName)}`}
                         target="_blank"
@@ -84,7 +84,7 @@ export default function MyDeliveries() {
                           display: 'inline-flex', alignItems: 'center', gap: 4,
                           padding: '4px 10px', borderRadius: 8,
                           background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
-                          color: '#fff', fontSize: 'calc(14px + 0.5vw)', fontWeight: 700,
+                          color: '#fff', fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 700,
                           textDecoration: 'none', cursor: 'pointer',
                           boxShadow: '0 2px 8px rgba(59,130,246,0.3)',
                           transition: 'all 0.2s',
@@ -96,12 +96,12 @@ export default function MyDeliveries() {
                         Navigate
                       </a>
                     </div>
-                    <div style={{ fontWeight: 700, fontSize: 'calc(17px + 0.5vw)' }}>{order.customerName}</div>
-                    <div style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)' }}>{order.customerAddress}</div>
+                    <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)' }}>{order.customerName}</div>
+                    <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)' }}>{order.customerAddress}</div>
                   </div>
                   <div style={{ padding: 12, background: 'var(--bg-tertiary)', borderRadius: 10 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-                      <div style={{ fontSize: 'calc(14px + 0.5vw)', fontWeight: 800, color: 'var(--text-muted)' }}> PICKUP FROM</div>
+                      <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 800, color: 'var(--text-muted)' }}> PICKUP FROM</div>
                       <a
                         href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(order.restaurantAddress || 'Koramangala')}`}
                         target="_blank"
@@ -110,7 +110,7 @@ export default function MyDeliveries() {
                           display: 'inline-flex', alignItems: 'center', gap: 4,
                           padding: '4px 10px', borderRadius: 8,
                           background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                          color: '#fff', fontSize: 'calc(14px + 0.5vw)', fontWeight: 700,
+                          color: '#fff', fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 700,
                           textDecoration: 'none', cursor: 'pointer',
                           boxShadow: '0 2px 8px rgba(34,197,94,0.3)',
                           transition: 'all 0.2s',
@@ -122,17 +122,17 @@ export default function MyDeliveries() {
                         Navigate
                       </a>
                     </div>
-                    <div style={{ fontWeight: 700, fontSize: 'calc(17px + 0.5vw)' }}>{order.restaurantName || 'FitBites Kitchen'}</div>
-                    <div style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)' }}>{order.restaurantAddress || 'Koramangala'}</div>
+                    <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)' }}>{order.restaurantName || 'FitBites Kitchen'}</div>
+                    <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)' }}>{order.restaurantAddress || 'Koramangala'}</div>
                   </div>
                 </div>
 
                 {/* Items */}
                 <div style={{ marginBottom: 14 }}>
-                  <div style={{ fontSize: 'calc(14px + 0.5vw)', fontWeight: 800, color: 'var(--text-muted)', marginBottom: 6 }}>️ ORDER ITEMS</div>
+                  <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 800, color: 'var(--text-muted)', marginBottom: 6 }}> ORDER ITEMS</div>
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                     {order.items.map((item, i) => (
-                      <span key={i} style={{ padding: '4px 10px', background: 'var(--bg-tertiary)', borderRadius: 8, fontSize: 'calc(16px + 0.5vw)', fontWeight: 600 }}>
+                      <span key={i} style={{ padding: '4px 10px', background: 'var(--bg-tertiary)', borderRadius: 8, fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 600 }}>
                         {item.name} × {item.qty}
                       </span>
                     ))}
@@ -142,25 +142,25 @@ export default function MyDeliveries() {
                 {/* Payment Info */}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 8, marginBottom: 14 }}>
                   <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 8, textAlign: 'center' }}>
-                    <div style={{ fontSize: 'calc(14px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 700 }}> TOTAL</div>
-                    <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'calc(22px + 0.5vw)', color: 'var(--accent-green)' }}>₹{order.total}</div>
+                    <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', color: 'var(--text-muted)', fontWeight: 700 }}> TOTAL</div>
+                    <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(16px, 3vw, 22px)', color: 'var(--accent-green)' }}>₹{order.total}</div>
                   </div>
                   <div style={{ padding: 10, background: 'var(--bg-tertiary)', borderRadius: 8, textAlign: 'center' }}>
-                    <div style={{ fontSize: 'calc(14px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 700 }}> PAYMENT</div>
-                    <div style={{ fontWeight: 800, fontSize: 'calc(18px + 0.5vw)' }}>{order.paymentMethod}</div>
-                    <div style={{ fontSize: 'calc(14px + 0.5vw)', color: order.paymentStatus === 'Paid' ? 'var(--accent-green)' : 'var(--accent-orange)' }}>{order.paymentStatus}</div>
+                    <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', color: 'var(--text-muted)', fontWeight: 700 }}> PAYMENT</div>
+                    <div style={{ fontWeight: 800, fontSize: 'clamp(13px, 3vw, 18px)' }}>{order.paymentMethod}</div>
+                    <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', color: order.paymentStatus === 'Paid' ? 'var(--accent-green)' : 'var(--accent-orange)' }}>{order.paymentStatus}</div>
                   </div>
                   <div style={{ padding: 10, background: 'rgba(249,115,22,0.06)', borderRadius: 8, textAlign: 'center' }}>
-                    <div style={{ fontSize: 'calc(14px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 700 }}>️ EARN</div>
-                    <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'calc(22px + 0.5vw)', color: 'var(--accent-orange)' }}>₹85</div>
+                    <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', color: 'var(--text-muted)', fontWeight: 700 }}> EARN</div>
+                    <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(16px, 3vw, 22px)', color: 'var(--accent-orange)' }}>₹85</div>
                   </div>
                 </div>
 
                 {/* Scheduled dates */}
                 {order.scheduledDates?.length > 0 && (
-                  <div style={{ padding: '6px 12px', background: 'rgba(34,197,94,0.06)', borderRadius: 8, marginBottom: 14, fontSize: 'calc(16px + 0.5vw)' }}>
+                  <div style={{ padding: '6px 12px', background: 'rgba(34,197,94,0.06)', borderRadius: 8, marginBottom: 14, fontSize: 'clamp(12px, 3vw, 16px)' }}>
                      Scheduled: {order.scheduledDates.map(d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })).join(', ')}
-                    {order.timing && <span> • {order.timing === 'morning' ? '' : order.timing === 'noon' ? '️' : ''} {order.timing}</span>}
+                    {order.timing && <span> • {order.timing === 'morning' ? '' : order.timing === 'noon' ? '' : ''} {order.timing}</span>}
                   </div>
                 )}
 
@@ -175,7 +175,7 @@ export default function MyDeliveries() {
                 {/* Active: OTP Verification */}
                 {tab === 'active' && (
                   <div>
-                    <div style={{ fontSize: 'calc(14px + 0.5vw)', fontWeight: 800, color: 'var(--text-muted)', marginBottom: 6 }}> VERIFY DELIVERY OTP</div>
+                    <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 800, color: 'var(--text-muted)', marginBottom: 6 }}> VERIFY DELIVERY OTP</div>
                     <div style={{ display: 'flex', gap: 8 }}>
                       <input
                         className="form-input"
@@ -183,13 +183,13 @@ export default function MyDeliveries() {
                         value={otpInput[order.id] || ''}
                         onChange={e => setOtpInput(prev => ({ ...prev, [order.id]: e.target.value }))}
                         maxLength={4}
-                        style={{ flex: 1, textAlign: 'center', fontSize: 'calc(22px + 0.5vw)', fontWeight: 900, letterSpacing: 8, fontFamily: 'Outfit' }}
+                        style={{ flex: 1, textAlign: 'center', fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 900, letterSpacing: 8, fontFamily: 'Outfit' }}
                       />
                       <button className="btn btn-success" onClick={() => handleDeliver(order)} disabled={!otpInput[order.id] || otpInput[order.id].length < 4}>
                          Deliver
                       </button>
                     </div>
-                    <p style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', marginTop: 4 }}>Ask customer for OTP to complete delivery</p>
+                    <p style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)', marginTop: 4 }}>Ask customer for OTP to complete delivery</p>
                   </div>
                 )}
               </div>

@@ -91,7 +91,7 @@ export default function ManageTrainers() {
   };
 
   const upd = (k,v) => setForm(p=>({...p,[k]:v}));
-  const inp = {width:'100%',padding:'10px 14px',background:'var(--bg-input)',border:'1px solid var(--border)',borderRadius:12,color:'var(--text-primary)',fontSize: 'calc(18px + 0.5vw)'};
+  const inp = {width:'100%',padding:'10px 14px',background:'var(--bg-input)',border:'1px solid var(--border)',borderRadius:12,color:'var(--text-primary)',fontSize: 'clamp(13px, 3vw, 18px)'};
   const save = () => { if(!form.name||!form.email) return; const avatar = form.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2); addUser({...form,avatar,role:'trainer',gymId:user.gymId,ownerId:user.id,password:'12345678',profileComplete:false}); showToast('Trainer added!'); setShowAdd(false); setForm({name:'',email:'',phone:'',specialization:''}); };
 
   return (
@@ -100,9 +100,9 @@ export default function ManageTrainers() {
       {confirm && (
         <div className="modal-overlay" style={{ zIndex: 1100 }} onClick={() => setConfirm(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 420, textAlign: 'center' }}>
-            <div style={{ fontSize: 'calc(52px + 0.5vw)', marginBottom: 12 }}><AlertTriangle size={48} color="#f59e0b" /></div>
-            <h3 style={{ fontSize: 'calc(22px + 0.5vw)', fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
-            <p style={{ fontSize: 'calc(17px + 0.5vw)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
+            <div style={{ fontSize: 'clamp(39px, 3vw, 52px)', marginBottom: 12 }}><AlertTriangle size={48} color="#f59e0b" /></div>
+            <h3 style={{ fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
+            <p style={{ fontSize: 'clamp(12px, 3vw, 17px)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
               <button className="btn btn-outline" onClick={() => setConfirm(null)}>Cancel</button>
               <button className="btn" style={{ background: confirm.color, color: '#fff', border: 'none', padding: '10px 24px', borderRadius: 10, fontWeight: 700, cursor: 'pointer' }} onClick={confirm.action}>Confirm</button>
@@ -117,7 +117,7 @@ export default function ManageTrainers() {
           onClick={() => setTab('trainers')}
           style={{
             padding: '10px 20px', borderRadius: 12, border: 'none', cursor: 'pointer',
-            fontWeight: 700, fontSize: 'calc(18px + 0.5vw)', fontFamily: 'Outfit', transition: 'all 0.3s',
+            fontWeight: 700, fontSize: 'clamp(13px, 3vw, 18px)', fontFamily: 'Outfit', transition: 'all 0.3s',
             background: tab === 'trainers' ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'var(--bg-tertiary)',
             color: tab === 'trainers' ? '#fff' : 'var(--text-secondary)',
           }}
@@ -128,7 +128,7 @@ export default function ManageTrainers() {
           onClick={() => setTab('requests')}
           style={{
             padding: '10px 20px', borderRadius: 12, border: 'none', cursor: 'pointer',
-            fontWeight: 700, fontSize: 'calc(18px + 0.5vw)', fontFamily: 'Outfit', transition: 'all 0.3s',
+            fontWeight: 700, fontSize: 'clamp(13px, 3vw, 18px)', fontFamily: 'Outfit', transition: 'all 0.3s',
             background: tab === 'requests' ? 'linear-gradient(135deg, #f97316, #fb923c)' : 'var(--bg-tertiary)',
             color: tab === 'requests' ? '#fff' : 'var(--text-secondary)',
             position: 'relative',
@@ -139,7 +139,7 @@ export default function ManageTrainers() {
             <span style={{
               position: 'absolute', top: -6, right: -6,
               width: 22, height: 22, borderRadius: '50%',
-              background: '#ef4444', color: '#fff', fontSize: 'calc(15px + 0.5vw)', fontWeight: 800,
+              background: '#ef4444', color: '#fff', fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 800,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               boxShadow: '0 2px 8px rgba(239,68,68,0.4)',
               animation: 'pulse 2s infinite',
@@ -189,18 +189,18 @@ export default function ManageTrainers() {
                           width: 36, height: 36, borderRadius: '50%',
                           background: 'linear-gradient(135deg, #f97316, #fb923c)',
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          fontSize: 'calc(17px + 0.5vw)', fontWeight: 800, color: '#fff'
+                          fontSize: 'clamp(12px, 3vw, 17px)', fontWeight: 800, color: '#fff'
                         }}>{client.avatar}</div>
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontWeight: 700, fontSize: 'calc(17px + 0.5vw)' }}>{client.name}</div>
-                          <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)' }}>
+                          <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)' }}>{client.name}</div>
+                          <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)' }}>
                             {currentTrainer ? `Trainer: ${currentTrainer.name}` : 'Direct Client'}
                           </div>
                         </div>
                         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
                           {isAssignedToThis ? (<>
-                            <span style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--accent-green)', fontWeight: 700 }}>Assigned </span>
-                            <button className="btn btn-outline btn-sm" style={{ color: '#ef4444', fontSize: 'calc(14px + 0.5vw)', padding: '4px 8px' }} onClick={() => setConfirm({
+                            <span style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--accent-green)', fontWeight: 700 }}>Assigned </span>
+                            <button className="btn btn-outline btn-sm" style={{ color: '#ef4444', fontSize: 'clamp(12px, 3vw, 14px)', padding: '4px 8px' }} onClick={() => setConfirm({
                               title: ' Remove Client',
                               msg: `Remove "${client.name}" from ${activeTrainer.name}? They will become a direct client with no trainer assigned.`,
                               color: '#ef4444',
@@ -231,8 +231,8 @@ export default function ManageTrainers() {
           {trainers.map(t=>{const tc=getTrainerClients(t.id); return (
             <div key={t.id} className="card" style={{animation:'fadeInUp 0.4s ease'}}>
               <div style={{display:'flex',gap:12,alignItems:'center',marginBottom:12}}>
-                <div style={{width:48,height:48,borderRadius:'50%',background:'linear-gradient(135deg,#4f46e5,#7c3aed)',display:'flex',alignItems:'center',justifyContent:'center',fontSize: 'calc(20px + 0.5vw)',fontWeight:800,color:'#fff'}}>{t.avatar}</div>
-                <div><div style={{fontWeight:700,fontSize: 'calc(19px + 0.5vw)'}}>{t.name}</div><div style={{fontSize: 'calc(15px + 0.5vw)',color:'var(--text-muted)'}}>{t.specialization||'General'}</div></div>
+                <div style={{width:48,height:48,borderRadius:'50%',background:'linear-gradient(135deg,#4f46e5,#7c3aed)',display:'flex',alignItems:'center',justifyContent:'center',fontSize: 'clamp(15px, 3vw, 20px)',fontWeight:800,color:'#fff'}}>{t.avatar}</div>
+                <div><div style={{fontWeight:700,fontSize: 'clamp(14px, 3vw, 19px)'}}>{t.name}</div><div style={{fontSize: 'clamp(12px, 3vw, 15px)',color:'var(--text-muted)'}}>{t.specialization||'General'}</div></div>
               </div>
               <div style={{display:'flex',gap:8,marginBottom:12}}>
                 <span className="badge badge-blue"><Users size={12} style={{marginRight:2}} /> {tc.length} clients</span>
@@ -245,9 +245,9 @@ export default function ManageTrainers() {
 
         {trainers.length === 0 && (
           <div className="card" style={{ textAlign: 'center', padding: 40 }}>
-            <div style={{ fontSize: 'calc(52px + 0.5vw)', marginBottom: 12 }}><Dumbbell size={48} color="#8b5cf6" /></div>
+            <div style={{ fontSize: 'clamp(39px, 3vw, 52px)', marginBottom: 12 }}><Dumbbell size={48} color="#8b5cf6" /></div>
             <h3 style={{ fontWeight: 800, marginBottom: 8 }}>No Trainers Yet</h3>
-            <p style={{ color: 'var(--text-muted)', fontSize: 'calc(17px + 0.5vw)' }}>Add trainers or wait for join requests from trainers.</p>
+            <p style={{ color: 'var(--text-muted)', fontSize: 'clamp(12px, 3vw, 17px)' }}>Add trainers or wait for join requests from trainers.</p>
           </div>
         )}
       </>)}
@@ -257,11 +257,11 @@ export default function ManageTrainers() {
         <div style={{ maxWidth: 700, margin: '0 auto' }}>
           {/* Trainer Join Requests Section */}
           <div style={{ marginBottom: 28 }}>
-            <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(22px + 0.5vw)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(16px, 3vw, 22px)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
               <Dumbbell size={16} style={{marginRight:4}} /> Trainer Join Requests
               {pendingGymRequests.length > 0 && (
                 <span style={{
-                  padding: '2px 10px', borderRadius: 20, fontSize: 'calc(16px + 0.5vw)', fontWeight: 700,
+                  padding: '2px 10px', borderRadius: 20, fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 700,
                   background: 'rgba(249,115,22,0.1)', color: '#f97316',
                 }}>{pendingGymRequests.length} pending</span>
               )}
@@ -269,8 +269,8 @@ export default function ManageTrainers() {
 
             {pendingGymRequests.length === 0 && processedGymRequests.length === 0 ? (
               <div className="card" style={{ textAlign: 'center', padding: 32 }}>
-                <div style={{ fontSize: 'calc(40px + 0.5vw)', marginBottom: 8 }}><Inbox size={36} color="var(--text-muted)" /></div>
-                <p style={{ color: 'var(--text-muted)', fontSize: 'calc(17px + 0.5vw)' }}>No trainer join requests yet. Trainers can find your gym and send requests to join.</p>
+                <div style={{ fontSize: 'clamp(30px, 3vw, 40px)', marginBottom: 8 }}><Inbox size={36} color="var(--text-muted)" /></div>
+                <p style={{ color: 'var(--text-muted)', fontSize: 'clamp(12px, 3vw, 17px)' }}>No trainer join requests yet. Trainers can find your gym and send requests to join.</p>
               </div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -285,13 +285,13 @@ export default function ManageTrainers() {
                         width: 50, height: 50, borderRadius: 14, flexShrink: 0,
                         background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: 'calc(21px + 0.5vw)', fontWeight: 800, color: '#fff',
+                        fontSize: 'clamp(15px, 3vw, 21px)', fontWeight: 800, color: '#fff',
                         boxShadow: '0 4px 12px rgba(99,102,241,0.3)',
                       }}>{req.trainerAvatar}</div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 800, fontSize: 'calc(19px + 0.5vw)' }}>{req.trainerName}</div>
-                        <div style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)' }}>{req.trainerSpecialization || 'General Trainer'}</div>
-                        <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', marginTop: 2 }}>
+                        <div style={{ fontWeight: 800, fontSize: 'clamp(14px, 3vw, 19px)' }}>{req.trainerName}</div>
+                        <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)' }}>{req.trainerSpecialization || 'General Trainer'}</div>
+                        <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)', marginTop: 2 }}>
                           Requested {new Date(req.requestedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                         </div>
                       </div>
@@ -301,7 +301,7 @@ export default function ManageTrainers() {
                           style={{
                             padding: '8px 18px', borderRadius: 10, border: 'none', cursor: 'pointer',
                             background: 'linear-gradient(135deg, #22c55e, #16a34a)', color: '#fff',
-                            fontWeight: 700, fontSize: 'calc(17px + 0.5vw)', transition: 'all 0.2s',
+                            fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)', transition: 'all 0.2s',
                             boxShadow: '0 3px 10px rgba(34,197,94,0.3)',
                           }}
                           onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-1px)'}
@@ -312,7 +312,7 @@ export default function ManageTrainers() {
                           style={{
                             padding: '8px 18px', borderRadius: 10, border: '2px solid #ef4444',
                             background: 'transparent', color: '#ef4444', cursor: 'pointer',
-                            fontWeight: 700, fontSize: 'calc(17px + 0.5vw)', transition: 'all 0.2s',
+                            fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)', transition: 'all 0.2s',
                           }}
                           onMouseEnter={e => { e.currentTarget.style.background = '#ef4444'; e.currentTarget.style.color = '#fff'; }}
                           onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#ef4444'; }}
@@ -330,13 +330,13 @@ export default function ManageTrainers() {
                         width: 40, height: 40, borderRadius: 10, flexShrink: 0,
                         background: req.status === 'accepted' ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'linear-gradient(135deg, #ef4444, #dc2626)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: 'calc(18px + 0.5vw)', fontWeight: 800, color: '#fff',
+                        fontSize: 'clamp(13px, 3vw, 18px)', fontWeight: 800, color: '#fff',
                       }}>{req.trainerAvatar}</div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 700, fontSize: 'calc(18px + 0.5vw)' }}>{req.trainerName}</div>
-                        <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)' }}>{req.trainerSpecialization || 'Trainer'}</div>
+                        <div style={{ fontWeight: 700, fontSize: 'clamp(13px, 3vw, 18px)' }}>{req.trainerName}</div>
+                        <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)' }}>{req.trainerSpecialization || 'Trainer'}</div>
                       </div>
-                      <span className={`badge ${req.status === 'accepted' ? 'badge-green' : 'badge-red'}`} style={{ fontSize: 'calc(15px + 0.5vw)' }}>
+                      <span className={`badge ${req.status === 'accepted' ? 'badge-green' : 'badge-red'}`} style={{ fontSize: 'clamp(12px, 3vw, 15px)' }}>
                         {req.status === 'accepted' ? ' Accepted' : ' Rejected'}
                       </span>
                     </div>
@@ -348,11 +348,11 @@ export default function ManageTrainers() {
 
           {/* Client-Trainer Requests Section */}
           <div>
-            <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(22px + 0.5vw)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(16px, 3vw, 22px)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
               <Users size={16} style={{marginRight:4}} /> Client Trainer Requests
               {pendingClientRequests.length > 0 && (
                 <span style={{
-                  padding: '2px 10px', borderRadius: 20, fontSize: 'calc(16px + 0.5vw)', fontWeight: 700,
+                  padding: '2px 10px', borderRadius: 20, fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 700,
                   background: 'rgba(99,102,241,0.1)', color: '#6366f1',
                 }}>{pendingClientRequests.length} pending</span>
               )}
@@ -360,8 +360,8 @@ export default function ManageTrainers() {
 
             {pendingClientRequests.length === 0 && processedClientRequests.length === 0 ? (
               <div className="card" style={{ textAlign: 'center', padding: 32 }}>
-                <div style={{ fontSize: 'calc(40px + 0.5vw)', marginBottom: 8 }}><Inbox size={36} color="var(--text-muted)" /></div>
-                <p style={{ color: 'var(--text-muted)', fontSize: 'calc(17px + 0.5vw)' }}>No client trainer requests yet. Clients can request trainers from the "Join Gym" page.</p>
+                <div style={{ fontSize: 'clamp(30px, 3vw, 40px)', marginBottom: 8 }}><Inbox size={36} color="var(--text-muted)" /></div>
+                <p style={{ color: 'var(--text-muted)', fontSize: 'clamp(12px, 3vw, 17px)' }}>No client trainer requests yet. Clients can request trainers from the "Join Gym" page.</p>
               </div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -377,14 +377,14 @@ export default function ManageTrainers() {
                           width: 50, height: 50, borderRadius: 14, flexShrink: 0,
                           background: 'linear-gradient(135deg, #f97316, #fb923c)',
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          fontSize: 'calc(21px + 0.5vw)', fontWeight: 800, color: '#fff',
+                          fontSize: 'clamp(15px, 3vw, 21px)', fontWeight: 800, color: '#fff',
                         }}>{req.clientAvatar}</div>
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontWeight: 800, fontSize: 'calc(19px + 0.5vw)' }}>{req.clientName}</div>
-                          <div style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)' }}>
+                          <div style={{ fontWeight: 800, fontSize: 'clamp(14px, 3vw, 19px)' }}>{req.clientName}</div>
+                          <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)' }}>
                             Wants trainer: <strong>{trainer?.name || req.trainerName}</strong>
                           </div>
-                          <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', marginTop: 2 }}>
+                          <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)', marginTop: 2 }}>
                             Goal: {req.clientGoal} • {new Date(req.requestedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
                           </div>
                         </div>
@@ -394,7 +394,7 @@ export default function ManageTrainers() {
                             style={{
                               padding: '8px 18px', borderRadius: 10, border: 'none', cursor: 'pointer',
                               background: 'linear-gradient(135deg, #22c55e, #16a34a)', color: '#fff',
-                              fontWeight: 700, fontSize: 'calc(17px + 0.5vw)', transition: 'all 0.2s',
+                              fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)', transition: 'all 0.2s',
                               boxShadow: '0 3px 10px rgba(34,197,94,0.3)',
                             }}
                             onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-1px)'}
@@ -405,7 +405,7 @@ export default function ManageTrainers() {
                             style={{
                               padding: '8px 18px', borderRadius: 10, border: '2px solid #ef4444',
                               background: 'transparent', color: '#ef4444', cursor: 'pointer',
-                              fontWeight: 700, fontSize: 'calc(17px + 0.5vw)', transition: 'all 0.2s',
+                              fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)', transition: 'all 0.2s',
                             }}
                             onMouseEnter={e => { e.currentTarget.style.background = '#ef4444'; e.currentTarget.style.color = '#fff'; }}
                             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#ef4444'; }}
@@ -423,13 +423,13 @@ export default function ManageTrainers() {
                         width: 40, height: 40, borderRadius: 10, flexShrink: 0,
                         background: req.status === 'accepted' ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'linear-gradient(135deg, #ef4444, #dc2626)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: 'calc(18px + 0.5vw)', fontWeight: 800, color: '#fff',
+                        fontSize: 'clamp(13px, 3vw, 18px)', fontWeight: 800, color: '#fff',
                       }}>{req.clientAvatar}</div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 700, fontSize: 'calc(18px + 0.5vw)' }}>{req.clientName}</div>
-                        <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)' }}>Requested: {req.trainerName}</div>
+                        <div style={{ fontWeight: 700, fontSize: 'clamp(13px, 3vw, 18px)' }}>{req.clientName}</div>
+                        <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)' }}>Requested: {req.trainerName}</div>
                       </div>
-                      <span className={`badge ${req.status === 'accepted' ? 'badge-green' : 'badge-red'}`} style={{ fontSize: 'calc(15px + 0.5vw)' }}>
+                      <span className={`badge ${req.status === 'accepted' ? 'badge-green' : 'badge-red'}`} style={{ fontSize: 'clamp(12px, 3vw, 15px)' }}>
                         {req.status === 'accepted' ? ' Accepted' : ' Rejected'}
                       </span>
                     </div>

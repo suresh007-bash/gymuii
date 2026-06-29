@@ -25,8 +25,8 @@ export default function ClientSettings() {
   const Row = ({ icon, label, desc, children }) => (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 0', borderBottom: '1px solid var(--border)' }}>
       <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-        <span style={{ fontSize: 'calc(24px + 0.5vw)' }}>{icon}</span>
-        <div><div style={{ fontWeight: 700, fontSize: 'calc(18px + 0.5vw)' }}>{label}</div>{desc && <div style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)' }}>{desc}</div>}</div>
+        <span style={{ fontSize: 'clamp(18px, 3vw, 24px)' }}>{icon}</span>
+        <div><div style={{ fontWeight: 700, fontSize: 'clamp(13px, 3vw, 18px)' }}>{label}</div>{desc && <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)' }}>{desc}</div>}</div>
       </div>
       {children}
     </div>
@@ -44,11 +44,11 @@ export default function ClientSettings() {
 
       {/* Meal Reminders */}
       <div className="card" style={{ marginBottom: 20 }}>
-        <div className="card-header"><h3 className="card-title">⏰ Meal Reminder Times</h3></div>
+        <div className="card-header"><h3 className="card-title"> Meal Reminder Times</h3></div>
         <Row icon="" label="Morning" desc="Breakfast reminder">
           <input type="time" value={settings.morningTime} onChange={e => upd('morningTime', e.target.value)} style={{ padding: '6px 10px', borderRadius: 8, border: '1px solid var(--border)', background: 'var(--bg-input)', color: 'var(--text-primary)' }} />
         </Row>
-        <Row icon="️" label="Noon" desc="Lunch reminder">
+        <Row icon="" label="Noon" desc="Lunch reminder">
           <input type="time" value={settings.noonTime} onChange={e => upd('noonTime', e.target.value)} style={{ padding: '6px 10px', borderRadius: 8, border: '1px solid var(--border)', background: 'var(--bg-input)', color: 'var(--text-primary)' }} />
         </Row>
         <Row icon="" label="Evening" desc="Dinner reminder">
@@ -58,7 +58,7 @@ export default function ClientSettings() {
 
       {/* Preferences */}
       <div className="card" style={{ marginBottom: 20 }}>
-        <div className="card-header"><h3 className="card-title">️ {t('preferences')}</h3></div>
+        <div className="card-header"><h3 className="card-title"> {t('preferences')}</h3></div>
         <Row icon="" label={t('language')} desc={t('appLanguage')}>
           <select value={lang} onChange={e => { setLang(e.target.value); showToast(`Language changed to ${LANGUAGES.find(l => l.code === e.target.value)?.label || e.target.value}`); }} style={{ padding: '6px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'var(--bg-input)', color: 'var(--text-primary)' }}>
             {LANGUAGES.map(l => <option key={l.code} value={l.code}>{l.flag} {l.label}</option>)}
@@ -68,11 +68,11 @@ export default function ClientSettings() {
 
       {/* Data Management */}
       <div className="card">
-        <div className="card-header"><h3 className="card-title">️ Data Management</h3></div>
-        <Row icon="️" label="Clear Order History" desc="Remove all past order data">
+        <div className="card-header"><h3 className="card-title"> Data Management</h3></div>
+        <Row icon="" label="Clear Order History" desc="Remove all past order data">
           <button className="btn btn-outline btn-sm" style={{ color: 'var(--accent-red)' }} onClick={() => { localStorage.removeItem('synnoviq_orders'); showToast('Order history cleared', 'warning'); }}>Clear</button>
         </Row>
-        <Row icon="️" label="Clear Favorites" desc="Remove all saved favorites">
+        <Row icon="" label="Clear Favorites" desc="Remove all saved favorites">
           <button className="btn btn-outline btn-sm" style={{ color: 'var(--accent-red)' }} onClick={() => { localStorage.removeItem('synnoviq_favorites_' + user?.id); showToast('Favorites cleared', 'warning'); }}>Clear</button>
         </Row>
         <Row icon="" label="Reset All Data" desc="Factory reset all app data">

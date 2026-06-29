@@ -74,9 +74,9 @@ export default function MyOrders() {
               <h3 className="modal-title"><Icon icon={MapPin} size={16} style={{marginRight:6}} /> Edit Delivery Address</h3>
               <button className="modal-close" onClick={() => setEditAddrOrder(null)}></button>
             </div>
-            <p style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 8 }}>Order #{editAddrOrder.id}</p>
+            <p style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', marginBottom: 8 }}>Order #{editAddrOrder.id}</p>
             <textarea className="form-input" value={addrText} onChange={e => setAddrText(e.target.value)}
-              rows={3} placeholder="Enter delivery address..." style={{ resize: 'vertical', fontSize: 'calc(18px + 0.5vw)' }} />
+              rows={3} placeholder="Enter delivery address..." style={{ resize: 'vertical', fontSize: 'clamp(13px, 3vw, 18px)' }} />
             <div className="modal-footer" style={{ marginTop: 12 }}>
               <button className="btn btn-outline" onClick={() => setEditAddrOrder(null)}>Cancel</button>
               <button className="btn btn-success" onClick={handleSaveAddress}><Icon icon={CheckCircle2} size={14} style={{marginRight:4}} /> Save Address</button>
@@ -101,17 +101,17 @@ export default function MyOrders() {
         {/* Date filter */}
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
           <input type="date" className="form-input" value={filterDate} onChange={e => setFilterDate(e.target.value)}
-            style={{ padding: '6px 10px', fontSize: 'calc(16px + 0.5vw)', width: 140 }} />
-          {filterDate && <button className="btn btn-outline btn-sm" onClick={() => setFilterDate('')} style={{ fontSize: 'calc(14px + 0.5vw)' }}> Clear</button>}
+            style={{ padding: '6px 10px', fontSize: 'clamp(12px, 3vw, 16px)', width: 140 }} />
+          {filterDate && <button className="btn btn-outline btn-sm" onClick={() => setFilterDate('')} style={{ fontSize: 'clamp(12px, 3vw, 14px)' }}> Clear</button>}
         </div>
       </div>
 
       {/* Orders */}
       {filtered.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 60 }}>
-          <div style={{ fontSize: 'calc(52px + 0.5vw)', marginBottom: 12 }}><Package size={48} color="var(--text-muted)" /></div>
-          <p style={{ color: 'var(--text-muted)', fontSize: 'calc(18px + 0.5vw)' }}>No {tab === 'all' ? '' : tab} orders found</p>
-          {filterDate && <p style={{ color: 'var(--text-muted)', fontSize: 'calc(16px + 0.5vw)' }}>Try clearing the date filter</p>}
+          <div style={{ fontSize: 'clamp(39px, 3vw, 52px)', marginBottom: 12 }}><Package size={48} color="var(--text-muted)" /></div>
+          <p style={{ color: 'var(--text-muted)', fontSize: 'clamp(13px, 3vw, 18px)' }}>No {tab === 'all' ? '' : tab} orders found</p>
+          {filterDate && <p style={{ color: 'var(--text-muted)', fontSize: 'clamp(12px, 3vw, 16px)' }}>Try clearing the date filter</p>}
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -127,30 +127,30 @@ export default function MyOrders() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10, cursor: 'pointer' }}
                   onClick={() => setExpandedOrder(isExpanded ? null : order.id)}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <div style={{ width: 40, height: 40, borderRadius: 10, background: `${statusColor}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'calc(22px + 0.5vw)' }}>
+                    <div style={{ width: 40, height: 40, borderRadius: 10, background: `${statusColor}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(16px, 3vw, 22px)' }}>
                       {order.status === 'pending' ? <ClipboardList size={18} /> : order.status === 'preparing' ? <ChefHat size={18} /> : order.status === 'ready' ? <CheckCircle2 size={18} /> : order.status === 'in_transit' ? <Car size={18} /> : order.status === 'delivered' ? <Sparkles size={18} /> : <XCircle size={18} />}
                     </div>
                     <div>
-                      <div style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(19px + 0.5vw)' }}>
+                      <div style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 3vw, 19px)' }}>
                         #{order.id}
-                        {hasDates && <span style={{ fontSize: 'calc(15px + 0.5vw)', fontWeight: 600, marginLeft: 6, color: '#8b5cf6' }}><Calendar size={11} style={{marginRight:3}} /> {order.scheduledDates.length} dates</span>}
+                        {hasDates && <span style={{ fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 600, marginLeft: 6, color: '#8b5cf6' }}><Calendar size={11} style={{marginRight:3}} /> {order.scheduledDates.length} dates</span>}
                       </div>
-                      <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)' }}>
+                      <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)' }}>
                         {new Date(order.orderTime).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                         {order.items && <span> • {order.items.length} items</span>}
                       </div>
                     </div>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'calc(20px + 0.5vw)', color: 'var(--accent-green)' }}>₹{order.total}</span>
+                    <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(15px, 3vw, 20px)', color: 'var(--accent-green)' }}>₹{order.total}</span>
                     <span className={`badge ${statusBadge[order.status] || 'badge-blue'}`}>{order.status.replace('_', ' ').toUpperCase()}</span>
-                    <span style={{ fontSize: 'calc(18px + 0.5vw)', color: 'var(--text-muted)', transition: 'transform 0.2s', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0)' }}>▼</span>
+                    <span style={{ fontSize: 'clamp(13px, 3vw, 18px)', color: 'var(--text-muted)', transition: 'transform 0.2s', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0)' }}>▼</span>
                   </div>
                 </div>
 
                 {/* Status Message */}
                 {['pending', 'preparing', 'ready', 'in_transit', 'driver_pending'].includes(order.status) && (
-                  <div style={{ padding: '8px 12px', background: `${statusColor}08`, borderRadius: 8, marginBottom: 10, fontSize: 'calc(16px + 0.5vw)', fontWeight: 600, color: statusColor }}>
+                  <div style={{ padding: '8px 12px', background: `${statusColor}08`, borderRadius: 8, marginBottom: 10, fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 600, color: statusColor }}>
                     {order.status === 'pending' && <><ClipboardList size={12} style={{marginRight:4}} /> Waiting for kitchen confirmation</>}
                     {order.status === 'preparing' && <><ChefHat size={12} style={{marginRight:4}} /> Your food is being freshly prepared</>}
                     {order.status === 'ready' && <><CheckCircle2 size={12} style={{marginRight:4}} /> Food is ready! Waiting for delivery pickup</>}
@@ -172,13 +172,13 @@ export default function MyOrders() {
                           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 2 }}>
                             <div style={{
                               width: 38, height: 38, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                              fontSize: 'calc(20px + 0.5vw)', fontWeight: 800, flexShrink: 0, transition: 'all 0.3s',
+                              fontSize: 'clamp(15px, 3vw, 20px)', fontWeight: 800, flexShrink: 0, transition: 'all 0.3s',
                               background: done ? 'var(--accent-green)' : active ? statusColor : 'var(--bg-tertiary)',
                               color: upcoming ? 'var(--text-muted)' : '#fff',
                               boxShadow: active ? `0 0 0 4px ${statusColor}25` : 'none',
                             }}>{done ? '' : icons[i]}</div>
                             <span style={{
-                              fontSize: 'calc(13px + 0.5vw)', fontWeight: 800, marginTop: 4, textAlign: 'center', whiteSpace: 'nowrap',
+                              fontSize: 'clamp(12px, 3vw, 13px)', fontWeight: 800, marginTop: 4, textAlign: 'center', whiteSpace: 'nowrap',
                               color: done ? 'var(--accent-green)' : active ? statusColor : 'var(--text-muted)',
                             }}>{s}</span>
                           </div>
@@ -192,8 +192,8 @@ export default function MyOrders() {
                 {/* OTP */}
                 {order.otp && ['pending', 'preparing', 'ready', 'in_transit'].includes(order.status) && (
                   <div style={{ background: 'rgba(249,115,22,0.06)', border: '1px solid rgba(249,115,22,0.15)', borderRadius: 10, padding: '6px 12px', marginBottom: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: 'calc(15px + 0.5vw)', fontWeight: 600, color: 'var(--text-secondary)' }}><Lock size={11} style={{marginRight:4}} /> Delivery OTP</span>
-                    <span style={{ fontFamily: 'Outfit', fontSize: 'calc(22px + 0.5vw)', fontWeight: 900, color: 'var(--accent-orange)', letterSpacing: 4 }}>{order.otp}</span>
+                    <span style={{ fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 600, color: 'var(--text-secondary)' }}><Lock size={11} style={{marginRight:4}} /> Delivery OTP</span>
+                    <span style={{ fontFamily: 'Outfit', fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 900, color: 'var(--accent-orange)', letterSpacing: 4 }}>{order.otp}</span>
                   </div>
                 )}
 
@@ -203,18 +203,18 @@ export default function MyOrders() {
                     {/* Delivery Address */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: 'var(--bg-tertiary)', borderRadius: 8, marginBottom: 12 }}>
                       <div>
-                        <div style={{ fontSize: 'calc(14px + 0.5vw)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', display:'flex', alignItems:'center', gap:4 }}><MapPin size={10} /> Delivery Address</div>
-                        <div style={{ fontSize: 'calc(17px + 0.5vw)', fontWeight: 600, marginTop: 2 }}>{order.customerAddress || 'No address set'}</div>
+                        <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', display:'flex', alignItems:'center', gap:4 }}><MapPin size={10} /> Delivery Address</div>
+                        <div style={{ fontSize: 'clamp(12px, 3vw, 17px)', fontWeight: 600, marginTop: 2 }}>{order.customerAddress || 'No address set'}</div>
                       </div>
                       {isEditable(order) && (
-                        <button className="btn btn-outline btn-sm" style={{ fontSize: 'calc(14px + 0.5vw)', display:'flex', alignItems:'center', gap:3 }} onClick={() => { setEditAddrOrder(order); setAddrText(order.customerAddress || ''); }}><Edit size={10} /> Edit</button>
+                        <button className="btn btn-outline btn-sm" style={{ fontSize: 'clamp(12px, 3vw, 14px)', display:'flex', alignItems:'center', gap:3 }} onClick={() => { setEditAddrOrder(order); setAddrText(order.customerAddress || ''); }}><Edit size={10} /> Edit</button>
                       )}
                     </div>
 
                     {/* Date-wise breakdown for scheduled orders */}
                     {hasDates ? (
                       <div>
-                        <div style={{ fontSize: 'calc(16px + 0.5vw)', fontWeight: 800, marginBottom: 8, color: '#8b5cf6', display:'flex', alignItems:'center', gap:4 }}><Calendar size={12} /> Date-wise Order Breakdown</div>
+                        <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 800, marginBottom: 8, color: '#8b5cf6', display:'flex', alignItems:'center', gap:4 }}><Calendar size={12} /> Date-wise Order Breakdown</div>
                         {order.scheduledDates.sort().map(dateStr => {
                           const dateData = getDateItems(order, dateStr);
                           const isPast = new Date(dateStr) < new Date(new Date().toDateString());
@@ -227,11 +227,11 @@ export default function MyOrders() {
                             }}>
                               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                                  <span style={{ fontWeight: 800, fontSize: 'calc(17px + 0.5vw)' }}>{fmtDate(dateStr)}</span>
-                                  {isPast && <span className="badge badge-teal" style={{ fontSize: 'calc(13px + 0.5vw)' }}>PAST</span>}
+                                  <span style={{ fontWeight: 800, fontSize: 'clamp(12px, 3vw, 17px)' }}>{fmtDate(dateStr)}</span>
+                                  {isPast && <span className="badge badge-teal" style={{ fontSize: 'clamp(12px, 3vw, 13px)' }}>PAST</span>}
                                 </div>
                                 {!isPast && isEditable(order) && (
-                                  <button className="btn btn-outline btn-sm" style={{ color: 'var(--accent-red)', fontSize: 'calc(14px + 0.5vw)', display:'flex', alignItems:'center', gap:3 }}
+                                  <button className="btn btn-outline btn-sm" style={{ color: 'var(--accent-red)', fontSize: 'clamp(12px, 3vw, 14px)', display:'flex', alignItems:'center', gap:3 }}
                                     onClick={() => handleCancelDate(order.id, dateStr)}>
                                     <Trash2 size={10} /> Cancel Date
                                   </button>
@@ -242,12 +242,12 @@ export default function MyOrders() {
                               {dateData ? (
                                 dateData.map((slot, si) => (
                                   <div key={si} style={{ marginBottom: 4 }}>
-                                    <div style={{ fontSize: 'calc(14px + 0.5vw)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 2 }}>
+                                    <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 2 }}>
                                       {slot.label} • {slot.time ? new Date(`2000-01-01T${slot.time}`).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true }) : ''}
                                     </div>
                                     <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                                       {(slot.items || []).map((item, i) => (
-                                        <span key={i} style={{ fontSize: 'calc(15px + 0.5vw)', padding: '3px 8px', background: 'var(--bg-tertiary)', borderRadius: 6 }}>
+                                        <span key={i} style={{ fontSize: 'clamp(12px, 3vw, 15px)', padding: '3px 8px', background: 'var(--bg-tertiary)', borderRadius: 6 }}>
                                           {item.name} × {item.qty}
                                         </span>
                                       ))}
@@ -257,7 +257,7 @@ export default function MyOrders() {
                               ) : (
                                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                                   {(order.items || []).map((item, i) => (
-                                    <span key={i} style={{ fontSize: 'calc(15px + 0.5vw)', padding: '3px 8px', background: 'var(--bg-tertiary)', borderRadius: 6 }}>
+                                    <span key={i} style={{ fontSize: 'clamp(12px, 3vw, 15px)', padding: '3px 8px', background: 'var(--bg-tertiary)', borderRadius: 6 }}>
                                       {item.name} × {item.qty}
                                     </span>
                                   ))}
@@ -270,15 +270,15 @@ export default function MyOrders() {
                     ) : (
                       /* Regular order items */
                       <div style={{ marginBottom: 12 }}>
-                        <div style={{ fontSize: 'calc(16px + 0.5vw)', fontWeight: 800, marginBottom: 8, display:'flex', alignItems:'center', gap:4 }}><Utensils size={12} /> Items Ordered</div>
+                        <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 800, marginBottom: 8, display:'flex', alignItems:'center', gap:4 }}><Utensils size={12} /> Items Ordered</div>
                         {(order.items || []).map((item, i) => (
                           <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', borderBottom: '1px solid var(--border)' }}>
                             <div>
-                              <span style={{ fontWeight: 700, fontSize: 'calc(17px + 0.5vw)' }}>{item.name}</span>
-                              <span style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', marginLeft: 6 }}>× {item.qty}</span>
-                              {item.calories && <span style={{ fontSize: 'calc(14px + 0.5vw)', color: '#f97316', marginLeft: 6 }}><Flame size={10} style={{marginRight:2}} />{item.calories * item.qty}</span>}
+                              <span style={{ fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)' }}>{item.name}</span>
+                              <span style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)', marginLeft: 6 }}>× {item.qty}</span>
+                              {item.calories && <span style={{ fontSize: 'clamp(12px, 3vw, 14px)', color: '#f97316', marginLeft: 6 }}><Flame size={10} style={{marginRight:2}} />{item.calories * item.qty}</span>}
                             </div>
-                            <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(17px + 0.5vw)' }}>₹{item.price || (item.qty * (item.unitPrice || 0))}</span>
+                            <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(12px, 3vw, 17px)' }}>₹{item.price || (item.qty * (item.unitPrice || 0))}</span>
                           </div>
                         ))}
                       </div>
@@ -286,20 +286,20 @@ export default function MyOrders() {
 
                     {/* Payment & Price */}
                     <div style={{ padding: 12, background: 'var(--bg-tertiary)', borderRadius: 10, marginBottom: 10 }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'calc(16px + 0.5vw)', marginBottom: 4 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 3vw, 16px)', marginBottom: 4 }}>
                         <span style={{ color: 'var(--text-muted)' }}>Subtotal</span><span>₹{order.subtotal || order.total}</span>
                       </div>
-                      {order.deliveryFee > 0 && <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'calc(16px + 0.5vw)', marginBottom: 4 }}>
+                      {order.deliveryFee > 0 && <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 3vw, 16px)', marginBottom: 4 }}>
                         <span style={{ color: 'var(--text-muted)' }}>Delivery</span><span>₹{order.deliveryFee}</span>
                       </div>}
-                      {order.tip > 0 && <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'calc(16px + 0.5vw)', marginBottom: 4 }}>
+                      {order.tip > 0 && <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 3vw, 16px)', marginBottom: 4 }}>
                         <span style={{ color: 'var(--text-muted)' }}>Tip</span><span>₹{order.tip}</span>
                       </div>}
                       <hr style={{ border: 'none', borderTop: '1px solid var(--border)', margin: '6px 0' }} />
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'calc(20px + 0.5vw)', fontWeight: 900, fontFamily: 'Outfit' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(15px, 3vw, 20px)', fontWeight: 900, fontFamily: 'Outfit' }}>
                         <span>Total</span><span style={{ color: 'var(--accent-green)' }}>₹{order.total}</span>
                       </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', marginTop: 4 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)', marginTop: 4 }}>
                         <span>{order.paymentMethod === 'COD' ? <Banknote size={11} style={{marginRight:3}} /> : order.paymentMethod === 'UPI' ? <Smartphone size={11} style={{marginRight:3}} /> : <CreditCard size={11} style={{marginRight:3}} />} {order.paymentMethod}</span>
                         <span>{order.paymentStatus}</span>
                       </div>
@@ -307,7 +307,7 @@ export default function MyOrders() {
 
                     {/* Driver info */}
                     {order.driverName && (
-                      <div style={{ padding: '8px 12px', background: 'rgba(139,92,246,0.05)', borderRadius: 8, marginBottom: 10, fontSize: 'calc(16px + 0.5vw)' }}>
+                      <div style={{ padding: '8px 12px', background: 'rgba(139,92,246,0.05)', borderRadius: 8, marginBottom: 10, fontSize: 'clamp(12px, 3vw, 16px)' }}>
                         <Car size={12} style={{marginRight:4}} /> Driver: <strong>{order.driverName}</strong> • ETA: {order.eta}
                       </div>
                     )}
@@ -333,11 +333,11 @@ export default function MyOrders() {
                 {!isExpanded && (
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                     {(order.items || []).slice(0, 4).map((item, i) => (
-                      <span key={i} style={{ fontSize: 'calc(15px + 0.5vw)', padding: '3px 8px', background: 'var(--bg-tertiary)', borderRadius: 6 }}>
+                      <span key={i} style={{ fontSize: 'clamp(12px, 3vw, 15px)', padding: '3px 8px', background: 'var(--bg-tertiary)', borderRadius: 6 }}>
                         {item.name} × {item.qty}
                       </span>
                     ))}
-                    {(order.items || []).length > 4 && <span style={{ fontSize: 'calc(15px + 0.5vw)', padding: '3px 8px', color: 'var(--text-muted)' }}>+{order.items.length - 4} more</span>}
+                    {(order.items || []).length > 4 && <span style={{ fontSize: 'clamp(12px, 3vw, 15px)', padding: '3px 8px', color: 'var(--text-muted)' }}>+{order.items.length - 4} more</span>}
                   </div>
                 )}
               </div>

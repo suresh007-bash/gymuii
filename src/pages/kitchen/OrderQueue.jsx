@@ -82,7 +82,7 @@ export default function OrderQueue() {
       {/* Date Selection Header */}
       <div className="card" style={{ marginBottom: 20, padding: 16 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 12 }}>
-          <h4 style={{ margin: 0, fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(20px + 0.5vw)' }}> Select Preparation Date</h4>
+          <h4 style={{ margin: 0, fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(15px, 3vw, 20px)' }}> Select Preparation Date</h4>
           <input 
             type="date" 
             value={selectedDate} 
@@ -94,7 +94,7 @@ export default function OrderQueue() {
               background: 'var(--bg-input)', 
               color: 'var(--text-primary)',
               fontFamily: 'Outfit',
-              fontSize: 'calc(17px + 0.5vw)'
+              fontSize: 'clamp(12px, 3vw, 17px)'
             }}
           />
         </div>
@@ -118,10 +118,10 @@ export default function OrderQueue() {
                   transition: 'all 0.2s ease'
                 }}
               >
-                <div style={{ fontSize: 'calc(14px + 0.5vw)', fontWeight: 700, color: isSelected ? 'var(--accent-orange)' : 'var(--text-muted)', textTransform: 'uppercase' }}>
+                <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 700, color: isSelected ? 'var(--accent-orange)' : 'var(--text-muted)', textTransform: 'uppercase' }}>
                   {fmtDayName(day)}
                 </div>
-                <div style={{ fontSize: 'calc(22px + 0.5vw)', fontWeight: 900, color: isSelected ? 'var(--accent-orange)' : 'var(--text-primary)', marginTop: 2 }}>
+                <div style={{ fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 900, color: isSelected ? 'var(--accent-orange)' : 'var(--text-primary)', marginTop: 2 }}>
                   {fmtDayNum(day)}
                 </div>
               </div>
@@ -143,7 +143,7 @@ export default function OrderQueue() {
         {activeTab === 'pending' && (
         <div className="kds-column">
           <div className="kds-column-header" style={{ borderTop: '4px solid var(--accent-orange)' }}>
-            <span style={{ fontSize: 'calc(20px + 0.5vw)' }}></span>
+            <span style={{ fontSize: 'clamp(15px, 3vw, 20px)' }}></span>
             <span style={{ fontWeight: 800 }}>Order Queue ({pending.length})</span>
           </div>
           <div className="kds-column-content">
@@ -155,15 +155,15 @@ export default function OrderQueue() {
                   <div className="kds-card-header">
                     <div>
                       <span className="kds-card-id">#{o.id}</span>
-                      {isMorning(o) && <span className="badge badge-blue" style={{ marginLeft: 6, fontSize: 'calc(13px + 0.5vw)' }}>️ MORNING</span>}
+                      {isMorning(o) && <span className="badge badge-blue" style={{ marginLeft: 6, fontSize: 'clamp(12px, 3vw, 13px)' }}> MORNING</span>}
                     </div>
-                    <span style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)' }}>
+                    <span style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)' }}>
                       {o.timeSlot || new Date(o.orderTime).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
                   <div className="kds-card-body">
-                    <div style={{ fontWeight: 700, fontSize: 'calc(17px + 0.5vw)', marginBottom: 4 }}> {o.customerName}</div>
-                    <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 8 }}> {o.customerAddress}</div>
+                    <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)', marginBottom: 4 }}> {o.customerName}</div>
+                    <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)', marginBottom: 8 }}> {o.customerAddress}</div>
                     <div className="kds-items">
                       {o.items.map((item, i) => (
                         <div key={i} className="kds-item">
@@ -189,7 +189,7 @@ export default function OrderQueue() {
         {activeTab === 'preparing' && (
         <div className="kds-column">
           <div className="kds-column-header" style={{ borderTop: '4px solid #3b82f6' }}>
-            <span style={{ fontSize: 'calc(20px + 0.5vw)' }}>‍</span>
+            <span style={{ fontSize: 'clamp(15px, 3vw, 20px)' }}>‍</span>
             <span style={{ fontWeight: 800 }}>Preparing ({preparing.length})</span>
           </div>
           <div className="kds-column-content">
@@ -201,15 +201,15 @@ export default function OrderQueue() {
                   <div className="kds-card-header">
                     <div>
                       <span className="kds-card-id">#{o.id}</span>
-                      {isMorning(o) && <span className="badge badge-blue" style={{ marginLeft: 6, fontSize: 'calc(13px + 0.5vw)' }}>️ MORNING</span>}
+                      {isMorning(o) && <span className="badge badge-blue" style={{ marginLeft: 6, fontSize: 'clamp(12px, 3vw, 13px)' }}> MORNING</span>}
                     </div>
-                    <span style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)' }}>
+                    <span style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)' }}>
                       {o.timeSlot || new Date(o.orderTime).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
                   <div className="kds-card-body">
-                    <div style={{ fontWeight: 700, fontSize: 'calc(17px + 0.5vw)', marginBottom: 4 }}> {o.customerName}</div>
-                    <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 8 }}> {o.customerAddress}</div>
+                    <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)', marginBottom: 4 }}> {o.customerName}</div>
+                    <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)', marginBottom: 8 }}> {o.customerAddress}</div>
                     <div className="kds-items">
                       {o.items.map((item, i) => (
                         <div key={i} className="kds-item">
@@ -235,7 +235,7 @@ export default function OrderQueue() {
         {activeTab === 'ready' && (
         <div className="kds-column">
           <div className="kds-column-header" style={{ borderTop: '4px solid var(--accent-green)' }}>
-            <span style={{ fontSize: 'calc(20px + 0.5vw)' }}></span>
+            <span style={{ fontSize: 'clamp(15px, 3vw, 20px)' }}></span>
             <span style={{ fontWeight: 800 }}>Ready ({ready.length})</span>
           </div>
           <div className="kds-column-content">
@@ -247,15 +247,15 @@ export default function OrderQueue() {
                   <div className="kds-card-header">
                     <div>
                       <span className="kds-card-id">#{o.id}</span>
-                      {isMorning(o) && <span className="badge badge-blue" style={{ marginLeft: 6, fontSize: 'calc(13px + 0.5vw)' }}>️ MORNING</span>}
+                      {isMorning(o) && <span className="badge badge-blue" style={{ marginLeft: 6, fontSize: 'clamp(12px, 3vw, 13px)' }}> MORNING</span>}
                     </div>
-                    <span style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)' }}>
+                    <span style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)' }}>
                       {o.timeSlot || new Date(o.orderTime).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
                   <div className="kds-card-body">
-                    <div style={{ fontWeight: 700, fontSize: 'calc(17px + 0.5vw)', marginBottom: 4 }}> {o.customerName}</div>
-                    <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 8 }}> {o.customerAddress}</div>
+                    <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)', marginBottom: 4 }}> {o.customerName}</div>
+                    <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)', marginBottom: 8 }}> {o.customerAddress}</div>
                     <div className="kds-items">
                       {o.items.map((item, i) => (
                         <div key={i} className="kds-item">
@@ -264,7 +264,7 @@ export default function OrderQueue() {
                       ))}
                     </div>
                   </div>
-                  <div className="kds-card-footer" style={{ textAlign: 'center', fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)', padding: '10px 0' }}>
+                  <div className="kds-card-footer" style={{ textAlign: 'center', fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', padding: '10px 0' }}>
                      Waiting for dispatch...
                   </div>
                 </div>

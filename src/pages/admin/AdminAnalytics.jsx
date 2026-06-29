@@ -51,18 +51,18 @@ export default function AdminAnalytics() {
         {/* Orders by Status */}
         <div className="card" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
           <div className="card-header">
-            <h3 className="card-title" style={{ fontSize: 'calc(20px + 0.5vw)', fontWeight: 800 }}>
+            <h3 className="card-title" style={{ fontSize: 'clamp(15px, 3vw, 20px)', fontWeight: 800 }}>
               <BarChartIcon size={18} style={{ marginRight: 6 }} /> Orders by Status
             </h3>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, flex: 1, justifyContent: 'space-between' }}>
             {byStatus.map(([label, val, color]) => (
               <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 12, minHeight: 36 }}>
-                <span style={{ fontSize: 'calc(18px + 0.5vw)', minWidth: 84, fontWeight: 700, color: 'var(--text-primary)' }}>{label}</span>
+                <span style={{ fontSize: 'clamp(13px, 3vw, 18px)', minWidth: 84, fontWeight: 700, color: 'var(--text-primary)' }}>{label}</span>
                 <div style={{ flex: 1, height: 12, background: 'var(--bg-tertiary)', borderRadius: 6, overflow: 'hidden' }}>
                   <div style={{ width: `${stats.total ? (val / stats.total) * 100 : 0}%`, height: '100%', background: color, borderRadius: 6, transition: 'width 1s ease' }} />
                 </div>
-                <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'calc(22px + 0.5vw)', minWidth: 32, color, textAlign: 'right' }}>{val}</span>
+                <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(16px, 3vw, 22px)', minWidth: 32, color, textAlign: 'right' }}>{val}</span>
               </div>
             ))}
           </div>
@@ -71,7 +71,7 @@ export default function AdminAnalytics() {
         {/* Users by Role */}
         <div className="card" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
           <div className="card-header">
-            <h3 className="card-title" style={{ fontSize: 'calc(20px + 0.5vw)', fontWeight: 800 }}>
+            <h3 className="card-title" style={{ fontSize: 'clamp(15px, 3vw, 20px)', fontWeight: 800 }}>
               <Users size={18} style={{ marginRight: 6 }} /> Users by Role
             </h3>
           </div>
@@ -80,12 +80,12 @@ export default function AdminAnalytics() {
               const count = allUsers.filter(u => u.role === role.toLowerCase()).length;
               return (
                 <div key={role} style={{ display: 'flex', alignItems: 'center', gap: 12, minHeight: 36 }}>
-                  <span style={{ fontSize: 'calc(24px + 0.5vw)', display: 'flex', alignItems: 'center', flexShrink: 0 }}>{icon}</span>
-                  <span style={{ fontSize: 'calc(18px + 0.5vw)', minWidth: 64, fontWeight: 700, color: 'var(--text-primary)' }}>{role}</span>
+                  <span style={{ fontSize: 'clamp(18px, 3vw, 24px)', display: 'flex', alignItems: 'center', flexShrink: 0 }}>{icon}</span>
+                  <span style={{ fontSize: 'clamp(13px, 3vw, 18px)', minWidth: 64, fontWeight: 700, color: 'var(--text-primary)' }}>{role}</span>
                   <div style={{ flex: 1, height: 12, background: 'var(--bg-tertiary)', borderRadius: 6, overflow: 'hidden' }}>
                     <div style={{ width: `${allUsers.length ? (count / allUsers.length) * 100 : 0}%`, height: '100%', background: color, borderRadius: 6, transition: 'width 1s ease' }} />
                   </div>
-                  <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'calc(22px + 0.5vw)', minWidth: 32, color, textAlign: 'right' }}>{count}</span>
+                  <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(16px, 3vw, 22px)', minWidth: 32, color, textAlign: 'right' }}>{count}</span>
                 </div>
               );
             })}
@@ -96,7 +96,7 @@ export default function AdminAnalytics() {
       {/* Key Metrics Section */}
       <div className="card">
         <div className="card-header">
-          <h3 className="card-title" style={{ fontSize: 'calc(20px + 0.5vw)', fontWeight: 800 }}>
+          <h3 className="card-title" style={{ fontSize: 'clamp(15px, 3vw, 20px)', fontWeight: 800 }}>
             <TrendingUp size={18} style={{ marginRight: 6 }} /> Key Metrics
           </h3>
         </div>

@@ -37,7 +37,7 @@ export default function KitchenSettings() {
       <div className="tabs" style={{ marginBottom: 20 }}>
         <button className={`tab ${tab === 'schedule' ? 'active' : ''}`} onClick={() => setTab('schedule')}> Date-Wise Orders</button>
         <button className={`tab ${tab === 'notify' ? 'active' : ''}`} onClick={() => setTab('notify')}> Send Notification</button>
-        <button className={`tab ${tab === 'profile' ? 'active' : ''}`} onClick={() => setTab('profile')}>️ Kitchen Profile</button>
+        <button className={`tab ${tab === 'profile' ? 'active' : ''}`} onClick={() => setTab('profile')}> Kitchen Profile</button>
       </div>
 
       {/* Date-Wise Scheduled Orders */}
@@ -46,7 +46,7 @@ export default function KitchenSettings() {
           <div style={{ display: 'flex', gap: 12, marginBottom: 16, alignItems: 'center' }}>
             <label className="form-label" style={{ margin: 0 }}>Select Date:</label>
             <input type="date" className="form-input" style={{ width: 200 }} value={selectedDate} onChange={e => setSelectedDate(e.target.value)} />
-            <span style={{ fontSize: 'calc(17px + 0.5vw)', color: 'var(--text-muted)' }}>{dateOrders.length} scheduled order(s)</span>
+            <span style={{ fontSize: 'clamp(12px, 3vw, 17px)', color: 'var(--text-muted)' }}>{dateOrders.length} scheduled order(s)</span>
           </div>
           {allDates.length > 0 && (
             <div style={{ display: 'flex', gap: 6, marginBottom: 16, overflowX: 'auto' }}>
@@ -63,8 +63,8 @@ export default function KitchenSettings() {
                   <span style={{ fontWeight: 800 }}>Schedule #{s.id}</span>
                   <span className="badge badge-blue">{s.timing?.toUpperCase()} — {s.timeSlot}</span>
                 </div>
-                <div style={{ fontSize: 'calc(17px + 0.5vw)' }}> Customer: {s.customerId}</div>
-                <div style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)', marginTop: 4 }}>️ {s.items?.length || 0} items •  {s.paymentStatus}</div>
+                <div style={{ fontSize: 'clamp(12px, 3vw, 17px)' }}> Customer: {s.customerId}</div>
+                <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', marginTop: 4 }}> {s.items?.length || 0} items • {s.paymentStatus}</div>
               </div>
             ))}
           </div>}
@@ -75,7 +75,7 @@ export default function KitchenSettings() {
       {tab === 'notify' && (
         <div className="card" style={{ maxWidth: 500 }}>
           <div className="card-header"><h3 className="card-title"> Notify Customer — Unavailability</h3></div>
-          <p style={{ fontSize: 'calc(17px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 16 }}>Send a message to the customer if you're unable to deliver at the scheduled time.</p>
+          <p style={{ fontSize: 'clamp(12px, 3vw, 17px)', color: 'var(--text-muted)', marginBottom: 16 }}>Send a message to the customer if you're unable to deliver at the scheduled time.</p>
           <div style={{ marginBottom: 14 }}>
             <label className="form-label">Order ID</label>
             <select className="form-select" value={msgForm.orderId} onChange={e => setMsgForm(p => ({ ...p, orderId: e.target.value }))}>
@@ -96,7 +96,7 @@ export default function KitchenSettings() {
       {/* Kitchen Profile */}
       {tab === 'profile' && (
         <div className="card" style={{ maxWidth: 500 }}>
-          <div className="card-header"><h3 className="card-title">️ Kitchen Profile</h3></div>
+          <div className="card-header"><h3 className="card-title"> Kitchen Profile</h3></div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             <div><label className="form-label">Kitchen Name</label><input className="form-input" value={form.kitchenName} onChange={e => setForm(p => ({ ...p, kitchenName: e.target.value }))} /></div>
             <div><label className="form-label">Location</label><input className="form-input" value={form.kitchenLocation} onChange={e => setForm(p => ({ ...p, kitchenLocation: e.target.value }))} /></div>

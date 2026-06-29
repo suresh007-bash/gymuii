@@ -9,8 +9,8 @@ export default function AddMember() {
   const { showToast } = useNotifications();
   const [form, setForm] = useState({ name: '', email: '', phone: '' });
   const upd = (k, v) => setForm(p => ({ ...p, [k]: v }));
-  const inp = { width: '100%', padding: '10px 14px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 12, color: 'var(--text-primary)', fontSize: 'calc(18px + 0.5vw)' };
-  const lbl = { display: 'block', fontSize: 'calc(16px + 0.5vw)', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 };
+  const inp = { width: '100%', padding: '10px 14px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 12, color: 'var(--text-primary)', fontSize: 'clamp(13px, 3vw, 18px)' };
+  const lbl = { display: 'block', fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 };
 
   const save = () => {
     if (!form.name || !form.email) return;

@@ -71,12 +71,12 @@ function Ring({ val, max, color, label, unit, icon }) {
           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', lineHeight: 1.1
         }}>
           
-          <span style={{ fontWeight: 900, fontSize: 'calc(30px + 0.5vw)', color: strokeColor, fontFamily: 'Outfit' }}>{displayed}</span>
+          <span style={{ fontWeight: 900, fontSize: 'clamp(22px, 3vw, 30px)', color: strokeColor, fontFamily: 'Outfit' }}>{displayed}</span>
         </div>
       </div>
       <div style={{ textAlign: 'center' }}>
-        <div style={{ fontWeight: 800, fontSize: 'calc(20px + 0.5vw)', color: '#1e293b', marginBottom: 2 }}>{label}</div>
-        <div style={{ fontSize: 'calc(15px + 0.5vw)', color: '#94a3b8', fontWeight: 600 }}>{remaining} {unit} left</div>
+        <div style={{ fontWeight: 800, fontSize: 'clamp(15px, 3vw, 20px)', color: '#1e293b', marginBottom: 2 }}>{label}</div>
+        <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: '#94a3b8', fontWeight: 600 }}>{remaining} {unit} left</div>
       </div>
     </div>
   );
@@ -190,16 +190,16 @@ export default function ClientNutrition() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, paddingBottom: 16, borderBottom: '1px solid #f1f5f9' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#f9731615', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontSize: 'calc(16px + 0.5vw)' }}></span>
+                <span style={{ fontSize: 'clamp(12px, 3vw, 16px)' }}></span>
               </div>
-              <h3 style={{ margin: 0, fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(22px + 0.5vw)', color: '#1e293b' }}>Daily Nutrition</h3>
+              <h3 style={{ margin: 0, fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(16px, 3vw, 22px)', color: '#1e293b' }}>Daily Nutrition</h3>
             </div>
             <button 
               onClick={() => setShowEditTargets(true)}
               style={{ 
                 display: 'flex', alignItems: 'center', gap: 6, 
                 padding: '8px 16px', background: '#f8fafc', border: '1px solid #e2e8f0', 
-                borderRadius: 12, cursor: 'pointer', fontWeight: 700, fontSize: 'calc(17px + 0.5vw)', color: '#475569' 
+                borderRadius: 12, cursor: 'pointer', fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)', color: '#475569' 
               }}
             >
               <Settings size={14} /> Edit Targets
@@ -237,10 +237,10 @@ export default function ClientNutrition() {
               return (
                 <div key={m.name} onClick={m.onClick} style={{ background: 'var(--bg-tertiary)', borderRadius: 12, padding: 12, cursor: m.onClick ? 'pointer' : 'default' }} title={`Click for ${m.name} breakdown`}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                    <div style={{ fontWeight: 800, fontSize: 'calc(17px + 0.5vw)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <div style={{ fontWeight: 800, fontSize: 'clamp(12px, 3vw, 17px)', display: 'flex', alignItems: 'center', gap: 6 }}>
                       <span>{m.icon}</span><span>{m.name}</span>
                     </div>
-                    <div style={{ fontSize: 'calc(16px + 0.5vw)', fontWeight: 700 }}>
+                    <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 700 }}>
                       {m.val} / {m.max} {m.unit} <span style={{ color: m.color }}>({pct}%)</span>
                     </div>
                   </div>
@@ -271,14 +271,14 @@ export default function ClientNutrition() {
                   border: `1.5px solid ${completed ? 'rgba(34,197,94,0.3)' : 'var(--border)'}`,
                   display: 'flex', gap: 12, alignItems: 'center', cursor: m.onClick ? 'pointer' : 'default'
                 }} title={`Click for ${m.name} breakdown`}>
-                  <div style={{ width: 44, height: 44, borderRadius: 12, background: `${m.color}15`, display: 'flex', alignItems: 'center', justifycenter: 'center', fontSize: 'calc(30px + 0.5vw)' }}>{m.icon}</div>
+                  <div style={{ width: 44, height: 44, borderRadius: 12, background: `${m.color}15`, display: 'flex', alignItems: 'center', justifycenter: 'center', fontSize: 'clamp(22px, 3vw, 30px)' }}>{m.icon}</div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 800, fontSize: 'calc(17px + 0.5vw)' }}>{m.name}</div>
-                    <div style={{ fontSize: 'calc(14px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 4 }}>{m.desc}</div>
-                    <div style={{ fontSize: 'calc(17px + 0.5vw)', fontWeight: 900 }}>{m.val} <span style={{ fontSize: 'calc(14px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 500 }}>/ {m.max}{m.unit}</span></div>
+                    <div style={{ fontWeight: 800, fontSize: 'clamp(12px, 3vw, 17px)' }}>{m.name}</div>
+                    <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', color: 'var(--text-muted)', marginBottom: 4 }}>{m.desc}</div>
+                    <div style={{ fontSize: 'clamp(12px, 3vw, 17px)', fontWeight: 900 }}>{m.val} <span style={{ fontSize: 'clamp(12px, 3vw, 14px)', color: 'var(--text-muted)', fontWeight: 500 }}>/ {m.max}{m.unit}</span></div>
                   </div>
                   <div>
-                    {completed ? <span className="badge badge-green" style={{ fontSize: 'calc(13px + 0.5vw)', padding: '4px 8px' }}> HIT</span> : <span className="badge badge-blue" style={{ fontSize: 'calc(13px + 0.5vw)', padding: '4px 8px' }}> ACTIVE</span>}
+                    {completed ? <span className="badge badge-green" style={{ fontSize: 'clamp(12px, 3vw, 13px)', padding: '4px 8px' }}> HIT</span> : <span className="badge badge-blue" style={{ fontSize: 'clamp(12px, 3vw, 13px)', padding: '4px 8px' }}> ACTIVE</span>}
                   </div>
                 </div>
               );
@@ -298,12 +298,12 @@ export default function ClientNutrition() {
             ['Fat', nutrition.fat, targets.fat, 'g', '#8b5cf6', () => { setSelectedMacro('fat'); setShowProteinModal(true); }]
           ].map(([name, val, max, unit, color, onClick]) => (
             <div key={name} onClick={onClick} style={{ background: 'var(--bg-tertiary)', borderRadius: 12, padding: 16, cursor: 'pointer' }} title={`Click for ${name} breakdown`}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}><span style={{ fontWeight: 700, fontSize: 'calc(17px + 0.5vw)' }}>{name}</span><span style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)' }}>{val}/{max}{unit}</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}><span style={{ fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)' }}>{name}</span><span style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)' }}>{val}/{max}{unit}</span></div>
               <div style={{ height: 8, background: 'var(--border)', borderRadius: 4, overflow: 'hidden' }}>
                 <div style={{ width: `${Math.min(100, (val / max) * 100)}%`, height: '100%', background: val > max ? '#ef4444' : color, borderRadius: 4, transition: 'width 1s ease' }} />
               </div>
-              <div style={{ fontSize: 'calc(14px + 0.5vw)', color: val > max ? '#ef4444' : val >= max ? color : 'var(--text-muted)', fontWeight: 700, marginTop: 4 }}>
-                {val > max ? `️ Over by ${val - max}${unit}` : val >= max ? ' Target reached!' : `${max - val}${unit} remaining`}
+              <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', color: val > max ? '#ef4444' : val >= max ? color : 'var(--text-muted)', fontWeight: 700, marginTop: 4 }}>
+                {val > max ? ` Over by ${val - max}${unit}` : val >= max ? ' Target reached!' : `${max - val}${unit} remaining`}
               </div>
             </div>
           ))}
@@ -316,14 +316,14 @@ export default function ClientNutrition() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             {MACROS.map(m => (
-              <button key={m.id} onClick={() => setSelectedMacro(m.id)} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', borderRadius: 20, fontSize: 'calc(16px + 0.5vw)', fontWeight: 800, cursor: 'pointer', border: `1.5px solid ${selectedMacro === m.id ? m.color : 'var(--border)'}`, background: selectedMacro === m.id ? `${m.color}15` : 'var(--bg-secondary)', color: selectedMacro === m.id ? m.color : 'var(--text-muted)' }}>
+              <button key={m.id} onClick={() => setSelectedMacro(m.id)} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', borderRadius: 20, fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 800, cursor: 'pointer', border: `1.5px solid ${selectedMacro === m.id ? m.color : 'var(--border)'}`, background: selectedMacro === m.id ? `${m.color}15` : 'var(--bg-secondary)', color: selectedMacro === m.id ? m.color : 'var(--text-muted)' }}>
                 <span>{m.icon}</span><span>{m.label}</span>
               </button>
             ))}
           </div>
           <div>
             <label className="form-label" style={{ fontWeight: 800 }}>Select Food Item</label>
-            <select className="form-select" value={selectedFoodId} onChange={e => setSelectedFoodId(e.target.value)} style={{ width: '100%', fontSize: 'calc(17px + 0.5vw)' }}>
+            <select className="form-select" value={selectedFoodId} onChange={e => setSelectedFoodId(e.target.value)} style={{ width: '100%', fontSize: 'clamp(12px, 3vw, 17px)' }}>
               {menuItems.map(m => (<option key={m.id} value={m.id}>{m.name} ({m[activeMacro.id]}{activeMacro.unit.trim()} {activeMacro.label.toLowerCase()})</option>))}
             </select>
           </div>
@@ -332,30 +332,30 @@ export default function ClientNutrition() {
               <div style={{ background: 'var(--bg-tertiary)', borderRadius: 16, overflow: 'hidden', border: '1px solid var(--border)' }}>
                 <div style={{ position: 'relative', height: 150 }}>
                   <img src={selectedFood.image} alt={selectedFood.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  <div style={{ position: 'absolute', top: 10, left: 10, display: 'flex', gap: 6 }}><span className="badge badge-blue" style={{ fontSize: 'calc(13px + 0.5vw)' }}>⏱ {selectedFood.prepTime} min</span><span className="badge badge-green" style={{ fontSize: 'calc(13px + 0.5vw)' }}> {selectedFood.rating}</span></div>
-                  <div style={{ position: 'absolute', bottom: 10, right: 10 }}><span className="badge" style={{ fontSize: 'calc(14px + 0.5vw)', fontWeight: 900, padding: '4px 8px', background: activeMacro.color, color: '#fff' }}>{activeMacro.icon} {selectedFood[activeMacro.id]}{activeMacro.unit}</span></div>
+                  <div style={{ position: 'absolute', top: 10, left: 10, display: 'flex', gap: 6 }}><span className="badge badge-blue" style={{ fontSize: 'clamp(12px, 3vw, 13px)' }}> {selectedFood.prepTime} min</span><span className="badge badge-green" style={{ fontSize: 'clamp(12px, 3vw, 13px)' }}> {selectedFood.rating}</span></div>
+                  <div style={{ position: 'absolute', bottom: 10, right: 10 }}><span className="badge" style={{ fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 900, padding: '4px 8px', background: activeMacro.color, color: '#fff' }}>{activeMacro.icon} {selectedFood[activeMacro.id]}{activeMacro.unit}</span></div>
                 </div>
                 <div style={{ padding: 14 }}>
-                  <h4 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'calc(19px + 0.5vw)', marginBottom: 6 }}>{selectedFood.name}</h4>
-                  <p style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 10 }}>{selectedFood.description || 'Nutrient-rich premium meal.'}</p>
+                  <h4 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(14px, 3vw, 19px)', marginBottom: 6 }}>{selectedFood.name}</h4>
+                  <p style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)', marginBottom: 10 }}>{selectedFood.description || 'Nutrient-rich premium meal.'}</p>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6, background: 'var(--bg-secondary)', padding: 8, borderRadius: 10 }}>
-                    <div style={{ textAlign: 'center' }}><div style={{ fontSize: 'calc(13px + 0.5vw)', color: 'var(--text-muted)' }}>Cal</div><div style={{ fontWeight: 800, color: '#f97316', fontSize: 'calc(15px + 0.5vw)' }}> {selectedFood.calories}</div></div>
-                    <div style={{ textAlign: 'center', borderLeft: '1px solid var(--border)' }}><div style={{ fontSize: 'calc(13px + 0.5vw)', color: 'var(--text-muted)' }}>Pro</div><div style={{ fontWeight: 800, color: '#22c55e', fontSize: 'calc(15px + 0.5vw)' }}> {selectedFood.protein}g</div></div>
-                    <div style={{ textAlign: 'center', borderLeft: '1px solid var(--border)' }}><div style={{ fontSize: 'calc(13px + 0.5vw)', color: 'var(--text-muted)' }}>Carbs</div><div style={{ fontWeight: 800, color: '#3b82f6', fontSize: 'calc(15px + 0.5vw)' }}> {selectedFood.carbs}g</div></div>
-                    <div style={{ textAlign: 'center', borderLeft: '1px solid var(--border)' }}><div style={{ fontSize: 'calc(13px + 0.5vw)', color: 'var(--text-muted)' }}>Fat</div><div style={{ fontWeight: 800, color: '#eab308', fontSize: 'calc(15px + 0.5vw)' }}> {selectedFood.fat}g</div></div>
+                    <div style={{ textAlign: 'center' }}><div style={{ fontSize: 'clamp(12px, 3vw, 13px)', color: 'var(--text-muted)' }}>Cal</div><div style={{ fontWeight: 800, color: '#f97316', fontSize: 'clamp(12px, 3vw, 15px)' }}> {selectedFood.calories}</div></div>
+                    <div style={{ textAlign: 'center', borderLeft: '1px solid var(--border)' }}><div style={{ fontSize: 'clamp(12px, 3vw, 13px)', color: 'var(--text-muted)' }}>Pro</div><div style={{ fontWeight: 800, color: '#22c55e', fontSize: 'clamp(12px, 3vw, 15px)' }}> {selectedFood.protein}g</div></div>
+                    <div style={{ textAlign: 'center', borderLeft: '1px solid var(--border)' }}><div style={{ fontSize: 'clamp(12px, 3vw, 13px)', color: 'var(--text-muted)' }}>Carbs</div><div style={{ fontWeight: 800, color: '#3b82f6', fontSize: 'clamp(12px, 3vw, 15px)' }}> {selectedFood.carbs}g</div></div>
+                    <div style={{ textAlign: 'center', borderLeft: '1px solid var(--border)' }}><div style={{ fontSize: 'clamp(12px, 3vw, 13px)', color: 'var(--text-muted)' }}>Fat</div><div style={{ fontWeight: 800, color: '#eab308', fontSize: 'clamp(12px, 3vw, 15px)' }}> {selectedFood.fat}g</div></div>
                   </div>
                 </div>
               </div>
             )}
             <div style={{ background: 'var(--bg-tertiary)', borderRadius: 16, border: '1px solid var(--border)', padding: 14 }}>
-              <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(17px + 0.5vw)', marginBottom: 12 }}>{activeMacro.icon} Similar Alternatives</h4>
-              {similarFoods.length === 0 ? <div style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)' }}>No macro alternatives found.</div> : (
+              <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(12px, 3vw, 17px)', marginBottom: 12 }}>{activeMacro.icon} Similar Alternatives</h4>
+              {similarFoods.length === 0 ? <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)' }}>No macro alternatives found.</div> : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 220, overflowY: 'auto' }}>
                   {similarFoods.map(f => (
                     <div key={f.id} style={{ display: 'flex', gap: 10, padding: 6, background: 'var(--bg-secondary)', borderRadius: 10, border: '1px solid var(--border)', alignItems: 'center' }}>
                       <img src={f.image} alt={f.name} style={{ width: 44, height: 44, borderRadius: 6, objectFit: 'cover' }} />
-                      <div style={{ flex: 1 }}><div style={{ fontWeight: 800, fontSize: 'calc(15px + 0.5vw)' }}>{f.name}</div></div>
-                      <span className="badge" style={{ fontSize: 'calc(13px + 0.5vw)', fontWeight: 800, padding: '3px 6px', background: `${activeMacro.color}15`, color: activeMacro.color }}>{f[activeMacro.id]}{activeMacro.unit}</span>
+                      <div style={{ flex: 1 }}><div style={{ fontWeight: 800, fontSize: 'clamp(12px, 3vw, 15px)' }}>{f.name}</div></div>
+                      <span className="badge" style={{ fontSize: 'clamp(12px, 3vw, 13px)', fontWeight: 800, padding: '3px 6px', background: `${activeMacro.color}15`, color: activeMacro.color }}>{f[activeMacro.id]}{activeMacro.unit}</span>
                     </div>
                   ))}
                 </div>
@@ -367,13 +367,13 @@ export default function ClientNutrition() {
 
       {/* Today's Meals List */}
       <div className="card" style={{ marginBottom: 20 }}>
-        <div className="card-header"><h3 className="card-title">️ Today's Meals</h3></div>
+        <div className="card-header"><h3 className="card-title"> Today's Meals</h3></div>
         {todayOrders.length === 0 ? <div style={{ textAlign: 'center', padding: 32, color: 'var(--text-muted)' }}>No meals tracked today.</div> : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {todayOrders.map(o => (
               <div key={o.id} style={{ padding: 14, background: 'var(--bg-tertiary)', borderRadius: 12 }}>
                 {o.items.map((item, idx) => (
-                  <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'calc(16px + 0.5vw)', marginBottom: 4 }}>
+                  <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 3vw, 16px)', marginBottom: 4 }}>
                     <div><span style={{ fontWeight: 700 }}>{item.name}</span> (x{item.qty || 1})</div>
                     <div style={{ fontWeight: 700, color: '#f97316' }}> {(item.calories || 0) * (item.qty || 1)} kcal</div>
                   </div>
@@ -392,7 +392,7 @@ export default function ClientNutrition() {
             const data = historyMap[dateStr];
             return (
               <div key={dateStr} style={{ padding: 14, borderRadius: 12, background: 'var(--bg-tertiary)', border: '1px solid var(--border)' }}>
-                <div style={{ fontWeight: 800, fontSize: 'calc(17px + 0.5vw)', marginBottom: 6 }}>{fmtDate(dateStr)}</div>
+                <div style={{ fontWeight: 800, fontSize: 'clamp(12px, 3vw, 17px)', marginBottom: 6 }}>{fmtDate(dateStr)}</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 8 }}>
                   <div> Cal: {data.calories} kcal</div>
                   <div> Pro: {data.protein}g</div>
@@ -413,13 +413,13 @@ export default function ClientNutrition() {
             </div>
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16 }}>
               {MACROS.map(m => (
-                <button key={m.id} onClick={() => setSelectedMacro(m.id)} style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '6px 12px', borderRadius: 16, fontSize: 'calc(15px + 0.5vw)', fontWeight: 800, border: `1.5px solid ${selectedMacro === m.id ? m.color : 'var(--border)'}`, background: selectedMacro === m.id ? `${m.color}15` : 'var(--bg-secondary)', color: selectedMacro === m.id ? m.color : 'var(--text-muted)' }}>
+                <button key={m.id} onClick={() => setSelectedMacro(m.id)} style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '6px 12px', borderRadius: 16, fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 800, border: `1.5px solid ${selectedMacro === m.id ? m.color : 'var(--border)'}`, background: selectedMacro === m.id ? `${m.color}15` : 'var(--bg-secondary)', color: selectedMacro === m.id ? m.color : 'var(--text-muted)' }}>
                   <span>{m.icon}</span><span>{m.label}</span>
                 </button>
               ))}
             </div>
             <div>
-              <select className="form-select" value={selectedFoodId} onChange={e => setSelectedFoodId(e.target.value)} style={{ width: '100%', fontSize: 'calc(17px + 0.5vw)' }}>
+              <select className="form-select" value={selectedFoodId} onChange={e => setSelectedFoodId(e.target.value)} style={{ width: '100%', fontSize: 'clamp(12px, 3vw, 17px)' }}>
                 {menuItems.map(m => (<option key={m.id} value={m.id}>{m.name} ({m[activeMacro.id]}{activeMacro.unit.trim()})</option>))}
               </select>
             </div>

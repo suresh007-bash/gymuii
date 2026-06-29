@@ -35,13 +35,13 @@ export default function AdminDelivery() {
         {drivers.map(d => (
           <div key={d.id} className="card" style={{ animation: 'fadeInUp 0.4s ease' }}>
             <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginBottom: 14 }}>
-              <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'calc(22px + 0.5vw)', fontWeight: 800, color: '#fff', flexShrink: 0 }}>{d.avatar}</div>
+              <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 800, color: '#fff', flexShrink: 0 }}>{d.avatar}</div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontWeight: 800, fontSize: 'clamp(15px, 2vw, 17px)', marginBottom: 2 }}>{d.name}</div>
                 <div style={{ fontSize: 'clamp(12px, 1.5vw, 13px)', color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{d.vehicleType} • {d.licenseNo}</div>
               </div>
-              <span className={`badge ${d.available ? 'badge-green' : 'badge-red'}`} style={{ flexShrink: 0, fontSize: 'calc(16px + 0.5vw)', padding: '5px 10px', fontWeight: 700 }}>
-                {d.available ? '🟢 Free' : ' Busy'}
+              <span className={`badge ${d.available ? 'badge-green' : 'badge-red'}`} style={{ flexShrink: 0, fontSize: 'clamp(12px, 3vw, 16px)', padding: '5px 10px', fontWeight: 700 }}>
+                {d.available ? ' Free' : ' Busy'}
               </span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 1.5vw, 14px)', padding: '10px 0', borderTop: '1px solid var(--border)' }}>
@@ -67,15 +67,15 @@ export default function AdminDelivery() {
             </thead>
             <tbody>
               {activeDeliveries.length === 0 ? (
-                <tr><td colSpan="6" style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 'calc(19px + 0.5vw)' }}>No active deliveries right now</td></tr>
+                <tr><td colSpan="6" style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 'clamp(14px, 3vw, 19px)' }}>No active deliveries right now</td></tr>
               ) : activeDeliveries.map(o => (
                 <tr key={o.id}>
-                  <td style={{ fontWeight: 800, fontSize: 'calc(19px + 0.5vw)' }}>#{o.id}</td>
-                  <td style={{ fontSize: 'calc(18px + 0.5vw)' }}>{o.driverName || '—'}</td>
-                  <td style={{ fontSize: 'calc(18px + 0.5vw)' }}>{o.customerName}</td>
-                  <td style={{ fontSize: 'calc(17px + 0.5vw)', color: 'var(--text-muted)' }}>{o.restaurantName}</td>
-                  <td><span className="badge badge-purple" style={{ fontSize: 'calc(16px + 0.5vw)' }}><Car size={12} style={{ marginRight: 2 }} /> In Transit</span></td>
-                  <td style={{ fontSize: 'calc(18px + 0.5vw)', fontWeight: 700 }}>{o.eta}</td>
+                  <td style={{ fontWeight: 800, fontSize: 'clamp(14px, 3vw, 19px)' }}>#{o.id}</td>
+                  <td style={{ fontSize: 'clamp(13px, 3vw, 18px)' }}>{o.driverName || '—'}</td>
+                  <td style={{ fontSize: 'clamp(13px, 3vw, 18px)' }}>{o.customerName}</td>
+                  <td style={{ fontSize: 'clamp(12px, 3vw, 17px)', color: 'var(--text-muted)' }}>{o.restaurantName}</td>
+                  <td><span className="badge badge-purple" style={{ fontSize: 'clamp(12px, 3vw, 16px)' }}><Car size={12} style={{ marginRight: 2 }} /> In Transit</span></td>
+                  <td style={{ fontSize: 'clamp(13px, 3vw, 18px)', fontWeight: 700 }}>{o.eta}</td>
                 </tr>
               ))}
             </tbody>
@@ -85,14 +85,14 @@ export default function AdminDelivery() {
         {/* Mobile Cards — larger fonts */}
         <div className="admin-cards-mobile" style={{ display: 'none' }}>
           {activeDeliveries.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 'calc(19px + 0.5vw)' }}>No active deliveries right now</div>
+            <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 'clamp(14px, 3vw, 19px)' }}>No active deliveries right now</div>
           ) : activeDeliveries.map(o => (
             <div key={o.id} style={{ padding: '16px', borderBottom: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: 10 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ fontWeight: 900, fontSize: 'calc(22px + 0.5vw)' }}>#{o.id}</div>
-                <span className="badge badge-purple" style={{ fontSize: 'calc(16px + 0.5vw)', padding: '5px 12px' }}><Car size={13} style={{ marginRight: 3 }} /> In Transit</span>
+                <div style={{ fontWeight: 900, fontSize: 'clamp(16px, 3vw, 22px)' }}>#{o.id}</div>
+                <span className="badge badge-purple" style={{ fontSize: 'clamp(12px, 3vw, 16px)', padding: '5px 12px' }}><Car size={13} style={{ marginRight: 3 }} /> In Transit</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'calc(19px + 0.5vw)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(14px, 3vw, 19px)' }}>
                 <span style={{ fontWeight: 700, display: 'flex', alignItems: 'center', gap: 5 }}>
                   <User size={14} /> {o.customerName}
                 </span>
@@ -100,7 +100,7 @@ export default function AdminDelivery() {
                   <Clock size={14} /> {o.eta}
                 </span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'calc(17px + 0.5vw)', color: 'var(--text-muted)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 3vw, 17px)', color: 'var(--text-muted)' }}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><Car size={13} /> {o.driverName || '—'}</span>
                 <span> {o.restaurantName}</span>
               </div>

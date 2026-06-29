@@ -38,7 +38,7 @@ export default function KitchenMenu() {
     const basePrice = Number(form.price);
     const newItem = { ...form, id: 'm' + Date.now(), price: disc > 0 ? Math.round(basePrice * (1 - disc / 100)) : basePrice, originalPrice: disc > 0 ? basePrice : null, discount: disc, calories: Number(form.calories), protein: Number(form.protein), carbs: Number(form.carbs), fat: Number(form.fat), prepTime: 0, rating: 4.5, tags: [], image: form.image || '/images/grilled_chicken_salad_1781339721580.png' };
     saveMenu([...menu, newItem]);
-    showToast('Menu item added! ️');
+    showToast('Menu item added! ');
     setShowAdd(false);
     setForm({ name: '', category: 'Protein', price: '', calories: '', protein: '', carbs: '', fat: '', description: '', image: '', available: true, discount: 0 });
   };
@@ -69,7 +69,7 @@ export default function KitchenMenu() {
     setForm({ name: item.name, category: item.category, price: item.originalPrice || item.price, calories: item.calories, protein: item.protein, carbs: item.carbs, fat: item.fat, description: item.description, image: item.image || '', available: item.available, discount: item.discount || 0 });
   };
 
-  const inp = { width: '100%', padding: '10px 14px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 12, color: 'var(--text-primary)', fontSize: 'calc(18px + 0.5vw)' };
+  const inp = { width: '100%', padding: '10px 14px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 12, color: 'var(--text-primary)', fontSize: 'clamp(13px, 3vw, 18px)' };
 
   const renderFormBody = (title, onSave, onClose) => (
     <div className="modal-overlay" onClick={onClose}>
@@ -83,10 +83,10 @@ export default function KitchenMenu() {
             <div><label className="form-label">Discount (%)</label><input style={inp} type="number" min="0" max="99" value={form.discount} onChange={e => upd('discount', e.target.value)} placeholder="0" /></div>
           </div>
           {Number(form.discount) > 0 && Number(form.price) > 0 && (
-            <div style={{ padding: '8px 12px', background: 'rgba(34,197,94,0.08)', borderRadius: 10, fontSize: 'calc(17px + 0.5vw)', display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ fontWeight: 900, fontSize: 'calc(20px + 0.5vw)', color: '#22c55e' }}>₹{Math.round(Number(form.price) * (1 - Number(form.discount) / 100))}</span>
-              <span style={{ textDecoration: 'line-through', color: 'var(--text-muted)', fontSize: 'calc(17px + 0.5vw)' }}>₹{form.price}</span>
-              <span style={{ color: '#22c55e', fontWeight: 800, fontSize: 'calc(16px + 0.5vw)' }}>{form.discount}% off</span>
+            <div style={{ padding: '8px 12px', background: 'rgba(34,197,94,0.08)', borderRadius: 10, fontSize: 'clamp(12px, 3vw, 17px)', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontWeight: 900, fontSize: 'clamp(15px, 3vw, 20px)', color: '#22c55e' }}>₹{Math.round(Number(form.price) * (1 - Number(form.discount) / 100))}</span>
+              <span style={{ textDecoration: 'line-through', color: 'var(--text-muted)', fontSize: 'clamp(12px, 3vw, 17px)' }}>₹{form.price}</span>
+              <span style={{ color: '#22c55e', fontWeight: 800, fontSize: 'clamp(12px, 3vw, 16px)' }}>{form.discount}% off</span>
             </div>
           )}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))', gap: 12 }}>
@@ -117,11 +117,11 @@ export default function KitchenMenu() {
                     reader.readAsDataURL(file);
                   }}
                 />
-                <label htmlFor="menu-photo-upload" className="btn btn-outline" style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 'calc(17px + 0.5vw)' }}>
+                <label htmlFor="menu-photo-upload" className="btn btn-outline" style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 'clamp(12px, 3vw, 17px)' }}>
                    {form.image ? 'Change Photo' : 'Upload Photo'}
                 </label>
                 {form.image && (
-                  <button className="btn btn-outline btn-sm" style={{ marginLeft: 8, color: 'var(--accent-red)', fontSize: 'calc(16px + 0.5vw)' }} onClick={() => upd('image', '')}>
+                  <button className="btn btn-outline btn-sm" style={{ marginLeft: 8, color: 'var(--accent-red)', fontSize: 'clamp(12px, 3vw, 16px)' }} onClick={() => upd('image', '')}>
                      Remove
                   </button>
                 )}
@@ -140,11 +140,11 @@ export default function KitchenMenu() {
 
   return (
     <DashboardLayout title="Menu Management">
-      {showAdd && renderFormBody('️ Add Menu Item', handleAdd, () => setShowAdd(false))}
-      {editItem && renderFormBody('️ Edit Menu Item', handleEdit, () => setEditItem(null))}
+      {showAdd && renderFormBody(' Add Menu Item', handleAdd, () => setShowAdd(false))}
+      {editItem && renderFormBody(' Edit Menu Item', handleEdit, () => setEditItem(null))}
 
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
-        <div><span style={{ fontFamily: 'Outfit', fontWeight: 700, fontSize: 'calc(20px + 0.5vw)' }}>{menu.length} Items</span> <span style={{ color: 'var(--text-muted)', fontSize: 'calc(17px + 0.5vw)' }}>• {menu.filter(m => m.available).length} available</span></div>
+        <div><span style={{ fontFamily: 'Outfit', fontWeight: 700, fontSize: 'clamp(15px, 3vw, 20px)' }}>{menu.length} Items</span> <span style={{ color: 'var(--text-muted)', fontSize: 'clamp(12px, 3vw, 17px)' }}>• {menu.filter(m => m.available).length} available</span></div>
         <button className="btn btn-primary" onClick={() => setShowAdd(true)}>+ Add Item</button>
       </div>
 
@@ -154,18 +154,18 @@ export default function KitchenMenu() {
           <tbody>
             {menu.map(item => (
               <tr key={item.id}>
-                <td style={{ fontWeight: 700, fontSize: 'calc(17px + 0.5vw)' }}>{item.name}</td>
+                <td style={{ fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)' }}>{item.name}</td>
                 <td><span className="badge badge-purple">{item.category}</span></td>
                 <td style={{ fontWeight: 700 }}>
                   ₹{item.price}
                   {item.originalPrice && <>
-                    <span style={{ textDecoration: 'line-through', color: 'var(--text-muted)', fontSize: 'calc(15px + 0.5vw)', marginLeft: 6 }}>₹{item.originalPrice}</span>
-                    <span style={{ color: '#22c55e', fontSize: 'calc(14px + 0.5vw)', fontWeight: 800, marginLeft: 4 }}>{item.discount}% off</span>
+                    <span style={{ textDecoration: 'line-through', color: 'var(--text-muted)', fontSize: 'clamp(12px, 3vw, 15px)', marginLeft: 6 }}>₹{item.originalPrice}</span>
+                    <span style={{ color: '#22c55e', fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 800, marginLeft: 4 }}>{item.discount}% off</span>
                   </>}
                 </td>
-                <td style={{ fontSize: 'calc(16px + 0.5vw)' }}> {item.calories}</td>
-                <td style={{ fontSize: 'calc(16px + 0.5vw)' }}> {item.protein}g</td>
-                <td style={{ fontSize: 'calc(16px + 0.5vw)' }}>⏱ {item.prepTime}m</td>
+                <td style={{ fontSize: 'clamp(12px, 3vw, 16px)' }}> {item.calories}</td>
+                <td style={{ fontSize: 'clamp(12px, 3vw, 16px)' }}> {item.protein}g</td>
+                <td style={{ fontSize: 'clamp(12px, 3vw, 16px)' }}> {item.prepTime}m</td>
                 <td>
                   <button onClick={() => toggleAvailable(item.id)} className={`badge ${item.available ? 'badge-green' : 'badge-red'}`} style={{ cursor: 'pointer', border: 'none' }}>
                     {item.available ? ' Available' : ' Unavailable'}
@@ -173,8 +173,8 @@ export default function KitchenMenu() {
                 </td>
                 <td>
                   <div style={{ display: 'flex', gap: 4 }}>
-                    <button className="btn btn-outline btn-sm" onClick={() => openEdit(item)}>️</button>
-                    <button className="btn btn-outline btn-sm" style={{ color: 'var(--accent-red)' }} onClick={() => deleteItem(item.id)}>️</button>
+                    <button className="btn btn-outline btn-sm" onClick={() => openEdit(item)}></button>
+                    <button className="btn btn-outline btn-sm" style={{ color: 'var(--accent-red)' }} onClick={() => deleteItem(item.id)}></button>
                   </div>
                 </td>
               </tr>

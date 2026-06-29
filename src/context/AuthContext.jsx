@@ -22,16 +22,17 @@ export function AuthProvider({ children }) {
     localStorage.setItem('synnoviq_all_users', JSON.stringify(allUsers));
   }, [allUsers]);
 
-  const login = (email, password) => {
+  const login = async (email, password) => {
     const found = allUsers.find(u => u.email === email && u.password === password);
     if (found) {
-      if (found.blocked) return { success: false, error: 'Your account has been temporarily blocked. Please contact the administrator.' };
-      setUser(found); return { success: true, user: found };
+      if (found.blocked) return { success: false, error: 'Your account has been temporarily blocked.' };
+      setUser(found);
+      return { success: true, user: found };
     }
     return { success: false, error: 'Invalid email or password' };
   };
 
-  const register = (userData) => {
+  const register = async (userData) => {
     const exists = allUsers.find(u => u.email === userData.email);
     if (exists) return { success: false, error: 'Email already exists' };
     const newUser = { ...userData, id: 'u' + Date.now(), joinDate: new Date().toISOString().split('T')[0] };
