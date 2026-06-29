@@ -65,14 +65,14 @@ export default function ManageTrainers() {
     const updated = trainerRequests.map(r => r.id === req.id ? { ...r, status: 'accepted' } : r);
     setTrainerRequests(updated);
     localStorage.setItem('trainer_gym_requests', JSON.stringify(updated));
-    showToast(`✅ ${req.trainerName} has been accepted and added to your gym!`);
+    showToast(` ${req.trainerName} has been accepted and added to your gym!`);
   };
 
   const handleRejectTrainer = (req) => {
     const updated = trainerRequests.map(r => r.id === req.id ? { ...r, status: 'rejected' } : r);
     setTrainerRequests(updated);
     localStorage.setItem('trainer_gym_requests', JSON.stringify(updated));
-    showToast(`❌ ${req.trainerName}'s request has been declined.`, 'warning');
+    showToast(` ${req.trainerName}'s request has been declined.`, 'warning');
   };
 
   const handleAcceptClientReq = (req) => {
@@ -80,14 +80,14 @@ export default function ManageTrainers() {
     const updated = clientTrainerRequests.map(r => r.id === req.id ? { ...r, status: 'accepted' } : r);
     setClientTrainerRequests(updated);
     localStorage.setItem('trainer_requests', JSON.stringify(updated));
-    showToast(`✅ ${req.clientName} assigned to ${req.trainerName}!`);
+    showToast(` ${req.clientName} assigned to ${req.trainerName}!`);
   };
 
   const handleRejectClientReq = (req) => {
     const updated = clientTrainerRequests.map(r => r.id === req.id ? { ...r, status: 'rejected' } : r);
     setClientTrainerRequests(updated);
     localStorage.setItem('trainer_requests', JSON.stringify(updated));
-    showToast(`❌ ${req.clientName}'s trainer request declined.`, 'warning');
+    showToast(` ${req.clientName}'s trainer request declined.`, 'warning');
   };
 
   const upd = (k,v) => setForm(p=>({...p,[k]:v}));
@@ -156,7 +156,7 @@ export default function ManageTrainers() {
         </div>
 
         {showAdd && <div className="modal-overlay" onClick={()=>setShowAdd(false)}><div className="modal-content" onClick={e=>e.stopPropagation()}>
-          <div className="modal-header"><h3 className="modal-title">Add New Trainer</h3><button className="modal-close" onClick={()=>setShowAdd(false)}>✕</button></div>
+          <div className="modal-header"><h3 className="modal-title">Add New Trainer</h3><button className="modal-close" onClick={()=>setShowAdd(false)}></button></div>
           <div style={{display:'flex',flexDirection:'column',gap:14}}>
             <div><label className="form-label">Name</label><input style={inp} value={form.name} onChange={e=>upd('name',e.target.value)}/></div>
             <div><label className="form-label">Email</label><input style={inp} value={form.email} onChange={e=>upd('email',e.target.value)}/></div>
@@ -171,7 +171,7 @@ export default function ManageTrainers() {
             <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 460 }}>
               <div className="modal-header">
                 <h3 className="modal-title"><Users size={14} style={{marginRight:4}} /> Assign Client to {activeTrainer.name}</h3>
-                <button className="modal-close" onClick={() => setActiveTrainer(null)}>✕</button>
+                <button className="modal-close" onClick={() => setActiveTrainer(null)}></button>
               </div>
               <div style={{ maxHeight: 300, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 10, padding: '4px 0' }}>
                 {allUsers.filter(u => u.role === 'client' && u.gymId === user.gymId && !u.blocked).length === 0 ? (
@@ -199,19 +199,19 @@ export default function ManageTrainers() {
                         </div>
                         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
                           {isAssignedToThis ? (<>
-                            <span style={{ fontSize: 12, color: 'var(--accent-green)', fontWeight: 700 }}>Assigned ✅</span>
+                            <span style={{ fontSize: 12, color: 'var(--accent-green)', fontWeight: 700 }}>Assigned </span>
                             <button className="btn btn-outline btn-sm" style={{ color: '#ef4444', fontSize: 10, padding: '4px 8px' }} onClick={() => setConfirm({
-                              title: '🚫 Remove Client',
+                              title: ' Remove Client',
                               msg: `Remove "${client.name}" from ${activeTrainer.name}? They will become a direct client with no trainer assigned.`,
                               color: '#ef4444',
                               action: () => { updateUser(client.id, { trainerId: null }); showToast(`${client.name} unassigned from ${activeTrainer.name}`); setConfirm(null); }
                             })}>Remove</button>
                           </>) : (
                             <button className="btn btn-primary btn-sm" onClick={() => setConfirm({
-                              title: '✅ Assign Client',
+                              title: ' Assign Client',
                               msg: `Assign "${client.name}" to ${activeTrainer.name}?${currentTrainer ? ` They are currently with ${currentTrainer.name}.` : ''}`,
                               color: '#22c55e',
-                              action: () => { updateUser(client.id, { trainerId: activeTrainer.id }); showToast(`✅ Assigned ${client.name} to ${activeTrainer.name}`); setConfirm(null); }
+                              action: () => { updateUser(client.id, { trainerId: activeTrainer.id }); showToast(` Assigned ${client.name} to ${activeTrainer.name}`); setConfirm(null); }
                             })}>Assign</button>
                           )}
                         </div>
@@ -306,7 +306,7 @@ export default function ManageTrainers() {
                           }}
                           onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-1px)'}
                           onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-                        >✅ Accept</button>
+                        > Accept</button>
                         <button
                           onClick={() => handleRejectTrainer(req)}
                           style={{
@@ -316,7 +316,7 @@ export default function ManageTrainers() {
                           }}
                           onMouseEnter={e => { e.currentTarget.style.background = '#ef4444'; e.currentTarget.style.color = '#fff'; }}
                           onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#ef4444'; }}
-                        >❌ Reject</button>
+                        > Reject</button>
                       </div>
                     </div>
                   </div>
@@ -337,7 +337,7 @@ export default function ManageTrainers() {
                         <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{req.trainerSpecialization || 'Trainer'}</div>
                       </div>
                       <span className={`badge ${req.status === 'accepted' ? 'badge-green' : 'badge-red'}`} style={{ fontSize: 11 }}>
-                        {req.status === 'accepted' ? '✅ Accepted' : '❌ Rejected'}
+                        {req.status === 'accepted' ? ' Accepted' : ' Rejected'}
                       </span>
                     </div>
                   </div>
@@ -399,7 +399,7 @@ export default function ManageTrainers() {
                             }}
                             onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-1px)'}
                             onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-                          >✅ Accept</button>
+                          > Accept</button>
                           <button
                             onClick={() => handleRejectClientReq(req)}
                             style={{
@@ -409,7 +409,7 @@ export default function ManageTrainers() {
                             }}
                             onMouseEnter={e => { e.currentTarget.style.background = '#ef4444'; e.currentTarget.style.color = '#fff'; }}
                             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#ef4444'; }}
-                          >❌ Reject</button>
+                          > Reject</button>
                         </div>
                       </div>
                     </div>
@@ -430,7 +430,7 @@ export default function ManageTrainers() {
                         <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Requested: {req.trainerName}</div>
                       </div>
                       <span className={`badge ${req.status === 'accepted' ? 'badge-green' : 'badge-red'}`} style={{ fontSize: 11 }}>
-                        {req.status === 'accepted' ? '✅ Accepted' : '❌ Rejected'}
+                        {req.status === 'accepted' ? ' Accepted' : ' Rejected'}
                       </span>
                     </div>
                   </div>

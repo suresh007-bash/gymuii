@@ -2,11 +2,11 @@ import { useState, useEffect, useMemo } from 'react';
 
 const EFFECTS = {
   none: null,
-  rain: { emoji: '🌧️', label: 'Rainy', color: '#60a5fa' },
-  snow: { emoji: '❄️', label: 'Snowy', color: '#e2e8f0' },
-  leaves: { emoji: '🍂', label: 'Autumn Leaves', color: '#f59e0b' },
-  stars: { emoji: '✨', label: 'Starry Night', color: '#fbbf24' },
-  confetti: { emoji: '🎉', label: 'Celebration', color: '#ec4899' },
+  rain: { emoji: '️', label: 'Rainy', color: '#60a5fa' },
+  snow: { emoji: '️', label: 'Snowy', color: '#e2e8f0' },
+  leaves: { emoji: '', label: 'Autumn Leaves', color: '#f59e0b' },
+  stars: { emoji: '', label: 'Starry Night', color: '#fbbf24' },
+  confetti: { emoji: '', label: 'Celebration', color: '#ec4899' },
 };
 
 function RainEffect() {
@@ -222,7 +222,7 @@ function LeavesEffect() {
     delay: Math.random() * 5,
     duration: 5 + Math.random() * 5,
     size: 10 + Math.random() * 10,
-    emoji: ['🍂', '🍁', '🍃'][Math.floor(Math.random() * 3)],
+    emoji: ['', '', ''][Math.floor(Math.random() * 3)],
   })), []);
 
   return (

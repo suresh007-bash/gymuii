@@ -9,9 +9,9 @@ import { Icon, Flame, Beef, CheckCircle2, Calendar, Search } from '../../compone
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 const MEALS = [
-  { key: 'morning', label: 'Breakfast', icon: '🌅', time: '8:00 AM', color: '#f97316' },
-  { key: 'noon', label: 'Lunch', icon: '☀️', time: '12:30 PM', color: '#22c55e' },
-  { key: 'evening', label: 'Dinner', icon: '🌙', time: '7:00 PM', color: '#3b82f6' },
+  { key: 'morning', label: 'Breakfast', icon: '', time: '8:00 AM', color: '#f97316' },
+  { key: 'noon', label: 'Lunch', icon: '️', time: '12:30 PM', color: '#22c55e' },
+  { key: 'evening', label: 'Dinner', icon: '', time: '7:00 PM', color: '#3b82f6' },
 ];
 
 function getWeekDates(offset = 0) {
@@ -78,7 +78,7 @@ export default function FoodScheduling() {
       timeSlot: customTime ? formatTime12(customTime) : MEALS.find(m => m.key === editCell.meal)?.time || '',
       items: selectedItems,
     });
-    showToast(`✅ ${MEALS.find(m => m.key === editCell.meal)?.label} set for ${DAYS[editCell.dayIdx]}!`);
+    showToast(` ${MEALS.find(m => m.key === editCell.meal)?.label} set for ${DAYS[editCell.dayIdx]}!`);
     setEditCell(null);
     setSelectedItems([]);
     setSearch('');
@@ -115,7 +115,7 @@ export default function FoodScheduling() {
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 480 }}>
             <div className="modal-header">
               <h3 className="modal-title">{MEALS.find(m => m.key === editCell.meal)?.icon} Set {MEALS.find(m => m.key === editCell.meal)?.label} — {DAYS[editCell.dayIdx]}</h3>
-              <button className="modal-close" onClick={() => { setEditCell(null); setSelectedItems([]); setSearch(''); setCustomTime(''); }}>✕</button>
+              <button className="modal-close" onClick={() => { setEditCell(null); setSelectedItems([]); setSearch(''); setCustomTime(''); }}></button>
             </div>
             <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
               <span><Icon icon={Calendar} size={11} style={{marginRight:2}} /> {editCell.date}</span>

@@ -47,7 +47,7 @@ export default function OwnerDashboard() {
 
   const createPack = () => {
     if (!packName || packItems.length === 0) { showToast('Name and items required', 'error'); return; }
-    showToast(`📦 Pack "${packName}" created & sent!`);
+    showToast(` Pack "${packName}" created & sent!`);
     setShowPack(false); setPackName(''); setPackItems([]); setPackClients([]);
   };
 
@@ -58,9 +58,9 @@ export default function OwnerDashboard() {
       {showPack && (
         <div className="modal-overlay" onClick={() => setShowPack(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 520 }}>
-            <div className="modal-header"><h3 className="modal-title"><Package size={14} style={{marginRight:4}} /> Create Nutrient Pack</h3><button className="modal-close" onClick={() => setShowPack(false)}>✕</button></div>
+            <div className="modal-header"><h3 className="modal-title"><Package size={14} style={{marginRight:4}} /> Create Nutrient Pack</h3><button className="modal-close" onClick={() => setShowPack(false)}></button></div>
             <div style={{ marginBottom: 12 }}><label className="form-label">Pack Name</label><input className="form-input" value={packName} onChange={e => setPackName(e.target.value)} placeholder="e.g., Weight Loss Starter Pack" /></div>
-            <div style={{ marginBottom: 12 }}><label className="form-label">Select Foods</label><div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 6, maxHeight: 180, overflowY: 'auto' }}>{MENU_ITEMS.filter(m => m.available).map(item => (<div key={item.id} onClick={() => togglePI(item.id)} style={{ padding: 8, background: packItems.includes(item.id) ? 'rgba(249,115,22,0.08)' : 'var(--bg-tertiary)', border: `1px solid ${packItems.includes(item.id) ? 'var(--accent-orange)' : 'var(--border)'}`, borderRadius: 8, cursor: 'pointer', fontSize: 11 }}>{packItems.includes(item.id) ? '✅ ' : ''}{item.name} • ₹{item.price}</div>))}</div></div>
+            <div style={{ marginBottom: 12 }}><label className="form-label">Select Foods</label><div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 6, maxHeight: 180, overflowY: 'auto' }}>{MENU_ITEMS.filter(m => m.available).map(item => (<div key={item.id} onClick={() => togglePI(item.id)} style={{ padding: 8, background: packItems.includes(item.id) ? 'rgba(249,115,22,0.08)' : 'var(--bg-tertiary)', border: `1px solid ${packItems.includes(item.id) ? 'var(--accent-orange)' : 'var(--border)'}`, borderRadius: 8, cursor: 'pointer', fontSize: 11 }}>{packItems.includes(item.id) ? ' ' : ''}{item.name} • ₹{item.price}</div>))}</div></div>
             <div style={{ marginBottom: 12 }}><label className="form-label">Send to Clients</label><div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>{members.map(c => (<button key={c.id} className={`btn btn-sm ${packClients.includes(c.id) ? 'btn-primary' : 'btn-outline'}`} onClick={() => togglePC(c.id)}>{c.name}</button>))}</div></div>
             <div className="modal-footer"><button className="btn btn-outline" onClick={() => setShowPack(false)}>Cancel</button><button className="btn btn-success" onClick={createPack}><Package size={14} style={{marginRight:4}} /> Create</button></div>
           </div>

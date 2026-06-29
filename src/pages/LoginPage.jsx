@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Dumbbell, Users, Crown, ChefHat, Truck, Settings, ArrowLeft } from 'lucide-react';
+import { Dumbbell, Users, Crown, ChefHat, Truck, Settings, ArrowLeft } from '../components/Icons';
 
 const roleMap = { client: '/client/menu', trainer: '/trainer/home', owner: '/owner/menu', kitchen: '/kitchen/dashboard', delivery: '/delivery/dashboard', admin: '/admin/dashboard' };
 const demoCredentials = [
@@ -104,7 +104,7 @@ export default function LoginPage() {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 26, boxShadow: '0 8px 32px rgba(249,115,22,0.3)',
             animation: 'float 3s ease-in-out infinite',
-          }}>🍽️</div>
+          }}>️</div>
           <h1 style={{ fontFamily: 'Outfit', fontSize: 26, fontWeight: 900, color: '#fff', marginBottom: 4 }}>
             <span style={{ color: '#22c55e' }}>Fit</span>Bites
           </h1>
@@ -126,7 +126,7 @@ export default function LoginPage() {
               <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.6)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Password</label>
               <input type="password" value={password} onChange={e => { setPassword(e.target.value); setError(''); }} placeholder="Enter your password" required style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 12, color: '#fff', fontSize: 14, outline: 'none', transition: 'border 0.3s' }} onFocus={e => e.target.style.borderColor = 'rgba(249,115,22,0.6)'} onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.12)'} />
             </div>
-            {error && <p style={{ color: '#fca5a5', fontSize: 13, marginBottom: 12, textAlign: 'center', background: 'rgba(239,68,68,0.15)', padding: '8px 12px', borderRadius: 10, border: '1px solid rgba(239,68,68,0.25)' }}>❌ {error}</p>}
+            {error && <p style={{ color: '#fca5a5', fontSize: 13, marginBottom: 12, textAlign: 'center', background: 'rgba(239,68,68,0.15)', padding: '8px 12px', borderRadius: 10, border: '1px solid rgba(239,68,68,0.25)' }}> {error}</p>}
             <button type="submit" style={{ width: '100%', padding: 14, background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 12, fontSize: 15, fontWeight: 800, cursor: 'pointer', border: 'none', boxShadow: '0 4px 20px rgba(249,115,22,0.4)', transition: 'all 0.3s' }}
               onMouseEnter={e => { e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 8px 30px rgba(249,115,22,0.5)'; }}
               onMouseLeave={e => { e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 4px 20px rgba(249,115,22,0.4)'; }}

@@ -34,7 +34,7 @@ export default function MyOwner() {
 
   const handleLeaveGym = () => {
     setConfirm({
-      title: '🚪 Leave Gym',
+      title: ' Leave Gym',
       msg: `Are you sure you want to leave "${gym?.name || 'this gym'}"? You will lose access to all assigned clients and gym features.`,
       color: '#ef4444',
       action: () => {
@@ -70,7 +70,7 @@ export default function MyOwner() {
       requestedAt: new Date().toISOString(),
     };
     setJoinRequests(prev => [...prev, newReq]);
-    showToast(`✅ Join request sent to ${gymData.name}! The owner will review it.`);
+    showToast(` Join request sent to ${gymData.name}! The owner will review it.`);
     setSelectedGym(null);
     setView('browse');
   };
@@ -213,7 +213,7 @@ export default function MyOwner() {
                 color: '#f59e0b', fontWeight: 700, fontSize: 14,
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
               }}>
-                <span style={{ animation: 'pulse 2s infinite' }}>⏳</span> Join Request Pending — Awaiting Owner Approval
+                <span style={{ animation: 'pulse 2s infinite' }}></span> Join Request Pending — Awaiting Owner Approval
               </div>
             ) : reqStatus === 'accepted' ? (
               <div style={{
@@ -221,7 +221,7 @@ export default function MyOwner() {
                 background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)',
                 color: '#22c55e', fontWeight: 700, fontSize: 14,
               }}>
-                ✅ Request Accepted — Welcome!
+                 Request Accepted — Welcome!
               </div>
             ) : (
               <button
@@ -236,7 +236,7 @@ export default function MyOwner() {
                 onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 28px rgba(34,197,94,0.4)'; }}
                 onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 18px rgba(34,197,94,0.3)'; }}
               >
-                🤝 Request to Join {selectedGym.name}
+                 Request to Join {selectedGym.name}
               </button>
             )}
           </div>
@@ -272,7 +272,7 @@ export default function MyOwner() {
             fontSize: 13, color: '#f59e0b', fontWeight: 600,
             display: 'flex', alignItems: 'center', gap: 8,
           }}>
-            ⏳ You have {joinRequests.filter(r => r.trainerId === user?.id && r.status === 'pending').length} pending join request(s)
+             You have {joinRequests.filter(r => r.trainerId === user?.id && r.status === 'pending').length} pending join request(s)
           </div>
         )}
 
@@ -293,11 +293,11 @@ export default function MyOwner() {
                   <div style={{ height: 160, overflow: 'hidden', position: 'relative' }}>
                     <img src={gymItem.images[0]} alt={gymItem.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     <div style={{ position: 'absolute', top: 10, right: 10, padding: '4px 10px', borderRadius: 8, background: 'rgba(0,0,0,0.6)', color: '#fbbf24', fontSize: 12, fontWeight: 700 }}>
-                      ⭐ {gymItem.rating}
+                       {gymItem.rating}
                     </div>
                     {reqStatus === 'pending' && (
                       <div style={{ position: 'absolute', top: 10, left: 10, padding: '4px 10px', borderRadius: 8, background: 'rgba(251,191,36,0.9)', color: '#fff', fontSize: 10, fontWeight: 700 }}>
-                        ⏳ PENDING
+                         PENDING
                       </div>
                     )}
                   </div>
@@ -322,7 +322,7 @@ export default function MyOwner() {
                     border: reqStatus === 'pending' ? '1px solid rgba(251,191,36,0.3)' : 'none',
                     fontWeight: 700, fontSize: 13,
                   }}>
-                    {reqStatus === 'pending' ? '⏳ Request Pending' : <><Icon icon={Eye} size={14} style={{marginRight:4}} /> View Details & Join</>}
+                    {reqStatus === 'pending' ? ' Request Pending' : <><Icon icon={Eye} size={14} style={{marginRight:4}} /> View Details & Join</>}
                   </div>
                 </div>
               </div>
@@ -340,7 +340,7 @@ export default function MyOwner() {
       {confirm && (
         <div className="modal-overlay" onClick={() => setConfirm(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 420, textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 12 }}>⚠️</div>
+            <div style={{ fontSize: 48, marginBottom: 12 }}>️</div>
             <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
             <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>

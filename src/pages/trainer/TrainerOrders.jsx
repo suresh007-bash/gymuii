@@ -27,7 +27,7 @@ export default function TrainerOrders() {
   const handleReschedule = () => {
     if (newDates.length === 0) { showToast('Select at least one date', 'error'); return; }
     if (updateOrderDates) updateOrderDates(rescheduleOrder.id, newDates, newTiming);
-    showToast('✅ Rescheduled!'); setRescheduleOrder(null); setNewDates([]);
+    showToast(' Rescheduled!'); setRescheduleOrder(null); setNewDates([]);
   };
 
   return (
@@ -35,9 +35,9 @@ export default function TrainerOrders() {
       {rescheduleOrder && (
         <div className="modal-overlay" onClick={() => { setRescheduleOrder(null); setNewDates([]); }}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 480 }}>
-            <div className="modal-header"><h3 className="modal-title"><Icon icon={Calendar} size={16} style={{marginRight:6}} /> Reschedule #{rescheduleOrder.id}</h3><button className="modal-close" onClick={() => { setRescheduleOrder(null); setNewDates([]); }}>✕</button></div>
+            <div className="modal-header"><h3 className="modal-title"><Icon icon={Calendar} size={16} style={{marginRight:6}} /> Reschedule #{rescheduleOrder.id}</h3><button className="modal-close" onClick={() => { setRescheduleOrder(null); setNewDates([]); }}></button></div>
             <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
-              {[['morning', '🌅 Breakfast'], ['noon', '☀️ Lunch'], ['evening', '🌙 Dinner']].map(([k, l]) => (
+              {[['morning', ' Breakfast'], ['noon', '️ Lunch'], ['evening', ' Dinner']].map(([k, l]) => (
                 <button key={k} className={`btn btn-sm ${newTiming === k ? 'btn-primary' : 'btn-outline'}`} onClick={() => setNewTiming(k)} style={{ flex: 1 }}>{l}</button>
               ))}
             </div>
@@ -65,7 +65,7 @@ export default function TrainerOrders() {
               </div>
               {['pending', 'preparing', 'ready', 'in_transit'].includes(order.status) && (
                 <div style={{ display: 'flex', alignItems: 'center', margin: '12px 0' }}>
-                  {stages.map((s, i) => { const cs = stageMap[order.status] || 0; return (<div key={i} style={{ display: 'flex', alignItems: 'center', flex: 1 }}><div style={{ width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, background: i <= cs ? (i === cs ? 'var(--accent-orange)' : 'var(--accent-green)') : 'var(--bg-tertiary)', color: i <= cs ? '#fff' : 'var(--text-muted)', flexShrink: 0 }}>{i < cs ? '✓' : i + 1}</div>{i < stages.length - 1 && <div style={{ flex: 1, height: 3, background: i < cs ? 'var(--accent-green)' : 'var(--bg-tertiary)', margin: '0 -2px' }} />}</div>); })}
+                  {stages.map((s, i) => { const cs = stageMap[order.status] || 0; return (<div key={i} style={{ display: 'flex', alignItems: 'center', flex: 1 }}><div style={{ width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, background: i <= cs ? (i === cs ? 'var(--accent-orange)' : 'var(--accent-green)') : 'var(--bg-tertiary)', color: i <= cs ? '#fff' : 'var(--text-muted)', flexShrink: 0 }}>{i < cs ? '' : i + 1}</div>{i < stages.length - 1 && <div style={{ flex: 1, height: 3, background: i < cs ? 'var(--accent-green)' : 'var(--bg-tertiary)', margin: '0 -2px' }} />}</div>); })}
                 </div>
               )}
               {order.otp && ['pending', 'preparing', 'ready', 'in_transit'].includes(order.status) && (

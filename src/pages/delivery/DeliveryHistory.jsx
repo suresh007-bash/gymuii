@@ -89,16 +89,16 @@ export default function DeliveryHistory() {
 
       {/* Filter Tabs */}
       <div className="tabs" style={{ marginBottom: 16 }}>
-        <button className={`tab ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>📊 All Time</button>
-        <button className={`tab ${filter === 'month' ? 'active' : ''}`} onClick={() => setFilter('month')}>📅 Last 30 Days</button>
-        <button className={`tab ${filter === 'week' ? 'active' : ''}`} onClick={() => setFilter('week')}>🗓️ Last 7 Days</button>
+        <button className={`tab ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}> All Time</button>
+        <button className={`tab ${filter === 'month' ? 'active' : ''}`} onClick={() => setFilter('month')}> Last 30 Days</button>
+        <button className={`tab ${filter === 'week' ? 'active' : ''}`} onClick={() => setFilter('week')}>️ Last 7 Days</button>
       </div>
 
       {/* Best Day Highlight */}
       {bestDay && (
         <div style={{ padding: '14px 20px', marginBottom: 16, background: 'linear-gradient(135deg, rgba(249,115,22,0.08), rgba(234,179,8,0.08))', borderRadius: 14, border: '1px solid rgba(249,115,22,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: 22 }}>🏆</span>
+            <span style={{ fontSize: 22 }}></span>
             <div>
               <div style={{ fontWeight: 800, fontSize: 13, fontFamily: 'Outfit' }}>Best Day — {formatDate(bestDay.date)}</div>
               <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{bestDay.deliveries} deliveries • {getHours(bestDay.deliveries)} active</div>
@@ -110,7 +110,7 @@ export default function DeliveryHistory() {
 
       {/* Day-wise Breakdown Table */}
       <div className="card" style={{ marginBottom: 16 }}>
-        <div className="card-header"><h3 className="card-title">📋 Day-wise Breakdown</h3></div>
+        <div className="card-header"><h3 className="card-title"> Day-wise Breakdown</h3></div>
         {filtered.length === 0 ? (
           <p style={{ color: 'var(--text-muted)', padding: 20, textAlign: 'center' }}>No delivery data found</p>
         ) : (
@@ -127,10 +127,10 @@ export default function DeliveryHistory() {
             </thead>
             <tbody>
               {filtered.map(d => {
-                const perf = d.deliveries >= 8 ? { label: '🔥 Excellent', color: '#22c55e' } :
-                             d.deliveries >= 5 ? { label: '⚡ Good', color: '#3b82f6' } :
-                             d.deliveries >= 3 ? { label: '👍 Fair', color: '#f97316' } :
-                             { label: '📉 Low', color: 'var(--text-muted)' };
+                const perf = d.deliveries >= 8 ? { label: ' Excellent', color: '#22c55e' } :
+                             d.deliveries >= 5 ? { label: ' Good', color: '#3b82f6' } :
+                             d.deliveries >= 3 ? { label: ' Fair', color: '#f97316' } :
+                             { label: ' Low', color: 'var(--text-muted)' };
                 return (
                   <tr key={d.date}>
                     <td>
@@ -161,7 +161,7 @@ export default function DeliveryHistory() {
 
       {/* Earnings Breakdown Card */}
       <div className="card">
-        <div className="card-header"><h3 className="card-title">💰 Earnings Summary</h3></div>
+        <div className="card-header"><h3 className="card-title"> Earnings Summary</h3></div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: 12 }}>
           <div style={{ padding: 16, background: 'rgba(34,197,94,0.06)', borderRadius: 12, textAlign: 'center' }}>
             <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700 }}>Delivery Fees</div>

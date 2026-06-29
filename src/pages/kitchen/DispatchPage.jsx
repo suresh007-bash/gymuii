@@ -24,7 +24,7 @@ export default function DispatchPage() {
     const best = sorted[0];
     if (!best) { showToast('No drivers available!', 'error'); return; }
     assignDriver(orderId, best.id, best.name);
-    showToast(`🤖 Auto-assigned to ${best.name} (pending acceptance)`);
+    showToast(` Auto-assigned to ${best.name} (pending acceptance)`);
   };
 
   // Manual assign
@@ -33,7 +33,7 @@ export default function DispatchPage() {
     if (!driverId) { showToast('Select a driver first', 'error'); return; }
     const driver = drivers.find(d => d.id === driverId);
     assignDriver(orderId, driverId, driver?.name || 'Unknown');
-    showToast(`📦 Assigned to ${driver?.name} (pending acceptance)`);
+    showToast(` Assigned to ${driver?.name} (pending acceptance)`);
   };
 
   // Reassign rejected order
@@ -42,7 +42,7 @@ export default function DispatchPage() {
     if (!driverId) { showToast('Select a new driver', 'error'); return; }
     const driver = drivers.find(d => d.id === driverId);
     assignDriver(orderId, driverId, driver?.name || 'Unknown');
-    showToast(`🔄 Reassigned to ${driver?.name}`);
+    showToast(` Reassigned to ${driver?.name}`);
   };
 
   const displayOrders = tab === 'ready' ? readyOrders : tab === 'pending' ? pendingDriverOrders : inTransitOrders;
@@ -51,9 +51,9 @@ export default function DispatchPage() {
     <DashboardLayout title="Dispatch">
       {/* Tabs */}
       <div className="tabs" style={{ marginBottom: 20 }}>
-        <button className={`tab ${tab === 'ready' ? 'active' : ''}`} onClick={() => setTab('ready')}>📦 Ready ({readyOrders.length})</button>
-        <button className={`tab ${tab === 'pending' ? 'active' : ''}`} onClick={() => setTab('pending')}>⏳ Pending ({pendingDriverOrders.length})</button>
-        <button className={`tab ${tab === 'transit' ? 'active' : ''}`} onClick={() => setTab('transit')}>🚗 In Transit ({inTransitOrders.length})</button>
+        <button className={`tab ${tab === 'ready' ? 'active' : ''}`} onClick={() => setTab('ready')}> Ready ({readyOrders.length})</button>
+        <button className={`tab ${tab === 'pending' ? 'active' : ''}`} onClick={() => setTab('pending')}> Pending ({pendingDriverOrders.length})</button>
+        <button className={`tab ${tab === 'transit' ? 'active' : ''}`} onClick={() => setTab('transit')}> In Transit ({inTransitOrders.length})</button>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 20 }}>
@@ -61,7 +61,7 @@ export default function DispatchPage() {
         <div>
           {displayOrders.length === 0 ? (
             <div className="card" style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)' }}>
-              <div style={{ fontSize: 48, marginBottom: 8 }}>{tab === 'ready' ? '📦' : tab === 'pending' ? '⏳' : '🚗'}</div>
+              <div style={{ fontSize: 48, marginBottom: 8 }}>{tab === 'ready' ? '' : tab === 'pending' ? '' : ''}</div>
               No {tab === 'ready' ? 'ready' : tab === 'pending' ? 'pending driver' : 'in transit'} orders
             </div>
           ) : displayOrders.map(o => (
@@ -69,33 +69,33 @@ export default function DispatchPage() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                 <span style={{ fontWeight: 800, fontFamily: 'Outfit', fontSize: 15 }}>#{o.id}</span>
                 <span className={`badge ${o.status === 'ready' ? 'badge-green' : o.status === 'driver_pending' ? 'badge-orange' : 'badge-purple'}`}>
-                  {o.status === 'driver_pending' ? '⏳ PENDING DRIVER' : o.status === 'in_transit' ? '🚗 IN TRANSIT' : '✅ READY'}
+                  {o.status === 'driver_pending' ? ' PENDING DRIVER' : o.status === 'in_transit' ? ' IN TRANSIT' : ' READY'}
                 </span>
               </div>
 
-              <div style={{ fontSize: 13, marginBottom: 4 }}>👤 {o.customerName}</div>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 4 }}>📍 {o.customerAddress}</div>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 4 }}>🍽️ {o.items.map(i => i.name).join(', ')}</div>
+              <div style={{ fontSize: 13, marginBottom: 4 }}> {o.customerName}</div>
+              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 4 }}> {o.customerAddress}</div>
+              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 4 }}>️ {o.items.map(i => i.name).join(', ')}</div>
               <div style={{ display: 'flex', gap: 12, fontSize: 12, marginBottom: 8 }}>
                 <span style={{ fontWeight: 800, color: 'var(--accent-green)' }}>₹{o.total}</span>
-                <span>💳 {o.paymentMethod}</span>
+                <span> {o.paymentMethod}</span>
                 <span>{o.paymentStatus}</span>
-                {o.otp && <span>🔐 OTP: <strong>{o.otp}</strong></span>}
+                {o.otp && <span> OTP: <strong>{o.otp}</strong></span>}
               </div>
 
               {/* Scheduled dates */}
               {o.scheduledDates?.length > 0 && (
                 <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 8 }}>
-                  📅 Scheduled: {o.scheduledDates.map(d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })).join(', ')}
+                   Scheduled: {o.scheduledDates.map(d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })).join(', ')}
                 </div>
               )}
 
               {/* Driver info for pending/transit */}
               {o.driverName && (
                 <div style={{ padding: '6px 12px', background: o.status === 'driver_pending' ? 'rgba(249,115,22,0.06)' : 'rgba(34,197,94,0.06)', borderRadius: 8, marginBottom: 8, fontSize: 12 }}>
-                  🚗 Assigned to: <strong>{o.driverName}</strong>
+                   Assigned to: <strong>{o.driverName}</strong>
                   {o.status === 'driver_pending' && <span style={{ color: 'var(--accent-orange)', marginLeft: 8 }}>• Waiting for acceptance</span>}
-                  {o.status === 'in_transit' && <span style={{ color: 'var(--accent-green)', marginLeft: 8 }}>• ✅ Accepted & delivering</span>}
+                  {o.status === 'in_transit' && <span style={{ color: 'var(--accent-green)', marginLeft: 8 }}>•  Accepted & delivering</span>}
                 </div>
               )}
 
@@ -107,9 +107,9 @@ export default function DispatchPage() {
                       <option value="">Select Driver...</option>
                       {drivers.map(d => <option key={d.id} value={d.id}>{d.name} ({d.vehicleType}) • {getDriverActiveCount(d.id)} active</option>)}
                     </select>
-                    <button className="btn btn-primary btn-sm" onClick={() => handleManualAssign(o.id)}>📤 Assign</button>
+                    <button className="btn btn-primary btn-sm" onClick={() => handleManualAssign(o.id)}> Assign</button>
                   </div>
-                  <button className="btn btn-outline btn-sm" style={{ width: '100%' }} onClick={() => autoAssign(o.id)}>🤖 Auto-Assign Best Driver</button>
+                  <button className="btn btn-outline btn-sm" style={{ width: '100%' }} onClick={() => autoAssign(o.id)}> Auto-Assign Best Driver</button>
                 </div>
               )}
 
@@ -120,7 +120,7 @@ export default function DispatchPage() {
                     <option value="">Change Driver...</option>
                     {drivers.filter(d => d.id !== o.driverId).map(d => <option key={d.id} value={d.id}>{d.name} ({d.vehicleType})</option>)}
                   </select>
-                  <button className="btn btn-outline btn-sm" onClick={() => handleReassign(o.id)}>🔄 Reassign</button>
+                  <button className="btn btn-outline btn-sm" onClick={() => handleReassign(o.id)}> Reassign</button>
                 </div>
               )}
             </div>
@@ -129,7 +129,7 @@ export default function DispatchPage() {
 
         {/* Drivers Panel */}
         <div>
-          <h3 style={{ fontFamily: 'Outfit', fontWeight: 700, marginBottom: 12, fontSize: 15 }}>🚗 Drivers ({drivers.length})</h3>
+          <h3 style={{ fontFamily: 'Outfit', fontWeight: 700, marginBottom: 12, fontSize: 15 }}> Drivers ({drivers.length})</h3>
           {drivers.map(d => {
             const activeCount = getDriverActiveCount(d.id);
             const pendingCount = orders.filter(o => o.driverId === d.id && o.status === 'driver_pending').length;
@@ -143,13 +143,13 @@ export default function DispatchPage() {
                     <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>{d.vehicleType} • {d.licenseNo}</div>
                   </div>
                   <span className={`badge ${activeCount === 0 ? 'badge-green' : 'badge-orange'}`} style={{ fontSize: 10 }}>
-                    {activeCount === 0 ? '🟢 Free' : `📦 ${activeCount}`}
+                    {activeCount === 0 ? '🟢 Free' : ` ${activeCount}`}
                   </span>
                 </div>
                 <div style={{ display: 'flex', gap: 8, marginTop: 6, fontSize: 10, color: 'var(--text-muted)' }}>
-                  <span>⭐ {d.rating}</span>
-                  <span>⏳ {pendingCount} pending</span>
-                  <span>✅ {deliveredCount} done</span>
+                  <span> {d.rating}</span>
+                  <span> {pendingCount} pending</span>
+                  <span> {deliveredCount} done</span>
                 </div>
               </div>
             );

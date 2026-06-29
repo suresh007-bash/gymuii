@@ -29,7 +29,7 @@ export default function ClientMealPlans() {
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               border: '2px dashed rgba(99,102,241,0.3)',
             }}>
-              <span style={{ fontSize: 40 }}>🔒</span>
+              <span style={{ fontSize: 40 }}></span>
             </div>
             <h3 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 20, marginBottom: 8 }}>
               Trainer Required
@@ -51,7 +51,7 @@ export default function ClientMealPlans() {
               onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(99,102,241,0.4)'; }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 14px rgba(99,102,241,0.3)'; }}
             >
-              🏋️ Join Gym & Hire Trainer
+              ️ Join Gym & Hire Trainer
             </button>
           </div>
         </div>
@@ -91,7 +91,7 @@ export default function ClientMealPlans() {
 
   const handleDeletePlan = (planId) => {
     deleteDietPlan(planId);
-    showToast('🗑️ Plan deleted successfully!');
+    showToast('️ Plan deleted successfully!');
     setConfirmDelete(null);
   };
 
@@ -126,7 +126,7 @@ export default function ClientMealPlans() {
         otp,
         planName: plan.name,
       });
-      showToast(`✅ Meal schedule ordered! OTP: ${otp}`);
+      showToast(` Meal schedule ordered! OTP: ${otp}`);
       setShowOrder(null);
       setSelectedDates([]);
       return;
@@ -146,7 +146,7 @@ export default function ClientMealPlans() {
       otp,
       planName: plan.name,
     });
-    showToast(`✅ Meal plan ordered! OTP: ${otp}`);
+    showToast(` Meal plan ordered! OTP: ${otp}`);
     setShowOrder(null);
     setSelectedDates([]);
   };
@@ -166,11 +166,11 @@ export default function ClientMealPlans() {
         <div className="modal-overlay" onClick={() => setConfirmDelete(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 400 }}>
             <div className="modal-header">
-              <h3 className="modal-title">🗑️ Delete Plan</h3>
-              <button className="modal-close" onClick={() => setConfirmDelete(null)}>✕</button>
+              <h3 className="modal-title">️ Delete Plan</h3>
+              <button className="modal-close" onClick={() => setConfirmDelete(null)}></button>
             </div>
             <div style={{ padding: '16px 0', textAlign: 'center' }}>
-              <div style={{ fontSize: 48, marginBottom: 12 }}>⚠️</div>
+              <div style={{ fontSize: 48, marginBottom: 12 }}>️</div>
               <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: 8 }}>
                 Are you sure you want to delete <strong>"{confirmDelete.name}"</strong>?
               </p>
@@ -189,7 +189,7 @@ export default function ClientMealPlans() {
                   boxShadow: '0 4px 14px rgba(239,68,68,0.3)',
                 }}
               >
-                🗑️ Delete Plan
+                ️ Delete Plan
               </button>
             </div>
           </div>
@@ -201,8 +201,8 @@ export default function ClientMealPlans() {
         <div className="modal-overlay" onClick={() => { setShowOrder(null); setSelectedDates([]); }}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 520 }}>
             <div className="modal-header">
-              <h3 className="modal-title">📅 Schedule "{showOrder.name}"</h3>
-              <button className="modal-close" onClick={() => { setShowOrder(null); setSelectedDates([]); }}>✕</button>
+              <h3 className="modal-title"> Schedule "{showOrder.name}"</h3>
+              <button className="modal-close" onClick={() => { setShowOrder(null); setSelectedDates([]); }}></button>
             </div>
 
             <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 12 }}>
@@ -216,7 +216,7 @@ export default function ClientMealPlans() {
               <div style={{ marginBottom: 14 }}>
                 <label className="form-label">Meal Timing</label>
                 <div style={{ display: 'flex', gap: 8 }}>
-                  {[['morning', '🌅 Breakfast', '8:00 AM'], ['noon', '☀️ Lunch', '12:30 PM'], ['evening', '🌙 Dinner', '7:00 PM']].map(([k, label, time]) => (
+                  {[['morning', ' Breakfast', '8:00 AM'], ['noon', '️ Lunch', '12:30 PM'], ['evening', ' Dinner', '7:00 PM']].map(([k, label, time]) => (
                     <button key={k} className={`btn btn-sm ${timing === k ? 'btn-primary' : 'btn-outline'}`} onClick={() => setTiming(k)} style={{ flex: 1 }}>
                       {label}<br /><span style={{ fontSize: 10, opacity: 0.7 }}>{time}</span>
                     </button>
@@ -228,14 +228,14 @@ export default function ClientMealPlans() {
             {/* Trainer Pre-assigned Schedule Summary */}
             {showOrder.schedule && (
               <div style={{ marginBottom: 14, maxHeight: 200, overflowY: 'auto', paddingRight: 4 }}>
-                <label className="form-label" style={{ color: 'var(--accent-orange)' }}>📋 Pre-assigned Meal Schedule</label>
+                <label className="form-label" style={{ color: 'var(--accent-orange)' }}> Pre-assigned Meal Schedule</label>
                 {Object.entries(showOrder.schedule).sort((a, b) => a[0].localeCompare(b[0])).map(([dateStr, slots]) => {
                   const hasItems = slots.some(s => s.items && s.items.length > 0);
                   if (!hasItems) return null;
                   return (
                     <div key={dateStr} style={{ marginBottom: 10, padding: 10, background: 'var(--bg-tertiary)', borderRadius: 10 }}>
                       <div style={{ fontWeight: 800, fontSize: 12, borderBottom: '1px solid var(--border)', paddingBottom: 4, marginBottom: 6 }}>
-                        📅 {new Date(dateStr).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })}
+                         {new Date(dateStr).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })}
                       </div>
                       {slots.filter(s => s.items && s.items.length > 0).map((slot, idx) => (
                         <div key={slot.id || idx} style={{ fontSize: 12, marginBottom: 4, paddingLeft: 6 }}>
@@ -298,14 +298,14 @@ export default function ClientMealPlans() {
 
             {selectedDates.length > 0 && (
               <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 12, fontSize: 12 }}>
-                <strong>📅 {selectedDates.length} dates:</strong> {selectedDates.sort().map(d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })).join(', ')}
+                <strong> {selectedDates.length} dates:</strong> {selectedDates.sort().map(d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })).join(', ')}
               </div>
             )}
 
             <div className="modal-footer">
               <button className="btn btn-outline" onClick={() => { setShowOrder(null); setSelectedDates([]); }}>Cancel</button>
               <button className="btn btn-success" onClick={() => orderPlan(showOrder)} disabled={selectedDates.length === 0}>
-                📦 Order for {selectedDates.length} day{selectedDates.length !== 1 ? 's' : ''}
+                 Order for {selectedDates.length} day{selectedDates.length !== 1 ? 's' : ''}
               </button>
             </div>
           </div>
@@ -315,7 +315,7 @@ export default function ClientMealPlans() {
       {/* Assigned Plans */}
       {myPlans.length > 0 && (
         <div style={{ marginBottom: 24 }}>
-          <h3 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 18, marginBottom: 14 }}>📋 Plans Assigned to You</h3>
+          <h3 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 18, marginBottom: 14 }}> Plans Assigned to You</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
             {myPlans.map(plan => {
               const items = (plan.items || []).map(id => MENU_ITEMS.find(m => m.id === id)).filter(Boolean);
@@ -339,7 +339,7 @@ export default function ClientMealPlans() {
                     onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.2)'; e.currentTarget.style.transform = 'scale(1)'; }}
                     title="Delete plan"
                   >
-                    🗑️
+                    ️
                   </button>
 
                   <div style={{ background: 'var(--gradient-primary)', padding: '14px 16px', marginBottom: 0 }}>
@@ -348,7 +348,7 @@ export default function ClientMealPlans() {
                   </div>
                   <div style={{ padding: 14 }}>
                     <div style={{ display: 'flex', gap: 12, marginBottom: 10 }}>
-                      {[['🔥', totalCal, 'kcal'], ['💪', totalPro + 'g', 'protein'], ['₹', totalPrice, 'price']].map(([icon, val, label], i) => (
+                      {[['', totalCal, 'kcal'], ['', totalPro + 'g', 'protein'], ['₹', totalPrice, 'price']].map(([icon, val, label], i) => (
                         <div key={i} style={{ flex: 1, textAlign: 'center', padding: 8, background: 'var(--bg-tertiary)', borderRadius: 8 }}>
                           <div style={{ fontSize: 14, fontWeight: 900 }}>{icon} {val}</div>
                           <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>{label}</div>
@@ -365,7 +365,7 @@ export default function ClientMealPlans() {
                       ))}
                       {items.length > 3 && <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>+{items.length - 3} more items</div>}
                     </div>
-                    <button className="btn btn-primary" style={{ width: '100%' }} onClick={() => handleShowOrder(plan)}>📅 Schedule & Order</button>
+                    <button className="btn btn-primary" style={{ width: '100%' }} onClick={() => handleShowOrder(plan)}> Schedule & Order</button>
                   </div>
                 </div>
               );
@@ -385,7 +385,7 @@ export default function ClientMealPlans() {
               border: '2px dashed rgba(249,115,22,0.25)',
               animation: 'float 4s ease-in-out infinite',
             }}>
-              <span style={{ fontSize: 44 }}>⏳</span>
+              <span style={{ fontSize: 44 }}></span>
             </div>
             <h3 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 20, marginBottom: 8 }}>
               Waiting for Trainer Recommendation
@@ -398,12 +398,12 @@ export default function ClientMealPlans() {
               background: 'var(--bg-tertiary)', borderRadius: 14, padding: 16, marginBottom: 20,
               border: '1px solid var(--border)', textAlign: 'left',
             }}>
-              <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--text-secondary)', marginBottom: 10 }}>💡 What to expect:</div>
+              <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--text-secondary)', marginBottom: 10 }}> What to expect:</div>
               {[
-                ['🍽️', 'Personalized meal plans based on your fitness goals'],
-                ['📅', 'Scheduled meals for breakfast, lunch & dinner'],
-                ['📊', 'Macro-tracked recommendations matching your targets'],
-                ['📦', 'One-click ordering for trainer-assigned meals'],
+                ['️', 'Personalized meal plans based on your fitness goals'],
+                ['', 'Scheduled meals for breakfast, lunch & dinner'],
+                ['', 'Macro-tracked recommendations matching your targets'],
+                ['', 'One-click ordering for trainer-assigned meals'],
               ].map(([icon, text], i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 0' }}>
                   <span style={{ fontSize: 16 }}>{icon}</span>
@@ -420,7 +420,7 @@ export default function ClientMealPlans() {
               onClick={() => navigate('/client/menu')}
               style={{ padding: '12px 28px', borderRadius: 12, fontWeight: 700, fontSize: 14 }}
             >
-              🍔 Browse Menu
+               Browse Menu
             </button>
           </div>
         </div>

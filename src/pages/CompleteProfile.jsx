@@ -46,13 +46,13 @@ export default function CompleteProfile() {
     const updates = {};
     Object.entries(form).forEach(([k, v]) => { if (v) updates[k] = v; });
     updateUser(user.id, { ...updates, profileComplete: true });
-    showToast(`🎉 Welcome to FitBites, ${user.name}! Your profile is ready.`, 'success');
+    showToast(` Welcome to FitBites, ${user.name}! Your profile is ready.`, 'success');
     navigate(roleMap[user.role]);
   };
 
   const handleSkip = () => {
     updateUser(user.id, { profileComplete: true });
-    showToast(`👋 Welcome, ${user.name}! You can complete your profile later.`);
+    showToast(` Welcome, ${user.name}! You can complete your profile later.`);
     navigate(roleMap[user.role]);
   };
 
@@ -88,7 +88,7 @@ export default function CompleteProfile() {
             animation: 'float 3s ease-in-out infinite',
           }}>{user.avatar}</div>
           <h1 style={{ fontFamily: 'Outfit', fontSize: 26, fontWeight: 900, color: '#fff', marginBottom: 4 }}>
-            Welcome, {user.name}! 🎉
+            Welcome, {user.name}! 
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>Complete your profile to get the best experience</p>
         </div>
@@ -103,7 +103,7 @@ export default function CompleteProfile() {
           {/* ═══ CLIENT / TRAINER / OWNER — Health & Diet ═══ */}
           {(user.role === 'client' || user.role === 'trainer' || user.role === 'owner') && (
             <div style={{ marginBottom: 20 }}>
-              <div style={sectionStyle}>🏋️ Health & Diet Profile</div>
+              <div style={sectionStyle}>️ Health & Diet Profile</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 12 }}>
                 <div>
                   <label style={labelStyle}>Age</label>
@@ -175,7 +175,7 @@ export default function CompleteProfile() {
           {/* ═══ TRAINER — Credentials ═══ */}
           {user.role === 'trainer' && (
             <div style={{ marginBottom: 20 }}>
-              <div style={sectionStyle}>📜 Trainer Credentials</div>
+              <div style={sectionStyle}> Trainer Credentials</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div>
                   <label style={labelStyle}>Specialization</label>
@@ -198,7 +198,7 @@ export default function CompleteProfile() {
           {/* ═══ OWNER — Gym Business ═══ */}
           {user.role === 'owner' && (
             <div style={{ marginBottom: 20 }}>
-              <div style={sectionStyle}>🏢 Gym Business Details</div>
+              <div style={sectionStyle}> Gym Business Details</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 <div>
                   <label style={labelStyle}>Gym Name</label>
@@ -228,7 +228,7 @@ export default function CompleteProfile() {
           {/* ═══ KITCHEN ═══ */}
           {user.role === 'kitchen' && (
             <div style={{ marginBottom: 20 }}>
-              <div style={sectionStyle}>🍳 Kitchen Details</div>
+              <div style={sectionStyle}> Kitchen Details</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 <div>
                   <label style={labelStyle}>Kitchen Name</label>
@@ -251,7 +251,7 @@ export default function CompleteProfile() {
           {/* ═══ DELIVERY ═══ */}
           {user.role === 'delivery' && (
             <div style={{ marginBottom: 20 }}>
-              <div style={sectionStyle}>🚚 Delivery Details</div>
+              <div style={sectionStyle}> Delivery Details</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div>
                   <label style={labelStyle}>Vehicle Type</label>
@@ -275,7 +275,7 @@ export default function CompleteProfile() {
           {/* ═══ ADMIN ═══ */}
           {user.role === 'admin' && (
             <div style={{ textAlign: 'center', padding: 24 }}>
-              <div style={{ fontSize: 40, marginBottom: 8 }}>⚙️</div>
+              <div style={{ fontSize: 40, marginBottom: 8 }}>️</div>
               <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>You're all set! No additional info needed for admin accounts.</p>
             </div>
           )}
@@ -300,7 +300,7 @@ export default function CompleteProfile() {
             }}
               onMouseEnter={e => { e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 8px 30px rgba(34,197,94,0.5)'; }}
               onMouseLeave={e => { e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 4px 20px rgba(34,197,94,0.4)'; }}
-            >✅ Save & Continue</button>
+            > Save & Continue</button>
           </div>
         </div>
       </div>

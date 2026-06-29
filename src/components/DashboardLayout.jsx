@@ -37,7 +37,7 @@ const NAV = {
     { icon: Package, tKey: 'myOrders', path: '/trainer/orders' },
     { icon: BarChart3, tKey: 'nutrition', path: '/trainer/nutrition' },
     { icon: Gem, tKey: 'subscriptions', path: '/trainer/subscriptions' },
-    { section: '🏋️ Trainer Tools' },
+    { section: '️ Trainer Tools' },
     { icon: Users, tKey: 'myClients', path: '/trainer/clients' },
     { icon: CalendarClock, tKey: 'scheduleForClients', path: '/trainer/schedule-for-clients' },
     { icon: Building2, tKey: 'myGymOwner', path: '/trainer/my-owner' },
@@ -45,18 +45,18 @@ const NAV = {
   ]},
   owner: { brand: 'FitSwipe', sub: 'OWNER PORTAL', gradient: 'linear-gradient(135deg, #22c55e, #4ade80)', links: [
     { icon: Home, tKey: 'home', path: '/owner/menu' },
-    { section: '👑 Owner Tools' },
+    { section: ' Owner Tools' },
     { icon: Dumbbell, tKey: 'manageTrainers', path: '/owner/trainers' },
     { icon: Users, tKey: 'myClients', path: '/owner/clients' },
     { icon: CalendarClock, tKey: 'scheduleForClients', path: '/owner/schedule-for-clients' },
     { icon: TrendingUp, tKey: 'analytics', path: '/owner/analytics' },
-    { section: '🍽️ Food & Orders' },
+    { section: '️ Food & Orders' },
     { icon: ShoppingCart, tKey: 'myCart', path: '/owner/cart' },
     { icon: CalendarDays, tKey: 'scheduleFoods', path: '/owner/schedule' },
     { icon: Package, tKey: 'myOrders', path: '/owner/orders' },
     { icon: BarChart3, tKey: 'nutrition', path: '/owner/nutrition' },
     { icon: Gem, tKey: 'subscriptions', path: '/owner/subscriptions' },
-    { section: '⚙️ Account' },
+    { section: '️ Account' },
     { icon: LifeBuoy, label: 'Support', path: '/owner/support' },
     { icon: User, tKey: 'profile', path: '/owner/profile' },
     { icon: Settings, tKey: 'settings', path: '/owner/settings' },
@@ -106,14 +106,13 @@ export default function DashboardLayout({ children, title, flush }) {
       {/* Sidebar */}
       <aside className={`dashboard-sidebar ${sidebarOpen ? 'open' : ''}`}>
         {/* Close button (mobile) */}
-        <button className="sidebar-close-btn" onClick={() => setSidebarOpen(false)}>
-          <X size={20} />
+        <button className="sidebar-close-btn" onClick={() => setSidebarOpen(false)} style={{ fontSize: 12, fontWeight: 'bold' }}>
+          Close
         </button>
 
         {/* Brand */}
         <div className="sidebar-brand-section">
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <UtensilsCrossed size={22} style={{ color: 'var(--accent-orange)' }} />
             <div>
               <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 18, background: config.gradient, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{config.brand}</div>
               <div style={{ fontSize: 9, fontWeight: 800, color: 'var(--text-muted)', letterSpacing: 1.5 }}>{config.sub}</div>
@@ -155,7 +154,6 @@ export default function DashboardLayout({ children, title, flush }) {
                 className={`sidebar-link ${isActive ? 'active' : ''}`}
                 style={isLargeFontRole ? { fontSize: '16px', fontWeight: 700, padding: '14px 16px' } : {}}
               >
-                <SideIcon Icon={link.icon} isActive={isActive} />
                 <span>{label}</span>
               </Link>
             );
@@ -165,7 +163,7 @@ export default function DashboardLayout({ children, title, flush }) {
         {/* Logout */}
         <div className="sidebar-logout">
           <button onClick={() => { setSidebarOpen(false); setShowLogoutConfirm(true); }} className="sidebar-logout-btn">
-            <LogOut size={16} /> {t('logout')}
+            {t('logout')}
           </button>
         </div>
       </aside>
@@ -174,7 +172,7 @@ export default function DashboardLayout({ children, title, flush }) {
       {showLogoutConfirm && (
         <div className="modal-overlay" onClick={() => setShowLogoutConfirm(false)} style={{ zIndex: 2000 }}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 380, textAlign: 'center', padding: 28 }}>
-            <div style={{ fontSize: 48, marginBottom: 12 }}>👋</div>
+            <div style={{ fontSize: 48, marginBottom: 12 }}></div>
             <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>Logout Confirmation</h3>
             <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 24, lineHeight: 1.6 }}>Are you sure you want to sign out? You'll need to log in again to access your account.</p>
             <div style={{ display: 'flex', gap: 10 }}>
@@ -191,12 +189,12 @@ export default function DashboardLayout({ children, title, flush }) {
         <header className="dashboard-topbar">
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             {location.pathname === links[0]?.path ? (
-              <button className="topbar-hamburger" onClick={() => setSidebarOpen(true)}>
-                <Menu size={22} />
+              <button className="topbar-hamburger" onClick={() => setSidebarOpen(true)} style={{ fontSize: 14, fontWeight: 'bold' }}>
+                Menu
               </button>
             ) : (
-              <button className="topbar-back-btn" onClick={() => navigate(-1)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-primary)', padding: 4 }}>
-                <ArrowLeft size={22} />
+              <button className="topbar-back-btn" onClick={() => navigate(-1)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-primary)', padding: 4, fontSize: 14, fontWeight: 'bold' }}>
+                Back
               </button>
             )}
             <h2 className="topbar-title">{title}</h2>

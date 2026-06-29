@@ -22,7 +22,7 @@ export default function ClientReviews() {
     const updated = [...reviews, newReview];
     setReviews(updated);
     localStorage.setItem('synnoviq_reviews_' + user?.id, JSON.stringify(updated));
-    showToast('Review submitted! ⭐');
+    showToast('Review submitted! ');
     setShowForm(null); setRating(5); setComment('');
   };
 
@@ -35,12 +35,12 @@ export default function ClientReviews() {
       {showForm && (
         <div className="modal-overlay" onClick={() => setShowForm(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 420 }}>
-            <div className="modal-header"><h3 className="modal-title">⭐ Rate Order #{showForm.id}</h3><button className="modal-close" onClick={() => setShowForm(null)}>✕</button></div>
+            <div className="modal-header"><h3 className="modal-title"> Rate Order #{showForm.id}</h3><button className="modal-close" onClick={() => setShowForm(null)}></button></div>
             <div style={{ textAlign: 'center', marginBottom: 16 }}>
               <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 8 }}>{showForm.items.map(i => i.name).join(', ')}</div>
               <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
                 {[1, 2, 3, 4, 5].map(s => (
-                  <button key={s} onClick={() => setRating(s)} style={{ fontSize: 32, background: 'none', border: 'none', cursor: 'pointer', transition: 'transform 0.2s', transform: s <= rating ? 'scale(1.2)' : 'scale(1)', filter: s <= rating ? 'none' : 'grayscale(1) opacity(0.3)' }}>⭐</button>
+                  <button key={s} onClick={() => setRating(s)} style={{ fontSize: 32, background: 'none', border: 'none', cursor: 'pointer', transition: 'transform 0.2s', transform: s <= rating ? 'scale(1.2)' : 'scale(1)', filter: s <= rating ? 'none' : 'grayscale(1) opacity(0.3)' }}></button>
                 ))}
               </div>
               <div style={{ fontSize: 14, fontWeight: 700, marginTop: 4, color: rating >= 4 ? 'var(--accent-green)' : rating >= 3 ? 'var(--accent-orange)' : 'var(--accent-red)' }}>{['', 'Poor', 'Below Average', 'Good', 'Very Good', 'Excellent'][rating]}</div>
@@ -57,14 +57,14 @@ export default function ClientReviews() {
       {/* Pending Reviews */}
       {unreviewed.length > 0 && (
         <div className="card" style={{ marginBottom: 20 }}>
-          <div className="card-header"><h3 className="card-title">📝 Rate Your Orders ({unreviewed.length})</h3></div>
+          <div className="card-header"><h3 className="card-title"> Rate Your Orders ({unreviewed.length})</h3></div>
           {unreviewed.map(o => (
             <div key={o.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
               <div>
                 <div style={{ fontWeight: 700, fontSize: 13 }}>#{o.id} — {o.items.map(i => i.name).join(', ')}</div>
                 <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{new Date(o.orderTime).toLocaleDateString()} • ₹{o.total}</div>
               </div>
-              <button className="btn btn-primary btn-sm" onClick={() => setShowForm(o)}>⭐ Rate</button>
+              <button className="btn btn-primary btn-sm" onClick={() => setShowForm(o)}> Rate</button>
             </div>
           ))}
         </div>
@@ -72,14 +72,14 @@ export default function ClientReviews() {
 
       {/* Past Reviews */}
       <div className="card">
-        <div className="card-header"><h3 className="card-title">📜 My Reviews ({reviews.length})</h3></div>
+        <div className="card-header"><h3 className="card-title"> My Reviews ({reviews.length})</h3></div>
         {reviews.length === 0 ? <p style={{ color: 'var(--text-muted)', padding: 20, textAlign: 'center' }}>No reviews yet</p> :
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {reviews.sort((a, b) => new Date(b.date) - new Date(a.date)).map(r => (
             <div key={r.id} style={{ padding: 14, background: 'var(--bg-tertiary)', borderRadius: 12 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
                 <span style={{ fontWeight: 700, fontSize: 13 }}>Order #{r.orderId}</span>
-                <span style={{ color: '#f97316' }}>{'⭐'.repeat(r.rating)}</span>
+                <span style={{ color: '#f97316' }}>{''.repeat(r.rating)}</span>
               </div>
               <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 4 }}>{r.comment}</p>
               <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{new Date(r.date).toLocaleDateString()}</span>

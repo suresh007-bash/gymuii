@@ -5,11 +5,11 @@ import { useNotifications } from '../../context/NotificationContext';
 import { GYMS } from '../../data/mockUsers';
 
 const AMENITY_ICONS = {
-  'Free Weights': '🏋️', 'Cardio Zone': '🫀', 'Yoga Studio': '🧘', 'Steam & Sauna': '♨️',
-  'Locker Rooms': '🔐', 'Protein Bar': '🥤', 'Parking': '🅿️', 'CrossFit Area': '💪',
-  'Boxing Ring': '🥊', 'Shower Rooms': '🚿', 'Juice Bar': '🧃', 'AC Training Hall': '❄️',
-  'Olympic Weights': '🥇', 'Squat Racks': '🦵', 'Deadlift Platforms': '🔩', 'Swimming Pool': '🏊',
-  'Sports Nutrition Store': '🛒', 'Recovery Zone': '💆', 'Personal Training Rooms': '🚪',
+  'Free Weights': '️', 'Cardio Zone': '🫀', 'Yoga Studio': '', 'Steam & Sauna': '️',
+  'Locker Rooms': '', 'Protein Bar': '', 'Parking': '️', 'CrossFit Area': '',
+  'Boxing Ring': '', 'Shower Rooms': '', 'Juice Bar': '', 'AC Training Hall': '️',
+  'Olympic Weights': '', 'Squat Racks': '', 'Deadlift Platforms': '', 'Swimming Pool': '',
+  'Sports Nutrition Store': '', 'Recovery Zone': '', 'Personal Training Rooms': '',
 };
 
 export default function ClientCommunity() {
@@ -53,7 +53,7 @@ export default function ClientCommunity() {
     setProcessing(true);
     setTimeout(() => {
       updateUser(user.id, { gymId: selectedGym.id });
-      showToast(`🎉 Welcome to ${selectedGym.name}! Your ${selectedPlan.name} membership is active.`);
+      showToast(` Welcome to ${selectedGym.name}! Your ${selectedPlan.name} membership is active.`);
       setProcessing(false);
       setShowPayment(false);
       setSelectedPlan(null);
@@ -66,7 +66,7 @@ export default function ClientCommunity() {
     setProcessing(true);
     setTimeout(() => {
       updateUser(user.id, { trainerId: selectedTrainer.id });
-      showToast(`💪 ${selectedTrainer.name} is now your personal trainer!`);
+      showToast(` ${selectedTrainer.name} is now your personal trainer!`);
       setProcessing(false);
       setShowTrainerPayment(false);
       setSelectedTrainer(null);
@@ -88,7 +88,7 @@ export default function ClientCommunity() {
             background: 'linear-gradient(135deg, #f97316, #fb923c)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 28, boxShadow: '0 6px 20px rgba(249,115,22,0.3)',
-          }}>🏢</div>
+          }}></div>
           <div>
             <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 20, marginBottom: 4 }}>
               Find Your Perfect Gym
@@ -142,14 +142,14 @@ export default function ClientCommunity() {
                 color: '#fff', fontSize: 12, fontWeight: 700,
                 display: 'flex', alignItems: 'center', gap: 4,
               }}>
-                ⭐ {gym.rating}
+                 {gym.rating}
               </div>
               <div style={{
                 position: 'absolute', bottom: 12, left: 14,
                 color: '#fff', fontSize: 11, fontWeight: 600,
                 display: 'flex', alignItems: 'center', gap: 4,
               }}>
-                📍 {gym.location}
+                 {gym.location}
               </div>
             </div>
 
@@ -164,13 +164,13 @@ export default function ClientCommunity() {
                   display: 'flex', alignItems: 'center', gap: 5,
                   fontSize: 12, color: 'var(--text-muted)', fontWeight: 600,
                 }}>
-                  👥 {gym.members} members
+                   {gym.members} members
                 </div>
                 <div style={{
                   display: 'flex', alignItems: 'center', gap: 5,
                   fontSize: 12, color: 'var(--text-muted)', fontWeight: 600,
                 }}>
-                  🏋️ {gym.trainers} trainers
+                  ️ {gym.trainers} trainers
                 </div>
               </div>
 
@@ -295,10 +295,10 @@ export default function ClientCommunity() {
               </h2>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
                 <span style={{ fontSize: 13, color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
-                  📍 {selectedGym.location}
+                   {selectedGym.location}
                 </span>
                 <span style={{ fontSize: 13, color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
-                  ⭐ {selectedGym.rating}
+                   {selectedGym.rating}
                 </span>
               </div>
             </div>
@@ -308,14 +308,14 @@ export default function ClientCommunity() {
             padding: '8px 14px', borderRadius: 10,
             background: 'var(--bg-tertiary)', fontSize: 12, color: 'var(--text-muted)', fontWeight: 600,
           }}>
-            🕐 {selectedGym.hours}
+             {selectedGym.hours}
           </div>
         </div>
 
         {/* About */}
         <div className="card" style={{ marginBottom: 16 }}>
           <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15, marginBottom: 10, display: 'flex', alignItems: 'center', gap: 8 }}>
-            📖 About
+             About
           </h4>
           <p style={{ fontSize: 13, lineHeight: 1.7, color: 'var(--text-secondary)' }}>
             {selectedGym.description}
@@ -325,7 +325,7 @@ export default function ClientCommunity() {
         {/* Amenities */}
         <div className="card" style={{ marginBottom: 16 }}>
           <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-            ✨ Amenities
+             Amenities
           </h4>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
             {selectedGym.amenities.map((a, i) => (
@@ -341,7 +341,7 @@ export default function ClientCommunity() {
                   transition: 'all 0.2s ease', cursor: 'default',
                 }}
               >
-                <span>{AMENITY_ICONS[a] || '🔹'}</span> {a}
+                <span>{AMENITY_ICONS[a] || ''}</span> {a}
               </div>
             ))}
           </div>
@@ -350,7 +350,7 @@ export default function ClientCommunity() {
         {/* Membership Plans */}
         <div className="card" style={{ marginBottom: 16 }}>
           <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-            💎 Membership Plans
+             Membership Plans
           </h4>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
             {selectedGym.plans.map((plan, i) => {
@@ -379,7 +379,7 @@ export default function ClientCommunity() {
                       color: '#fff', textTransform: 'uppercase', letterSpacing: 0.5,
                       whiteSpace: 'nowrap',
                     }}>
-                      🔥 Most Popular
+                       Most Popular
                     </div>
                   )}
                   <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 8, color: 'var(--text-secondary)' }}>
@@ -401,7 +401,7 @@ export default function ClientCommunity() {
                       marginTop: 10, fontSize: 10, fontWeight: 700,
                       color: '#f97316', textTransform: 'uppercase', letterSpacing: 0.5,
                     }}>
-                      ✓ Selected
+                       Selected
                     </div>
                   )}
                 </div>
@@ -414,7 +414,7 @@ export default function ClientCommunity() {
         {gymTrainers.length > 0 && (
           <div className="card" style={{ marginBottom: 16 }}>
             <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-              🏋️ Available Trainers
+              ️ Available Trainers
             </h4>
             <div style={{ display: 'grid', gap: 10 }}>
               {gymTrainers.map(trainer => (
@@ -457,7 +457,7 @@ export default function ClientCommunity() {
             transition: 'all 0.3s ease', marginBottom: 20,
           }}
         >
-          {selectedPlan ? `🚀 Join ${selectedGym.name} — ₹${selectedPlan.price.toLocaleString()}` : 'Select a plan to continue'}
+          {selectedPlan ? ` Join ${selectedGym.name} — ₹${selectedPlan.price.toLocaleString()}` : 'Select a plan to continue'}
         </button>
       </div>
     );
@@ -469,13 +469,13 @@ export default function ClientCommunity() {
     if (!gym) {
       return (
         <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center', padding: 40 }}>
-          <div style={{ fontSize: 56, marginBottom: 16 }}>🏢</div>
+          <div style={{ fontSize: 56, marginBottom: 16 }}></div>
           <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 20, marginBottom: 8 }}>No Gym Yet</h3>
           <p style={{ color: 'var(--text-muted)', fontSize: 13, marginBottom: 20 }}>Browse and join a gym to get started!</p>
           <button className="btn btn-primary" onClick={() => setView('browse')}
             style={{ background: 'linear-gradient(135deg, #f97316, #fb923c)', border: 'none', fontFamily: 'Outfit', fontWeight: 700 }}
           >
-            🔍 Browse Gyms
+             Browse Gyms
           </button>
         </div>
       );
@@ -506,12 +506,12 @@ export default function ClientCommunity() {
                 background: 'rgba(34,197,94,0.9)', color: '#fff',
                 fontSize: 10, fontWeight: 800, letterSpacing: 0.5, marginBottom: 8,
                 textTransform: 'uppercase',
-              }}>✅ Your Current Gym</div>
+              }}> Your Current Gym</div>
               <h2 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 22, color: '#fff', marginBottom: 4 }}>
                 {gym.name}
               </h2>
               <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
-                📍 {gym.location} <span style={{ opacity: 0.5 }}>•</span> ⭐ {gym.rating}
+                 {gym.location} <span style={{ opacity: 0.5 }}>•</span>  {gym.rating}
               </div>
             </div>
           </div>
@@ -523,21 +523,21 @@ export default function ClientCommunity() {
                 flex: 1, minWidth: 100, textAlign: 'center', padding: '10px 8px',
                 background: 'var(--bg-tertiary)', borderRadius: 12,
               }}>
-                <div style={{ fontSize: 18, fontWeight: 800 }}>👥 {gym.members}</div>
+                <div style={{ fontSize: 18, fontWeight: 800 }}> {gym.members}</div>
                 <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 600 }}>Members</div>
               </div>
               <div style={{
                 flex: 1, minWidth: 100, textAlign: 'center', padding: '10px 8px',
                 background: 'var(--bg-tertiary)', borderRadius: 12,
               }}>
-                <div style={{ fontSize: 18, fontWeight: 800 }}>🏋️ {gym.trainers}</div>
+                <div style={{ fontSize: 18, fontWeight: 800 }}>️ {gym.trainers}</div>
                 <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 600 }}>Trainers</div>
               </div>
               <div style={{
                 flex: 1, minWidth: 100, textAlign: 'center', padding: '10px 8px',
                 background: 'var(--bg-tertiary)', borderRadius: 12,
               }}>
-                <div style={{ fontSize: 18, fontWeight: 800 }}>⭐ {gym.rating}</div>
+                <div style={{ fontSize: 18, fontWeight: 800 }}> {gym.rating}</div>
                 <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 600 }}>Rating</div>
               </div>
             </div>
@@ -546,7 +546,7 @@ export default function ClientCommunity() {
               background: 'var(--bg-tertiary)', fontSize: 12,
               color: 'var(--text-muted)', fontWeight: 600,
             }}>
-              🕐 {gym.hours}
+               {gym.hours}
             </div>
           </div>
         </div>
@@ -554,7 +554,7 @@ export default function ClientCommunity() {
         {/* About */}
         <div className="card" style={{ marginBottom: 16 }}>
           <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15, marginBottom: 10, display: 'flex', alignItems: 'center', gap: 8 }}>
-            📖 About
+             About
           </h4>
           <p style={{ fontSize: 13, lineHeight: 1.7, color: 'var(--text-secondary)' }}>
             {gym.description}
@@ -564,7 +564,7 @@ export default function ClientCommunity() {
         {/* Amenities */}
         <div className="card" style={{ marginBottom: 16 }}>
           <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-            ✨ Amenities
+             Amenities
           </h4>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
             {gym.amenities.map((a, i) => (
@@ -573,7 +573,7 @@ export default function ClientCommunity() {
                 background: 'var(--bg-tertiary)', border: '1px solid var(--border)',
                 fontSize: 12, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6,
               }}>
-                <span>{AMENITY_ICONS[a] || '🔹'}</span> {a}
+                <span>{AMENITY_ICONS[a] || ''}</span> {a}
               </div>
             ))}
           </div>
@@ -583,7 +583,7 @@ export default function ClientCommunity() {
         {gymTrainers.length > 0 && (
           <div className="card" style={{ marginBottom: 20 }}>
             <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-              🏋️ Available Trainers
+              ️ Available Trainers
             </h4>
             <div style={{ display: 'grid', gap: 12 }}>
               {gymTrainers.map((trainer, idx) => {
@@ -623,15 +623,15 @@ export default function ClientCommunity() {
                         {isMyTrainer && (
                           <span style={{
                             marginLeft: 8, fontSize: 10, fontWeight: 700, color: '#22c55e',
-                          }}>✅ Your Trainer</span>
+                          }}> Your Trainer</span>
                         )}
                       </div>
                       <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 600, marginBottom: 4 }}>
                         {trainer.specialization}
                       </div>
                       <div style={{ display: 'flex', gap: 12, fontSize: 11, color: 'var(--text-muted)' }}>
-                        <span>👥 {studentCount} students</span>
-                        <span>📜 {trainer.certifications}</span>
+                        <span> {studentCount} students</span>
+                        <span> {trainer.certifications}</span>
                       </div>
                     </div>
                     {isMyTrainer ? (
@@ -640,7 +640,7 @@ export default function ClientCommunity() {
                         background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)',
                         color: '#22c55e', fontWeight: 700, fontSize: 11, whiteSpace: 'nowrap',
                       }}>
-                        ✅ Hired
+                         Hired
                       </div>
                     ) : (
                       <button
@@ -671,17 +671,17 @@ export default function ClientCommunity() {
   const renderPaymentModal = () => {
     if (!showPayment || !selectedGym || !selectedPlan) return null;
     const paymentMethods = [
-      { key: 'upi', label: 'UPI', icon: '📱' },
-      { key: 'card', label: 'Card', icon: '💳' },
-      { key: 'netbanking', label: 'Net Banking', icon: '🏦' },
+      { key: 'upi', label: 'UPI', icon: '' },
+      { key: 'card', label: 'Card', icon: '' },
+      { key: 'netbanking', label: 'Net Banking', icon: '' },
     ];
 
     return (
       <div className="modal-overlay" onClick={() => { if (!processing) { setShowPayment(false); } }}>
         <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 440 }}>
           <div className="modal-header">
-            <h3 className="modal-title">💳 Complete Payment</h3>
-            {!processing && <button className="modal-close" onClick={() => setShowPayment(false)}>✕</button>}
+            <h3 className="modal-title"> Complete Payment</h3>
+            {!processing && <button className="modal-close" onClick={() => setShowPayment(false)}></button>}
           </div>
           <div style={{ padding: '8px 0 16px' }}>
             {/* Order Summary */}
@@ -697,7 +697,7 @@ export default function ClientCommunity() {
                 {selectedGym.name}
               </div>
               <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 600 }}>
-                📍 {selectedGym.location}
+                 {selectedGym.location}
               </div>
               <div style={{
                 marginTop: 12, paddingTop: 12, borderTop: '1px solid var(--border)',
@@ -777,17 +777,17 @@ export default function ClientCommunity() {
   const renderTrainerPaymentModal = () => {
     if (!showTrainerPayment || !selectedTrainer) return null;
     const paymentMethods = [
-      { key: 'upi', label: 'UPI', icon: '📱' },
-      { key: 'card', label: 'Card', icon: '💳' },
-      { key: 'netbanking', label: 'Net Banking', icon: '🏦' },
+      { key: 'upi', label: 'UPI', icon: '' },
+      { key: 'card', label: 'Card', icon: '' },
+      { key: 'netbanking', label: 'Net Banking', icon: '' },
     ];
 
     return (
       <div className="modal-overlay" onClick={() => { if (!processing) { setShowTrainerPayment(false); setSelectedTrainer(null); } }}>
         <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 440 }}>
           <div className="modal-header">
-            <h3 className="modal-title">🏋️ Hire Personal Trainer</h3>
-            {!processing && <button className="modal-close" onClick={() => { setShowTrainerPayment(false); setSelectedTrainer(null); }}>✕</button>}
+            <h3 className="modal-title">️ Hire Personal Trainer</h3>
+            {!processing && <button className="modal-close" onClick={() => { setShowTrainerPayment(false); setSelectedTrainer(null); }}></button>}
           </div>
           <div style={{ padding: '8px 0 16px' }}>
             {/* Trainer Info */}
@@ -892,8 +892,8 @@ export default function ClientCommunity() {
           maxWidth: 700, margin: '0 auto 20px',
         }}>
           {[
-            { key: 'myGym', label: '🏢 My Gym' },
-            { key: 'browse', label: '🔍 Browse Gyms' },
+            { key: 'myGym', label: ' My Gym' },
+            { key: 'browse', label: ' Browse Gyms' },
           ].map(t => (
             <button
               key={t.key}

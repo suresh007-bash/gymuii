@@ -23,13 +23,13 @@ export default function OwnerMenu() {
     const existing = cart.find(c => c.id === item.id);
     if (existing) { existing.qty += 1; } else { cart.push({ ...item, qty: 1 }); }
     localStorage.setItem('synnoviq_owner_cart', JSON.stringify(cart));
-    showToast(`${item.name} added to cart! 🛒`);
+    showToast(`${item.name} added to cart! `);
   };
 
   return (
     <DashboardLayout title="Browse Menu">
       <div style={{ display: 'flex', gap: 12, marginBottom: 16, flexWrap: 'wrap' }}>
-        <input className="form-input" placeholder="🔍 Search food..." value={search} onChange={e => setSearch(e.target.value)} style={{ flex: 1, minWidth: 200 }} />
+        <input className="form-input" placeholder=" Search food..." value={search} onChange={e => setSearch(e.target.value)} style={{ flex: 1, minWidth: 200 }} />
         <select className="form-select" value={sort} onChange={e => setSort(e.target.value)}>
           <option value="name">Sort: Name</option><option value="price">Sort: Price</option><option value="calories">Sort: Calories</option>
         </select>

@@ -153,7 +153,7 @@ export default function MyCart() {
                   <button className="btn btn-outline" style={{ width: 32, height: 32, padding: 0, fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => updateQty(item.id, 1)}>+</button>
                 </div>
                 <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 15, minWidth: 50, textAlign: 'right' }}>₹{item.price * item.qty}</span>
-                <button onClick={() => remove(item.id)} style={{ color: 'var(--accent-red)', fontSize: 16, cursor: 'pointer', background: 'none', border: 'none' }}>✕</button>
+                <button onClick={() => remove(item.id)} style={{ color: 'var(--accent-red)', fontSize: 16, cursor: 'pointer', background: 'none', border: 'none' }}></button>
               </div>
             ))}
           </div>

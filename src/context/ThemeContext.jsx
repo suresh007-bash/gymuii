@@ -3,12 +3,12 @@ import { createContext, useContext, useState, useEffect, useCallback } from 'rea
 const ThemeContext = createContext(null);
 
 const THEME_PRESETS = {
-  orange: { label: '🍊 Default Orange', primary: '#f97316', secondary: '#22c55e' },
-  purple: { label: '💜 Royal Purple', primary: '#a855f7', secondary: '#ec4899' },
-  blue: { label: '🔵 Ocean Blue', primary: '#3b82f6', secondary: '#06b6d4' },
-  rose: { label: '🌹 Rose Gold', primary: '#e11d48', secondary: '#f59e0b' },
-  green: { label: '🌿 Nature Green', primary: '#22c55e', secondary: '#14b8a6' },
-  red: { label: '🔴 Bold Red', primary: '#ef4444', secondary: '#f97316' },
+  orange: { label: ' Default Orange', primary: '#f97316', secondary: '#22c55e' },
+  purple: { label: ' Royal Purple', primary: '#a855f7', secondary: '#ec4899' },
+  blue: { label: ' Ocean Blue', primary: '#3b82f6', secondary: '#06b6d4' },
+  rose: { label: ' Rose Gold', primary: '#e11d48', secondary: '#f59e0b' },
+  green: { label: ' Nature Green', primary: '#22c55e', secondary: '#14b8a6' },
+  red: { label: ' Bold Red', primary: '#ef4444', secondary: '#f97316' },
 };
 
 function hexToRgba(hex, alpha) {

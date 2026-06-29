@@ -25,7 +25,7 @@ export default function TrainerProfile() {
   });
   const upd = (k, v) => setForm(p => ({ ...p, [k]: v }));
 
-  const handleSave = () => { updateUser(user.id, { ...form, avatar: form.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) }); showToast('Profile updated! ✅'); };
+  const handleSave = () => { updateUser(user.id, { ...form, avatar: form.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) }); showToast('Profile updated! '); };
   const handleLogout = () => { logout(); navigate('/'); };
   const inp = { width: '100%', padding: '10px 14px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 12, color: 'var(--text-primary)', fontSize: 14 };
 

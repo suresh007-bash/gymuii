@@ -42,17 +42,17 @@ export default function ClientDashboard() {
             color: 'var(--text-primary)',
           }}
         />
-        <button style={{ width: 50, height: 50, borderRadius: 14, border: 'none', background: '#f97316', color: '#fff', cursor: 'pointer' }}>⚙️</button>
-        <button style={{ width: 50, height: 50, borderRadius: 14, border: 'none', background: '#f97316', color: '#fff', cursor: 'pointer' }}>🛒</button>
+        <button style={{ width: 50, height: 50, borderRadius: 14, border: 'none', background: '#f97316', color: '#fff', cursor: 'pointer' }}>️</button>
+        <button style={{ width: 50, height: 50, borderRadius: 14, border: 'none', background: '#f97316', color: '#fff', cursor: 'pointer' }}></button>
       </div>
 
       {/* ═══ SECTION HEADER TITLE ═══ */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 800, fontSize: 14, color: 'var(--text-primary)' }}>
-          <span style={{ color: '#f97316' }}>🎯</span> Daily Nutrition
+          <span style={{ color: '#f97316' }}></span> Daily Nutrition
         </div>
         <button style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '6px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', color: 'var(--text-primary)' }}>
-          ⚙️ Edit Targets
+          ️ Edit Targets
         </button>
       </div>
 

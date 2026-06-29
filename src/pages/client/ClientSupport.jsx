@@ -15,7 +15,7 @@ export default function ClientSupport() {
     const ticket = { id: 'TK' + Date.now(), ...form, status: 'open', date: new Date().toISOString() };
     const updated = [ticket, ...tickets];
     setTickets(updated); localStorage.setItem('synnoviq_tickets_' + user?.id, JSON.stringify(updated));
-    showToast('Support ticket created! We\'ll respond within 24hrs 📨');
+    showToast('Support ticket created! We\'ll respond within 24hrs ');
     setForm({ subject: '', category: 'Order Issue', message: '' });
   };
 
@@ -33,12 +33,12 @@ export default function ClientSupport() {
   return (
     <DashboardLayout title="Help & Support">
       <div className="tabs" style={{ marginBottom: 20 }}>
-        <button className={`tab ${tab === 'help' ? 'active' : ''}`} onClick={() => setTab('help')}>❓ FAQs</button>
+        <button className={`tab ${tab === 'help' ? 'active' : ''}`} onClick={() => setTab('help')}> FAQs</button>
       </div>
 
       {tab === 'help' && (
         <div className="card">
-          <div className="card-header"><h3 className="card-title">❓ Frequently Asked Questions</h3></div>
+          <div className="card-header"><h3 className="card-title"> Frequently Asked Questions</h3></div>
           {FAQs.map((faq, i) => (
             <div key={i} style={{ borderBottom: '1px solid var(--border)' }}>
               <button onClick={() => setOpenFAQ(openFAQ === i ? null : i)} style={{ width: '100%', padding: '14px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', textAlign: 'left' }}>
@@ -49,7 +49,7 @@ export default function ClientSupport() {
           ))}
           <div style={{ marginTop: 16, padding: 16, background: 'rgba(249,115,22,0.06)', borderRadius: 12, textAlign: 'center' }}>
             <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 8 }}>Didn't find your answer?</p>
-            <button className="btn btn-primary btn-sm" onClick={() => setTab('ticket')}>🎫 Create Support Ticket</button>
+            <button className="btn btn-primary btn-sm" onClick={() => setTab('ticket')}> Create Support Ticket</button>
           </div>
         </div>
       )}
@@ -57,9 +57,9 @@ export default function ClientSupport() {
 
       {/* Quick Contact */}
       <div className="card" style={{ marginTop: 20 }}>
-        <div className="card-header"><h3 className="card-title">📞 Quick Contact</h3></div>
+        <div className="card-header"><h3 className="card-title"> Quick Contact</h3></div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 12 }}>
-          {[{ icon: '📧', label: 'Email', val: 'support@fitbites.com' }, { icon: '📱', label: 'Phone', val: '+91 98765 43210' }, { icon: '💬', label: 'Chat', val: 'Available 9AM-9PM' }].map((c, i) => (
+          {[{ icon: '', label: 'Email', val: 'support@fitbites.com' }, { icon: '', label: 'Phone', val: '+91 98765 43210' }, { icon: '', label: 'Chat', val: 'Available 9AM-9PM' }].map((c, i) => (
             <div key={i} style={{ textAlign: 'center', padding: 16, background: 'var(--bg-tertiary)', borderRadius: 12 }}>
               <div style={{ fontSize: 24, marginBottom: 6 }}>{c.icon}</div>
               <div style={{ fontWeight: 700, fontSize: 13 }}>{c.label}</div>

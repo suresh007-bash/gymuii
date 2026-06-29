@@ -23,7 +23,7 @@ export default function TrainerMenu() {
     const existing = cart.find(c => c.id === item.id);
     if (existing) { existing.qty += 1; } else { cart.push({ ...item, qty: 1 }); }
     localStorage.setItem('synnoviq_trainer_cart', JSON.stringify(cart));
-    showToast(`${item.name} added to cart! 🛒`);
+    showToast(`${item.name} added to cart! `);
   };
 
   return (

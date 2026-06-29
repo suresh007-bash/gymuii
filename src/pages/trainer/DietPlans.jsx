@@ -23,7 +23,7 @@ export default function DietPlans() {
 
   const send = () => {
     saveDietPlan({ trainerId: user.id, clientIds: selectedClients, items: selectedItems, name: planName || 'Custom Diet Plan' });
-    showToast(`Diet plan "${planName || 'Custom'}" sent to ${selectedClients.length} member(s)! 🥗`);
+    showToast(`Diet plan "${planName || 'Custom'}" sent to ${selectedClients.length} member(s)! `);
     setStep(1); setSelectedClients([]); setSelectedItems([]); setPlanName('');
   };
 

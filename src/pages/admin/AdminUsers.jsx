@@ -51,7 +51,7 @@ export default function AdminUsers() {
 
   const handleBlock = (u) => {
     setConfirm({
-      title: '🚫 Block User',
+      title: ' Block User',
       msg: `Are you sure you want to block "${u.name}" (${u.role})? They will not be able to login until unblocked.`,
       color: '#ef4444',
       action: () => { blockUser(u.id); showToast(`${u.name} has been blocked`, 'warning'); setConfirm(null); }
@@ -60,7 +60,7 @@ export default function AdminUsers() {
 
   const handleUnblock = (u) => {
     setConfirm({
-      title: '✅ Unblock User',
+      title: ' Unblock User',
       msg: `Are you sure you want to unblock "${u.name}"? They will be able to login again.`,
       color: '#22c55e',
       action: () => { unblockUser(u.id); showToast(`${u.name} has been unblocked`); setConfirm(null); }
@@ -69,7 +69,7 @@ export default function AdminUsers() {
 
   const handleDeletePermanent = (u) => {
     setConfirm({
-      title: '🗑️ Permanently Delete',
+      title: '️ Permanently Delete',
       msg: `Are you sure you want to PERMANENTLY delete "${u.name}"? This action cannot be undone.`,
       color: '#ef4444',
       action: () => { deleteUser(u.id); showToast(`${u.name} permanently deleted`, 'warning'); setConfirm(null); }
@@ -89,7 +89,7 @@ export default function AdminUsers() {
     const userId = promoteModal.id;
     setPromoteModal(null);
     setConfirm({
-      title: oldRole < newRole ? '⬆️ Promote User' : '⬇️ Change Role',
+      title: oldRole < newRole ? '️ Promote User' : '️ Change Role',
       msg: `Change "${name}" from ${oldRole.toUpperCase()} to ${newRole.toUpperCase()}?`,
       color: '#3b82f6',
       action: () => {
@@ -125,8 +125,8 @@ export default function AdminUsers() {
         <div className="modal-overlay" onClick={() => setPromoteModal(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 400 }}>
             <div className="modal-header">
-              <h3 className="modal-title">🔄 Change Role — {promoteModal.name}</h3>
-              <button className="modal-close" onClick={() => setPromoteModal(null)}>✕</button>
+              <h3 className="modal-title"> Change Role — {promoteModal.name}</h3>
+              <button className="modal-close" onClick={() => setPromoteModal(null)}></button>
             </div>
             <p style={{ fontSize: 14, color: 'var(--text-muted)', marginBottom: 16 }}>
               Current role: <span className={`badge ${roleBadge[promoteModal.role]}`}>{promoteModal.role.toUpperCase()}</span>
@@ -159,7 +159,7 @@ export default function AdminUsers() {
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 500 }}>
             <div className="modal-header">
               <h3 className="modal-title">{selRole ? `Add ${selRole.charAt(0).toUpperCase() + selRole.slice(1)}` : 'Add New User'}</h3>
-              <button className="modal-close" onClick={() => { setShowAdd(false); setSelRole(''); }}>✕</button>
+              <button className="modal-close" onClick={() => { setShowAdd(false); setSelRole(''); }}></button>
             </div>
 
             {!selRole ? (
@@ -167,11 +167,11 @@ export default function AdminUsers() {
               <div>
                 <p style={{ fontSize: 15, color: 'var(--text-muted)', marginBottom: 16 }}>Select User Type:</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  {[{ id: 'owner', icon: '👑', label: 'Gym Owner', desc: 'Manage gym, trainers, and members' },
-                    { id: 'trainer', icon: '💪', label: 'Gym Trainer', desc: 'Train and manage assigned clients' },
-                    { id: 'client', icon: '👤', label: 'Member', desc: 'Order food and track nutrition' },
-                    { id: 'kitchen', icon: '🍳', label: 'Kitchen Staff', desc: 'Manage food orders and dispatching' },
-                    { id: 'delivery', icon: '🚗', label: 'Delivery Driver', desc: 'Fulfill deliveries to clients' }
+                  {[{ id: 'owner', icon: '', label: 'Gym Owner', desc: 'Manage gym, trainers, and members' },
+                    { id: 'trainer', icon: '', label: 'Gym Trainer', desc: 'Train and manage assigned clients' },
+                    { id: 'client', icon: '', label: 'Member', desc: 'Order food and track nutrition' },
+                    { id: 'kitchen', icon: '', label: 'Kitchen Staff', desc: 'Manage food orders and dispatching' },
+                    { id: 'delivery', icon: '', label: 'Delivery Driver', desc: 'Fulfill deliveries to clients' }
                   ].map(r => (
                     <button key={r.id} onClick={() => setSelRole(r.id)} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', background: 'var(--bg-tertiary)', border: '1px solid var(--border)', borderRadius: 12, cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s', color: 'var(--text-primary)' }}>
                       <span style={{ fontSize: 28 }}>{r.icon}</span>
@@ -254,7 +254,7 @@ export default function AdminUsers() {
 
                 <div className="modal-footer">
                   <button className="btn btn-outline" onClick={() => setSelRole('')}>← Back</button>
-                  <button className="btn btn-success" onClick={handleAdd}>✅ Add {selRole.charAt(0).toUpperCase() + selRole.slice(1)}</button>
+                  <button className="btn btn-success" onClick={handleAdd}> Add {selRole.charAt(0).toUpperCase() + selRole.slice(1)}</button>
                 </div>
               </div>
             )}
@@ -265,7 +265,7 @@ export default function AdminUsers() {
       {/* Search + Add */}
       <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
         <div style={{ flex: 1, position: 'relative' }}>
-          <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)' }}>🔍</span>
+          <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)' }}></span>
           <input className="form-input" style={{ paddingLeft: 40 }} placeholder="Search Users..." value={search} onChange={e => setSearch(e.target.value)} />
         </div>
         <button className="btn btn-primary" onClick={() => setShowAdd(true)}>+ Add User</button>
@@ -274,7 +274,7 @@ export default function AdminUsers() {
       {/* Active Users */}
       <div className="card" style={{ marginBottom: 24 }}>
         <div className="card-header">
-          <div className="card-title">👥 Active Users ({activeUsers.length})</div>
+          <div className="card-title"> Active Users ({activeUsers.length})</div>
         </div>
 
         {/* Desktop Table */}
@@ -296,8 +296,8 @@ export default function AdminUsers() {
                   <td style={{ fontSize: 15, color: 'var(--text-muted)' }}>{u.joinDate || '—'}</td>
                   <td>
                     <div style={{ display: 'flex', gap: 6 }}>
-                      <button className="btn btn-outline btn-sm" style={{ fontSize: 15 }} title="Change Role" onClick={() => openPromoteModal(u)}>🔄 Role</button>
-                      <button className="btn btn-outline btn-sm" style={{ color: '#ef4444', fontSize: 15 }} title="Block User" onClick={() => handleBlock(u)}>🚫 Block</button>
+                      <button className="btn btn-outline btn-sm" style={{ fontSize: 15 }} title="Change Role" onClick={() => openPromoteModal(u)}> Role</button>
+                      <button className="btn btn-outline btn-sm" style={{ color: '#ef4444', fontSize: 15 }} title="Block User" onClick={() => handleBlock(u)}> Block</button>
                     </div>
                   </td>
                 </tr>
@@ -322,12 +322,12 @@ export default function AdminUsers() {
                 <span className={`badge ${roleBadge[u.role] || 'badge-blue'}`} style={{ flexShrink: 0, fontSize: 14, padding: '5px 10px', fontWeight: 800 }}>{u.role.toUpperCase()}</span>
               </div>
               <div style={{ display: 'flex', gap: 12, fontSize: 15, color: 'var(--text-secondary)', flexWrap: 'wrap', fontWeight: 600 }}>
-                <span>🏢 {u.gymName || GYMS.find(g => g.id === u.gymId)?.name || u.kitchenName || (u.vehicleType ? `${u.vehicleType}` : '—')}</span>
-                <span>📅 {u.joinDate || '—'}</span>
+                <span> {u.gymName || GYMS.find(g => g.id === u.gymId)?.name || u.kitchenName || (u.vehicleType ? `${u.vehicleType}` : '—')}</span>
+                <span> {u.joinDate || '—'}</span>
               </div>
               <div style={{ display: 'flex', gap: 10 }}>
-                <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 16, padding: '10px' }} onClick={() => openPromoteModal(u)}>🔄 Change Role</button>
-                <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 16, padding: '10px', color: '#ef4444', borderColor: 'rgba(239,68,68,0.3)' }} onClick={() => handleBlock(u)}>🚫 Block</button>
+                <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 16, padding: '10px' }} onClick={() => openPromoteModal(u)}> Change Role</button>
+                <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 16, padding: '10px', color: '#ef4444', borderColor: 'rgba(239,68,68,0.3)' }} onClick={() => handleBlock(u)}> Block</button>
               </div>
             </div>
           ))}
@@ -338,7 +338,7 @@ export default function AdminUsers() {
       {blockedUsers.length > 0 && (
         <div className="card" style={{ border: '1px solid rgba(239,68,68,0.2)' }}>
           <div className="card-header" style={{ borderBottom: '1px solid rgba(239,68,68,0.15)' }}>
-            <div className="card-title" style={{ color: '#ef4444' }}>🚫 Blocked Accounts ({blockedUsers.length})</div>
+            <div className="card-title" style={{ color: '#ef4444' }}> Blocked Accounts ({blockedUsers.length})</div>
           </div>
 
           {/* Desktop Table */}
@@ -362,8 +362,8 @@ export default function AdminUsers() {
                     <td style={{ fontSize: 14, color: 'var(--text-muted)' }}>{u.blockedAt || '—'}</td>
                     <td>
                       <div style={{ display: 'flex', gap: 4 }}>
-                        <button className="btn btn-outline btn-sm" style={{ color: '#22c55e' }} title="Unblock" onClick={() => handleUnblock(u)}>✅ Restore</button>
-                        <button className="btn btn-outline btn-sm" style={{ color: '#ef4444' }} title="Delete Permanently" onClick={() => handleDeletePermanent(u)}>🗑️</button>
+                        <button className="btn btn-outline btn-sm" style={{ color: '#22c55e' }} title="Unblock" onClick={() => handleUnblock(u)}> Restore</button>
+                        <button className="btn btn-outline btn-sm" style={{ color: '#ef4444' }} title="Delete Permanently" onClick={() => handleDeletePermanent(u)}>️</button>
                       </div>
                     </td>
                   </tr>
@@ -383,7 +383,7 @@ export default function AdminUsers() {
                   <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#6b7280', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, fontWeight: 800, color: '#fff', flexShrink: 0 }}>{u.avatar}</div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontWeight: 800, fontSize: 16 }}>{u.name}</div>
-                    <div style={{ fontSize: 12, color: '#ef4444', fontWeight: 700 }}>🚫 BLOCKED</div>
+                    <div style={{ fontSize: 12, color: '#ef4444', fontWeight: 700 }}> BLOCKED</div>
                   </div>
                   <span className={`badge ${roleBadge[u.role] || 'badge-blue'}`} style={{ flexShrink: 0 }}>{u.role.toUpperCase()}</span>
                 </div>
@@ -391,8 +391,8 @@ export default function AdminUsers() {
                   {u.email} • Blocked: {u.blockedAt || '—'}
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
-                  <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 14, color: '#22c55e', borderColor: 'rgba(34,197,94,0.3)' }} onClick={() => handleUnblock(u)}>✅ Restore</button>
-                  <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 14, color: '#ef4444', borderColor: 'rgba(239,68,68,0.3)' }} onClick={() => handleDeletePermanent(u)}>🗑️ Delete</button>
+                  <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 14, color: '#22c55e', borderColor: 'rgba(34,197,94,0.3)' }} onClick={() => handleUnblock(u)}> Restore</button>
+                  <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 14, color: '#ef4444', borderColor: 'rgba(239,68,68,0.3)' }} onClick={() => handleDeletePermanent(u)}>️ Delete</button>
                 </div>
               </div>
             ))}

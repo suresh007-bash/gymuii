@@ -93,7 +93,7 @@ export default function ClientSubscriptions() {
               <h3 className="modal-title">
                 <Icon icon={CreditCard} size={16} style={{marginRight:6}} /> Subscribe to {showPayment.name}
               </h3>
-              <button className="modal-close" onClick={() => setShowPayment(null)}>✕</button>
+              <button className="modal-close" onClick={() => setShowPayment(null)}></button>
             </div>
             <div style={{ textAlign: 'center', margin: '16px 0' }}>
               <div style={{ fontSize: 36, fontWeight: 900, color: 'var(--accent-orange)' }}>

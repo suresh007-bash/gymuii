@@ -6,7 +6,7 @@ import { getMenuItems } from '../data/menuHelper';
 import StatIcon from '../components/StatIcon';
 import foodGeneral from '../assets/food_general.png';
 
-const STATS = [{ val: '500+', label: 'Meals Delivered' }, { val: '30 min', label: 'Avg Delivery' }, { val: '4.8 ⭐', label: 'User Rating' }, { val: '50+', label: 'Gym Partners' }];
+const STATS = [{ val: '500+', label: 'Meals Delivered' }, { val: '30 min', label: 'Avg Delivery' }, { val: '4.8 ', label: 'User Rating' }, { val: '50+', label: 'Gym Partners' }];
 
 const FEATURES = [
   { icon: <StatIcon name="meal" size={24} />, title: 'Macro-Tracked Meals', desc: 'Every meal comes with precise calorie, protein, carb & fat data' },
@@ -277,25 +277,25 @@ export default function LandingPage() {
                 {[
                   {
                     step: '01',
-                    icon: '👤',
+                    icon: '',
                     title: 'Sign Up',
                     desc: 'Create your profile with fitness goals and dietary preferences'
                   },
                   {
                     step: '02',
-                    icon: '🍽️',
+                    icon: '️',
                     title: 'Browse Menu',
                     desc: 'Explore healthy meals, nutrient packs and diet plans'
                   },
                   {
                     step: '03',
-                    icon: '📦',
+                    icon: '',
                     title: 'Place Order',
                     desc: 'Add meals to cart and schedule delivery anytime'
                   },
                   {
                     step: '04',
-                    icon: '🚀',
+                    icon: '',
                     title: 'Get Delivered',
                     desc: 'Fresh meals delivered to your home or gym in 30 minutes'
                   }
@@ -386,10 +386,10 @@ export default function LandingPage() {
 
               <div className="landing-cards-grid">
                 {[
-                  { icon: '👥', val: '500+', label: 'Gym Members' },
-                  { icon: '💪', val: '50+', label: 'Trainers' },
-                  { icon: '🏢', val: '20+', label: 'Gym Partners' },
-                  { icon: '📦', val: '10K+', label: 'Orders / Month' }
+                  { icon: '', val: '500+', label: 'Gym Members' },
+                  { icon: '', val: '50+', label: 'Trainers' },
+                  { icon: '', val: '20+', label: 'Gym Partners' },
+                  { icon: '', val: '10K+', label: 'Orders / Month' }
                 ].map((s, i) => (
                   <div
                     key={i}
@@ -449,10 +449,10 @@ export default function LandingPage() {
                 <img src={item.image} alt={item.name} style={{ width: '100%', height: 140, objectFit: 'cover' }} />
                 <div style={{ padding: 14 }}>
                   <div style={{ fontWeight: 800, fontSize: 14, marginBottom: 4 }}>{item.name}</div>
-                  <div style={{ fontSize: 11, color: '#888', marginBottom: 8 }}>🔥 {item.calories} kcal • 💪 {item.protein}g</div>
+                  <div style={{ fontSize: 11, color: '#888', marginBottom: 8 }}> {item.calories} kcal •  {item.protein}g</div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ fontWeight: 900, color: '#22c55e', fontSize: 16 }}>₹{item.price}</span>
-                    <span style={{ fontSize: 12, color: '#f97316' }}>⭐ {item.rating}</span>
+                    <span style={{ fontSize: 12, color: '#f97316' }}> {item.rating}</span>
                   </div>
                 </div>
               </div>
@@ -591,7 +591,7 @@ export default function LandingPage() {
                   gap: 8
                 }}
               >
-                ✅ {f}
+                 {f}
               </li>
             ))}
           </ul>
@@ -638,7 +638,7 @@ export default function LandingPage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'linear-gradient(135deg, #f97316, #22c55e)', display: 'flex', alignItems: 'center', justifycontent: 'center', color: '#fff', fontWeight: 900, fontSize: 14 }}>{t.name.split(' ').map(w => w[0]).join('')}</div>
                   <div><div style={{ fontWeight: 800, fontSize: 14 }}>{t.name}</div><div style={{ fontSize: 12, color: '#888' }}>{t.role}</div></div>
-                  <div style={{ marginLeft: 'auto', color: '#f97316' }}>{'⭐'.repeat(t.rating)}</div>
+                  <div style={{ marginLeft: 'auto', color: '#f97316' }}>{''.repeat(t.rating)}</div>
                 </div>
               </div>
             ))}
@@ -660,7 +660,7 @@ export default function LandingPage() {
         <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginBottom: 16 }}>
           {['About', 'Contact', 'Privacy'].map(l => (<a key={l} href="#" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: 13 }}>{l}</a>))}
         </div>
-        <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>© 2026 FitBites. All rights reserved.</p>
+        <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}> 2026 FitBites. All rights reserved.</p>
       </footer>
     </div>
   );

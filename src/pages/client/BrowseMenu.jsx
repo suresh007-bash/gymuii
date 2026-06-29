@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, ShoppingCart as CartIcon } from 'lucide-react';
+import { ArrowLeft, ShoppingCart as CartIcon } from '../../components/Icons';
 import { Icon, SectionIcon, Flame, Beef, Wheat, Droplets, Target, Settings, Search, ShoppingCart, Calendar, CheckCircle2, AlertTriangle, Leaf, Sparkles, Star, Package, Crown, ChefHat, ClipboardList, Utensils, Clock, XCircle, BarChart3, Edit } from '../../components/Icons';
 import DashboardLayout from '../../components/DashboardLayout';
 import { NUTRIENT_PACKS, CATEGORIES } from '../../data/mockMenu';
@@ -154,7 +154,7 @@ export default function BrowseMenu() {
     const unavailable = packItems.filter(i => !i.available);
     if (unavailable.length > 0 && unavailable.length < packItems.length) {
       const avail = packItems.filter(i => i.available);
-      if (window.confirm(`⚠️ ${unavailable.map(i => i.name).join(', ')} not available.\n\nOrder remaining ${avail.length} items?\n(${avail.map(i => i.name).join(', ')})`)) {
+      if (window.confirm(`️ ${unavailable.map(i => i.name).join(', ')} not available.\n\nOrder remaining ${avail.length} items?\n(${avail.map(i => i.name).join(', ')})`)) {
         avail.forEach(item => addToCart(item));
         showToast(`${avail.length} available items from "${pack.name}" added!`);
       }
@@ -299,7 +299,7 @@ export default function BrowseMenu() {
       {showSchedule && (
         <div className="modal-overlay" onClick={() => setShowSchedule(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 520 }}>
-            <div className="modal-header"><h3 className="modal-title"><Icon icon={Calendar} size={16} style={{ marginRight: 6 }} /> Schedule Meals</h3><button className="modal-close" onClick={() => setShowSchedule(false)}>✕</button></div>
+            <div className="modal-header"><h3 className="modal-title"><Icon icon={Calendar} size={16} style={{ marginRight: 6 }} /> Schedule Meals</h3><button className="modal-close" onClick={() => setShowSchedule(false)}></button></div>
             <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16 }}>Select foods and schedule for multiple days</p>
             <div style={{ marginBottom: 14 }}>
               <label className="form-label">Timing</label>
@@ -457,7 +457,7 @@ export default function BrowseMenu() {
                 <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 500 }}>
                   <div className="modal-header">
                     <h3 className="modal-title"><Icon icon={Target} size={16} style={{ marginRight: 6 }} /> Set Nutrition Targets</h3>
-                    <button className="modal-close" onClick={() => setShowTargetEditor(false)}>✕</button>
+                    <button className="modal-close" onClick={() => setShowTargetEditor(false)}></button>
                   </div>
 
                   <div style={{ padding: 14, background: 'rgba(139,92,246,0.06)', borderRadius: 12, marginBottom: 16 }}>
@@ -594,10 +594,10 @@ export default function BrowseMenu() {
                         </button>
                       </div>
                       <div className="nutrition-rings-responsive">
-                        <Ring value={calVal} target={targets.calories} color="#f97316" icon="🔥" label="Calories" unit="kcal" size={125} stroke={10} />
-                        <Ring value={proVal} target={targets.protein} color="#22c55e" icon="💪" label="Protein" unit="g" size={125} stroke={10} />
-                        <Ring value={carbVal} target={targets.carbs} color="#3b82f6" icon="🌾" label="Carbs" unit="g" size={125} stroke={10} />
-                        <Ring value={fatVal} target={targets.fat} color="#eab308" icon="🥑" label="Fat" unit="g" size={125} stroke={10} />
+                        <Ring value={calVal} target={targets.calories} color="#f97316" icon="" label="Calories" unit="kcal" size={125} stroke={10} />
+                        <Ring value={proVal} target={targets.protein} color="#22c55e" icon="" label="Protein" unit="g" size={125} stroke={10} />
+                        <Ring value={carbVal} target={targets.carbs} color="#3b82f6" icon="" label="Carbs" unit="g" size={125} stroke={10} />
+                        <Ring value={fatVal} target={targets.fat} color="#eab308" icon="" label="Fat" unit="g" size={125} stroke={10} />
                       </div>
                     </>
                   )}
@@ -649,7 +649,7 @@ export default function BrowseMenu() {
                               style={{ padding: '8px 14px', fontSize: 12, background: showAlternatives ? 'rgba(249,115,22,0.08)' : 'transparent', borderColor: showAlternatives ? 'var(--accent-orange)' : undefined, color: showAlternatives ? 'var(--accent-orange)' : undefined }}
                               onClick={() => setShowAlternatives(v => !v)}
                             >
-                              {showAlternatives ? '✕ Close' : 'Not right?\nAlternatives'}
+                              {showAlternatives ? ' Close' : 'Not right?\nAlternatives'}
                             </button>
                           </div>
                         </div>
@@ -658,7 +658,7 @@ export default function BrowseMenu() {
                       {/* Alternatives panel — appears when "Not right?" is clicked */}
                       {showAlternatives && (
                         <div style={{ animation: 'fadeInUp 0.25s ease' }}>
-                          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-muted)', marginBottom: 8 }}>🔄 Alternative Suggestions for <strong>{userGoal}</strong></div>
+                          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-muted)', marginBottom: 8 }}> Alternative Suggestions for <strong>{userGoal}</strong></div>
                           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                             {suggested.filter((_, i) => i !== 1).map((alt) => (
                               <div key={alt.id} style={{
@@ -674,8 +674,8 @@ export default function BrowseMenu() {
                                 <div style={{ flex: 1 }}>
                                   <div style={{ fontWeight: 800, fontSize: 13 }}>{alt.name}</div>
                                   <div style={{ display: 'flex', gap: 8, fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>
-                                    <span>🔥 {alt.calories} kcal</span>
-                                    <span>💪 {alt.protein}g</span>
+                                    <span> {alt.calories} kcal</span>
+                                    <span> {alt.protein}g</span>
                                     <span style={{ color: 'var(--accent-green)', fontWeight: 700 }}>₹{alt.price}</span>
                                   </div>
                                 </div>

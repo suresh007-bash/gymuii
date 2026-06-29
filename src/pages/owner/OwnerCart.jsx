@@ -40,7 +40,7 @@ export default function OwnerCart() {
     const newOrder = placeOrder({ customerId: user.id, customerName: user.name, customerAddress: user.address || 'Owner Address', items: enrichedItems, subtotal, deliveryFee, tip, total, paymentMethod: payment, paymentStatus: payment === 'COD' ? 'Pending' : 'Paid', scheduledDates: selectedDates, timing, otp });
     setOrderPlaced({ ...newOrder, otp }); setCart([]); setSelectedDates([]);
     localStorage.setItem('synnoviq_owner_cart', '[]');
-    showToast(`Order placed! OTP: ${otp} 🎉`);
+    showToast(`Order placed! OTP: ${otp} `);
   };
 
   if (orderPlaced) return (
@@ -83,7 +83,7 @@ export default function OwnerCart() {
                     <button className="btn btn-outline btn-sm" onClick={() => updateQty(item.id, 1)}>+</button>
                   </div>
                   <div style={{ fontFamily: 'Outfit', fontWeight: 800, minWidth: 60, textAlign: 'right' }}>₹{item.price * item.qty}</div>
-                  <button onClick={() => remove(item.id)} style={{ color: 'var(--accent-red)', fontSize: 16, cursor: 'pointer', background: 'none', border: 'none' }}>✕</button>
+                  <button onClick={() => remove(item.id)} style={{ color: 'var(--accent-red)', fontSize: 16, cursor: 'pointer', background: 'none', border: 'none' }}></button>
                 </div>
               ))}
             </div>
@@ -91,7 +91,7 @@ export default function OwnerCart() {
             <div className="card">
               <div className="card-header"><h3 className="card-title"><Calendar size={16} style={{marginRight:4}} /> Schedule Delivery</h3></div>
               <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
-                {[['morning', '🌅 Breakfast'], ['noon', '☀️ Lunch'], ['evening', '🌙 Dinner']].map(([k, l]) => (
+                {[['morning', ' Breakfast'], ['noon', '️ Lunch'], ['evening', ' Dinner']].map(([k, l]) => (
                   <button key={k} className={`btn btn-sm ${timing === k ? 'btn-primary' : 'btn-outline'}`} onClick={() => setTiming(k)} style={{ flex: 1 }}>{l}</button>
                 ))}
               </div>
@@ -121,7 +121,7 @@ export default function OwnerCart() {
               </div>
             </div>
             <button className="btn btn-success btn-lg" style={{ width: '100%' }} onClick={handlePlaceOrder} disabled={selectedDates.length === 0}>
-              {selectedDates.length > 0 ? `Place Order • ₹${total}` : '📅 Select Dates'}
+              {selectedDates.length > 0 ? `Place Order • ₹${total}` : ' Select Dates'}
             </button>
           </div>
         </div>

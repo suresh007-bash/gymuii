@@ -144,7 +144,7 @@ export default function ScheduleForClients() {
     const nextNum = (schedule[date] || []).length + 1;
     const newSlot = { id: slotIdCounter++, time: '10:00', label: `Meal ${nextNum}`, items: [] };
     setSchedule(prev => ({ ...prev, [date]: [...(prev[date] || []), newSlot] }));
-    showToast('➕ New meal slot added at bottom!');
+    showToast(' New meal slot added at bottom!');
   };
 
   // Remove a slot
@@ -210,7 +210,7 @@ export default function ScheduleForClients() {
       }
     });
     setSchedule(updated);
-    showToast(`📋 Copied to all ${selectedDates.length} dates!`);
+    showToast(` Copied to all ${selectedDates.length} dates!`);
   };
 
   // Copy day to SPECIFIC selected dates
@@ -222,7 +222,7 @@ export default function ScheduleForClients() {
       updated[d] = srcSlots.map(s => ({ ...s, id: slotIdCounter++, items: s.items.map(i => ({ ...i })) }));
     });
     setSchedule(updated);
-    showToast(`📋 Copied to ${copyTargetDates.length} date${copyTargetDates.length > 1 ? 's' : ''}!`);
+    showToast(` Copied to ${copyTargetDates.length} date${copyTargetDates.length > 1 ? 's' : ''}!`);
     setShowCopyPicker(false);
     setCopyTargetDates([]);
   };
@@ -302,25 +302,25 @@ export default function ScheduleForClients() {
     const assignedNames = selectedClients.map(id => clients.find(c => c.id === id)?.name || id);
     setAssignSuccess({ clients: assignedNames, dates: filledDates });
     setSchedule({}); setSelectedDates([]); setSelectedClients([]); setStep(1);
-    showToast(`✅ Meal schedule assigned to ${assignedNames.length} client(s)!`);
+    showToast(` Meal schedule assigned to ${assignedNames.length} client(s)!`);
   };
 
   // ═══ ASSIGNMENT SUCCESS ═══
   if (assignSuccess) return (
     <DashboardLayout title="Schedule Foods to Clients">
       <div style={{ textAlign: 'center', padding: 60 }}>
-        <div style={{ fontSize: 72, marginBottom: 16 }}>🎉</div>
+        <div style={{ fontSize: 72, marginBottom: 16 }}></div>
         <h2 style={{ fontFamily: 'Outfit', fontSize: 28, fontWeight: 800, marginBottom: 8 }}>Schedule Assigned!</h2>
-        <p style={{ color: 'var(--text-muted)', marginBottom: 16, fontSize: 13 }}>📅 {assignSuccess.dates.map(d => fmtDate(d)).join(' • ')}</p>
+        <p style={{ color: 'var(--text-muted)', marginBottom: 16, fontSize: 13 }}> {assignSuccess.dates.map(d => fmtDate(d)).join(' • ')}</p>
         <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 24 }}>
           {assignSuccess.clients.map(name => (
-            <span key={name} className="badge badge-green" style={{ fontSize: 12, padding: '6px 14px' }}>👤 {name}</span>
+            <span key={name} className="badge badge-green" style={{ fontSize: 12, padding: '6px 14px' }}> {name}</span>
           ))}
         </div>
         <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: 12 }}>Clients can now view, edit, and order from this schedule.</p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
-          <button className="btn btn-primary btn-lg" onClick={() => setAssignSuccess(null)}>📅 Assign More</button>
-          <button className="btn btn-outline btn-lg" onClick={() => navigate(user?.role === 'owner' ? '/owner/menu' : '/trainer/dashboard')}>🏠 Back to Home</button>
+          <button className="btn btn-primary btn-lg" onClick={() => setAssignSuccess(null)}> Assign More</button>
+          <button className="btn btn-outline btn-lg" onClick={() => navigate(user?.role === 'owner' ? '/owner/menu' : '/trainer/dashboard')}> Back to Home</button>
         </div>
       </div>
     </DashboardLayout>
@@ -329,7 +329,7 @@ export default function ScheduleForClients() {
   // ═══ STEP BAR ═══
   const StepBar = () => (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0, marginBottom: 20 }}>
-      {[{ num: 1, label: 'Select Clients', icon: '👥' }, { num: 2, label: 'Select Dates', icon: '📅' }, { num: 3, label: 'Time Slots & Food', icon: '🍽️' }].map((s, i) => (
+      {[{ num: 1, label: 'Select Clients', icon: '' }, { num: 2, label: 'Select Dates', icon: '' }, { num: 3, label: 'Time Slots & Food', icon: '️' }].map((s, i) => (
         <div key={s.num} style={{ display: 'flex', alignItems: 'center' }}>
           <div onClick={() => {
             if (s.num === 1) setStep(1);
@@ -341,7 +341,7 @@ export default function ScheduleForClients() {
             color: step === s.num ? '#fff' : step > s.num ? 'var(--accent-green)' : 'var(--text-muted)',
             fontWeight: 700, fontSize: 13, transition: 'all 0.3s',
           }}>
-            <span style={{ fontSize: 16 }}>{step > s.num ? '✅' : s.icon}</span><span>{s.label}</span>
+            <span style={{ fontSize: 16 }}>{step > s.num ? '' : s.icon}</span><span>{s.label}</span>
           </div>
           {i < 2 && <div style={{ width: 32, height: 2, background: step > s.num ? 'var(--accent-green)' : 'var(--border)' }} />}
         </div>
@@ -359,23 +359,23 @@ export default function ScheduleForClients() {
       {/* ═══ STEP 1: SELECT CLIENTS ═══ */}
       {step === 1 && (
         <div className="card" style={{ maxWidth: 640, margin: '0 auto' }}>
-          <div className="card-header"><h3 className="card-title">👥 Step 1: Select Clients</h3></div>
+          <div className="card-header"><h3 className="card-title"> Step 1: Select Clients</h3></div>
           <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 14 }}>Choose the clients you want to assign the meal schedule and targets to.</p>
           
           <div style={{ position: 'relative', marginBottom: 14 }}>
-            <input className="form-input" placeholder="🔍 Search clients by name or email..." value={clientSearch} onChange={e => setClientSearch(e.target.value)} style={{ paddingLeft: 36, fontSize: 14 }} />
+            <input className="form-input" placeholder=" Search clients by name or email..." value={clientSearch} onChange={e => setClientSearch(e.target.value)} style={{ paddingLeft: 36, fontSize: 14 }} />
           </div>
 
           {selectedClients.length > 0 && (
             <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 14, fontSize: 13 }}>
-              <strong>✅ {selectedClients.length} client{selectedClients.length > 1 ? 's' : ''} selected:</strong> {selectedClients.map(id => clients.find(c => c.id === id)?.name).join(' • ')}
+              <strong> {selectedClients.length} client{selectedClients.length > 1 ? 's' : ''} selected:</strong> {selectedClients.map(id => clients.find(c => c.id === id)?.name).join(' • ')}
             </div>
           )}
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 350, overflowY: 'auto', marginBottom: 16 }}>
             {clients.length === 0 ? (
               <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 13 }}>
-                <div style={{ fontSize: 36, marginBottom: 8 }}>👥</div>
+                <div style={{ fontSize: 36, marginBottom: 8 }}></div>
                 No clients assigned to you yet.
               </div>
             ) : (
@@ -389,7 +389,7 @@ export default function ScheduleForClients() {
                     transition: 'all 0.2s',
                   }}>
                     <div style={{ width: 22, height: 22, borderRadius: 6, border: `2px solid ${isSelected ? 'var(--accent-orange)' : 'var(--border)'}`, background: isSelected ? 'var(--accent-orange)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 12, fontWeight: 900, flexShrink: 0 }}>
-                      {isSelected && '✓'}
+                      {isSelected && ''}
                     </div>
                     <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color: '#fff', flexShrink: 0 }}>{client.avatar}</div>
                     <div style={{ flex: 1 }}>
@@ -414,7 +414,7 @@ export default function ScheduleForClients() {
       {step === 2 && (
         <div className="card" style={{ maxWidth: 640, margin: '0 auto' }}>
           <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 className="card-title">📅 Step 2: Select Delivery Dates</h3>
+            <h3 className="card-title"> Step 2: Select Delivery Dates</h3>
             <button className="btn btn-outline btn-sm" onClick={() => setStep(1)}>← Back to Clients</button>
           </div>
           <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 14 }}>Pick dates on the calendar. You can schedule multiple slots and foods for each date.</p>
@@ -439,7 +439,7 @@ export default function ScheduleForClients() {
           </div>
           {selectedDates.length > 0 && (
             <div style={{ padding: 12, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 14, fontSize: 13 }}>
-              <strong>✅ {selectedDates.length} date{selectedDates.length > 1 ? 's' : ''}:</strong> {selectedDates.sort().map(d => fmtDate(d)).join(' • ')}
+              <strong> {selectedDates.length} date{selectedDates.length > 1 ? 's' : ''}:</strong> {selectedDates.sort().map(d => fmtDate(d)).join(' • ')}
             </div>
           )}
           <button className="btn btn-primary btn-lg" style={{ width: '100%' }}
@@ -458,8 +458,8 @@ export default function ScheduleForClients() {
             <div className="modal-overlay" onClick={() => { setSchedule(prev => { const s = { ...prev }; s[activeDate] = s[activeDate].map(sl => sl.id === activeSlotId ? { ...sl, items: slotSnapshot || [] } : sl); return s; }); setShowFoodPicker(false); setSlotSnapshot(null); setSearch(''); setFoodCat('All'); setNutriSort(null); }}>
               <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 800, width: '95vw', display: 'flex', flexDirection: 'column', maxHeight: '90vh' }}>
                 <div className="modal-header">
-                  <h3 className="modal-title">🍽️ Add Food — {(() => { const s = (schedule[activeDate] || []).find(s => s.id === activeSlotId); return s ? `${s.label} (${formatTime12(s.time)})` : ''; })()}, {fmtDate(activeDate)}</h3>
-                  <button className="modal-close" onClick={() => { setSchedule(prev => { const s = { ...prev }; s[activeDate] = s[activeDate].map(sl => sl.id === activeSlotId ? { ...sl, items: slotSnapshot || [] } : sl); return s; }); setShowFoodPicker(false); setSlotSnapshot(null); setSearch(''); setFoodCat('All'); setNutriSort(null); }}>✕</button>
+                  <h3 className="modal-title">️ Add Food — {(() => { const s = (schedule[activeDate] || []).find(s => s.id === activeSlotId); return s ? `${s.label} (${formatTime12(s.time)})` : ''; })()}, {fmtDate(activeDate)}</h3>
+                  <button className="modal-close" onClick={() => { setSchedule(prev => { const s = { ...prev }; s[activeDate] = s[activeDate].map(sl => sl.id === activeSlotId ? { ...sl, items: slotSnapshot || [] } : sl); return s; }); setShowFoodPicker(false); setSlotSnapshot(null); setSearch(''); setFoodCat('All'); setNutriSort(null); }}></button>
                 </div>
 
                 {/* Live Nutrition Rings */}
@@ -472,10 +472,10 @@ export default function ScheduleForClients() {
                   return (
                     <div style={{ padding: '10px 0 12px', borderBottom: '1px solid var(--border)', marginBottom: 10 }}>
                       <div className="nutrition-rings-grid">
-                        <Ring value={dCal} target={targets.calories} color="#f97316" icon="🔥" label="Cal" unit="kcal" size={64} stroke={6} />
-                        <Ring value={dPro} target={targets.protein} color="#22c55e" icon="💪" label="Pro" unit="g" size={64} stroke={6} />
-                        <Ring value={dCarb} target={targets.carbs} color="#3b82f6" icon="🌾" label="Carb" unit="g" size={64} stroke={6} />
-                        <Ring value={dFat} target={targets.fat} color="#eab308" icon="🥑" label="Fat" unit="g" size={64} stroke={6} />
+                        <Ring value={dCal} target={targets.calories} color="#f97316" icon="" label="Cal" unit="kcal" size={64} stroke={6} />
+                        <Ring value={dPro} target={targets.protein} color="#22c55e" icon="" label="Pro" unit="g" size={64} stroke={6} />
+                        <Ring value={dCarb} target={targets.carbs} color="#3b82f6" icon="" label="Carb" unit="g" size={64} stroke={6} />
+                        <Ring value={dFat} target={targets.fat} color="#eab308" icon="" label="Fat" unit="g" size={64} stroke={6} />
                       </div>
                     </div>
                   );
@@ -484,7 +484,7 @@ export default function ScheduleForClients() {
                 {/* Search + Filters */}
                 <div style={{ display: 'flex', gap: 8, marginBottom: 10, alignItems: 'center' }}>
                   <div style={{ flex: 1, position: 'relative' }}>
-                    <span style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)' }}>🔍</span>
+                    <span style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)' }}></span>
                     <input className="form-input" placeholder="Search food..." value={search} onChange={e => setSearch(e.target.value)} style={{ paddingLeft: 32, fontSize: 14 }} />
                   </div>
                 </div>
@@ -503,10 +503,10 @@ export default function ScheduleForClients() {
                 {/* Nutrient Sort Filters */}
                 <div style={{ display: 'flex', gap: 4, marginBottom: 12 }}>
                   {[
-                    { key: 'highProtein', label: '💪 High Protein', color: '#22c55e' },
-                    { key: 'lowCal', label: '🔥 Low Calorie', color: '#f97316' },
-                    { key: 'lowFat', label: '🥑 Low Fat', color: '#eab308' },
-                    { key: 'lowCarb', label: '🌾 Low Carb', color: '#3b82f6' },
+                    { key: 'highProtein', label: ' High Protein', color: '#22c55e' },
+                    { key: 'lowCal', label: ' Low Calorie', color: '#f97316' },
+                    { key: 'lowFat', label: ' Low Fat', color: '#eab308' },
+                    { key: 'lowCarb', label: ' Low Carb', color: '#3b82f6' },
                   ].map(f => (
                     <button key={f.key} onClick={() => setNutriSort(nutriSort === f.key ? null : f.key)} style={{
                       padding: '4px 10px', borderRadius: 8, fontSize: 10, fontWeight: 700, cursor: 'pointer',
@@ -534,10 +534,10 @@ export default function ScheduleForClients() {
                         <div style={{ flex: 1 }}>
                           <div style={{ fontWeight: 800, fontSize: 14 }}>{item.name}</div>
                           <div style={{ display: 'flex', gap: 10, fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>
-                            <span style={{ color: '#f97316' }}>🔥 {item.calories}</span>
-                            <span style={{ color: '#22c55e' }}>💪 {item.protein}g</span>
-                            <span style={{ color: '#3b82f6' }}>🌾 {item.carbs}g</span>
-                            <span style={{ color: '#eab308' }}>🥑 {item.fat}g</span>
+                            <span style={{ color: '#f97316' }}> {item.calories}</span>
+                            <span style={{ color: '#22c55e' }}> {item.protein}g</span>
+                            <span style={{ color: '#3b82f6' }}> {item.carbs}g</span>
+                            <span style={{ color: '#eab308' }}> {item.fat}g</span>
                           </div>
                           <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--accent-green)', marginTop: 2 }}>₹{item.price}</div>
                         </div>
@@ -556,7 +556,7 @@ export default function ScheduleForClients() {
                 </div>
                 <div className="modal-footer" style={{ position: 'sticky', bottom: 0, marginTop: 0, padding: '10px 16px', background: 'var(--bg-primary)', borderTop: '1.5px solid var(--border)', zIndex: 5, flexShrink: 0 }}>
                   <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{activeSlotItems.length} items in this meal</span>
-                  <button className="btn btn-primary" style={{ fontSize: 14, padding: '10px 28px' }} onClick={() => { setShowFoodPicker(false); setSlotSnapshot(null); setSearch(''); setFoodCat('All'); setNutriSort(null); }}>✅ Done</button>
+                  <button className="btn btn-primary" style={{ fontSize: 14, padding: '10px 28px' }} onClick={() => { setShowFoodPicker(false); setSlotSnapshot(null); setSearch(''); setFoodCat('All'); setNutriSort(null); }}> Done</button>
                 </div>
               </div>
             </div>
@@ -567,8 +567,8 @@ export default function ScheduleForClients() {
             <div className="modal-overlay" onClick={() => { setShowCopyPicker(false); setCopyTargetDates([]); }}>
               <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 400 }}>
                 <div className="modal-header">
-                  <h3 className="modal-title">📋 Copy to Specific Dates</h3>
-                  <button className="modal-close" onClick={() => { setShowCopyPicker(false); setCopyTargetDates([]); }}>✕</button>
+                  <h3 className="modal-title"> Copy to Specific Dates</h3>
+                  <button className="modal-close" onClick={() => { setShowCopyPicker(false); setCopyTargetDates([]); }}></button>
                 </div>
                 <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 12 }}>Select which dates to paste this meal plan to:</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 16 }}>
@@ -582,11 +582,11 @@ export default function ScheduleForClients() {
                         border: `1.5px solid ${isChecked ? 'var(--accent-orange)' : 'var(--border)'}`,
                       }}>
                         <div style={{ width: 20, height: 20, borderRadius: 4, border: `2px solid ${isChecked ? 'var(--accent-orange)' : 'var(--border)'}`, background: isChecked ? 'var(--accent-orange)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 12, fontWeight: 900 }}>
-                          {isChecked && '✓'}
+                          {isChecked && ''}
                         </div>
                         <div style={{ flex: 1 }}>
                           <div style={{ fontWeight: 700, fontSize: 13 }}>{fmtDate(dateStr)}</div>
-                          {existingCount > 0 && <div style={{ fontSize: 10, color: 'var(--accent-orange)' }}>⚠️ Has {existingCount} items (will be replaced)</div>}
+                          {existingCount > 0 && <div style={{ fontSize: 10, color: 'var(--accent-orange)' }}>️ Has {existingCount} items (will be replaced)</div>}
                         </div>
                       </div>
                     );
@@ -595,7 +595,7 @@ export default function ScheduleForClients() {
                 <div className="modal-footer">
                   <button className="btn btn-outline" onClick={() => { setShowCopyPicker(false); setCopyTargetDates([]); }}>Cancel</button>
                   <button className="btn btn-primary" onClick={() => copyDayToSpecific(activeDate)} disabled={copyTargetDates.length === 0}>
-                    📋 Paste to {copyTargetDates.length} date{copyTargetDates.length !== 1 ? 's' : ''}
+                     Paste to {copyTargetDates.length} date{copyTargetDates.length !== 1 ? 's' : ''}
                   </button>
                 </div>
               </div>
@@ -629,14 +629,14 @@ export default function ScheduleForClients() {
                     setSchedule(p => { const n = { ...p }; delete n[dateStr]; return n; });
                     if (remaining.length === 0) { setStep(2); setActiveDate(null); }
                     else if (activeDate === dateStr) setActiveDate(remaining.sort()[0]);
-                    showToast(`🗑️ ${fmtDate(dateStr)} removed`);
+                    showToast(`️ ${fmtDate(dateStr)} removed`);
                   }} style={{
                     position: 'absolute', right: 4, top: '50%', transform: 'translateY(-50%)',
                     width: 20, height: 20, borderRadius: '50%', border: 'none', cursor: 'pointer', fontSize: 10,
                     display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900,
                     background: isActive ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.08)',
                     color: isActive ? '#fff' : 'var(--text-muted)',
-                  }} title="Remove date">✕</button>
+                  }} title="Remove date"></button>
                 </div>
               );
             })}
@@ -652,22 +652,22 @@ export default function ScheduleForClients() {
             const calPct = Math.round((dateCal / targets.calories) * 100);
             if (calPct >= 100 && !notifiedDates.current.has(activeDate)) {
               notifiedDates.current.add(activeDate);
-              setTimeout(() => showToast(`🎯 Target reached for ${fmtDate(activeDate)}! ${dateCal} / ${targets.calories} kcal`), 100);
+              setTimeout(() => showToast(` Target reached for ${fmtDate(activeDate)}! ${dateCal} / ${targets.calories} kcal`), 100);
             }
             if (calPct < 100) notifiedDates.current.delete(activeDate);
             return (
               <div className="card" style={{ padding: 14, marginBottom: 14 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                  <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 13 }}>🎯 {fmtDate(activeDate)} — Nutrition</span>
+                  <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 13 }}> {fmtDate(activeDate)} — Nutrition</span>
                   <span style={{ fontSize: 11, fontWeight: 700, color: calPct >= 100 ? '#22c55e' : calPct > 80 ? '#f97316' : 'var(--text-muted)' }}>
-                    {calPct >= 100 ? '✅ Target reached!' : calPct > 80 ? `🔥 ${calPct}% almost there` : `${calPct}%`}
+                    {calPct >= 100 ? ' Target reached!' : calPct > 80 ? ` ${calPct}% almost there` : `${calPct}%`}
                   </span>
                 </div>
                 <div className="nutrition-rings-grid">
-                  <Ring value={dateCal} target={targets.calories} color="#f97316" icon="🔥" label="Calories" unit="kcal" />
-                  <Ring value={datePro} target={targets.protein} color="#22c55e" icon="💪" label="Protein" unit="g" />
-                  <Ring value={dateCarb} target={targets.carbs} color="#3b82f6" icon="🌾" label="Carbs" unit="g" />
-                  <Ring value={dateFat} target={targets.fat} color="#eab308" icon="🥑" label="Fat" unit="g" />
+                  <Ring value={dateCal} target={targets.calories} color="#f97316" icon="" label="Calories" unit="kcal" />
+                  <Ring value={datePro} target={targets.protein} color="#22c55e" icon="" label="Protein" unit="g" />
+                  <Ring value={dateCarb} target={targets.carbs} color="#3b82f6" icon="" label="Carbs" unit="g" />
+                  <Ring value={dateFat} target={targets.fat} color="#eab308" icon="" label="Fat" unit="g" />
                 </div>
               </div>
             );
@@ -715,7 +715,7 @@ export default function ScheduleForClients() {
                             </>
                           );
                         })()}
-                        <button onClick={() => removeSlot(activeDate, slot.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 14, color: 'var(--accent-red)', marginLeft: 4 }} title="Remove slot">🗑️</button>
+                        <button onClick={() => removeSlot(activeDate, slot.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 14, color: 'var(--accent-red)', marginLeft: 4 }} title="Remove slot">️</button>
                       </div>
                     </div>
 
@@ -728,7 +728,7 @@ export default function ScheduleForClients() {
                         </span>
                         {slot.items.length > 0 && (
                           <span style={{ fontSize: 10, fontWeight: 700, color }}>
-                            🔥 {slotCal} kcal • ₹{slotTotal}
+                             {slotCal} kcal • ₹{slotTotal}
                           </span>
                         )}
                       </div>
@@ -774,7 +774,7 @@ export default function ScheduleForClients() {
                               border: 'none', cursor: 'pointer', fontSize: 6,
                               display: 'flex', alignItems: 'center', justifyContent: 'center',
                               fontWeight: 900,
-                            }}>✕</button>
+                            }}></button>
 
                             {/* Food Image */}
                             <img src={item.image} alt={item.name} style={{
@@ -789,7 +789,7 @@ export default function ScheduleForClients() {
                                 overflow: 'hidden', textOverflow: 'ellipsis',
                               }}>{item.name}</div>
                               <div style={{ fontSize: 6, color: 'var(--text-muted)' }}>
-                                🔥{item.calories * item.qty} • ₹{item.price * item.qty}
+                                {item.calories * item.qty} • ₹{item.price * item.qty}
                               </div>
                               {/* Qty Controls */}
                               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, marginTop: 1 }}>
@@ -866,10 +866,10 @@ export default function ScheduleForClients() {
                               </span>
                             </div>
                             <div style={{ display: 'flex', gap: 10, fontSize: 10, fontWeight: 700 }}>
-                              <span style={{ color: '#f97316' }}>🔥 {slotCal} kcal</span>
-                              <span style={{ color: '#22c55e' }}>💪 {mealPro}g protein</span>
-                              <span style={{ color: '#3b82f6' }}>🌾 {mealCarb}g carbs</span>
-                              <span style={{ color: '#eab308' }}>🥑 {mealFat}g fat</span>
+                              <span style={{ color: '#f97316' }}> {slotCal} kcal</span>
+                              <span style={{ color: '#22c55e' }}> {mealPro}g protein</span>
+                              <span style={{ color: '#3b82f6' }}> {mealCarb}g carbs</span>
+                              <span style={{ color: '#eab308' }}> {mealFat}g fat</span>
                             </div>
                           </div>
                         );
@@ -902,7 +902,7 @@ export default function ScheduleForClients() {
                       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                     }}>
                       <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 13, color: 'var(--text-primary)' }}>
-                        🧾 {fmtDate(activeDate)} — Cost & Nutrition Summary
+                         {fmtDate(activeDate)} — Cost & Nutrition Summary
                       </span>
                       <span style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700 }}>
                         {dayItems} items total
@@ -942,10 +942,10 @@ export default function ScheduleForClients() {
                               </span>
                             </div>
                             <div style={{ display: 'flex', gap: 8, fontSize: 9, fontWeight: 600, marginTop: 2, marginLeft: 26, color: 'var(--text-muted)' }}>
-                              <span style={{ color: '#f97316' }}>🔥{mCal}</span>
-                              <span style={{ color: '#22c55e' }}>💪{mPro}g</span>
-                              <span style={{ color: '#3b82f6' }}>🌾{mCarb}g</span>
-                              <span style={{ color: '#eab308' }}>🥑{mFat}g</span>
+                              <span style={{ color: '#f97316' }}>{mCal}</span>
+                              <span style={{ color: '#22c55e' }}>{mPro}g</span>
+                              <span style={{ color: '#3b82f6' }}>{mCarb}g</span>
+                              <span style={{ color: '#eab308' }}>{mFat}g</span>
                             </div>
                           </div>
                         );
@@ -957,7 +957,7 @@ export default function ScheduleForClients() {
                       }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <span style={{ fontSize: 14, fontWeight: 900, color: 'var(--text-primary)' }}>
-                            💰 Day Total
+                             Day Total
                           </span>
                           <span style={{
                             fontSize: 18, fontWeight: 900, color: 'var(--accent-orange)',
@@ -967,10 +967,10 @@ export default function ScheduleForClients() {
                           </span>
                         </div>
                         <div style={{ display: 'flex', gap: 12, fontSize: 11, fontWeight: 800, marginTop: 4 }}>
-                          <span style={{ color: '#f97316' }}>🔥 {dayCal} kcal</span>
-                          <span style={{ color: '#22c55e' }}>💪 {dayPro}g protein</span>
-                          <span style={{ color: '#3b82f6' }}>🌾 {dayCarb}g carbs</span>
-                          <span style={{ color: '#eab308' }}>🥑 {dayFat}g fat</span>
+                          <span style={{ color: '#f97316' }}> {dayCal} kcal</span>
+                          <span style={{ color: '#22c55e' }}> {dayPro}g protein</span>
+                          <span style={{ color: '#3b82f6' }}> {dayCarb}g carbs</span>
+                          <span style={{ color: '#eab308' }}> {dayFat}g fat</span>
                         </div>
                       </div>
                     </div>
@@ -981,17 +981,17 @@ export default function ScheduleForClients() {
               {/* Add new time slot */}
               <button className="btn btn-outline" onClick={() => addSlot(activeDate)}
                 style={{ width: '100%', padding: 14, borderStyle: 'dashed', fontSize: 14, fontWeight: 700 }}>
-                ➕ Add Another Meal Slot
+                 Add Another Meal Slot
               </button>
 
               {/* Copy buttons — at bottom */}
               {selectedDates.length > 1 && getDateTotalItems(activeDate) > 0 && (
                 <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
                   <button className="btn btn-outline" style={{ flex: 1, fontSize: 12 }} onClick={() => copyDayToAll(activeDate)}>
-                    📋 Copy to ALL dates ({selectedDates.length - 1})
+                     Copy to ALL dates ({selectedDates.length - 1})
                   </button>
                   <button className="btn btn-outline" style={{ flex: 1, fontSize: 12 }} onClick={() => { setCopyTargetDates([]); setShowCopyPicker(true); }}>
-                    📌 Copy to specific dates
+                     Copy to specific dates
                   </button>
                 </div>
               )}
@@ -1003,7 +1003,7 @@ export default function ScheduleForClients() {
             <button className="btn btn-success btn-lg" style={{ minWidth: 300, fontSize: 16 }}
               onClick={handleAssign}
               disabled={filledDates.length === 0}>
-              🚀 Publish Food Schedule
+               Publish Food Schedule
             </button>
             <p style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 8 }}>This will instantly update the food schedules for the selected clients.</p>
           </div>

@@ -42,7 +42,7 @@ export default function AdminSettings() {
     if (!promoUserId || !promoRole) { showToast('Select user and role', 'error'); return; }
     const user = allUsers.find(u => u.id === promoUserId);
     askConfirm(
-      '⬆️ Promote User',
+      '️ Promote User',
       `Are you sure you want to promote "${user?.name}" to ${promoRole.toUpperCase()}?`,
       '#3b82f6',
       () => {
@@ -50,7 +50,7 @@ export default function AdminSettings() {
         if (promoRole === 'trainer' && promoGym) extra.gymId = promoGym;
         if (promoRole === 'owner' && promoGym) extra.gymId = promoGym;
         promoteUser(promoUserId, promoRole, extra);
-        showToast(`✅ ${user?.name} promoted to ${promoRole.toUpperCase()}!`);
+        showToast(` ${user?.name} promoted to ${promoRole.toUpperCase()}!`);
         setPromoUserId(''); setPromoRole('trainer');
       }
     );
@@ -59,12 +59,12 @@ export default function AdminSettings() {
   const handleAddKitchen = () => {
     if (!kitchenForm.name || !kitchenForm.email || !kitchenForm.kitchenName) { showToast('Fill all required fields', 'error'); return; }
     askConfirm(
-      '👨‍🍳 Add Kitchen Team',
+      '‍ Add Kitchen Team',
       `Add "${kitchenForm.name}" as kitchen staff for "${kitchenForm.kitchenName}"?`,
       '#22c55e',
       () => {
         addUser({ ...kitchenForm, role: 'kitchen', avatar: kitchenForm.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) });
-        showToast(`👨‍🍳 Kitchen team "${kitchenForm.kitchenName}" added!`);
+        showToast(`‍ Kitchen team "${kitchenForm.kitchenName}" added!`);
         setKitchenForm({ name: '', email: '', phone: '', kitchenName: '', kitchenLocation: '' });
       }
     );
@@ -76,13 +76,13 @@ export default function AdminSettings() {
     setThemePrimary(preset.primary);
     setThemeSecondary(preset.secondary);
     applyTheme({ primary: preset.primary, secondary: preset.secondary });
-    showToast(`🎨 Theme changed to ${preset.label}!`);
+    showToast(` Theme changed to ${preset.label}!`);
   };
 
   const handleCustomApply = () => {
     setActivePreset('custom');
     applyTheme({ primary: themePrimary, secondary: themeSecondary });
-    showToast('🎨 Custom theme applied!');
+    showToast(' Custom theme applied!');
   };
 
   const handleResetTheme = () => {
@@ -90,18 +90,18 @@ export default function AdminSettings() {
     setThemePrimary('#f97316');
     setThemeSecondary('#22c55e');
     setActivePreset('orange');
-    showToast('🔄 Theme reset to default!');
+    showToast(' Theme reset to default!');
   };
 
   const handleSaveBanner = () => {
     localStorage.setItem('synnoviq_banner_config', JSON.stringify(bannerCfg));
-    showToast('🖼️ Banner settings saved! Refresh the client page to see changes.');
+    showToast('️ Banner settings saved! Refresh the client page to see changes.');
   };
 
   const handleResetBanner = () => {
     localStorage.removeItem('synnoviq_banner_config');
     setBannerCfg({});
-    showToast('🔄 Banner reset to default!');
+    showToast(' Banner reset to default!');
   };
 
   const clients = allUsers.filter(u => u.role === 'client');
@@ -136,17 +136,17 @@ export default function AdminSettings() {
       )}
 
       <div className="tabs" style={{ marginBottom: 20, overflowX: 'auto', whiteSpace: 'nowrap' }}>
-        <button className={`tab ${tab === 'promote' ? 'active' : ''}`} onClick={() => setTab('promote')}>⬆️ Promote User</button>
-        <button className={`tab ${tab === 'kitchen' ? 'active' : ''}`} onClick={() => setTab('kitchen')}>👨‍🍳 Add Kitchen Team</button>
-        <button className={`tab ${tab === 'roles' ? 'active' : ''}`} onClick={() => setTab('roles')}>👥 Role Overview</button>
-        <button className={`tab ${tab === 'theme' ? 'active' : ''}`} onClick={() => setTab('theme')}>🎨 Theme & Branding</button>
+        <button className={`tab ${tab === 'promote' ? 'active' : ''}`} onClick={() => setTab('promote')}>️ Promote User</button>
+        <button className={`tab ${tab === 'kitchen' ? 'active' : ''}`} onClick={() => setTab('kitchen')}>‍ Add Kitchen Team</button>
+        <button className={`tab ${tab === 'roles' ? 'active' : ''}`} onClick={() => setTab('roles')}> Role Overview</button>
+        <button className={`tab ${tab === 'theme' ? 'active' : ''}`} onClick={() => setTab('theme')}> Theme & Branding</button>
       </div>
 
       {/* Promote User Layout */}
       {tab === 'promote' && (
         <LayoutGrid>
           <div className="card" style={{ width: '100%' }}>
-            <div className="card-header"><h3 className="card-title">⬆️ Promote User</h3></div>
+            <div className="card-header"><h3 className="card-title">️ Promote User</h3></div>
             <p style={{ fontSize: 15, color: 'var(--text-muted)', marginBottom: 16 }}>Promote a client to trainer, or a user to gym owner role.</p>
             <div style={{ marginBottom: 14 }}>
               <label className="form-label">Select User to Promote</label>
@@ -160,7 +160,7 @@ export default function AdminSettings() {
             <div style={{ marginBottom: 14 }}>
               <label className="form-label">Promote To</label>
               <div style={{ display: 'flex', gap: 8 }}>
-                {[['trainer', '💪 Trainer'], ['owner', '👑 Owner'], ['admin', '⚙️ Admin']].map(([role, label]) => (
+                {[['trainer', ' Trainer'], ['owner', ' Owner'], ['admin', '️ Admin']].map(([role, label]) => (
                   <button key={role} className={`btn btn-sm ${promoRole === role ? 'btn-primary' : 'btn-outline'}`} onClick={() => setPromoRole(role)}>{label}</button>
                 ))}
               </div>
@@ -174,7 +174,7 @@ export default function AdminSettings() {
                 </select>
               </div>
             )}
-            <button className="btn btn-success" style={{ width: '100%', padding: '12px 0', marginTop: 10 }} onClick={handlePromote} disabled={!promoUserId}>⬆️ Promote User</button>
+            <button className="btn btn-success" style={{ width: '100%', padding: '12px 0', marginTop: 10 }} onClick={handlePromote} disabled={!promoUserId}>️ Promote User</button>
           </div>
 
           {/* Context Summary Counterbalanced Side Info Panel */}
@@ -182,12 +182,12 @@ export default function AdminSettings() {
             <div className="card-header"><h3 className="card-title">ℹ️ System Guidelines</h3></div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14, fontSize: 15, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
               <div>
-                <strong style={{ color: 'var(--text-primary)' }}>💪 Trainer Access:</strong>
+                <strong style={{ color: 'var(--text-primary)' }}> Trainer Access:</strong>
                 <p style={{ margin: '4px 0 0 0', color: 'var(--text-muted)' }}>Grants administrative rights over custom meal allocations, client scheduling plans, and specific assigned gym infrastructure logs.</p>
               </div>
               <hr style={{ border: '0', borderTop: '1px solid var(--border)' }} />
               <div>
-                <strong style={{ color: 'var(--text-primary)' }}>👑 Owner Access:</strong>
+                <strong style={{ color: 'var(--text-primary)' }}> Owner Access:</strong>
                 <p style={{ margin: '4px 0 0 0', color: 'var(--text-muted)' }}>Provides absolute visual telemetry over branch finances, subscription structures, and macro inventory charts.</p>
               </div>
             </div>
@@ -199,7 +199,7 @@ export default function AdminSettings() {
       {tab === 'kitchen' && (
         <LayoutGrid>
           <div className="card" style={{ width: '100%' }}>
-            <div className="card-header"><h3 className="card-title">👨‍🍳 Add Food Providing Team</h3></div>
+            <div className="card-header"><h3 className="card-title">‍ Add Food Providing Team</h3></div>
             <p style={{ fontSize: 15, color: 'var(--text-muted)', marginBottom: 16 }}>Register a new kitchen/food provider team to the system.</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div><label className="form-label">Person Name *</label><input className="form-input" value={kitchenForm.name} onChange={e => setKitchenForm(p => ({ ...p, name: e.target.value }))} placeholder="Chef Name" /></div>
@@ -210,11 +210,11 @@ export default function AdminSettings() {
               <div><label className="form-label">Kitchen Name *</label><input className="form-input" value={kitchenForm.kitchenName} onChange={e => setKitchenForm(p => ({ ...p, kitchenName: e.target.value }))} placeholder="FitBites Kitchen" /></div>
               <div><label className="form-label">Kitchen Location</label><input className="form-input" value={kitchenForm.kitchenLocation} onChange={e => setKitchenForm(p => ({ ...p, kitchenLocation: e.target.value }))} placeholder="City, Area" /></div>
             </div>
-            <button className="btn btn-success" style={{ marginTop: 20, width: '100%', padding: '12px 0' }} onClick={handleAddKitchen}>➕ Add Kitchen Team</button>
+            <button className="btn btn-success" style={{ marginTop: 20, width: '100%', padding: '12px 0' }} onClick={handleAddKitchen}> Add Kitchen Team</button>
           </div>
 
           <div className="card" style={{ width: '100%', height: '100%' }}>
-            <div className="card-header"><h3 className="card-title">📌 Operational Notes</h3></div>
+            <div className="card-header"><h3 className="card-title"> Operational Notes</h3></div>
             <p style={{ fontSize: 15, color: 'var(--text-muted)', lineHeight: 1.6 }}>
               Adding a kitchen service agent initiates automated dynamic routing configuration. Fresh logs are appended to fulfillment lists, and corresponding platform personnel profiles will be automatically provisioned with default login tokens dispatched directly to the listed organizational mail inbox.
             </p>
@@ -232,12 +232,12 @@ export default function AdminSettings() {
           alignItems: 'stretch'
         }}>
           {[
-            ['client', '🏋️', '#f97316', 'Clients'], 
-            ['trainer', '💪', '#22c55e', 'Trainers'], 
-            ['owner', '👑', '#3b82f6', 'Owners'], 
-            ['kitchen', '👨‍🍳', '#14b8a6', 'Kitchens'], 
-            ['delivery', '🚗', '#8b5cf6', 'Deliveries'], 
-            ['admin', '⚙️', '#64748b', 'Admins']
+            ['client', '️', '#f97316', 'Clients'], 
+            ['trainer', '', '#22c55e', 'Trainers'], 
+            ['owner', '', '#3b82f6', 'Owners'], 
+            ['kitchen', '‍', '#14b8a6', 'Kitchens'], 
+            ['delivery', '', '#8b5cf6', 'Deliveries'], 
+            ['admin', '️', '#64748b', 'Admins']
           ].map(([role, icon, color, labelText]) => {
             const users = allUsers.filter(u => u.role === role);
             return (
@@ -295,7 +295,7 @@ export default function AdminSettings() {
           {/* Theme Presets */}
           <div className="card">
             <div className="card-header" style={{ marginBottom: 16 }}>
-              <h3 className="card-title">🎨 Theme Presets</h3>
+              <h3 className="card-title"> Theme Presets</h3>
             </div>
             <p style={{ fontSize: 15, color: 'var(--text-muted)', marginBottom: 16 }}>
               Choose a preset theme to instantly change the look and feel of the entire application.
@@ -319,7 +319,7 @@ export default function AdminSettings() {
                   </div>
                   <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-primary)' }}>{preset.label}</div>
                   {activePreset === key && (
-                    <div style={{ fontSize: 12, fontWeight: 800, color: preset.primary, marginTop: 4 }}>✓ ACTIVE</div>
+                    <div style={{ fontSize: 12, fontWeight: 800, color: preset.primary, marginTop: 4 }}> ACTIVE</div>
                   )}
                 </div>
               ))}
@@ -329,7 +329,7 @@ export default function AdminSettings() {
           {/* Custom Colors */}
           <div className="card">
             <div className="card-header" style={{ marginBottom: 16 }}>
-              <h3 className="card-title">🖌️ Custom Colors</h3>
+              <h3 className="card-title">️ Custom Colors</h3>
             </div>
             <p style={{ fontSize: 15, color: 'var(--text-muted)', marginBottom: 16 }}>
               Pick your own primary and secondary colors for a fully custom theme.
@@ -386,15 +386,15 @@ export default function AdminSettings() {
             </div>
 
             <div style={{ display: 'flex', gap: 10 }}>
-              <button className="btn btn-primary" onClick={handleCustomApply}>🎨 Apply Custom Theme</button>
-              <button className="btn btn-outline" onClick={handleResetTheme}>🔄 Reset to Default</button>
+              <button className="btn btn-primary" onClick={handleCustomApply}> Apply Custom Theme</button>
+              <button className="btn btn-outline" onClick={handleResetTheme}> Reset to Default</button>
             </div>
           </div>
 
           {/* Banner Editor */}
           <div className="card">
             <div className="card-header" style={{ marginBottom: 16 }}>
-              <h3 className="card-title">🖼️ Client Home Banner</h3>
+              <h3 className="card-title">️ Client Home Banner</h3>
             </div>
             <p style={{ fontSize: 15, color: 'var(--text-muted)', marginBottom: 16 }}>
               Customize the hero banner on the client home/browse page. Leave fields empty to use defaults.
@@ -409,7 +409,7 @@ export default function AdminSettings() {
                 </div>
                 <div>
                   <label className="form-label">Banner Image URL</label>
-                  <input className="form-input" placeholder="https://images.unsplash.com/..." value={bannerCfg.imageUrl || ''}
+                  <input className="form-input" placeholder="/src/assets/hero.png" value={bannerCfg.imageUrl || ''}
                     onChange={e => setBannerCfg(p => ({ ...p, imageUrl: e.target.value }))} />
                 </div>
               </div>
@@ -506,22 +506,22 @@ export default function AdminSettings() {
             </div>
 
             <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
-              <button className="btn btn-primary" onClick={handleSaveBanner}>💾 Save Banner</button>
-              <button className="btn btn-outline" onClick={handleResetBanner}>🔄 Reset Banner</button>
+              <button className="btn btn-primary" onClick={handleSaveBanner}> Save Banner</button>
+              <button className="btn btn-outline" onClick={handleResetBanner}> Reset Banner</button>
             </div>
           </div>
 
           {/* Weather / Atmosphere Effects */}
           <div className="card">
             <div className="card-header" style={{ marginBottom: 16 }}>
-              <h3 className="card-title">🌦️ Atmosphere Effects</h3>
+              <h3 className="card-title">️ Atmosphere Effects</h3>
             </div>
             <p style={{ fontSize: 15, color: 'var(--text-muted)', marginBottom: 16 }}>
               Add a live weather or atmosphere animation overlay across all pages. These effects are purely visual and don't affect functionality.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 12 }}>
-              {[['none', '🚫', 'No Effect', '#64748b'],
-                ['rain', '🌧️', 'Rainy Storm', '#60a5fa'],
+              {[['none', '', 'No Effect', '#64748b'],
+                ['rain', '️', 'Rainy Storm', '#60a5fa'],
               ].map(([key, emoji, label, color]) => (
                 <div
                   key={key}
@@ -542,7 +542,7 @@ export default function AdminSettings() {
                   <div style={{ fontSize: 32, marginBottom: 6, filter: weatherEffect === key ? 'none' : 'grayscale(0.5)' }}>{emoji}</div>
                   <div style={{ fontSize: 14, fontWeight: 700, color: weatherEffect === key ? color : 'var(--text-secondary)' }}>{label}</div>
                   {weatherEffect === key && (
-                    <div style={{ fontSize: 11, fontWeight: 800, color, marginTop: 4 }}>✓ ACTIVE</div>
+                    <div style={{ fontSize: 11, fontWeight: 800, color, marginTop: 4 }}> ACTIVE</div>
                   )}
                 </div>
               ))}

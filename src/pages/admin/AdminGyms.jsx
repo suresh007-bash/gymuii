@@ -53,9 +53,9 @@ export default function AdminGyms() {
               {selectedGym.name}
             </h2>
             <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 15, marginTop: 4, display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span>📍 {selectedGym.location}</span>
-              <span>⭐ {selectedGym.rating}</span>
-              {owner && <span>👑 {owner.name}</span>}
+              <span> {selectedGym.location}</span>
+              <span> {selectedGym.rating}</span>
+              {owner && <span> {owner.name}</span>}
             </div>
           </div>
         </div>
@@ -63,12 +63,12 @@ export default function AdminGyms() {
         {/* Stats Overview Cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12, marginBottom: 24 }}>
           {[
-            { icon: '👥', value: clients.length, label: 'Total Clients', color: '#3b82f6' },
-            { icon: '🏋️', value: trainers.length, label: 'Trainers', color: '#8b5cf6' },
-            { icon: '✅', value: activeClients, label: 'With Trainer', color: '#22c55e' },
-            { icon: '⚠️', value: unassignedClients, label: 'No Trainer', color: '#f59e0b' },
-            { icon: '📦', value: gymOrders.length, label: 'Total Orders', color: '#f97316' },
-            { icon: '💰', value: `₹${totalRevenue.toLocaleString()}`, label: 'Revenue', color: '#10b981' },
+            { icon: '', value: clients.length, label: 'Total Clients', color: '#3b82f6' },
+            { icon: '️', value: trainers.length, label: 'Trainers', color: '#8b5cf6' },
+            { icon: '', value: activeClients, label: 'With Trainer', color: '#22c55e' },
+            { icon: '️', value: unassignedClients, label: 'No Trainer', color: '#f59e0b' },
+            { icon: '', value: gymOrders.length, label: 'Total Orders', color: '#f97316' },
+            { icon: '', value: `₹${totalRevenue.toLocaleString()}`, label: 'Revenue', color: '#10b981' },
           ].map((stat, i) => (
             <div key={i} className="card" style={{ textAlign: 'center', padding: 16 }}>
               <div style={{ fontSize: 20, marginBottom: 4 }}>{stat.icon}</div>
@@ -81,9 +81,9 @@ export default function AdminGyms() {
         {/* Detail Tabs */}
         <div style={{ display: 'flex', gap: 6, marginBottom: 20, flexWrap: 'wrap' }}>
           {[
-            { key: 'overview', label: '📊 Overview' },
-            { key: 'trainers', label: `🏋️ Trainers (${trainers.length})` },
-            { key: 'clients', label: `👥 Clients (${clients.length})` },
+            { key: 'overview', label: ' Overview' },
+            { key: 'trainers', label: `️ Trainers (${trainers.length})` },
+            { key: 'clients', label: ` Clients (${clients.length})` },
           ].map(t => (
             <button key={t.key} onClick={() => setDetailTab(t.key)} style={{
               padding: '8px 18px', borderRadius: 10, border: 'none', cursor: 'pointer',
@@ -99,10 +99,10 @@ export default function AdminGyms() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: 16 }}>
             {/* Gym Info */}
             <div className="card">
-              <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 17, marginBottom: 12 }}>📖 About</h4>
+              <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 17, marginBottom: 12 }}> About</h4>
               <p style={{ fontSize: 15, color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: 14 }}>{selectedGym.description}</p>
               <div style={{ fontSize: 14, color: 'var(--text-muted)', marginBottom: 8 }}>
-                <strong>🕐 Hours:</strong> {selectedGym.hours}
+                <strong> Hours:</strong> {selectedGym.hours}
               </div>
               {selectedGym.amenities && (
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 10 }}>
@@ -110,7 +110,7 @@ export default function AdminGyms() {
                     <span key={i} style={{
                       padding: '4px 10px', borderRadius: 16, fontSize: 13, fontWeight: 600,
                       background: 'var(--bg-tertiary)', color: 'var(--text-secondary)',
-                    }}>✅ {a}</span>
+                    }}> {a}</span>
                   ))}
                 </div>
               )}
@@ -119,7 +119,7 @@ export default function AdminGyms() {
             {/* Owner Details */}
             {owner && (
               <div className="card">
-                <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 17, marginBottom: 12 }}>👑 Owner Details</h4>
+                <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 17, marginBottom: 12 }}> Owner Details</h4>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
                   <div style={{
                     width: 56, height: 56, borderRadius: '50%',
@@ -134,10 +134,10 @@ export default function AdminGyms() {
                 </div>
                 <div style={{ display: 'grid', gap: 10 }}>
                   {[
-                    ['📧 Email', owner.email],
-                    ['📱 Phone', owner.phone || 'N/A'],
-                    ['🏢 GST', owner.gst || 'N/A'],
-                    ['📅 Joined', owner.joinDate || 'N/A'],
+                    [' Email', owner.email],
+                    [' Phone', owner.phone || 'N/A'],
+                    [' GST', owner.gst || 'N/A'],
+                    [' Joined', owner.joinDate || 'N/A'],
                   ].map(([label, value], i) => (
                     <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid var(--border)' }}>
                       <span style={{ fontSize: 14, color: 'var(--text-muted)', fontWeight: 600 }}>{label}</span>
@@ -150,7 +150,7 @@ export default function AdminGyms() {
 
             {/* Trainer Distribution */}
             <div className="card">
-              <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 17, marginBottom: 12 }}>📊 Trainer Load Distribution</h4>
+              <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 17, marginBottom: 12 }}> Trainer Load Distribution</h4>
               {trainers.length === 0 ? (
                 <p style={{ fontSize: 15, color: 'var(--text-muted)' }}>No trainers in this gym.</p>
               ) : (
@@ -178,7 +178,7 @@ export default function AdminGyms() {
                   {unassignedClients > 0 && (
                     <div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                        <span style={{ fontSize: 15, fontWeight: 700, color: '#f59e0b' }}>⚠️ Unassigned</span>
+                        <span style={{ fontSize: 15, fontWeight: 700, color: '#f59e0b' }}>️ Unassigned</span>
                         <span style={{ fontSize: 14, color: '#f59e0b' }}>{unassignedClients} clients</span>
                       </div>
                       <div style={{ height: 8, borderRadius: 4, background: 'var(--bg-tertiary)', overflow: 'hidden' }}>
@@ -196,7 +196,7 @@ export default function AdminGyms() {
             {/* Membership Plans */}
             {selectedGym.plans && (
               <div className="card">
-                <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 17, marginBottom: 12 }}>💰 Membership Plans</h4>
+                <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 17, marginBottom: 12 }}> Membership Plans</h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {selectedGym.plans.map((plan, i) => (
                     <div key={i} style={{
@@ -224,7 +224,7 @@ export default function AdminGyms() {
           <div>
             {trainers.length === 0 ? (
               <div className="card" style={{ textAlign: 'center', padding: 40 }}>
-                <div style={{ fontSize: 48, marginBottom: 12 }}>🏋️</div>
+                <div style={{ fontSize: 48, marginBottom: 12 }}>️</div>
                 <h3 style={{ fontWeight: 800, marginBottom: 8 }}>No Trainers</h3>
                 <p style={{ color: 'var(--text-muted)', fontSize: 15 }}>This gym has no trainers registered.</p>
               </div>
@@ -268,8 +268,8 @@ export default function AdminGyms() {
                         </div>
                         {/* Contact */}
                         <div style={{ fontSize: 14, color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: 4 }}>
-                          <div>📧 {trainer.email}</div>
-                          <div>📱 {trainer.phone || 'N/A'}</div>
+                          <div> {trainer.email}</div>
+                          <div> {trainer.phone || 'N/A'}</div>
                         </div>
                         {/* Client list */}
                         {tc.length > 0 && (
@@ -307,7 +307,7 @@ export default function AdminGyms() {
           <div>
             {clients.length === 0 ? (
               <div className="card" style={{ textAlign: 'center', padding: 40 }}>
-                <div style={{ fontSize: 48, marginBottom: 12 }}>👥</div>
+                <div style={{ fontSize: 48, marginBottom: 12 }}></div>
                 <h3 style={{ fontWeight: 800, marginBottom: 8 }}>No Clients</h3>
                 <p style={{ color: 'var(--text-muted)', fontSize: 15 }}>This gym has no clients registered.</p>
               </div>
@@ -315,10 +315,10 @@ export default function AdminGyms() {
               {/* Summary Bar */}
               <div style={{ display: 'flex', gap: 12, marginBottom: 16, flexWrap: 'wrap' }}>
                 <div style={{ padding: '8px 16px', borderRadius: 10, background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', fontSize: 15, fontWeight: 700, color: '#22c55e' }}>
-                  ✅ {activeClients} with Trainer
+                   {activeClients} with Trainer
                 </div>
                 <div style={{ padding: '8px 16px', borderRadius: 10, background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)', fontSize: 15, fontWeight: 700, color: '#f59e0b' }}>
-                  ⚠️ {unassignedClients} Unassigned
+                  ️ {unassignedClients} Unassigned
                 </div>
               </div>
 
@@ -384,7 +384,7 @@ export default function AdminGyms() {
                                   <span style={{ fontSize: 14, fontWeight: 600 }}>{trainer.name}</span>
                                 </div>
                               ) : (
-                                <span style={{ fontSize: 14, color: '#f59e0b', fontWeight: 600 }}>⚠️ None</span>
+                                <span style={{ fontSize: 14, color: '#f59e0b', fontWeight: 600 }}>️ None</span>
                               )}
                             </td>
                             <td style={{ padding: '10px 14px', fontSize: 14, fontWeight: 600 }}>{client.diet || '—'}</td>
@@ -413,7 +413,7 @@ export default function AdminGyms() {
         borderColor: 'rgba(249,115,22,0.15)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{ fontSize: 36 }}>🏢</div>
+          <div style={{ fontSize: 36 }}></div>
           <div>
             <h3 style={{ fontWeight: 800, fontSize: 20, marginBottom: 4, fontFamily: 'Outfit' }}>All Gyms</h3>
             <p style={{ color: 'var(--text-muted)', fontSize: 15 }}>
@@ -426,10 +426,10 @@ export default function AdminGyms() {
       {/* Summary Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 12, marginBottom: 24 }}>
         {[
-          { icon: '🏢', value: GYMS.length, label: 'Total Gyms', color: '#f97316' },
-          { icon: '👥', value: allUsers.filter(u => u.role === 'client' && !u.blocked).length, label: 'Total Clients', color: '#3b82f6' },
-          { icon: '🏋️', value: allUsers.filter(u => u.role === 'trainer' && !u.blocked).length, label: 'Total Trainers', color: '#8b5cf6' },
-          { icon: '👑', value: allUsers.filter(u => u.role === 'owner').length, label: 'Owners', color: '#eab308' },
+          { icon: '', value: GYMS.length, label: 'Total Gyms', color: '#f97316' },
+          { icon: '', value: allUsers.filter(u => u.role === 'client' && !u.blocked).length, label: 'Total Clients', color: '#3b82f6' },
+          { icon: '️', value: allUsers.filter(u => u.role === 'trainer' && !u.blocked).length, label: 'Total Trainers', color: '#8b5cf6' },
+          { icon: '', value: allUsers.filter(u => u.role === 'owner').length, label: 'Owners', color: '#eab308' },
         ].map((stat, i) => (
           <div key={i} className="card" style={{ textAlign: 'center', padding: 16, transition: 'all 0.3s' }}
             onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-3px)'}
@@ -463,11 +463,11 @@ export default function AdminGyms() {
                   <img src={gymItem.images[0]} alt={gymItem.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%)' }} />
                   <div style={{ position: 'absolute', top: 10, right: 10, padding: '4px 10px', borderRadius: 8, background: 'rgba(0,0,0,0.6)', color: '#fbbf24', fontSize: 14, fontWeight: 700 }}>
-                    ⭐ {gymItem.rating}
+                     {gymItem.rating}
                   </div>
                   <div style={{ position: 'absolute', bottom: 10, left: 12, color: '#fff' }}>
                     <div style={{ fontWeight: 800, fontSize: 19, fontFamily: 'Outfit' }}>{gymItem.name}</div>
-                    <div style={{ fontSize: 13, opacity: 0.9 }}>📍 {gymItem.location}</div>
+                    <div style={{ fontSize: 13, opacity: 0.9 }}> {gymItem.location}</div>
                   </div>
                 </div>
               )}
@@ -494,7 +494,7 @@ export default function AdminGyms() {
                   background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff',
                   fontWeight: 700, fontSize: 15, cursor: 'pointer', fontFamily: 'Outfit',
                 }}>
-                  📊 View Details & Analytics
+                   View Details & Analytics
                 </button>
               </div>
             </div>

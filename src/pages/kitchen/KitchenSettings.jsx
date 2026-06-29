@@ -23,21 +23,21 @@ export default function KitchenSettings() {
   // Form for kitchen profile
   const [form, setForm] = useState({ kitchenName: user?.kitchenName || '', kitchenLocation: user?.kitchenLocation || '', phone: user?.phone || '' });
 
-  const saveSetting = () => { updateUser(user.id, form); showToast('Settings saved! ✅'); };
+  const saveSetting = () => { updateUser(user.id, form); showToast('Settings saved! '); };
 
   const sendUnavailableMsg = () => {
     if (!msgForm.orderId || !msgForm.reason) { showToast('Please fill order ID and reason', 'error'); return; }
     addNotification({ type: 'kitchen', message: `Kitchen: Order #${msgForm.orderId} delayed — ${msgForm.reason}`, forUser: 'u1' });
-    showToast('Notification sent to customer! 📨');
+    showToast('Notification sent to customer! ');
     setMsgForm({ orderId: '', reason: '' });
   };
 
   return (
     <DashboardLayout title="Kitchen Settings">
       <div className="tabs" style={{ marginBottom: 20 }}>
-        <button className={`tab ${tab === 'schedule' ? 'active' : ''}`} onClick={() => setTab('schedule')}>📅 Date-Wise Orders</button>
-        <button className={`tab ${tab === 'notify' ? 'active' : ''}`} onClick={() => setTab('notify')}>📨 Send Notification</button>
-        <button className={`tab ${tab === 'profile' ? 'active' : ''}`} onClick={() => setTab('profile')}>⚙️ Kitchen Profile</button>
+        <button className={`tab ${tab === 'schedule' ? 'active' : ''}`} onClick={() => setTab('schedule')}> Date-Wise Orders</button>
+        <button className={`tab ${tab === 'notify' ? 'active' : ''}`} onClick={() => setTab('notify')}> Send Notification</button>
+        <button className={`tab ${tab === 'profile' ? 'active' : ''}`} onClick={() => setTab('profile')}>️ Kitchen Profile</button>
       </div>
 
       {/* Date-Wise Scheduled Orders */}
@@ -63,8 +63,8 @@ export default function KitchenSettings() {
                   <span style={{ fontWeight: 800 }}>Schedule #{s.id}</span>
                   <span className="badge badge-blue">{s.timing?.toUpperCase()} — {s.timeSlot}</span>
                 </div>
-                <div style={{ fontSize: 13 }}>👤 Customer: {s.customerId}</div>
-                <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>🍽️ {s.items?.length || 0} items • 💳 {s.paymentStatus}</div>
+                <div style={{ fontSize: 13 }}> Customer: {s.customerId}</div>
+                <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>️ {s.items?.length || 0} items •  {s.paymentStatus}</div>
               </div>
             ))}
           </div>}
@@ -74,7 +74,7 @@ export default function KitchenSettings() {
       {/* Send Unavailability Notification */}
       {tab === 'notify' && (
         <div className="card" style={{ maxWidth: 500 }}>
-          <div className="card-header"><h3 className="card-title">📨 Notify Customer — Unavailability</h3></div>
+          <div className="card-header"><h3 className="card-title"> Notify Customer — Unavailability</h3></div>
           <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16 }}>Send a message to the customer if you're unable to deliver at the scheduled time.</p>
           <div style={{ marginBottom: 14 }}>
             <label className="form-label">Order ID</label>
@@ -89,26 +89,26 @@ export default function KitchenSettings() {
             <label className="form-label">Reason for Delay</label>
             <textarea className="form-input" style={{ minHeight: 80 }} value={msgForm.reason} onChange={e => setMsgForm(p => ({ ...p, reason: e.target.value }))} placeholder="e.g., Ingredient shortage, Kitchen overload, etc." />
           </div>
-          <button className="btn btn-primary" onClick={sendUnavailableMsg}>📨 Send Notification</button>
+          <button className="btn btn-primary" onClick={sendUnavailableMsg}> Send Notification</button>
         </div>
       )}
 
       {/* Kitchen Profile */}
       {tab === 'profile' && (
         <div className="card" style={{ maxWidth: 500 }}>
-          <div className="card-header"><h3 className="card-title">⚙️ Kitchen Profile</h3></div>
+          <div className="card-header"><h3 className="card-title">️ Kitchen Profile</h3></div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             <div><label className="form-label">Kitchen Name</label><input className="form-input" value={form.kitchenName} onChange={e => setForm(p => ({ ...p, kitchenName: e.target.value }))} /></div>
             <div><label className="form-label">Location</label><input className="form-input" value={form.kitchenLocation} onChange={e => setForm(p => ({ ...p, kitchenLocation: e.target.value }))} /></div>
             <div><label className="form-label">Phone</label><input className="form-input" value={form.phone} onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} /></div>
           </div>
           <div style={{ marginTop: 16 }}>
-            <label className="form-label">🌐 {t('language')}</label>
+            <label className="form-label"> {t('language')}</label>
             <select className="form-input" value={lang} onChange={e => { setLang(e.target.value); showToast(`Language changed to ${LANGUAGES.find(l => l.code === e.target.value)?.label}`); }}>
               {LANGUAGES.map(l => <option key={l.code} value={l.code}>{l.flag} {l.label}</option>)}
             </select>
           </div>
-          <button className="btn btn-success" style={{ marginTop: 16 }} onClick={saveSetting}>✅ Save Settings</button>
+          <button className="btn btn-success" style={{ marginTop: 16 }} onClick={saveSetting}> Save Settings</button>
         </div>
       )}
     </DashboardLayout>

@@ -29,7 +29,7 @@ export default function ChangePassword() {
     }
 
     updateUser(user.id, { password: newPassword, requirePasswordChange: false });
-    showToast('🔑 Password changed successfully!', 'success');
+    showToast(' Password changed successfully!', 'success');
 
     if (user.profileComplete === false) {
       navigate('/complete-profile');
@@ -85,7 +85,7 @@ export default function ChangePassword() {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 26, boxShadow: '0 8px 32px rgba(249,115,22,0.3)',
             animation: 'float 3s ease-in-out infinite',
-          }}>🔒</div>
+          }}></div>
           <h1 style={{ fontFamily: 'Outfit', fontSize: 26, fontWeight: 900, color: '#fff', marginBottom: 4 }}>
             Create New Password
           </h1>
@@ -124,7 +124,7 @@ export default function ChangePassword() {
                 onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.12)'}
               />
               {newPassword && newPassword.length < 6 && (
-                <div style={{ fontSize: 11, color: '#fbbf24', marginTop: 4 }}>⚠️ Must be at least 6 characters</div>
+                <div style={{ fontSize: 11, color: '#fbbf24', marginTop: 4 }}>️ Must be at least 6 characters</div>
               )}
             </div>
 
@@ -143,14 +143,14 @@ export default function ChangePassword() {
                 onBlur={e => e.target.style.borderColor = passwordsMatch ? 'rgba(34,197,94,0.5)' : passwordsMismatch ? 'rgba(239,68,68,0.5)' : 'rgba(255,255,255,0.12)'}
               />
               {passwordsMatch && (
-                <div style={{ fontSize: 11, color: '#22c55e', marginTop: 4 }}>✅ Passwords match</div>
+                <div style={{ fontSize: 11, color: '#22c55e', marginTop: 4 }}> Passwords match</div>
               )}
               {passwordsMismatch && (
-                <div style={{ fontSize: 11, color: '#ef4444', marginTop: 4 }}>❌ Passwords do not match</div>
+                <div style={{ fontSize: 11, color: '#ef4444', marginTop: 4 }}> Passwords do not match</div>
               )}
             </div>
 
-            {error && <p style={{ color: '#fca5a5', fontSize: 13, marginBottom: 12, textAlign: 'center', background: 'rgba(239,68,68,0.15)', padding: '8px 12px', borderRadius: 10, border: '1px solid rgba(239,68,68,0.25)' }}>❌ {error}</p>}
+            {error && <p style={{ color: '#fca5a5', fontSize: 13, marginBottom: 12, textAlign: 'center', background: 'rgba(239,68,68,0.15)', padding: '8px 12px', borderRadius: 10, border: '1px solid rgba(239,68,68,0.25)' }}> {error}</p>}
 
             <button type="submit" style={{
               width: '100%', padding: 14,
@@ -162,7 +162,7 @@ export default function ChangePassword() {
               onMouseEnter={e => { e.target.style.transform = 'translateY(-2px)'; }}
               onMouseLeave={e => { e.target.style.transform = 'translateY(0)'; }}
             >
-              {passwordsMatch ? '✅ Set Password & Continue' : '🔑 Update Password →'}
+              {passwordsMatch ? ' Set Password & Continue' : ' Update Password →'}
             </button>
           </form>
         </div>

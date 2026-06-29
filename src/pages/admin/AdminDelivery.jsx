@@ -41,7 +41,7 @@ export default function AdminDelivery() {
                 <div style={{ fontSize: 'clamp(12px, 1.5vw, 13px)', color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{d.vehicleType} • {d.licenseNo}</div>
               </div>
               <span className={`badge ${d.available ? 'badge-green' : 'badge-red'}`} style={{ flexShrink: 0, fontSize: 12, padding: '5px 10px', fontWeight: 700 }}>
-                {d.available ? '🟢 Free' : '🔴 Busy'}
+                {d.available ? '🟢 Free' : ' Busy'}
               </span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 1.5vw, 14px)', padding: '10px 0', borderTop: '1px solid var(--border)' }}>
@@ -102,7 +102,7 @@ export default function AdminDelivery() {
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: 'var(--text-muted)' }}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><Car size={13} /> {o.driverName || '—'}</span>
-                <span>🏪 {o.restaurantName}</span>
+                <span> {o.restaurantName}</span>
               </div>
             </div>
           ))}

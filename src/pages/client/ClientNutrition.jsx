@@ -4,7 +4,7 @@ import StatIcon from '../../components/StatIcon';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 import { getMenuItems } from '../../data/menuHelper';
-import { Settings } from 'lucide-react';
+import { Settings } from '../../components/Icons';
 
 function Ring({ val, max, color, label, unit, icon }) {
   const [displayed, setDisplayed] = useState(0);
@@ -190,7 +190,7 @@ export default function ClientNutrition() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, paddingBottom: 16, borderBottom: '1px solid #f1f5f9' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#f9731615', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontSize: 12 }}>🎯</span>
+                <span style={{ fontSize: 12 }}></span>
               </div>
               <h3 style={{ margin: 0, fontFamily: 'Outfit', fontWeight: 800, fontSize: 18, color: '#1e293b' }}>Daily Nutrition</h3>
             </div>
@@ -208,16 +208,16 @@ export default function ClientNutrition() {
           
           <div className="nutrition-rings-grid">
             <div onClick={() => { setSelectedMacro('calories'); setShowProteinModal(true); }} style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center' }} title="Click for Calories breakdown">
-              <Ring val={nutrition.calories} max={targets.calories} color="#f97316" label="Calories" unit="kcal" icon="🔥" />
+              <Ring val={nutrition.calories} max={targets.calories} color="#f97316" label="Calories" unit="kcal" icon="" />
             </div>
             <div onClick={() => { setSelectedMacro('protein'); setShowProteinModal(true); }} style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center' }} title="Click for Protein breakdown">
-              <Ring val={nutrition.protein} max={targets.protein} color="#22c55e" label="Protein" unit="g" icon="💪" />
+              <Ring val={nutrition.protein} max={targets.protein} color="#22c55e" label="Protein" unit="g" icon="" />
             </div>
             <div onClick={() => { setSelectedMacro('carbs'); setShowProteinModal(true); }} style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center' }} title="Click for Carbs breakdown">
-              <Ring val={nutrition.carbs} max={targets.carbs} color="#3b82f6" label="Carbs" unit="g" icon="🌾" />
+              <Ring val={nutrition.carbs} max={targets.carbs} color="#3b82f6" label="Carbs" unit="g" icon="" />
             </div>
             <div onClick={() => { setSelectedMacro('fat'); setShowProteinModal(true); }} style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center' }} title="Click for Fat breakdown">
-              <Ring val={nutrition.fat} max={targets.fat} color="#eab308" label="Fat" unit="g" icon="🥑" />
+              <Ring val={nutrition.fat} max={targets.fat} color="#eab308" label="Fat" unit="g" icon="" />
             </div>
           </div>
         </div>
@@ -278,7 +278,7 @@ export default function ClientNutrition() {
                     <div style={{ fontSize: 13, fontWeight: 900 }}>{m.val} <span style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 500 }}>/ {m.max}{m.unit}</span></div>
                   </div>
                   <div>
-                    {completed ? <span className="badge badge-green" style={{ fontSize: 9, padding: '4px 8px' }}>🎯 HIT</span> : <span className="badge badge-blue" style={{ fontSize: 9, padding: '4px 8px' }}>⚡ ACTIVE</span>}
+                    {completed ? <span className="badge badge-green" style={{ fontSize: 9, padding: '4px 8px' }}> HIT</span> : <span className="badge badge-blue" style={{ fontSize: 9, padding: '4px 8px' }}> ACTIVE</span>}
                   </div>
                 </div>
               );
@@ -289,7 +289,7 @@ export default function ClientNutrition() {
 
       {/* Daily Targets Overview Bars */}
       <div className="card" style={{ marginBottom: 20 }}>
-        <div className="card-header"><h3 className="card-title">🎯 Daily Targets</h3></div>
+        <div className="card-header"><h3 className="card-title"> Daily Targets</h3></div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 12 }}>
           {[
             ['Calories', nutrition.calories, targets.calories, 'kcal', '#f97316', () => { setSelectedMacro('calories'); setShowProteinModal(true); }],
@@ -303,7 +303,7 @@ export default function ClientNutrition() {
                 <div style={{ width: `${Math.min(100, (val / max) * 100)}%`, height: '100%', background: val > max ? '#ef4444' : color, borderRadius: 4, transition: 'width 1s ease' }} />
               </div>
               <div style={{ fontSize: 10, color: val > max ? '#ef4444' : val >= max ? color : 'var(--text-muted)', fontWeight: 700, marginTop: 4 }}>
-                {val > max ? `⚠️ Over by ${val - max}${unit}` : val >= max ? '🎯 Target reached!' : `${max - val}${unit} remaining`}
+                {val > max ? `️ Over by ${val - max}${unit}` : val >= max ? ' Target reached!' : `${max - val}${unit} remaining`}
               </div>
             </div>
           ))}
@@ -312,7 +312,7 @@ export default function ClientNutrition() {
 
       {/* Detailed Insights Row */}
       <div className="card" style={{ marginBottom: 20 }}>
-        <div className="card-header"><h3 className="card-title">💪 Food Nutrition Insights</h3></div>
+        <div className="card-header"><h3 className="card-title"> Food Nutrition Insights</h3></div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             {MACROS.map(m => (
@@ -332,17 +332,17 @@ export default function ClientNutrition() {
               <div style={{ background: 'var(--bg-tertiary)', borderRadius: 16, overflow: 'hidden', border: '1px solid var(--border)' }}>
                 <div style={{ position: 'relative', height: 150 }}>
                   <img src={selectedFood.image} alt={selectedFood.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  <div style={{ position: 'absolute', top: 10, left: 10, display: 'flex', gap: 6 }}><span className="badge badge-blue" style={{ fontSize: 9 }}>⏱ {selectedFood.prepTime} min</span><span className="badge badge-green" style={{ fontSize: 9 }}>⭐ {selectedFood.rating}</span></div>
+                  <div style={{ position: 'absolute', top: 10, left: 10, display: 'flex', gap: 6 }}><span className="badge badge-blue" style={{ fontSize: 9 }}>⏱ {selectedFood.prepTime} min</span><span className="badge badge-green" style={{ fontSize: 9 }}> {selectedFood.rating}</span></div>
                   <div style={{ position: 'absolute', bottom: 10, right: 10 }}><span className="badge" style={{ fontSize: 10, fontWeight: 900, padding: '4px 8px', background: activeMacro.color, color: '#fff' }}>{activeMacro.icon} {selectedFood[activeMacro.id]}{activeMacro.unit}</span></div>
                 </div>
                 <div style={{ padding: 14 }}>
                   <h4 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 15, marginBottom: 6 }}>{selectedFood.name}</h4>
                   <p style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 10 }}>{selectedFood.description || 'Nutrient-rich premium meal.'}</p>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6, background: 'var(--bg-secondary)', padding: 8, borderRadius: 10 }}>
-                    <div style={{ textAlign: 'center' }}><div style={{ fontSize: 9, color: 'var(--text-muted)' }}>Cal</div><div style={{ fontWeight: 800, color: '#f97316', fontSize: 11 }}>🔥 {selectedFood.calories}</div></div>
-                    <div style={{ textAlign: 'center', borderLeft: '1px solid var(--border)' }}><div style={{ fontSize: 9, color: 'var(--text-muted)' }}>Pro</div><div style={{ fontWeight: 800, color: '#22c55e', fontSize: 11 }}>💪 {selectedFood.protein}g</div></div>
-                    <div style={{ textAlign: 'center', borderLeft: '1px solid var(--border)' }}><div style={{ fontSize: 9, color: 'var(--text-muted)' }}>Carbs</div><div style={{ fontWeight: 800, color: '#3b82f6', fontSize: 11 }}>🌾 {selectedFood.carbs}g</div></div>
-                    <div style={{ textAlign: 'center', borderLeft: '1px solid var(--border)' }}><div style={{ fontSize: 9, color: 'var(--text-muted)' }}>Fat</div><div style={{ fontWeight: 800, color: '#eab308', fontSize: 11 }}>🥑 {selectedFood.fat}g</div></div>
+                    <div style={{ textAlign: 'center' }}><div style={{ fontSize: 9, color: 'var(--text-muted)' }}>Cal</div><div style={{ fontWeight: 800, color: '#f97316', fontSize: 11 }}> {selectedFood.calories}</div></div>
+                    <div style={{ textAlign: 'center', borderLeft: '1px solid var(--border)' }}><div style={{ fontSize: 9, color: 'var(--text-muted)' }}>Pro</div><div style={{ fontWeight: 800, color: '#22c55e', fontSize: 11 }}> {selectedFood.protein}g</div></div>
+                    <div style={{ textAlign: 'center', borderLeft: '1px solid var(--border)' }}><div style={{ fontSize: 9, color: 'var(--text-muted)' }}>Carbs</div><div style={{ fontWeight: 800, color: '#3b82f6', fontSize: 11 }}> {selectedFood.carbs}g</div></div>
+                    <div style={{ textAlign: 'center', borderLeft: '1px solid var(--border)' }}><div style={{ fontSize: 9, color: 'var(--text-muted)' }}>Fat</div><div style={{ fontWeight: 800, color: '#eab308', fontSize: 11 }}> {selectedFood.fat}g</div></div>
                   </div>
                 </div>
               </div>
@@ -367,7 +367,7 @@ export default function ClientNutrition() {
 
       {/* Today's Meals List */}
       <div className="card" style={{ marginBottom: 20 }}>
-        <div className="card-header"><h3 className="card-title">🍽️ Today's Meals</h3></div>
+        <div className="card-header"><h3 className="card-title">️ Today's Meals</h3></div>
         {todayOrders.length === 0 ? <div style={{ textAlign: 'center', padding: 32, color: 'var(--text-muted)' }}>No meals tracked today.</div> : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {todayOrders.map(o => (
@@ -375,7 +375,7 @@ export default function ClientNutrition() {
                 {o.items.map((item, idx) => (
                   <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 4 }}>
                     <div><span style={{ fontWeight: 700 }}>{item.name}</span> (x{item.qty || 1})</div>
-                    <div style={{ fontWeight: 700, color: '#f97316' }}>🔥 {(item.calories || 0) * (item.qty || 1)} kcal</div>
+                    <div style={{ fontWeight: 700, color: '#f97316' }}> {(item.calories || 0) * (item.qty || 1)} kcal</div>
                   </div>
                 ))}
               </div>
@@ -386,7 +386,7 @@ export default function ClientNutrition() {
 
       {/* History Cards Component */}
       <div className="card">
-        <div className="card-header"><h3 className="card-title">📅 Nutrition History</h3></div>
+        <div className="card-header"><h3 className="card-title"> Nutrition History</h3></div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {historyDates.slice(0, 14).map(dateStr => {
             const data = historyMap[dateStr];
@@ -394,8 +394,8 @@ export default function ClientNutrition() {
               <div key={dateStr} style={{ padding: 14, borderRadius: 12, background: 'var(--bg-tertiary)', border: '1px solid var(--border)' }}>
                 <div style={{ fontWeight: 800, fontSize: 13, marginBottom: 6 }}>{fmtDate(dateStr)}</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 8 }}>
-                  <div>🔥 Cal: {data.calories} kcal</div>
-                  <div>💪 Pro: {data.protein}g</div>
+                  <div> Cal: {data.calories} kcal</div>
+                  <div> Pro: {data.protein}g</div>
                 </div>
               </div>
             );
@@ -408,8 +408,8 @@ export default function ClientNutrition() {
         <div className="modal-overlay" onClick={() => setShowProteinModal(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 540 }}>
             <div className="modal-header">
-              <h3 className="modal-title">📊 {activeMacro.label} Alternatives</h3>
-              <button className="modal-close" onClick={() => setShowProteinModal(false)}>✕</button>
+              <h3 className="modal-title"> {activeMacro.label} Alternatives</h3>
+              <button className="modal-close" onClick={() => setShowProteinModal(false)}></button>
             </div>
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16 }}>
               {MACROS.map(m => (
@@ -433,7 +433,7 @@ export default function ClientNutrition() {
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 400 }}>
             <div className="modal-header">
               <h3 className="modal-title" style={{ display: 'flex', alignItems: 'center', gap: 8 }}><Settings size={18} /> Edit Targets</h3>
-              <button className="modal-close" onClick={() => setShowEditTargets(false)}>✕</button>
+              <button className="modal-close" onClick={() => setShowEditTargets(false)}></button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 20 }}>
               <div>

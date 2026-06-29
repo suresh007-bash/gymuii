@@ -119,11 +119,11 @@ const translations = {
 };
 
 const LANGUAGES = [
-  { code: 'en', label: 'English', flag: '🇬🇧' },
-  { code: 'hi', label: 'हिन्दी', flag: '🇮🇳' },
-  { code: 'ta', label: 'தமிழ்', flag: '🇮🇳' },
-  { code: 'kn', label: 'ಕನ್ನಡ', flag: '🇮🇳' },
-  { code: 'te', label: 'తెలుగు', flag: '🇮🇳' },
+  { code: 'en', label: 'English', flag: '' },
+  { code: 'hi', label: 'हिन्दी', flag: '' },
+  { code: 'ta', label: 'தமிழ்', flag: '' },
+  { code: 'kn', label: 'ಕನ್ನಡ', flag: '' },
+  { code: 'te', label: 'తెలుగు', flag: '' },
 ];
 
 export function LanguageProvider({ children }) {

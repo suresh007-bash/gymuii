@@ -44,7 +44,7 @@ export default function AssignedClients() {
     setTrainerRequests(allReqs);
     // Assign client to this trainer
     updateUser(req.clientId, { trainerId: user.id, gymId: user.gymId });
-    showToast(`✅ ${req.clientName} is now your client!`);
+    showToast(` ${req.clientName} is now your client!`);
   };
 
   const rejectRequest = (reqId) => {
@@ -91,7 +91,7 @@ export default function AssignedClients() {
       diet: 'Non-Veg',
       allergies: ''
     });
-    showToast(`✅ ${memberForm.name} added as a new member!`);
+    showToast(` ${memberForm.name} added as a new member!`);
     setMemberForm({ name: '', email: '', phone: '' });
     setShowAddMember(false);
   };
@@ -109,7 +109,7 @@ export default function AssignedClients() {
 
   const handleUpdateProfile = () => {
     updateUser(viewProfileClient.id, profileForm);
-    showToast(`✅ Profile for ${profileForm.name} updated!`);
+    showToast(` Profile for ${profileForm.name} updated!`);
     setViewProfileClient({ ...viewProfileClient, ...profileForm });
     setIsEditingProfile(false);
   };
@@ -122,7 +122,7 @@ export default function AssignedClients() {
     const msg = { text: newMsg, sender: 'trainer', time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) };
     setMessages(prev => ({ ...prev, [key]: [...(prev[key] || []), msg] }));
     setNewMsg('');
-    showToast('Message sent! 💬');
+    showToast('Message sent! ');
   };
 
 
@@ -135,7 +135,7 @@ export default function AssignedClients() {
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 460 }}>
             <div className="modal-header">
               <h3 className="modal-title"><Icon icon={UserPlus} size={16} style={{marginRight:6}} /> New Member Registration</h3>
-              <button className="modal-close" onClick={() => setShowAddMember(false)}>✕</button>
+              <button className="modal-close" onClick={() => setShowAddMember(false)}></button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div><label style={memberLbl}>Full Name *</label><input style={memberInp} value={memberForm.name} onChange={e => updMember('name', e.target.value)} placeholder="John Doe" /></div>
@@ -156,7 +156,7 @@ export default function AssignedClients() {
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 560 }}>
             <div className="modal-header">
               <h3 className="modal-title"><Icon icon={User} size={16} style={{marginRight:6}} /> Client Profile — {profileForm.name}</h3>
-              <button className="modal-close" onClick={() => setViewProfileClient(null)}>✕</button>
+              <button className="modal-close" onClick={() => setViewProfileClient(null)}></button>
             </div>
             
             <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20, paddingBottom: 16, borderBottom: '1px solid var(--border)' }}>
@@ -268,7 +268,7 @@ export default function AssignedClients() {
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 440 }}>
             <div className="modal-header">
               <h3 className="modal-title"><Icon icon={MessageSquare} size={16} style={{marginRight:6}} /> Chat — {msgClient.name}</h3>
-              <button className="modal-close" onClick={() => setMsgClient(null)}>✕</button>
+              <button className="modal-close" onClick={() => setMsgClient(null)}></button>
             </div>
             <div style={{ maxHeight: 300, overflowY: 'auto', marginBottom: 12, padding: 8 }}>
               {(messages[msgClient.id] || []).length === 0 ? (

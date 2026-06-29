@@ -72,7 +72,7 @@ export default function MyOrders() {
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 450 }}>
             <div className="modal-header">
               <h3 className="modal-title"><Icon icon={MapPin} size={16} style={{marginRight:6}} /> Edit Delivery Address</h3>
-              <button className="modal-close" onClick={() => setEditAddrOrder(null)}>✕</button>
+              <button className="modal-close" onClick={() => setEditAddrOrder(null)}></button>
             </div>
             <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 8 }}>Order #{editAddrOrder.id}</p>
             <textarea className="form-input" value={addrText} onChange={e => setAddrText(e.target.value)}
@@ -102,7 +102,7 @@ export default function MyOrders() {
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
           <input type="date" className="form-input" value={filterDate} onChange={e => setFilterDate(e.target.value)}
             style={{ padding: '6px 10px', fontSize: 12, width: 140 }} />
-          {filterDate && <button className="btn btn-outline btn-sm" onClick={() => setFilterDate('')} style={{ fontSize: 10 }}>✕ Clear</button>}
+          {filterDate && <button className="btn btn-outline btn-sm" onClick={() => setFilterDate('')} style={{ fontSize: 10 }}> Clear</button>}
         </div>
       </div>
 
@@ -163,7 +163,7 @@ export default function MyOrders() {
                 {['pending', 'preparing', 'ready', 'in_transit', 'driver_pending'].includes(order.status) && (
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: 0, margin: '8px 0 12px' }}>
                     {stages.map((s, i) => {
-                      const icons = ['📋', '👨‍🍳', '✅', '🚗', '🎉'];
+                      const icons = ['', '‍', '', '', ''];
                       const done = i < currentStage;
                       const active = i === currentStage;
                       const upcoming = i > currentStage;
@@ -176,7 +176,7 @@ export default function MyOrders() {
                               background: done ? 'var(--accent-green)' : active ? statusColor : 'var(--bg-tertiary)',
                               color: upcoming ? 'var(--text-muted)' : '#fff',
                               boxShadow: active ? `0 0 0 4px ${statusColor}25` : 'none',
-                            }}>{done ? '✓' : icons[i]}</div>
+                            }}>{done ? '' : icons[i]}</div>
                             <span style={{
                               fontSize: 9, fontWeight: 800, marginTop: 4, textAlign: 'center', whiteSpace: 'nowrap',
                               color: done ? 'var(--accent-green)' : active ? statusColor : 'var(--text-muted)',

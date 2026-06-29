@@ -36,7 +36,7 @@ export default function AdminOrders() {
 
       <div style={{ display: 'flex', gap: 12, marginBottom: 16, alignItems: 'center' }}>
         <div style={{ flex: 1, position: 'relative' }}>
-          <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', fontSize: 16 }}>🔍</span>
+          <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', fontSize: 16 }}></span>
           <input className="form-input" style={{ paddingLeft: 38, fontSize: 15 }} placeholder="Search by order ID or customer..." value={search} onChange={e => setSearch(e.target.value)} />
         </div>
         <span style={{ fontSize: 14, color: 'var(--text-muted)', fontWeight: 600 }}>{filtered.length} orders</span>
@@ -75,9 +75,9 @@ export default function AdminOrders() {
                   <td style={{ fontSize: 13 }}>{o.driverName || '—'}</td>
                   <td>
                     <div style={{ display: 'flex', gap: 4 }}>
-                      {o.status === 'pending' && <button className="btn btn-primary btn-sm" onClick={() => askConfirm('👨‍🍳 Start Preparing?', `Move order #${o.id} (${o.customerName}) to Preparing status?`, '#3b82f6', () => { updateOrderStatus(o.id, 'preparing'); showToast(`#${o.id} → Preparing`); })}>👨‍🍳</button>}
-                      {o.status === 'preparing' && <button className="btn btn-success btn-sm" onClick={() => askConfirm('✅ Mark Ready?', `Mark order #${o.id} (${o.customerName}) as Ready for pickup?`, '#22c55e', () => { updateOrderStatus(o.id, 'ready'); showToast(`#${o.id} → Ready`); })}>✅</button>}
-                      {!['delivered', 'cancelled'].includes(o.status) && <button className="btn btn-outline btn-sm" style={{ color: 'var(--accent-red)' }} onClick={() => askConfirm('❌ Cancel Order?', `Are you sure you want to cancel order #${o.id} for ${o.customerName}? This cannot be undone.`, '#ef4444', () => { cancelOrder(o.id, 'Admin cancelled'); showToast(`#${o.id} cancelled`, 'warning'); })}>✕</button>}
+                      {o.status === 'pending' && <button className="btn btn-primary btn-sm" onClick={() => askConfirm('‍ Start Preparing?', `Move order #${o.id} (${o.customerName}) to Preparing status?`, '#3b82f6', () => { updateOrderStatus(o.id, 'preparing'); showToast(`#${o.id} → Preparing`); })}>‍</button>}
+                      {o.status === 'preparing' && <button className="btn btn-success btn-sm" onClick={() => askConfirm(' Mark Ready?', `Mark order #${o.id} (${o.customerName}) as Ready for pickup?`, '#22c55e', () => { updateOrderStatus(o.id, 'ready'); showToast(`#${o.id} → Ready`); })}></button>}
+                      {!['delivered', 'cancelled'].includes(o.status) && <button className="btn btn-outline btn-sm" style={{ color: 'var(--accent-red)' }} onClick={() => askConfirm(' Cancel Order?', `Are you sure you want to cancel order #${o.id} for ${o.customerName}? This cannot be undone.`, '#ef4444', () => { cancelOrder(o.id, 'Admin cancelled'); showToast(`#${o.id} cancelled`, 'warning'); })}></button>}
                     </div>
                   </td>
                 </tr>
@@ -105,14 +105,14 @@ export default function AdminOrders() {
               {/* Row 2: Customer + Price */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-primary)' }}>
-                  👤 {o.customerName}
+                   {o.customerName}
                 </div>
                 <div style={{ fontWeight: 900, fontSize: 20, color: '#22c55e' }}>₹{o.total}</div>
               </div>
 
               {/* Row 3: Items */}
               <div style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.6, background: 'var(--bg-tertiary)', borderRadius: 10, padding: '10px 12px' }}>
-                🍽️ {o.items.map(i => `${i.name} ×${i.qty}`).join(' • ')}
+                ️ {o.items.map(i => `${i.name} ×${i.qty}`).join(' • ')}
               </div>
 
               {/* Row 4: Payment + Driver */}
@@ -120,7 +120,7 @@ export default function AdminOrders() {
                 <span className={`badge ${o.paymentStatus === 'Paid' ? 'badge-green' : 'badge-orange'}`} style={{ fontSize: 12, padding: '5px 10px' }}>
                   {o.paymentMethod} • {o.paymentStatus}
                 </span>
-                {o.driverName && <span style={{ fontSize: 13, color: 'var(--text-muted)', fontWeight: 600 }}>🚗 {o.driverName}</span>}
+                {o.driverName && <span style={{ fontSize: 13, color: 'var(--text-muted)', fontWeight: 600 }}> {o.driverName}</span>}
               </div>
 
               {/* Row 5: Action Buttons */}
@@ -128,19 +128,19 @@ export default function AdminOrders() {
                 <div style={{ display: 'flex', gap: 8 }}>
                   {o.status === 'pending' && (
                     <button className="btn btn-primary btn-sm" style={{ flex: 1, fontSize: 14, padding: '10px', fontWeight: 700 }}
-                      onClick={() => askConfirm('👨‍🍳 Start Preparing?', `Move order #${o.id} to Preparing?`, '#3b82f6', () => { updateOrderStatus(o.id, 'preparing'); showToast(`#${o.id} → Preparing`); })}>
-                      👨‍🍳 Prepare
+                      onClick={() => askConfirm('‍ Start Preparing?', `Move order #${o.id} to Preparing?`, '#3b82f6', () => { updateOrderStatus(o.id, 'preparing'); showToast(`#${o.id} → Preparing`); })}>
+                      ‍ Prepare
                     </button>
                   )}
                   {o.status === 'preparing' && (
                     <button className="btn btn-success btn-sm" style={{ flex: 1, fontSize: 14, padding: '10px', fontWeight: 700 }}
-                      onClick={() => askConfirm('✅ Mark Ready?', `Mark #${o.id} as Ready?`, '#22c55e', () => { updateOrderStatus(o.id, 'ready'); showToast(`#${o.id} → Ready`); })}>
-                      ✅ Ready
+                      onClick={() => askConfirm(' Mark Ready?', `Mark #${o.id} as Ready?`, '#22c55e', () => { updateOrderStatus(o.id, 'ready'); showToast(`#${o.id} → Ready`); })}>
+                       Ready
                     </button>
                   )}
                   <button className="btn btn-outline btn-sm" style={{ fontSize: 14, padding: '10px 16px', color: '#ef4444', borderColor: 'rgba(239,68,68,0.3)', fontWeight: 700 }}
-                    onClick={() => askConfirm('❌ Cancel Order?', `Cancel order #${o.id}? This cannot be undone.`, '#ef4444', () => { cancelOrder(o.id, 'Admin cancelled'); showToast(`#${o.id} cancelled`, 'warning'); })}>
-                    ✕ Cancel
+                    onClick={() => askConfirm(' Cancel Order?', `Cancel order #${o.id}? This cannot be undone.`, '#ef4444', () => { cancelOrder(o.id, 'Admin cancelled'); showToast(`#${o.id} cancelled`, 'warning'); })}>
+                     Cancel
                   </button>
                 </div>
               )}
@@ -150,7 +150,7 @@ export default function AdminOrders() {
 
         {filtered.length === 0 && (
           <div style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)', fontSize: 15 }}>
-            <div style={{ fontSize: 40, marginBottom: 12 }}>📦</div>
+            <div style={{ fontSize: 40, marginBottom: 12 }}></div>
             No orders found
           </div>
         )}
