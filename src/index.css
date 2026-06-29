@@ -1499,6 +1499,7 @@ img {
   height: 160px;
   object-fit: cover;
   position: relative;
+  flex-shrink: 0;
 }
 
 .food-card-img img {
@@ -1520,9 +1521,10 @@ img {
   padding: 14px;
   display: flex;
   flex-direction: column;
-  height: calc(100% - 160px);
+  flex: 1;
 }
-.food-card-body > div:last-child {
+
+.food-card-body>div:last-child {
   margin-top: auto;
 }
 
@@ -1541,6 +1543,8 @@ img {
   gap: 8px;
   margin: 8px 0;
   flex-wrap: wrap;
+  min-height: 60px;
+  align-content: flex-start;
 }
 
 .food-card-price {
@@ -1749,6 +1753,7 @@ img {
 
 /* ═══ RESPONSIVE — TABLET (≤1024px) ═══ */
 @media (max-width: 1024px) {
+
   /* Sidebar hides off-screen on tablet/iPad — no whitespace gap */
   .dashboard-sidebar {
     transform: translateX(-100%);
@@ -1801,93 +1806,113 @@ img {
   /* Base body text — large & readable */
   body {
     font-size: 18px !important;
-    line-height: 1.75;
+    line-height: 1.6;
   }
 
   /* All generic text elements */
-  p, span, div, li, td, th, label {
+  p,
+  span,
+  div,
+  li,
+  td,
+  th,
+  label {
     font-size: inherit;
   }
 
   /* Input fields — no zoom on focus (iOS fix) */
-  input, select, textarea {
-    font-size: 17px !important;
+  input,
+  select,
+  textarea {
+    font-size: 18px !important;
   }
 
   /* Headings */
-  h1 { font-size: 2.4rem !important; }
-  h2 { font-size: 1.9rem !important; }
-  h3 { font-size: 1.4rem !important; }
-  h4 { font-size: 1.1rem !important; }
+  h1 {
+    font-size: 2.8rem !important;
+  }
+
+  h2 {
+    font-size: 2.2rem !important;
+  }
+
+  h3 {
+    font-size: 1.8rem !important;
+  }
+
+  h4 {
+    font-size: 1.4rem !important;
+  }
 
   /* Topbar title */
   .topbar-title {
-    font-size: 20px !important;
+    font-size: 24px !important;
   }
 
   /* Dashboard content — more breathing room */
   .dashboard-content {
-    padding: 24px 20px !important;
+    padding: 32px 24px !important;
   }
 
   /* Cards */
   .card {
-    padding: 20px !important;
+    padding: 24px !important;
   }
 
   /* Card title */
   .card-title {
-    font-size: 18px !important;
+    font-size: 22px !important;
   }
 
   /* Sidebar links — taller tap targets */
   .sidebar-link {
-    font-size: 15px !important;
-    padding: 14px 16px !important;
-    min-height: 48px !important;
+    font-size: 17px !important;
+    padding: 16px 20px !important;
+    min-height: 52px !important;
   }
 
   /* Buttons — larger tap area */
   .btn {
-    font-size: 15px !important;
-    padding: 11px 20px !important;
-    min-height: 44px !important;
+    font-size: 17px !important;
+    padding: 14px 24px !important;
+    min-height: 48px !important;
   }
 
   .btn-sm {
-    font-size: 13px !important;
-    padding: 8px 14px !important;
-    min-height: 36px !important;
+    font-size: 15px !important;
+    padding: 10px 16px !important;
+    min-height: 40px !important;
   }
 
   .btn-lg {
-    font-size: 17px !important;
-    padding: 14px 28px !important;
+    font-size: 20px !important;
+    padding: 18px 32px !important;
   }
 
   /* Form labels */
   .form-label {
-    font-size: 14px !important;
+    font-size: 16px !important;
     font-weight: 700;
   }
 
   /* Form inputs */
-  .form-input, .form-select {
-    font-size: 16px !important;
-    padding: 12px 14px !important;
+  .form-input,
+  .form-select {
+    font-size: 18px !important;
+    padding: 14px 16px !important;
   }
 
   /* Badges */
   .badge {
-    font-size: 11px !important;
-    padding: 4px 10px !important;
+    font-size: 16px !important;
+    padding: 8px 14px !important;
   }
 
   /* Tabs */
   .tab {
-    font-size: 14px !important;
-    padding: 10px 18px !important;
-    min-height: 42px !important;
+    font-size: 16px !important;
+    padding: 12px 20px !important;
+    min-height: 44px !important;
   }
 
   /* Stats grid — 2 columns on iPad */
@@ -1898,21 +1923,21 @@ img {
 
   /* Stat values */
   .stat-value {
-    font-size: 26px !important;
+    font-size: 30px !important;
   }
 
   .stat-label {
-    font-size: 13px !important;
+    font-size: 14px !important;
   }
 
   /* Food grid */
   .food-grid {
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important;
-    gap: 20px !important;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+    gap: 16px !important;
   }
 
   .food-card-name {
-    font-size: clamp(22px, 2vw + 18px, 30px) !important;
+    font-size: clamp(16px, 2vw + 12px, 20px) !important;
   }
 
   .food-card-price {
@@ -1922,22 +1947,22 @@ img {
   /* Table cells */
   .data-table td,
   .data-table th {
-    font-size: 14px !important;
+    font-size: 15px !important;
     padding: 14px 16px !important;
   }
 
   /* Modal */
   .modal-content {
-    padding: 28px !important;
+    padding: 32px !important;
   }
 
   .modal-title {
-    font-size: 18px !important;
+    font-size: 20px !important;
   }
 
   /* Nutrition rings section */
   .nutrition-rings-grid {
-    gap: 28px !important;
+    gap: 24px !important;
   }
 }
 
@@ -2542,8 +2567,8 @@ img {
   }
 
   .food-card-macros .badge {
-    font-size: 9px !important;
-    padding: 2px 5px !important;
+    font-size: 16px !important;
+    padding: 6px 10px !important;
   }
 
   /* Sticky cart bottom bar */
@@ -2652,7 +2677,7 @@ img {
 .pancake-loader-container .loader {
   position: absolute;
   top: 50%;
-  left: 50%; 
+  left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
@@ -2700,7 +2725,7 @@ img {
   z-index: 0;
   width: 180px;
   height: 10px;
-  background: rgba(0,0,0,.2);
+  background: rgba(0, 0, 0, .2);
   border-radius: 80%;
 }
 
@@ -2727,27 +2752,33 @@ img {
   animation-timing-function: ease-in;
   animation-fill-mode: forwards;
   animation: element-drop 6000ms infinite;
-  position: relative;  
+  position: relative;
 }
 
 .pancake-loader-container .falling-element:nth-child(8) {
   animation-delay: 0.4s;
 }
+
 .pancake-loader-container .falling-element:nth-child(6) {
   animation-delay: 0.62s;
 }
+
 .pancake-loader-container .falling-element:nth-child(5) {
   animation-delay: 0.84s;
 }
+
 .pancake-loader-container .falling-element:nth-child(4) {
   animation-delay: 1.06s;
 }
+
 .pancake-loader-container .falling-element:nth-child(3) {
   animation-delay: 1.28s;
 }
+
 .pancake-loader-container .falling-element:nth-child(2) {
   animation-delay: 1.5s;
 }
+
 .pancake-loader-container .falling-element:nth-child(1) {
   animation-delay: 1.72s;
 }
@@ -2766,25 +2797,41 @@ img {
 }
 
 @keyframes pulse-text {
-  0%, 100% { opacity: 0.5; transform: scale(0.98); }
-  50% { opacity: 1; transform: scale(1); }
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(0.98);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes element-drop {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(-100vh) scaleY(.7);
     opacity: 1;
   }
+
   11% {
     transform: translateY(20%) scaleY(1.2);
   }
+
   13% {
     transform: translateY(-30%) scaleY(.9);
-  } 
-  14%, 67% {
+  }
+
+  14%,
+  67% {
     transform: translateY(0%) scaleY(1);
     opacity: 1;
   }
+
   68% {
     opacity: 0;
     transition: none;
@@ -2796,7 +2843,9 @@ img {
   0% {
     transform: translateX(100vw);
   }
-  15%, 100% {
+
+  15%,
+  100% {
     transform: translateX(0);
   }
 }
@@ -2805,7 +2854,9 @@ img {
   65% {
     transform: translateX(0);
   }
-  85%, 100% {
+
+  85%,
+  100% {
     transform: translateX(-100vw);
   }
 }
@@ -2818,6 +2869,7 @@ img {
   align-items: center;
   grid-template-columns: repeat(2, 1fr);
 }
+
 @media (min-width: 1025px) {
   .nutrition-rings-grid {
     grid-template-columns: repeat(4, 1fr);
@@ -2831,8 +2883,63 @@ img {
   align-items: stretch;
   grid-template-columns: repeat(2, 1fr);
 }
+
 @media (min-width: 1025px) {
   .landing-cards-grid {
     grid-template-columns: repeat(4, 1fr);
   }
-}
+}
+
+/* Kitchen Dashboard Recent Orders */
+.kitchen-order-row {
+  padding: 16px 0;
+  gap: 16px;
+}
+
+.kitchen-order-info-wrapper {
+  gap: 16px;
+}
+
+.kitchen-order-id {
+  font-weight: 800;
+  font-size: clamp(16px, 3vw, 22px);
+  flex-shrink: 0;
+}
+
+.kitchen-order-details {
+  font-size: clamp(14px, 3vw, 18px);
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kitchen-order-badge {
+  font-size: clamp(12px, 3vw, 15px);
+  flex-shrink: 0;
+  padding: 6px 12px;
+}
+
+@media (min-width: 1025px) {
+  .kitchen-order-row {
+    padding: 10px 0;
+    gap: 12px;
+  }
+
+  .kitchen-order-info-wrapper {
+    gap: 12px;
+  }
+
+  .kitchen-order-id {
+    font-size: 15px;
+  }
+
+  .kitchen-order-details {
+    font-size: 14px;
+  }
+
+  .kitchen-order-badge {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+}

@@ -28,21 +28,23 @@ const Ring = ({ value, target, color, size = 72, stroke = 7, icon, label, unit }
   const gradId = `tr-${label}-${color.replace('#', '')}`;
   const dotAngle = (pct / 100) * 2 * Math.PI;
   return (
-    <div style={{ textAlign: 'center', position: 'relative' }}>
-      <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
-        <defs>
-          <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor={isOver ? '#ef4444' : color} />
-            <stop offset="100%" stopColor={`${isOver ? '#ef4444' : color}88`} />
-          </linearGradient>
-        </defs>
-        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={`${color}18`} strokeWidth={stroke} />
-        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={`url(#${gradId})`} strokeWidth={stroke}
-          strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round" />
-        {pct > 3 && <circle cx={size/2 + r * Math.cos(dotAngle)} cy={size/2 + r * Math.sin(dotAngle)} r={stroke/2 + 1} fill={isOver ? '#ef4444' : color} style={{ filter: `drop-shadow(0 0 3px ${isOver ? '#ef4444' : color})`, opacity: 0.8 }} />}
-      </svg>
-      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center' }}>
-        <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(12px, 3vw, 15px)', color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{displayed}</div>
+    <div className="ring-container" style={{ textAlign: 'center', position: 'relative', width: size, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ position: 'relative', width: size, height: size, marginBottom: 6 }}>
+        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ transform: 'rotate(-90deg)', display: 'block' }}>
+          <defs>
+            <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor={isOver ? '#ef4444' : color} />
+              <stop offset="100%" stopColor={`${isOver ? '#ef4444' : color}88`} />
+            </linearGradient>
+          </defs>
+          <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={`${color}18`} strokeWidth={stroke} />
+          <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={`url(#${gradId})`} strokeWidth={stroke}
+            strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round" />
+          {pct > 3 && <circle cx={size/2 + r * Math.cos(dotAngle)} cy={size/2 + r * Math.sin(dotAngle)} r={stroke/2 + 1} fill={isOver ? '#ef4444' : color} style={{ filter: `drop-shadow(0 0 3px ${isOver ? '#ef4444' : color})`, opacity: 0.8 }} />}
+        </svg>
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center' }}>
+          <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(12px, 3vw, 15px)', color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{displayed}</div>
+        </div>
       </div>
       <div style={{ fontSize: 'clamp(12px, 3vw, 13px)', fontWeight: 700, color: 'var(--text-muted)', marginTop: 2 }}>{label}</div>
       <div style={{ fontSize: 'clamp(12px, 3vw, 12px)', color: isOver ? '#ef4444' : 'var(--text-muted)' }}>
@@ -336,12 +338,12 @@ export default function ScheduleForClients() {
             if (s.num === 2 && selectedClients.length > 0) setStep(2);
             if (s.num === 3 && selectedClients.length > 0 && selectedDates.length > 0) { setStep(3); if (!activeDate) setActiveDate(selectedDates.sort()[0]); }
           }} style={{
-            display: 'flex', alignItems: 'center', gap: 8, padding: '10px 18px', borderRadius: 12, cursor: 'pointer',
+            display: 'flex', alignItems: 'center', gap: 8, padding: '12px 20px', borderRadius: 12, cursor: 'pointer',
             background: step === s.num ? 'var(--accent-orange)' : step > s.num ? 'rgba(34,197,94,0.1)' : 'var(--bg-tertiary)',
             color: step === s.num ? '#fff' : step > s.num ? 'var(--accent-green)' : 'var(--text-muted)',
-            fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)', transition: 'all 0.3s',
+            fontWeight: 700, fontSize: 'clamp(14px, 3vw, 20px)', transition: 'all 0.3s',
           }}>
-            <span style={{ fontSize: 'clamp(15px, 3vw, 20px)' }}>{step > s.num ? '' : s.icon}</span><span>{s.label}</span>
+            <span style={{ fontSize: 'clamp(18px, 3vw, 24px)' }}>{step > s.num ? '' : s.icon}</span><span>{s.label}</span>
           </div>
           {i < 2 && <div style={{ width: 32, height: 2, background: step > s.num ? 'var(--accent-green)' : 'var(--border)' }} />}
         </div>
@@ -360,21 +362,21 @@ export default function ScheduleForClients() {
       {step === 1 && (
         <div className="card" style={{ maxWidth: 640, margin: '0 auto' }}>
           <div className="card-header"><h3 className="card-title"> Step 1: Select Clients</h3></div>
-          <p style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', marginBottom: 14 }}>Choose the clients you want to assign the meal schedule and targets to.</p>
+          <p style={{ fontSize: 'clamp(14px, 3vw, 18px)', color: 'var(--text-muted)', marginBottom: 14 }}>Choose the clients you want to assign the meal schedule and targets to.</p>
           
           <div style={{ position: 'relative', marginBottom: 14 }}>
-            <input className="form-input" placeholder=" Search clients by name or email..." value={clientSearch} onChange={e => setClientSearch(e.target.value)} style={{ paddingLeft: 36, fontSize: 'clamp(13px, 3vw, 18px)' }} />
+            <input className="form-input" placeholder=" Search clients by name or email..." value={clientSearch} onChange={e => setClientSearch(e.target.value)} style={{ paddingLeft: 36, fontSize: 'clamp(16px, 3vw, 22px)', padding: '14px 14px 14px 36px' }} />
           </div>
 
           {selectedClients.length > 0 && (
-            <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 14, fontSize: 'clamp(12px, 3vw, 17px)' }}>
+            <div style={{ padding: 12, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 14, fontSize: 'clamp(14px, 3vw, 18px)' }}>
               <strong> {selectedClients.length} client{selectedClients.length > 1 ? 's' : ''} selected:</strong> {selectedClients.map(id => clients.find(c => c.id === id)?.name).join(' • ')}
             </div>
           )}
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 350, overflowY: 'auto', marginBottom: 16 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxHeight: 400, overflowY: 'auto', marginBottom: 16 }}>
             {clients.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 'clamp(12px, 3vw, 17px)' }}>
+              <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 'clamp(14px, 3vw, 20px)' }}>
                 <div style={{ fontSize: 'clamp(30px, 3vw, 40px)', marginBottom: 8 }}></div>
                 No clients assigned to you yet.
               </div>
@@ -383,18 +385,18 @@ export default function ScheduleForClients() {
                 const isSelected = selectedClients.includes(client.id);
                 return (
                   <div key={client.id} onClick={() => toggleClient(client.id)} style={{
-                    display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', borderRadius: 12, cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', gap: 14, padding: '16px 18px', borderRadius: 14, cursor: 'pointer',
                     background: isSelected ? 'rgba(249,115,22,0.06)' : 'var(--bg-tertiary)',
                     border: `2px solid ${isSelected ? 'var(--accent-orange)' : 'var(--border)'}`,
                     transition: 'all 0.2s',
                   }}>
-                    <div style={{ width: 22, height: 22, borderRadius: 6, border: `2px solid ${isSelected ? 'var(--accent-orange)' : 'var(--border)'}`, background: isSelected ? 'var(--accent-orange)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 900, flexShrink: 0 }}>
-                      {isSelected && ''}
+                    <div style={{ width: 24, height: 24, borderRadius: 6, border: `2px solid ${isSelected ? 'var(--accent-orange)' : 'var(--border)'}`, background: isSelected ? 'var(--accent-orange)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 'clamp(14px, 3vw, 18px)', fontWeight: 900, flexShrink: 0 }}>
+                      {isSelected && '✓'}
                     </div>
-                    <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 800, color: '#fff', flexShrink: 0 }}>{client.avatar}</div>
+                    <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 800, color: '#fff', flexShrink: 0 }}>{client.avatar}</div>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)' }}>{client.name}</div>
-                      <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)' }}>{client.email} • Target: <span style={{ color: 'var(--accent-orange)', fontWeight: 700 }}>{client.goal || 'Not Set'}</span></div>
+                      <div style={{ fontWeight: 800, fontSize: 'clamp(16px, 3vw, 22px)', marginBottom: 4 }}>{client.name}</div>
+                      <div style={{ fontSize: 'clamp(14px, 3vw, 18px)', color: 'var(--text-muted)' }}>{client.email} • Target: <span style={{ color: 'var(--accent-orange)', fontWeight: 700 }}>{client.goal || 'Not Set'}</span></div>
                     </div>
                   </div>
                 );
@@ -402,7 +404,7 @@ export default function ScheduleForClients() {
             )}
           </div>
 
-          <button className="btn btn-primary btn-lg" style={{ width: '100%' }}
+          <button className="btn btn-primary btn-lg" style={{ width: '100%', fontSize: 'clamp(16px, 3vw, 22px)', padding: '14px' }}
             onClick={() => setStep(2)}
             disabled={selectedClients.length === 0}>
             {selectedClients.length > 0 ? `Next → Select Dates (${selectedClients.length} client${selectedClients.length > 1 ? 's' : ''})` : 'Select clients to continue'}
@@ -415,13 +417,13 @@ export default function ScheduleForClients() {
         <div className="card" style={{ maxWidth: 640, margin: '0 auto' }}>
           <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h3 className="card-title"> Step 2: Select Delivery Dates</h3>
-            <button className="btn btn-outline btn-sm" onClick={() => setStep(1)}>← Back to Clients</button>
+            <button className="btn btn-outline btn-sm" onClick={() => setStep(1)} style={{ fontSize: 'clamp(14px, 3vw, 18px)' }}>← Back</button>
           </div>
-          <p style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', marginBottom: 14 }}>Pick dates on the calendar. You can schedule multiple slots and foods for each date.</p>
+          <p style={{ fontSize: 'clamp(14px, 3vw, 18px)', color: 'var(--text-muted)', marginBottom: 14 }}>Pick dates on the calendar. You can schedule multiple slots and foods for each date.</p>
           
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(40px, 1fr))', gap: 4, marginBottom: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(40px, 1fr))', gap: 6, marginBottom: 16 }}>
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
-              <div key={d} style={{ textAlign: 'center', fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 800, color: 'var(--text-muted)', padding: 6 }}>{d}</div>
+              <div key={d} style={{ textAlign: 'center', fontSize: 'clamp(14px, 3vw, 18px)', fontWeight: 800, color: 'var(--text-muted)', padding: 6 }}>{d}</div>
             ))}
             {Array.from({ length: new Date(calendarDays[0]).getDay() }, (_, i) => <div key={'e' + i} />)}
             {calendarDays.map(dateStr => {
@@ -429,8 +431,8 @@ export default function ScheduleForClients() {
               const isToday = dateStr === today.toISOString().split('T')[0];
               return (
                 <button key={dateStr} onClick={() => toggleDate(dateStr)} style={{
-                  padding: '12px 4px', borderRadius: 10, border: isSelected ? '2px solid var(--accent-orange)' : '2px solid transparent',
-                  cursor: 'pointer', fontSize: 'clamp(13px, 3vw, 18px)', fontWeight: 700, transition: 'all 0.2s',
+                  padding: '14px 4px', borderRadius: 12, border: isSelected ? '2px solid var(--accent-orange)' : '2px solid transparent',
+                  cursor: 'pointer', fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 800, transition: 'all 0.2s',
                   background: isSelected ? 'var(--accent-orange)' : isToday ? 'rgba(249,115,22,0.08)' : 'var(--bg-tertiary)',
                   color: isSelected ? '#fff' : 'var(--text-primary)',
                 }}>{new Date(dateStr).getDate()}</button>
@@ -438,15 +440,14 @@ export default function ScheduleForClients() {
             })}
           </div>
           {selectedDates.length > 0 && (
-            <div style={{ padding: 12, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 14, fontSize: 'clamp(12px, 3vw, 17px)' }}>
+            <div style={{ padding: 14, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 14, fontSize: 'clamp(14px, 3vw, 18px)' }}>
               <strong> {selectedDates.length} date{selectedDates.length > 1 ? 's' : ''}:</strong> {selectedDates.sort().map(d => fmtDate(d)).join(' • ')}
             </div>
           )}
-          <button className="btn btn-primary btn-lg" style={{ width: '100%' }}
+          <button className="btn btn-primary btn-lg" style={{ width: '100%', fontSize: 'clamp(16px, 3vw, 22px)', padding: '14px' }}
             onClick={() => { if (selectedDates.length === 0) { showToast('Select at least one date', 'error'); return; } selectedDates.forEach(d => { if (!schedule[d]) setSchedule(p => ({ ...p, [d]: defaultSlots() })); }); setActiveDate(selectedDates.sort()[0]); setStep(3); }}
             disabled={selectedDates.length === 0}>
-            {selectedDates.length > 0 ? `Next → Set Time Slots & Foods (${selectedDates.length} date${selectedDates.length > 1 ? 's' : ''})` : 'Select dates to continue'}
-          </button>
+            {selectedDates.length > 0 ? `Next → Set Time Slots (${selectedDates.length})` : 'Select dates to continue'}          </button>
         </div>
       )}
 
@@ -485,15 +486,15 @@ export default function ScheduleForClients() {
                 <div style={{ display: 'flex', gap: 8, marginBottom: 10, alignItems: 'center' }}>
                   <div style={{ flex: 1, position: 'relative' }}>
                     <span style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)' }}></span>
-                    <input className="form-input" placeholder="Search food..." value={search} onChange={e => setSearch(e.target.value)} style={{ paddingLeft: 32, fontSize: 'clamp(13px, 3vw, 18px)' }} />
+                    <input className="form-input" placeholder="Search food..." value={search} onChange={e => setSearch(e.target.value)} style={{ paddingLeft: 32, fontSize: 'clamp(16px, 3vw, 22px)', padding: '14px 14px 14px 32px' }} />
                   </div>
                 </div>
 
                 {/* Category Pills */}
-                <div style={{ display: 'flex', gap: 4, marginBottom: 8, overflowX: 'auto', paddingBottom: 2 }}>
+                <div style={{ display: 'flex', gap: 8, marginBottom: 10, overflowX: 'auto', paddingBottom: 4 }}>
                   {CATEGORIES.map(c => (
                     <button key={c} onClick={() => setFoodCat(c)} style={{
-                      padding: '5px 12px', borderRadius: 20, border: 'none', cursor: 'pointer', fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 700, whiteSpace: 'nowrap',
+                      padding: '8px 16px', borderRadius: 20, border: 'none', cursor: 'pointer', fontSize: 'clamp(14px, 3vw, 18px)', fontWeight: 700, whiteSpace: 'nowrap',
                       background: foodCat === c ? 'var(--accent-orange)' : 'var(--bg-tertiary)',
                       color: foodCat === c ? '#fff' : 'var(--text-muted)', transition: 'all 0.2s',
                     }}>{c}</button>
@@ -501,7 +502,7 @@ export default function ScheduleForClients() {
                 </div>
 
                 {/* Nutrient Sort Filters */}
-                <div style={{ display: 'flex', gap: 4, marginBottom: 12 }}>
+                <div style={{ display: 'flex', gap: 6, marginBottom: 14 }}>
                   {[
                     { key: 'highProtein', label: ' High Protein', color: '#22c55e' },
                     { key: 'lowCal', label: ' Low Calorie', color: '#f97316' },
@@ -509,7 +510,7 @@ export default function ScheduleForClients() {
                     { key: 'lowCarb', label: ' Low Carb', color: '#3b82f6' },
                   ].map(f => (
                     <button key={f.key} onClick={() => setNutriSort(nutriSort === f.key ? null : f.key)} style={{
-                      padding: '4px 10px', borderRadius: 8, fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 700, cursor: 'pointer',
+                      padding: '8px 14px', borderRadius: 8, fontSize: 'clamp(14px, 3vw, 18px)', fontWeight: 700, cursor: 'pointer',
                       border: `1.5px solid ${nutriSort === f.key ? f.color : 'var(--border)'}`,
                       background: nutriSort === f.key ? `${f.color}15` : 'transparent',
                       color: nutriSort === f.key ? f.color : 'var(--text-muted)', transition: 'all 0.2s',
@@ -520,43 +521,43 @@ export default function ScheduleForClients() {
                 {/* Food List */}
                 <div style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
                   {filteredMenu.length === 0 && (
-                    <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 'clamp(12px, 3vw, 17px)' }}>No food items found</div>
+                    <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 'clamp(14px, 3vw, 20px)' }}>No food items found</div>
                   )}
                   {filteredMenu.map(item => {
                     const inSlot = activeSlotItems.find(i => i.id === item.id);
                     return (
                       <div key={item.id} style={{
-                        display: 'flex', gap: 12, padding: 10, marginBottom: 6, borderRadius: 12, alignItems: 'center',
+                        display: 'flex', gap: 14, padding: 12, marginBottom: 8, borderRadius: 14, alignItems: 'center',
                         background: inSlot ? 'rgba(249,115,22,0.06)' : 'transparent',
                         border: `1.5px solid ${inSlot ? 'var(--accent-orange)' : 'var(--border)'}`,
                       }}>
-                        <img src={item.image} alt="" style={{ width: 56, height: 56, borderRadius: 10, objectFit: 'cover' }} />
+                        <img src={item.image} alt="" style={{ width: 64, height: 64, borderRadius: 10, objectFit: 'cover' }} />
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontWeight: 800, fontSize: 'clamp(13px, 3vw, 18px)' }}>{item.name}</div>
-                          <div style={{ display: 'flex', gap: 10, fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)', marginTop: 2 }}>
+                          <div style={{ fontWeight: 800, fontSize: 'clamp(16px, 3vw, 22px)' }}>{item.name}</div>
+                          <div style={{ display: 'flex', gap: 12, fontSize: 'clamp(14px, 3vw, 18px)', color: 'var(--text-muted)', marginTop: 4 }}>
                             <span style={{ color: '#f97316' }}> {item.calories}</span>
                             <span style={{ color: '#22c55e' }}> {item.protein}g</span>
                             <span style={{ color: '#3b82f6' }}> {item.carbs}g</span>
                             <span style={{ color: '#eab308' }}> {item.fat}g</span>
                           </div>
-                          <div style={{ fontSize: 'clamp(12px, 3vw, 17px)', fontWeight: 800, color: 'var(--accent-green)', marginTop: 2 }}>₹{item.price}</div>
+                          <div style={{ fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 800, color: 'var(--accent-green)', marginTop: 4 }}>₹{item.price}</div>
                         </div>
                         {inSlot ? (
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                            <button className="btn btn-outline" style={{ width: 30, height: 30, padding: 0, fontSize: 'clamp(14px, 3vw, 19px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => { if (inSlot.qty <= 1) removeItem(activeDate, activeSlotId, item.id); else updateQty(activeDate, activeSlotId, item.id, -1); }}>−</button>
-                            <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(15px, 3vw, 20px)', minWidth: 22, textAlign: 'center' }}>{inSlot.qty}</span>
-                            <button className="btn btn-outline" style={{ width: 30, height: 30, padding: 0, fontSize: 'clamp(14px, 3vw, 19px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => updateQty(activeDate, activeSlotId, item.id, 1)}>+</button>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                            <button className="btn btn-outline" style={{ width: 36, height: 36, padding: 0, fontSize: 'clamp(16px, 3vw, 22px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => { if (inSlot.qty <= 1) removeItem(activeDate, activeSlotId, item.id); else updateQty(activeDate, activeSlotId, item.id, -1); }}>−</button>
+                            <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(18px, 3vw, 24px)', minWidth: 26, textAlign: 'center' }}>{inSlot.qty}</span>
+                            <button className="btn btn-outline" style={{ width: 36, height: 36, padding: 0, fontSize: 'clamp(16px, 3vw, 22px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => updateQty(activeDate, activeSlotId, item.id, 1)}>+</button>
                           </div>
                         ) : (
-                          <button className="btn btn-primary" style={{ padding: '8px 18px', fontSize: 'clamp(12px, 3vw, 17px)', fontWeight: 800 }} onClick={() => addItem(activeDate, activeSlotId, item)}>+ Add</button>
+                          <button className="btn btn-primary" style={{ padding: '10px 22px', fontSize: 'clamp(14px, 3vw, 18px)', fontWeight: 800 }} onClick={() => addItem(activeDate, activeSlotId, item)}>+ Add</button>
                         )}
                       </div>
                     );
                   })}
                 </div>
-                <div className="modal-footer" style={{ position: 'sticky', bottom: 0, marginTop: 0, padding: '10px 16px', background: 'var(--bg-primary)', borderTop: '1.5px solid var(--border)', zIndex: 5, flexShrink: 0 }}>
-                  <span style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)' }}>{activeSlotItems.length} items in this meal</span>
-                  <button className="btn btn-primary" style={{ fontSize: 'clamp(13px, 3vw, 18px)', padding: '10px 28px' }} onClick={() => { setShowFoodPicker(false); setSlotSnapshot(null); setSearch(''); setFoodCat('All'); setNutriSort(null); }}> Done</button>
+                <div className="modal-footer" style={{ position: 'sticky', bottom: 0, marginTop: 0, padding: '12px 18px', background: 'var(--bg-primary)', borderTop: '1.5px solid var(--border)', zIndex: 5, flexShrink: 0 }}>
+                  <span style={{ fontSize: 'clamp(14px, 3vw, 18px)', color: 'var(--text-muted)' }}>{activeSlotItems.length} items in this meal</span>
+                  <button className="btn btn-primary" style={{ fontSize: 'clamp(16px, 3vw, 22px)', padding: '12px 32px' }} onClick={() => { setShowFoodPicker(false); setSlotSnapshot(null); setSearch(''); setFoodCat('All'); setNutriSort(null); }}> Done</button>
                 </div>
               </div>
             </div>

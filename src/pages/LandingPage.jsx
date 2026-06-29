@@ -234,7 +234,7 @@ export default function LandingPage() {
               >
                 <div style={{ marginBottom: 12 }}>{f.icon}</div>
                 <h3 style={{
-                  fontSize: 'clamp(14px, 1.2vw, 16px)',
+                  fontSize: 'clamp(18px, 2vw, 24px)',
                   fontWeight: 700,
                   lineHeight: 1.3,
                   marginBottom: 10,
@@ -243,7 +243,7 @@ export default function LandingPage() {
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>{f.title}</h3>
-                <p style={{ color: '#888', fontSize: 'clamp(12px, 1vw, 13px)', lineHeight: 1.6 }}>{f.desc}</p>
+                <p style={{ color: '#888', fontSize: 'clamp(16px, 1.5vw, 20px)', lineHeight: 1.6 }}>{f.desc}</p>
               </div>
             ))}
           </div>
@@ -347,11 +347,11 @@ export default function LandingPage() {
                   STEP {s.step}
                 </div>
 
-                <h3 style={{ fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 800, marginBottom: 10 }}>
+                <h3 style={{ fontSize: 'clamp(20px, 4vw, 26px)', fontWeight: 800, marginBottom: 10 }}>
                   {s.title}
                 </h3>
 
-                <p style={{ fontSize: 'clamp(12px, 3vw, 17px)', color: '#888', lineHeight: 1.6 }}>
+                <p style={{ fontSize: 'clamp(16px, 3vw, 20px)', color: '#888', lineHeight: 1.6 }}>
                   {s.desc}
                 </p>
               </div>
@@ -443,14 +443,14 @@ export default function LandingPage() {
           </div>
           <div className="landing-menu-grid">
             {MENU_ITEMS.map(item => (
-              <div key={item.id} className="landing-menu-card">
-                <img src={item.image} alt={item.name} style={{ width: '100%', height: 140, objectFit: 'cover' }} />
-                <div style={{ padding: 14 }}>
-                  <div style={{ fontWeight: 800, fontSize: 'clamp(14px, 2vw, 16px)', marginBottom: 4, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</div>
-                  <div style={{ fontSize: 11, color: '#888', marginBottom: 8 }}> {item.calories} kcal • {item.protein}g Protein</div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontWeight: 900, color: '#22c55e', fontSize: 'clamp(15px, 3vw, 20px)' }}>₹{item.price}</span>
-                    <span style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: '#f97316' }}> {item.rating}</span>
+              <div key={item.id} className="landing-menu-card" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                <img src={item.image} alt={item.name} style={{ width: '100%', height: 160, objectFit: 'cover', flexShrink: 0 }} />
+                <div style={{ padding: 14, display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <div style={{ fontWeight: 800, fontSize: 'clamp(18px, 3vw, 24px)', marginBottom: 6, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</div>
+                  <div style={{ fontSize: 'clamp(14px, 2vw, 16px)', color: '#888', marginBottom: 10 }}> {item.calories} kcal • {item.protein}g Protein</div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
+                    <span style={{ fontWeight: 900, color: '#22c55e', fontSize: 'clamp(20px, 4vw, 24px)' }}>₹{item.price}</span>
+                    <span style={{ fontSize: 'clamp(16px, 3vw, 20px)', color: '#f97316', fontWeight: 700 }}> {item.rating}</span>
                   </div>
                 </div>
               </div>

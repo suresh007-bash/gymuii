@@ -39,9 +39,12 @@ export default function KitchenDashboard() {
         {recentOrders.map(o => {
           const formattedId = 'ord' + o.id.toString().replace('ord', '').slice(-5).padStart(5, '0');
           return (
-            <div key={o.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
-              <div><span style={{ fontWeight: 700, display: 'inline-block', width: 90 }}>#{formattedId}</span><span style={{ marginLeft: 8, fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)' }}>{o.customerName} • {o.items.map(i => i.name).join(', ')}</span></div>
-              <span className={`badge ${o.status === 'pending' ? 'badge-orange' : o.status === 'preparing' ? 'badge-blue' : o.status === 'ready' ? 'badge-green' : 'badge-purple'}`}>{o.status.replace('_', ' ').toUpperCase()}</span>
+            <div key={o.id} className="kitchen-order-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', flex: 1, minWidth: 0 }} className="kitchen-order-info-wrapper">
+                <span className="kitchen-order-id">#{formattedId}</span>
+                <span className="kitchen-order-details">{o.customerName} • {o.items.map(i => i.name).join(', ')}</span>
+              </div>
+              <span className={`badge kitchen-order-badge ${o.status === 'pending' ? 'badge-orange' : o.status === 'preparing' ? 'badge-blue' : o.status === 'ready' ? 'badge-green' : 'badge-purple'}`}>{o.status.replace('_', ' ').toUpperCase()}</span>
             </div>
           );
         })}

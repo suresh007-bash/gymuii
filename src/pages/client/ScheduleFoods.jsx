@@ -29,21 +29,23 @@ const Ring = ({ value, target, color, size = 72, stroke = 7, icon, label, unit }
   const gradId = `sr-${label}-${color.replace('#', '')}`;
   const dotAngle = (pct / 100) * 2 * Math.PI;
   return (
-    <div style={{ textAlign: 'center', position: 'relative' }}>
-      <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
-        <defs>
-          <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor={isOver ? '#ef4444' : color} />
-            <stop offset="100%" stopColor={`${isOver ? '#ef4444' : color}88`} />
-          </linearGradient>
-        </defs>
-        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={`${color}18`} strokeWidth={stroke} />
-        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={`url(#${gradId})`} strokeWidth={stroke}
-          strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round" />
-        {pct > 3 && <circle cx={size/2 + r * Math.cos(dotAngle)} cy={size/2 + r * Math.sin(dotAngle)} r={stroke/2 + 1} fill={isOver ? '#ef4444' : color} style={{ filter: `drop-shadow(0 0 3px ${isOver ? '#ef4444' : color})`, opacity: 0.8 }} />}
-      </svg>
-      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center' }}>
-        <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(12px, 3vw, 15px)', color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{displayed}</div>
+    <div className="ring-container" style={{ textAlign: 'center', position: 'relative', width: size, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ position: 'relative', width: size, height: size, marginBottom: 6 }}>
+        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ transform: 'rotate(-90deg)', display: 'block' }}>
+          <defs>
+            <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor={isOver ? '#ef4444' : color} />
+              <stop offset="100%" stopColor={`${isOver ? '#ef4444' : color}88`} />
+            </linearGradient>
+          </defs>
+          <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={`${color}18`} strokeWidth={stroke} />
+          <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={`url(#${gradId})`} strokeWidth={stroke}
+            strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round" />
+          {pct > 3 && <circle cx={size/2 + r * Math.cos(dotAngle)} cy={size/2 + r * Math.sin(dotAngle)} r={stroke/2 + 1} fill={isOver ? '#ef4444' : color} style={{ filter: `drop-shadow(0 0 3px ${isOver ? '#ef4444' : color})`, opacity: 0.8 }} />}
+        </svg>
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center' }}>
+          <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(12px, 3vw, 15px)', color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{displayed}</div>
+        </div>
       </div>
       <div style={{ fontSize: 'clamp(12px, 3vw, 13px)', fontWeight: 700, color: 'var(--text-muted)', marginTop: 2 }}>{label}</div>
       <div style={{ fontSize: 'clamp(12px, 3vw, 12px)', color: isOver ? '#ef4444' : 'var(--text-muted)' }}>
@@ -513,9 +515,9 @@ export default function ScheduleFoods() {
                           <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
                             <img src={suggested[1].image} alt={suggested[1].name} style={{ width: 56, height: 56, borderRadius: 8, objectFit: 'cover' }} />
                             <div style={{ flex: 1 }}>
-                              <div style={{ fontWeight: 800, fontSize: 'clamp(12px, 3vw, 17px)' }}>{suggested[1].name}</div>
-                              <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)', margin: '2px 0' }}>Built for {userGoal.toLowerCase()}, fueled for results.</div>
-                              <div style={{ display: 'flex', gap: 8, fontSize: 'clamp(12px, 3vw, 14px)', color: 'var(--text-muted)' }}>
+                              <div style={{ fontWeight: 800, fontSize: 'clamp(14px, 3vw, 20px)' }}>{suggested[1].name}</div>
+                              <div style={{ fontSize: 'clamp(14px, 3vw, 17px)', color: 'var(--text-muted)', margin: '2px 0' }}>Built for {userGoal.toLowerCase()}, fueled for results.</div>
+                              <div style={{ display: 'flex', gap: 8, fontSize: 'clamp(14px, 3vw, 18px)', color: 'var(--text-muted)' }}>
                                 <span>{suggested[1].calories} kcal</span>
                                 <span>{suggested[1].protein}g prot.</span>
                                 <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>Score 9.5</span>

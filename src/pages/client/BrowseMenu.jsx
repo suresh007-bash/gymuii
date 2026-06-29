@@ -357,11 +357,11 @@ export default function BrowseMenu() {
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 800, background: 'linear-gradient(135deg, #f97316, #fb923c)', padding: '6px 16px', borderRadius: 24, marginBottom: 16, letterSpacing: 1.2, textTransform: 'uppercase' }}>
               <Leaf size={14} style={{ marginRight: 4 }} /> {bannerCfg?.badge || 'NUTRIENT POWERED'}
             </div>
-            <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(30px, 4vw, 46px)', fontWeight: 900, lineHeight: 1.1, marginBottom: 16, maxWidth: 420 }}>
+            <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(30px, 4vw, 46px)', fontWeight: 900, lineHeight: 1.1, marginBottom: 16, maxWidth: 420, color: '#fff' }}>
               {bannerCfg?.headlineStart || 'Make a'}{' '}
               <span style={{ background: 'linear-gradient(135deg, #f97316, #22c55e)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{bannerCfg?.headlineHighlight || 'Better Life'}</span>
             </h1>
-            <p style={{ fontSize: 'clamp(14px, 3vw, 19px)', opacity: 0.7, maxWidth: 380, lineHeight: 1.7, marginBottom: 24, fontWeight: 400 }}>
+            <p style={{ fontSize: 'clamp(14px, 3vw, 19px)', opacity: 0.8, maxWidth: 380, lineHeight: 1.7, marginBottom: 24, fontWeight: 500, color: '#fff' }}>
               {bannerCfg?.subtitle || 'Fuel your body with chef-crafted, nutrient-rich meals — designed for your fitness goals and delivered fresh to your door.'}
             </p>
             <div style={{ display: 'flex', gap: 'clamp(12px, 3vw, 24px)', flexWrap: 'wrap' }}>
@@ -437,16 +437,17 @@ export default function BrowseMenu() {
               </div>
               <button onClick={() => navigate(`/${user?.role === 'owner' ? 'owner' : user?.role === 'trainer' ? 'trainer' : 'client'}/cart`)} style={{
                 background: 'linear-gradient(135deg, #f97316, #fb923c)',
-                border: 'none', borderRadius: 12, padding: '8px 12px', cursor: 'pointer',
-                fontSize: 'clamp(16px, 3vw, 22px)', display: 'flex', alignItems: 'center', gap: 4,
+                border: 'none', borderRadius: 12, padding: '8px 16px', cursor: 'pointer',
+                fontSize: 'clamp(14px, 3vw, 18px)', fontWeight: 800, display: 'flex', alignItems: 'center', gap: 8,
                 color: '#fff', position: 'relative',
               }}>
                 <ShoppingCart size={18} />
+                <span>Go to cart</span>
                 {cartCount > 0 && <span style={{
-                  position: 'absolute', top: -4, right: -4,
-                  background: '#ef4444', color: '#fff', fontSize: 'clamp(12px, 3vw, 13px)', fontWeight: 800,
-                  width: 18, height: 18, borderRadius: '50%',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  position: 'absolute', top: -6, right: -6,
+                  background: '#ef4444', color: '#fff', fontSize: 'clamp(11px, 3vw, 13px)', fontWeight: 800,
+                  width: 20, height: 20, borderRadius: '50%',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #fff'
                 }}>{cartCount}</span>}
               </button>
             </div>
@@ -651,7 +652,7 @@ export default function BrowseMenu() {
                         glareAngle={-30}
                         glareSize={280}
                         transitionDuration={500}
-                        style={{ width: '100%', height: '100%' }}
+                        style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
                       >
                         <div className="food-card-img" style={{ position: 'relative' }}>
                           <img src={item.image} alt={item.name} style={{ width: '100%', height: 160, objectFit: 'cover' }} />
@@ -661,17 +662,17 @@ export default function BrowseMenu() {
                         </div>
                         <div className="food-card-body">
                           <div className="food-card-name">{item.name}</div>
-                          <div className="food-card-macros">{item.tags.map(t => <span key={t} className="badge badge-purple" style={{ fontSize: 11 }}>{t}</span>)}</div>
-                          <div style={{ display: 'flex', gap: 6, fontSize: 11, color: 'var(--text-muted)', marginBottom: 6, flexWrap: 'nowrap', overflow: 'hidden' }}>
-                            <span><Flame size={9} style={{ marginRight: 2 }} />{item.calories} kcal</span><span>·</span><span>{item.protein}g Prot.</span><span>·</span><span>{item.carbs}g Carb.</span><span>·</span><span>{item.fat}g Fat</span>
+                          <div className="food-card-macros">{item.tags.map(t => <span key={t} className="badge badge-purple" style={{ fontSize: 'clamp(14px, 2vw, 16px)', padding: '6px 10px' }}>{t}</span>)}</div>
+                          <div style={{ display: 'flex', gap: 6, fontSize: 'clamp(13px, 2vw, 16px)', color: 'var(--text-muted)', marginBottom: 6, flexWrap: 'wrap' }}>
+                            <span><Flame size={12} style={{ marginRight: 2 }} />{item.calories} kcal</span><span>·</span><span>{item.protein}g Prot.</span><span>·</span><span>{item.carbs}g Carb.</span><span>·</span><span>{item.fat}g Fat</span>
                           </div>
 
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                               <div className="food-card-price">₹{item.price}</div>
                               {item.originalPrice && <>
-                                <span style={{ textDecoration: 'line-through', color: 'var(--text-muted)', fontSize: 11 }}>₹{item.originalPrice}</span>
-                                <span style={{ color: '#22c55e', fontSize: 11, fontWeight: 800 }}>{item.discount}% off</span>
+                                <span style={{ textDecoration: 'line-through', color: 'var(--text-muted)', fontSize: 'clamp(13px, 2vw, 16px)' }}>₹{item.originalPrice}</span>
+                                <span style={{ color: '#22c55e', fontSize: 'clamp(13px, 2vw, 16px)', fontWeight: 800 }}>{item.discount}% off</span>
                               </>}
                             </div>
                             <button className="btn btn-primary btn-sm" onClick={() => item.available && addToCart(item)} disabled={!item.available}>{item.available ? '+ Add' : 'N/A'}</button>

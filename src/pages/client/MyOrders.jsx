@@ -120,6 +120,7 @@ export default function MyOrders() {
             const hasDates = order.scheduledDates?.length > 0;
             const statusColor = statusColors[order.status] || '#888';
             const currentStage = stageMap[order.status] || 0;
+            const formattedId = 'ord' + order.id.toString().replace('ord', '').slice(-5).padStart(5, '0');
 
             return (
               <div key={order.id} className="card" style={{ borderLeft: `4px solid ${statusColor}`, animation: 'fadeInUp 0.4s ease' }}>
@@ -132,7 +133,7 @@ export default function MyOrders() {
                     </div>
                     <div>
                       <div style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 3vw, 19px)' }}>
-                        #{order.id}
+                        #{formattedId}
                         {hasDates && <span style={{ fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 600, marginLeft: 6, color: '#8b5cf6' }}><Calendar size={11} style={{marginRight:3}} /> {order.scheduledDates.length} dates</span>}
                       </div>
                       <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)' }}>

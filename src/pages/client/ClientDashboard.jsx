@@ -19,10 +19,10 @@ export default function ClientDashboard() {
         padding: '48px 40px', color: '#fff',
       }}>
         <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 800, background: '#f97316', display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}><Utensils size={12} /> FOOD DELIVERY</div>
-        <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 900, lineHeight: 1.15, marginBottom: 12, maxWidth: 450 }}>
+        <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 900, lineHeight: 1.15, marginBottom: 12, maxWidth: 450, color: '#fff' }}>
           Make a Better Life
         </h1>
-        <p style={{ fontSize: 'clamp(13px, 3vw, 18px)', opacity: 0.85, maxWidth: 420, lineHeight: 1.6 }}>
+        <p style={{ fontSize: 'clamp(13px, 3vw, 18px)', opacity: 0.85, maxWidth: 420, lineHeight: 1.6, color: '#fff' }}>
           Fuel your body with chef-crafted, nutrient-rich meals — designed for your fitness goals and delivered fresh to your door.
         </p>
       </div>
