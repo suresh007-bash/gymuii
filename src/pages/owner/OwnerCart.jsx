@@ -46,11 +46,11 @@ export default function OwnerCart() {
   if (orderPlaced) return (
     <DashboardLayout title="My Cart">
       <div style={{ textAlign: 'center', padding: 60, animation: 'scaleIn 0.5s ease' }}>
-        <div style={{ fontSize: 72, marginBottom: 16 }}><Sparkles size={72} color="#f97316" /></div>
-        <h2 style={{ fontFamily: 'Outfit', fontSize: 28, fontWeight: 800, marginBottom: 8 }}>Order Placed!</h2>
+        <div style={{ fontSize: 'calc(76px + 0.5vw)', marginBottom: 16 }}><Sparkles size={72} color="#f97316" /></div>
+        <h2 style={{ fontFamily: 'Outfit', fontSize: 'calc(32px + 0.5vw)', fontWeight: 800, marginBottom: 8 }}>Order Placed!</h2>
         <div style={{ background: 'rgba(249,115,22,0.08)', borderRadius: 16, padding: '16px 32px', display: 'inline-block', marginBottom: 16 }}>
-          <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 700 }}>YOUR OTP</div>
-          <div style={{ fontFamily: 'Outfit', fontSize: 36, fontWeight: 900, color: 'var(--accent-orange)', letterSpacing: 6 }}>{orderPlaced.otp}</div>
+          <div style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 700 }}>YOUR OTP</div>
+          <div style={{ fontFamily: 'Outfit', fontSize: 'calc(40px + 0.5vw)', fontWeight: 900, color: 'var(--accent-orange)', letterSpacing: 6 }}>{orderPlaced.otp}</div>
         </div>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
           <button className="btn btn-primary btn-lg" onClick={() => navigate('/owner/orders')}><Package size={14} style={{marginRight:4}} /> Track Order</button>
@@ -64,7 +64,7 @@ export default function OwnerCart() {
     <DashboardLayout title="My Cart">
       {cart.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 60 }}>
-          <div style={{ fontSize: 64, marginBottom: 16 }}><ShoppingCart size={64} color="var(--text-muted)" /></div>
+          <div style={{ fontSize: 'calc(68px + 0.5vw)', marginBottom: 16 }}><ShoppingCart size={64} color="var(--text-muted)" /></div>
           <h3 style={{ fontFamily: 'Outfit', fontWeight: 700, marginBottom: 8 }}>Your cart is empty</h3>
           <button className="btn btn-primary" onClick={() => navigate('/owner/menu')}>Browse Menu</button>
         </div>
@@ -76,14 +76,14 @@ export default function OwnerCart() {
               {cart.map(item => (
                 <div key={item.id} style={{ display: 'flex', gap: 14, padding: '14px 0', borderBottom: '1px solid var(--border)', alignItems: 'center' }}>
                   <img src={item.image} alt={item.name} style={{ width: 64, height: 64, borderRadius: 12, objectFit: 'cover' }} />
-                  <div style={{ flex: 1 }}><div style={{ fontWeight: 700, fontSize: 14 }}>{item.name}</div><div style={{ fontSize: 11, color: 'var(--text-muted)' }}><Flame size={12} style={{marginRight:2}} /> {item.calories} kcal</div></div>
+                  <div style={{ flex: 1 }}><div style={{ fontWeight: 700, fontSize: 'calc(18px + 0.5vw)' }}>{item.name}</div><div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)' }}><Flame size={12} style={{marginRight:2}} /> {item.calories} kcal</div></div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <button className="btn btn-outline btn-sm" onClick={() => updateQty(item.id, -1)}>−</button>
                     <span style={{ fontWeight: 800 }}>{item.qty}</span>
                     <button className="btn btn-outline btn-sm" onClick={() => updateQty(item.id, 1)}>+</button>
                   </div>
                   <div style={{ fontFamily: 'Outfit', fontWeight: 800, minWidth: 60, textAlign: 'right' }}>₹{item.price * item.qty}</div>
-                  <button onClick={() => remove(item.id)} style={{ color: 'var(--accent-red)', fontSize: 16, cursor: 'pointer', background: 'none', border: 'none' }}></button>
+                  <button onClick={() => remove(item.id)} style={{ color: 'var(--accent-red)', fontSize: 'calc(20px + 0.5vw)', cursor: 'pointer', background: 'none', border: 'none' }}></button>
                 </div>
               ))}
             </div>
@@ -96,26 +96,26 @@ export default function OwnerCart() {
                 ))}
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(40px, 1fr))', gap: 4, marginBottom: 12 }}>
-                {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={i} style={{ textAlign: 'center', fontSize: 10, fontWeight: 800, color: 'var(--text-muted)', padding: 4 }}>{d}</div>)}
+                {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={i} style={{ textAlign: 'center', fontSize: 'calc(14px + 0.5vw)', fontWeight: 800, color: 'var(--text-muted)', padding: 4 }}>{d}</div>)}
                 {Array.from({ length: new Date(calendarDays[0]).getDay() }, (_, i) => <div key={'e' + i} />)}
                 {calendarDays.map(dateStr => {
                   const isSelected = selectedDates.includes(dateStr);
-                  return <button key={dateStr} onClick={() => toggleDate(dateStr)} style={{ padding: '10px 4px', borderRadius: 8, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 700, background: isSelected ? 'var(--accent-orange)' : 'var(--bg-tertiary)', color: isSelected ? '#fff' : 'var(--text-primary)' }}>{new Date(dateStr).getDate()}</button>;
+                  return <button key={dateStr} onClick={() => toggleDate(dateStr)} style={{ padding: '10px 4px', borderRadius: 8, border: 'none', cursor: 'pointer', fontSize: 'calc(17px + 0.5vw)', fontWeight: 700, background: isSelected ? 'var(--accent-orange)' : 'var(--bg-tertiary)', color: isSelected ? '#fff' : 'var(--text-primary)' }}>{new Date(dateStr).getDate()}</button>;
                 })}
               </div>
-              {selectedDates.length > 0 && <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 10, fontSize: 12 }}><strong><Calendar size={12} style={{marginRight:2}} /> {selectedDates.length} dates:</strong> {selectedDates.sort().map(d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })).join(', ')}</div>}
+              {selectedDates.length > 0 && <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 10, fontSize: 'calc(16px + 0.5vw)' }}><strong><Calendar size={12} style={{marginRight:2}} /> {selectedDates.length} dates:</strong> {selectedDates.sort().map(d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })).join(', ')}</div>}
             </div>
           </div>
           <div className="card" style={{ position: 'sticky', top: 88 }}>
             <div className="card-header"><h3 className="card-title"><ClipboardList size={16} style={{marginRight:4}} /> Summary</h3></div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 16 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}><span style={{ color: 'var(--text-muted)' }}>Subtotal</span><span>₹{subtotal}</span></div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}><span style={{ color: 'var(--text-muted)' }}>Delivery</span><span>₹{deliveryFee}</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'calc(17px + 0.5vw)' }}><span style={{ color: 'var(--text-muted)' }}>Subtotal</span><span>₹{subtotal}</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'calc(17px + 0.5vw)' }}><span style={{ color: 'var(--text-muted)' }}>Delivery</span><span>₹{deliveryFee}</span></div>
               <hr style={{ border: 'none', borderTop: '1px solid var(--border)' }} />
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 16, fontWeight: 800, fontFamily: 'Outfit' }}><span>Total</span><span style={{ color: 'var(--accent-green)' }}>₹{total}</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'calc(20px + 0.5vw)', fontWeight: 800, fontFamily: 'Outfit' }}><span>Total</span><span style={{ color: 'var(--accent-green)' }}>₹{total}</span></div>
             </div>
             <div style={{ marginBottom: 16 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-muted)', marginBottom: 8 }}>PAYMENT</div>
+              <div style={{ fontSize: 'calc(16px + 0.5vw)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 8 }}>PAYMENT</div>
               <div style={{ display: 'flex', gap: 6 }}>
                 {['COD', 'UPI', 'Card'].map(p => <button key={p} onClick={() => setPayment(p)} className={`btn btn-sm ${payment === p ? 'btn-primary' : 'btn-outline'}`}>{p}</button>)}
               </div>

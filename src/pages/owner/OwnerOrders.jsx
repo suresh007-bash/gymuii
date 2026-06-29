@@ -42,9 +42,9 @@ export default function OwnerOrders() {
               ))}
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(40px, 1fr))', gap: 4, marginBottom: 12 }}>
-              {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={i} style={{ textAlign: 'center', fontSize: 10, fontWeight: 800, color: 'var(--text-muted)', padding: 4 }}>{d}</div>)}
+              {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={i} style={{ textAlign: 'center', fontSize: 'calc(14px + 0.5vw)', fontWeight: 800, color: 'var(--text-muted)', padding: 4 }}>{d}</div>)}
               {Array.from({ length: new Date(calendarDays[0]).getDay() }, (_, i) => <div key={'e' + i} />)}
-              {calendarDays.map(ds => <button key={ds} onClick={() => toggleDate(ds)} style={{ padding: '8px 4px', borderRadius: 8, border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 700, background: newDates.includes(ds) ? 'var(--accent-orange)' : 'var(--bg-tertiary)', color: newDates.includes(ds) ? '#fff' : 'var(--text-primary)' }}>{new Date(ds).getDate()}</button>)}
+              {calendarDays.map(ds => <button key={ds} onClick={() => toggleDate(ds)} style={{ padding: '8px 4px', borderRadius: 8, border: 'none', cursor: 'pointer', fontSize: 'calc(16px + 0.5vw)', fontWeight: 700, background: newDates.includes(ds) ? 'var(--accent-orange)' : 'var(--bg-tertiary)', color: newDates.includes(ds) ? '#fff' : 'var(--text-primary)' }}>{new Date(ds).getDate()}</button>)}
             </div>
             <div className="modal-footer"><button className="btn btn-outline" onClick={() => { setRescheduleOrder(null); setNewDates([]); }}>Cancel</button><button className="btn btn-success" onClick={handleReschedule} disabled={newDates.length === 0}><CheckCircle2 size={14} style={{marginRight:4}} /> Reschedule</button></div>
           </div>
@@ -55,27 +55,27 @@ export default function OwnerOrders() {
         <button key={t} className={`tab ${tab === t ? 'active' : ''}`} onClick={() => setTab(t)}>{t === 'all' ? `All (${myOrders.length})` : t.charAt(0).toUpperCase() + t.slice(1)}</button>
       ))}</div>
 
-      {filtered.length === 0 ? <div style={{ textAlign: 'center', padding: 60, color: 'var(--text-muted)' }}><div style={{ fontSize: 48, marginBottom: 12 }}><Package size={48} color="var(--text-muted)" /></div><p>No orders found</p></div> : (
+      {filtered.length === 0 ? <div style={{ textAlign: 'center', padding: 60, color: 'var(--text-muted)' }}><div style={{ fontSize: 'calc(52px + 0.5vw)', marginBottom: 12 }}><Package size={48} color="var(--text-muted)" /></div><p>No orders found</p></div> : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {filtered.map(order => (
             <div key={order.id} className="card">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                <div><span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 16 }}>#{order.id}</span><span style={{ marginLeft: 8, fontSize: 12, color: 'var(--text-muted)' }}>{new Date(order.orderTime).toLocaleString()}</span></div>
+                <div><span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(20px + 0.5vw)' }}>#{order.id}</span><span style={{ marginLeft: 8, fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)' }}>{new Date(order.orderTime).toLocaleString()}</span></div>
                 <span className={`badge ${statusColors[order.status] || 'badge-blue'}`}>{order.status.replace('_', ' ').toUpperCase()}</span>
               </div>
               {['pending', 'preparing', 'ready', 'in_transit'].includes(order.status) && (
                 <div style={{ display: 'flex', alignItems: 'center', margin: '12px 0' }}>
-                  {stages.map((s, i) => { const cs = stageMap[order.status] || 0; return (<div key={i} style={{ display: 'flex', alignItems: 'center', flex: 1 }}><div style={{ width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, background: i <= cs ? (i === cs ? 'var(--accent-orange)' : 'var(--accent-green)') : 'var(--bg-tertiary)', color: i <= cs ? '#fff' : 'var(--text-muted)', flexShrink: 0 }}>{i < cs ? '' : i + 1}</div>{i < stages.length - 1 && <div style={{ flex: 1, height: 3, background: i < cs ? 'var(--accent-green)' : 'var(--bg-tertiary)', margin: '0 -2px' }} />}</div>); })}
+                  {stages.map((s, i) => { const cs = stageMap[order.status] || 0; return (<div key={i} style={{ display: 'flex', alignItems: 'center', flex: 1 }}><div style={{ width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'calc(15px + 0.5vw)', fontWeight: 800, background: i <= cs ? (i === cs ? 'var(--accent-orange)' : 'var(--accent-green)') : 'var(--bg-tertiary)', color: i <= cs ? '#fff' : 'var(--text-muted)', flexShrink: 0 }}>{i < cs ? '' : i + 1}</div>{i < stages.length - 1 && <div style={{ flex: 1, height: 3, background: i < cs ? 'var(--accent-green)' : 'var(--bg-tertiary)', margin: '0 -2px' }} />}</div>); })}
                 </div>
               )}
               {order.otp && ['pending', 'preparing', 'ready', 'in_transit'].includes(order.status) && (
                 <div style={{ background: 'rgba(249,115,22,0.08)', borderRadius: 10, padding: '8px 14px', marginBottom: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: 12, fontWeight: 600 }}>Delivery OTP</span>
-                  <span style={{ fontFamily: 'Outfit', fontSize: 20, fontWeight: 900, color: 'var(--accent-orange)', letterSpacing: 4 }}>{order.otp}</span>
+                  <span style={{ fontSize: 'calc(16px + 0.5vw)', fontWeight: 600 }}>Delivery OTP</span>
+                  <span style={{ fontFamily: 'Outfit', fontSize: 'calc(24px + 0.5vw)', fontWeight: 900, color: 'var(--accent-orange)', letterSpacing: 4 }}>{order.otp}</span>
                 </div>
               )}
-              {order.scheduledDates?.length > 0 && <div style={{ padding: '6px 12px', background: 'rgba(34,197,94,0.06)', borderRadius: 8, marginBottom: 10, fontSize: 12 }}><Calendar size={12} style={{marginRight:2}} /> {order.scheduledDates.map(d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })).join(', ')}</div>}
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 8 }}>{order.items.map((item, i) => <span key={i} style={{ fontSize: 12, padding: '4px 10px', background: 'var(--bg-tertiary)', borderRadius: 8 }}>{item.name} × {item.qty}</span>)}</div>
+              {order.scheduledDates?.length > 0 && <div style={{ padding: '6px 12px', background: 'rgba(34,197,94,0.06)', borderRadius: 8, marginBottom: 10, fontSize: 'calc(16px + 0.5vw)' }}><Calendar size={12} style={{marginRight:2}} /> {order.scheduledDates.map(d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })).join(', ')}</div>}
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 8 }}>{order.items.map((item, i) => <span key={i} style={{ fontSize: 'calc(16px + 0.5vw)', padding: '4px 10px', background: 'var(--bg-tertiary)', borderRadius: 8 }}>{item.name} × {item.qty}</span>)}</div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ fontFamily: 'Outfit', fontWeight: 800, color: 'var(--accent-green)' }}>₹{order.total}</span>
                 <div style={{ display: 'flex', gap: 8 }}>

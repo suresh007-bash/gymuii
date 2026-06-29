@@ -17,11 +17,11 @@ export default function MemberManagement() {
       <div className="card"><table className="data-table"><thead><tr><th>Member</th><th>Goal</th><th>Trainer</th><th>Diet</th><th>Joined</th><th>Actions</th></tr></thead>
         <tbody>{shown.map(c=>(
           <tr key={c.id}>
-            <td><div style={{display:'flex',alignItems:'center',gap:10}}><div style={{width:32,height:32,borderRadius:'50%',background:'var(--gradient-primary)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:11,fontWeight:800,color:'#fff'}}>{c.avatar}</div><div><div style={{fontWeight:700,fontSize:13}}>{c.name}</div><div style={{fontSize:11,color:'var(--text-muted)'}}>{c.email}</div></div></div></td>
+            <td><div style={{display:'flex',alignItems:'center',gap:10}}><div style={{width:32,height:32,borderRadius:'50%',background:'var(--gradient-primary)',display:'flex',alignItems:'center',justifyContent:'center',fontSize: 'calc(15px + 0.5vw)',fontWeight:800,color:'#fff'}}>{c.avatar}</div><div><div style={{fontWeight:700,fontSize: 'calc(17px + 0.5vw)'}}>{c.name}</div><div style={{fontSize: 'calc(15px + 0.5vw)',color:'var(--text-muted)'}}>{c.email}</div></div></div></td>
             <td><span className="badge badge-blue">{c.goal}</span></td>
             <td><span className={`badge ${c.trainerId ? 'badge-purple' : 'badge-orange'}`}>{getTrainerName(c.trainerId)}</span></td>
-            <td style={{fontSize:12}}>{c.diet}</td>
-            <td style={{fontSize:12,color:'var(--text-muted)'}}>{c.joinDate}</td>
+            <td style={{fontSize: 'calc(16px + 0.5vw)'}}>{c.diet}</td>
+            <td style={{fontSize: 'calc(16px + 0.5vw)',color:'var(--text-muted)'}}>{c.joinDate}</td>
             <td><button className="btn btn-outline btn-sm">View</button></td>
           </tr>
         ))}</tbody>

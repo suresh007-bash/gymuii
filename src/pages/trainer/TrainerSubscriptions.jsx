@@ -12,17 +12,17 @@ const PLANS = [
 export default function TrainerSubscriptions() {
   return (
     <DashboardLayout title="Subscriptions">
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: 20 }}>
         {PLANS.map(plan => (
           <div key={plan.id} className="card" style={{ overflow: 'hidden', padding: 0 }}>
             <div style={{ background: 'var(--gradient-primary)', padding: '20px 16px', color: '#fff' }}>
-              <div style={{ fontWeight: 900, fontSize: 18, fontFamily: 'Outfit' }}>{plan.name}</div>
-              <div style={{ fontSize: 12, opacity: 0.85 }}>{plan.duration} • {plan.meals}</div>
+              <div style={{ fontWeight: 900, fontSize: 'calc(22px + 0.5vw)', fontFamily: 'Outfit' }}>{plan.name}</div>
+              <div style={{ fontSize: 'calc(16px + 0.5vw)', opacity: 0.85 }}>{plan.duration} • {plan.meals}</div>
             </div>
             <div style={{ padding: 16 }}>
-              <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 12, lineHeight: 1.5 }}>{plan.desc}</p>
+              <p style={{ fontSize: 'calc(17px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 12, lineHeight: 1.5 }}>{plan.desc}</p>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 22, color: 'var(--accent-green)' }}>₹{plan.price}</span>
+                <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'calc(26px + 0.5vw)', color: 'var(--accent-green)' }}>₹{plan.price}</span>
                 <button className="btn btn-primary">Subscribe</button>
               </div>
             </div>

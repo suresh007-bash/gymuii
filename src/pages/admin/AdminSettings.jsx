@@ -125,8 +125,8 @@ export default function AdminSettings() {
       {confirm && (
         <div className="modal-overlay" onClick={() => setConfirm(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 420, textAlign: 'center' }}>
-            <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
-            <p style={{ fontSize: 15, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
+            <h3 style={{ fontSize: 'calc(24px + 0.5vw)', fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
+            <p style={{ fontSize: 'calc(19px + 0.5vw)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
               <button className="btn btn-outline" onClick={() => setConfirm(null)}>Cancel</button>
               <button className="btn" style={{ background: confirm.color, color: '#fff', border: 'none', padding: '10px 24px', borderRadius: 10, fontWeight: 700, cursor: 'pointer' }} onClick={confirm.action}>Confirm</button>
@@ -147,7 +147,7 @@ export default function AdminSettings() {
         <LayoutGrid>
           <div className="card" style={{ width: '100%' }}>
             <div className="card-header"><h3 className="card-title">️ Promote User</h3></div>
-            <p style={{ fontSize: 15, color: 'var(--text-muted)', marginBottom: 16 }}>Promote a client to trainer, or a user to gym owner role.</p>
+            <p style={{ fontSize: 'calc(19px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 16 }}>Promote a client to trainer, or a user to gym owner role.</p>
             <div style={{ marginBottom: 14 }}>
               <label className="form-label">Select User to Promote</label>
               <select className="form-select" value={promoUserId} onChange={e => setPromoUserId(e.target.value)}>
@@ -180,7 +180,7 @@ export default function AdminSettings() {
           {/* Context Summary Counterbalanced Side Info Panel */}
           <div className="card" style={{ width: '100%', height: '100%' }}>
             <div className="card-header"><h3 className="card-title">ℹ️ System Guidelines</h3></div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14, fontSize: 15, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14, fontSize: 'calc(19px + 0.5vw)', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
               <div>
                 <strong style={{ color: 'var(--text-primary)' }}> Trainer Access:</strong>
                 <p style={{ margin: '4px 0 0 0', color: 'var(--text-muted)' }}>Grants administrative rights over custom meal allocations, client scheduling plans, and specific assigned gym infrastructure logs.</p>
@@ -200,7 +200,7 @@ export default function AdminSettings() {
         <LayoutGrid>
           <div className="card" style={{ width: '100%' }}>
             <div className="card-header"><h3 className="card-title">‍ Add Food Providing Team</h3></div>
-            <p style={{ fontSize: 15, color: 'var(--text-muted)', marginBottom: 16 }}>Register a new kitchen/food provider team to the system.</p>
+            <p style={{ fontSize: 'calc(19px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 16 }}>Register a new kitchen/food provider team to the system.</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div><label className="form-label">Person Name *</label><input className="form-input" value={kitchenForm.name} onChange={e => setKitchenForm(p => ({ ...p, name: e.target.value }))} placeholder="Chef Name" /></div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: 14 }}>
@@ -215,7 +215,7 @@ export default function AdminSettings() {
 
           <div className="card" style={{ width: '100%', height: '100%' }}>
             <div className="card-header"><h3 className="card-title"> Operational Notes</h3></div>
-            <p style={{ fontSize: 15, color: 'var(--text-muted)', lineHeight: 1.6 }}>
+            <p style={{ fontSize: 'calc(19px + 0.5vw)', color: 'var(--text-muted)', lineHeight: 1.6 }}>
               Adding a kitchen service agent initiates automated dynamic routing configuration. Fresh logs are appended to fulfillment lists, and corresponding platform personnel profiles will be automatically provisioned with default login tokens dispatched directly to the listed organizational mail inbox.
             </p>
           </div>
@@ -250,12 +250,12 @@ export default function AdminSettings() {
                 minHeight: '280px'          
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-                  <span style={{ fontSize: 24 }}>{icon}</span>
+                  <span style={{ fontSize: 'calc(28px + 0.5vw)' }}>{icon}</span>
                   <div>
-                    <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 18 }}>
+                    <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(22px + 0.5vw)' }}>
                       {labelText}
                     </span>
-                    <span style={{ marginLeft: 8, fontWeight: 900, color, fontSize: 18 }}>
+                    <span style={{ marginLeft: 8, fontWeight: 900, color, fontSize: 'calc(22px + 0.5vw)' }}>
                       {users.length}
                     </span>
                   </div>
@@ -270,7 +270,7 @@ export default function AdminSettings() {
                       alignItems: 'center',
                       padding: '8px 0', 
                       borderBottom: '1px solid var(--border)', 
-                      fontSize: 14 
+                      fontSize: 'calc(18px + 0.5vw)' 
                     }}>
                       <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{u.name}</span>
                       <span style={{ color: 'var(--text-muted)' }}>{u.email}</span>
@@ -279,7 +279,7 @@ export default function AdminSettings() {
                 </div>
 
                 {users.length > 5 && (
-                  <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 'auto', paddingTop: 10, fontWeight: 600 }}>
+                  <div style={{ fontSize: 'calc(17px + 0.5vw)', color: 'var(--text-muted)', marginTop: 'auto', paddingTop: 10, fontWeight: 600 }}>
                     +{users.length - 5} more
                   </div>
                 )}
@@ -297,7 +297,7 @@ export default function AdminSettings() {
             <div className="card-header" style={{ marginBottom: 16 }}>
               <h3 className="card-title"> Theme Presets</h3>
             </div>
-            <p style={{ fontSize: 15, color: 'var(--text-muted)', marginBottom: 16 }}>
+            <p style={{ fontSize: 'calc(19px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 16 }}>
               Choose a preset theme to instantly change the look and feel of the entire application.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 12 }}>
@@ -317,9 +317,9 @@ export default function AdminSettings() {
                     <div style={{ width: 28, height: 28, borderRadius: '50%', background: preset.primary, boxShadow: `0 4px 12px ${preset.primary}40` }} />
                     <div style={{ width: 28, height: 28, borderRadius: '50%', background: preset.secondary, boxShadow: `0 4px 12px ${preset.secondary}40` }} />
                   </div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-primary)' }}>{preset.label}</div>
+                  <div style={{ fontSize: 'calc(19px + 0.5vw)', fontWeight: 700, color: 'var(--text-primary)' }}>{preset.label}</div>
                   {activePreset === key && (
-                    <div style={{ fontSize: 12, fontWeight: 800, color: preset.primary, marginTop: 4 }}> ACTIVE</div>
+                    <div style={{ fontSize: 'calc(16px + 0.5vw)', fontWeight: 800, color: preset.primary, marginTop: 4 }}> ACTIVE</div>
                   )}
                 </div>
               ))}
@@ -331,7 +331,7 @@ export default function AdminSettings() {
             <div className="card-header" style={{ marginBottom: 16 }}>
               <h3 className="card-title">️ Custom Colors</h3>
             </div>
-            <p style={{ fontSize: 15, color: 'var(--text-muted)', marginBottom: 16 }}>
+            <p style={{ fontSize: 'calc(19px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 16 }}>
               Pick your own primary and secondary colors for a fully custom theme.
             </p>
             <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'flex-end', marginBottom: 16 }}>
@@ -340,7 +340,7 @@ export default function AdminSettings() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   <input type="color" value={themePrimary} onChange={e => setThemePrimary(e.target.value)} style={colorPickerStyle} />
                   <input className="form-input" value={themePrimary} onChange={e => setThemePrimary(e.target.value)}
-                    style={{ width: 100, fontFamily: 'monospace', fontSize: 15, fontWeight: 700 }} />
+                    style={{ width: 100, fontFamily: 'monospace', fontSize: 'calc(19px + 0.5vw)', fontWeight: 700 }} />
                 </div>
               </div>
               <div>
@@ -348,7 +348,7 @@ export default function AdminSettings() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   <input type="color" value={themeSecondary} onChange={e => setThemeSecondary(e.target.value)} style={colorPickerStyle} />
                   <input className="form-input" value={themeSecondary} onChange={e => setThemeSecondary(e.target.value)}
-                    style={{ width: 100, fontFamily: 'monospace', fontSize: 15, fontWeight: 700 }} />
+                    style={{ width: 100, fontFamily: 'monospace', fontSize: 'calc(19px + 0.5vw)', fontWeight: 700 }} />
                 </div>
               </div>
             </div>
@@ -359,27 +359,27 @@ export default function AdminSettings() {
               background: `linear-gradient(135deg, ${themePrimary}08, ${themeSecondary}08)`,
               border: `1.5px solid ${themePrimary}20`,
             }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-muted)', marginBottom: 8 }}>LIVE PREVIEW</div>
+              <div style={{ fontSize: 'calc(17px + 0.5vw)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 8 }}>LIVE PREVIEW</div>
               <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
                 <div style={{
-                  padding: '8px 20px', borderRadius: 10, fontWeight: 700, fontSize: 15, color: '#fff',
+                  padding: '8px 20px', borderRadius: 10, fontWeight: 700, fontSize: 'calc(19px + 0.5vw)', color: '#fff',
                   background: `linear-gradient(135deg, ${themePrimary}, ${themeSecondary})`,
                 }}>Primary Button</div>
                 <div style={{
-                  padding: '8px 20px', borderRadius: 10, fontWeight: 700, fontSize: 15,
+                  padding: '8px 20px', borderRadius: 10, fontWeight: 700, fontSize: 'calc(19px + 0.5vw)',
                   color: themePrimary, border: `2px solid ${themePrimary}`,
                 }}>Outline Button</div>
                 <div style={{
                   display: 'flex', alignItems: 'center', gap: 6,
                   padding: '6px 14px', borderRadius: 8,
                   background: `${themePrimary}12`, color: themePrimary,
-                  fontSize: 14, fontWeight: 700,
+                  fontSize: 'calc(18px + 0.5vw)', fontWeight: 700,
                 }}>
                   <div style={{ width: 8, height: 8, borderRadius: '50%', background: themePrimary }} />
                   Active Sidebar Item
                 </div>
                 <div style={{
-                  padding: '4px 14px', borderRadius: 20, fontSize: 13, fontWeight: 800, letterSpacing: 1,
+                  padding: '4px 14px', borderRadius: 20, fontSize: 'calc(17px + 0.5vw)', fontWeight: 800, letterSpacing: 1,
                   background: `linear-gradient(135deg, ${themePrimary}, ${themeSecondary})`, color: '#fff',
                 }}>BADGE</div>
               </div>
@@ -396,7 +396,7 @@ export default function AdminSettings() {
             <div className="card-header" style={{ marginBottom: 16 }}>
               <h3 className="card-title">️ Client Home Banner</h3>
             </div>
-            <p style={{ fontSize: 15, color: 'var(--text-muted)', marginBottom: 16 }}>
+            <p style={{ fontSize: 'calc(19px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 16 }}>
               Customize the hero banner on the client home/browse page. Leave fields empty to use defaults.
             </p>
 
@@ -438,12 +438,12 @@ export default function AdminSettings() {
                 <label className="form-label">Banner Gradient</label>
                 <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
                   <div>
-                    <span style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 600 }}>Color 1</span>
+                    <span style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 600 }}>Color 1</span>
                     <input type="color" value={bannerCfg.gradientStart || '#0f172a'} onChange={e => setBannerCfg(p => ({ ...p, gradientStart: e.target.value }))} style={colorPickerStyle} />
                   </div>
-                  <span style={{ fontSize: 20, color: 'var(--text-muted)' }}>→</span>
+                  <span style={{ fontSize: 'calc(24px + 0.5vw)', color: 'var(--text-muted)' }}>→</span>
                   <div>
-                    <span style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 600 }}>Color 2</span>
+                    <span style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 600 }}>Color 2</span>
                     <input type="color" value={bannerCfg.gradientEnd || '#1e293b'} onChange={e => setBannerCfg(p => ({ ...p, gradientEnd: e.target.value }))} style={colorPickerStyle} />
                   </div>
                   <div style={{
@@ -478,25 +478,25 @@ export default function AdminSettings() {
                 background: `linear-gradient(135deg, ${bannerCfg.gradientStart || '#0f172a'} 0%, ${bannerCfg.gradientEnd || '#1e293b'} 40%, ${bannerCfg.gradientStart || '#0f172a'} 100%)`,
                 color: '#fff', padding: '24px 28px', minHeight: 140,
               }}>
-                <div style={{ fontSize: 12, fontWeight: 700, marginBottom: 8, color: 'rgba(255,255,255,0.5)' }}>BANNER PREVIEW</div>
+                <div style={{ fontSize: 'calc(16px + 0.5vw)', fontWeight: 700, marginBottom: 8, color: 'rgba(255,255,255,0.5)' }}>BANNER PREVIEW</div>
                 <div style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11, fontWeight: 800,
+                  display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 'calc(15px + 0.5vw)', fontWeight: 800,
                   background: `linear-gradient(135deg, ${themePrimary}, ${themeSecondary})`,
                   padding: '4px 12px', borderRadius: 20, marginBottom: 8, letterSpacing: 1, textTransform: 'uppercase',
                 }}>{bannerCfg.badge || 'NUTRIENT POWERED'}</div>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 24, fontWeight: 900, lineHeight: 1.1, marginBottom: 8 }}>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 'calc(28px + 0.5vw)', fontWeight: 900, lineHeight: 1.1, marginBottom: 8 }}>
                   {bannerCfg.headlineStart || 'Make a'}{' '}
                   <span style={{ background: `linear-gradient(135deg, ${themePrimary}, ${themeSecondary})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                     {bannerCfg.headlineHighlight || 'Better Life'}
                   </span>
                 </h3>
-                <p style={{ fontSize: 13, opacity: 0.65, maxWidth: 350, lineHeight: 1.6 }}>
+                <p style={{ fontSize: 'calc(17px + 0.5vw)', opacity: 0.65, maxWidth: 350, lineHeight: 1.6 }}>
                   {bannerCfg.subtitle || 'Fuel your body with chef-crafted, nutrient-rich meals — designed for your fitness goals and delivered fresh to your door.'}
                 </p>
                 <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
                   {[bannerCfg.tag1 || 'High Protein', bannerCfg.tag2 || 'Low Calorie', bannerCfg.tag3 || 'Macro Balanced'].map((tag, i) => (
                     <span key={i} style={{
-                      padding: '4px 10px', borderRadius: 12, fontSize: 11, fontWeight: 700,
+                      padding: '4px 10px', borderRadius: 12, fontSize: 'calc(15px + 0.5vw)', fontWeight: 700,
                       background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(6px)',
                       border: '1px solid rgba(255,255,255,0.15)',
                     }}>{tag}</span>
@@ -516,7 +516,7 @@ export default function AdminSettings() {
             <div className="card-header" style={{ marginBottom: 16 }}>
               <h3 className="card-title">️ Atmosphere Effects</h3>
             </div>
-            <p style={{ fontSize: 15, color: 'var(--text-muted)', marginBottom: 16 }}>
+            <p style={{ fontSize: 'calc(19px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 16 }}>
               Add a live weather or atmosphere animation overlay across all pages. These effects are purely visual and don't affect functionality.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 12 }}>
@@ -539,10 +539,10 @@ export default function AdminSettings() {
                     transform: weatherEffect === key ? 'scale(1.03)' : 'scale(1)',
                   }}
                 >
-                  <div style={{ fontSize: 32, marginBottom: 6, filter: weatherEffect === key ? 'none' : 'grayscale(0.5)' }}>{emoji}</div>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: weatherEffect === key ? color : 'var(--text-secondary)' }}>{label}</div>
+                  <div style={{ fontSize: 'calc(36px + 0.5vw)', marginBottom: 6, filter: weatherEffect === key ? 'none' : 'grayscale(0.5)' }}>{emoji}</div>
+                  <div style={{ fontSize: 'calc(18px + 0.5vw)', fontWeight: 700, color: weatherEffect === key ? color : 'var(--text-secondary)' }}>{label}</div>
                   {weatherEffect === key && (
-                    <div style={{ fontSize: 11, fontWeight: 800, color, marginTop: 4 }}> ACTIVE</div>
+                    <div style={{ fontSize: 'calc(15px + 0.5vw)', fontWeight: 800, color, marginTop: 4 }}> ACTIVE</div>
                   )}
                 </div>
               ))}

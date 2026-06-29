@@ -24,8 +24,8 @@ export default function AdminOrders() {
       {confirm && (
         <div className="modal-overlay" onClick={() => setConfirm(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 420, textAlign: 'center' }}>
-            <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
-            <p style={{ fontSize: 15, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
+            <h3 style={{ fontSize: 'calc(24px + 0.5vw)', fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
+            <p style={{ fontSize: 'calc(19px + 0.5vw)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
               <button className="btn btn-outline" onClick={() => setConfirm(null)}>Cancel</button>
               <button className="btn" style={{ background: confirm.color, color: '#fff', border: 'none', padding: '10px 24px', borderRadius: 10, fontWeight: 700, cursor: 'pointer' }} onClick={confirm.action}>Confirm</button>
@@ -36,15 +36,15 @@ export default function AdminOrders() {
 
       <div style={{ display: 'flex', gap: 12, marginBottom: 16, alignItems: 'center' }}>
         <div style={{ flex: 1, position: 'relative' }}>
-          <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', fontSize: 16 }}></span>
-          <input className="form-input" style={{ paddingLeft: 38, fontSize: 15 }} placeholder="Search by order ID or customer..." value={search} onChange={e => setSearch(e.target.value)} />
+          <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', fontSize: 'calc(20px + 0.5vw)' }}></span>
+          <input className="form-input" style={{ paddingLeft: 38, fontSize: 'calc(19px + 0.5vw)' }} placeholder="Search by order ID or customer..." value={search} onChange={e => setSearch(e.target.value)} />
         </div>
-        <span style={{ fontSize: 14, color: 'var(--text-muted)', fontWeight: 600 }}>{filtered.length} orders</span>
+        <span style={{ fontSize: 'calc(18px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 600 }}>{filtered.length} orders</span>
       </div>
 
       <div className="tabs" style={{ marginBottom: 16 }}>
         {['all', 'pending', 'preparing', 'ready', 'in_transit', 'delivered', 'cancelled'].map(t => (
-          <button key={t} className={`tab ${tab === t ? 'active' : ''}`} onClick={() => setTab(t)} style={{ fontSize: 13, fontWeight: 700 }}>
+          <button key={t} className={`tab ${tab === t ? 'active' : ''}`} onClick={() => setTab(t)} style={{ fontSize: 'calc(17px + 0.5vw)', fontWeight: 700 }}>
             {t === 'all' ? `All (${orders.length})` : t === 'in_transit' ? 'In Transit' : t.charAt(0).toUpperCase() + t.slice(1)}
           </button>
         ))}
@@ -64,15 +64,15 @@ export default function AdminOrders() {
               {filtered.map(o => (
                 <tr key={o.id}>
                   <td>
-                    <div style={{ fontWeight: 800, fontSize: 15 }}>#{o.id}</div>
-                    <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>{new Date(o.orderTime).toLocaleString()}</div>
+                    <div style={{ fontWeight: 800, fontSize: 'calc(19px + 0.5vw)' }}>#{o.id}</div>
+                    <div style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)', marginTop: 2 }}>{new Date(o.orderTime).toLocaleString()}</div>
                   </td>
-                  <td style={{ fontWeight: 600, fontSize: 14 }}>{o.customerName}</td>
-                  <td style={{ fontSize: 13 }}>{o.items.map(i => `${i.name} ×${i.qty}`).join(', ')}</td>
-                  <td style={{ fontWeight: 900, fontSize: 16, color: 'var(--accent-green)' }}>₹{o.total}</td>
-                  <td><span className={`badge ${o.paymentStatus === 'Paid' ? 'badge-green' : 'badge-orange'}`} style={{ fontSize: 12 }}>{o.paymentMethod} • {o.paymentStatus}</span></td>
-                  <td><span className={`badge ${statusColors[o.status]}`} style={{ fontSize: 12 }}>{o.status.replace('_', ' ').toUpperCase()}</span></td>
-                  <td style={{ fontSize: 13 }}>{o.driverName || '—'}</td>
+                  <td style={{ fontWeight: 600, fontSize: 'calc(18px + 0.5vw)' }}>{o.customerName}</td>
+                  <td style={{ fontSize: 'calc(17px + 0.5vw)' }}>{o.items.map(i => `${i.name} ×${i.qty}`).join(', ')}</td>
+                  <td style={{ fontWeight: 900, fontSize: 'calc(20px + 0.5vw)', color: 'var(--accent-green)' }}>₹{o.total}</td>
+                  <td><span className={`badge ${o.paymentStatus === 'Paid' ? 'badge-green' : 'badge-orange'}`} style={{ fontSize: 'calc(16px + 0.5vw)' }}>{o.paymentMethod} • {o.paymentStatus}</span></td>
+                  <td><span className={`badge ${statusColors[o.status]}`} style={{ fontSize: 'calc(16px + 0.5vw)' }}>{o.status.replace('_', ' ').toUpperCase()}</span></td>
+                  <td style={{ fontSize: 'calc(17px + 0.5vw)' }}>{o.driverName || '—'}</td>
                   <td>
                     <div style={{ display: 'flex', gap: 4 }}>
                       {o.status === 'pending' && <button className="btn btn-primary btn-sm" onClick={() => askConfirm('‍ Start Preparing?', `Move order #${o.id} (${o.customerName}) to Preparing status?`, '#3b82f6', () => { updateOrderStatus(o.id, 'preparing'); showToast(`#${o.id} → Preparing`); })}>‍</button>}
@@ -94,51 +94,51 @@ export default function AdminOrders() {
               {/* Row 1: Order ID + Status */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                  <div style={{ fontWeight: 900, fontSize: 18, color: 'var(--text-primary)' }}>#{o.id}</div>
-                  <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>{new Date(o.orderTime).toLocaleString()}</div>
+                  <div style={{ fontWeight: 900, fontSize: 'calc(22px + 0.5vw)', color: 'var(--text-primary)' }}>#{o.id}</div>
+                  <div style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)', marginTop: 2 }}>{new Date(o.orderTime).toLocaleString()}</div>
                 </div>
-                <span className={`badge ${statusColors[o.status]}`} style={{ fontSize: 12, padding: '6px 12px', fontWeight: 800 }}>
+                <span className={`badge ${statusColors[o.status]}`} style={{ fontSize: 'calc(16px + 0.5vw)', padding: '6px 12px', fontWeight: 800 }}>
                   {o.status.replace('_', ' ').toUpperCase()}
                 </span>
               </div>
 
               {/* Row 2: Customer + Price */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-primary)' }}>
+                <div style={{ fontSize: 'calc(20px + 0.5vw)', fontWeight: 700, color: 'var(--text-primary)' }}>
                    {o.customerName}
                 </div>
-                <div style={{ fontWeight: 900, fontSize: 20, color: '#22c55e' }}>₹{o.total}</div>
+                <div style={{ fontWeight: 900, fontSize: 'calc(24px + 0.5vw)', color: '#22c55e' }}>₹{o.total}</div>
               </div>
 
               {/* Row 3: Items */}
-              <div style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.6, background: 'var(--bg-tertiary)', borderRadius: 10, padding: '10px 12px' }}>
+              <div style={{ fontSize: 'calc(18px + 0.5vw)', color: 'var(--text-secondary)', lineHeight: 1.6, background: 'var(--bg-tertiary)', borderRadius: 10, padding: '10px 12px' }}>
                 ️ {o.items.map(i => `${i.name} ×${i.qty}`).join(' • ')}
               </div>
 
               {/* Row 4: Payment + Driver */}
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
-                <span className={`badge ${o.paymentStatus === 'Paid' ? 'badge-green' : 'badge-orange'}`} style={{ fontSize: 12, padding: '5px 10px' }}>
+                <span className={`badge ${o.paymentStatus === 'Paid' ? 'badge-green' : 'badge-orange'}`} style={{ fontSize: 'calc(16px + 0.5vw)', padding: '5px 10px' }}>
                   {o.paymentMethod} • {o.paymentStatus}
                 </span>
-                {o.driverName && <span style={{ fontSize: 13, color: 'var(--text-muted)', fontWeight: 600 }}> {o.driverName}</span>}
+                {o.driverName && <span style={{ fontSize: 'calc(17px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 600 }}> {o.driverName}</span>}
               </div>
 
               {/* Row 5: Action Buttons */}
               {!['delivered', 'cancelled'].includes(o.status) && (
                 <div style={{ display: 'flex', gap: 8 }}>
                   {o.status === 'pending' && (
-                    <button className="btn btn-primary btn-sm" style={{ flex: 1, fontSize: 14, padding: '10px', fontWeight: 700 }}
+                    <button className="btn btn-primary btn-sm" style={{ flex: 1, fontSize: 'calc(18px + 0.5vw)', padding: '10px', fontWeight: 700 }}
                       onClick={() => askConfirm('‍ Start Preparing?', `Move order #${o.id} to Preparing?`, '#3b82f6', () => { updateOrderStatus(o.id, 'preparing'); showToast(`#${o.id} → Preparing`); })}>
                       ‍ Prepare
                     </button>
                   )}
                   {o.status === 'preparing' && (
-                    <button className="btn btn-success btn-sm" style={{ flex: 1, fontSize: 14, padding: '10px', fontWeight: 700 }}
+                    <button className="btn btn-success btn-sm" style={{ flex: 1, fontSize: 'calc(18px + 0.5vw)', padding: '10px', fontWeight: 700 }}
                       onClick={() => askConfirm(' Mark Ready?', `Mark #${o.id} as Ready?`, '#22c55e', () => { updateOrderStatus(o.id, 'ready'); showToast(`#${o.id} → Ready`); })}>
                        Ready
                     </button>
                   )}
-                  <button className="btn btn-outline btn-sm" style={{ fontSize: 14, padding: '10px 16px', color: '#ef4444', borderColor: 'rgba(239,68,68,0.3)', fontWeight: 700 }}
+                  <button className="btn btn-outline btn-sm" style={{ fontSize: 'calc(18px + 0.5vw)', padding: '10px 16px', color: '#ef4444', borderColor: 'rgba(239,68,68,0.3)', fontWeight: 700 }}
                     onClick={() => askConfirm(' Cancel Order?', `Cancel order #${o.id}? This cannot be undone.`, '#ef4444', () => { cancelOrder(o.id, 'Admin cancelled'); showToast(`#${o.id} cancelled`, 'warning'); })}>
                      Cancel
                   </button>
@@ -149,8 +149,8 @@ export default function AdminOrders() {
         </div>
 
         {filtered.length === 0 && (
-          <div style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)', fontSize: 15 }}>
-            <div style={{ fontSize: 40, marginBottom: 12 }}></div>
+          <div style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)', fontSize: 'calc(19px + 0.5vw)' }}>
+            <div style={{ fontSize: 'calc(44px + 0.5vw)', marginBottom: 12 }}></div>
             No orders found
           </div>
         )}

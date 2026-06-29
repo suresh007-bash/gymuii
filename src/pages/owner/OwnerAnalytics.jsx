@@ -27,9 +27,9 @@ export default function OwnerAnalytics() {
           {['Weight Loss', 'Muscle Gain', 'Maintenance'].map(goal => {
             const count = members.filter(m => m.goal === goal).length;
             return (<div key={goal} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-              <span style={{ fontSize: 12, minWidth: 100 }}>{goal}</span>
+              <span style={{ fontSize: 'calc(16px + 0.5vw)', minWidth: 100 }}>{goal}</span>
               <div style={{ flex: 1, height: 8, background: 'var(--bg-tertiary)', borderRadius: 4, overflow: 'hidden' }}><div style={{ width: `${members.length ? (count / members.length) * 100 : 0}%`, height: '100%', background: goal === 'Weight Loss' ? '#f97316' : goal === 'Muscle Gain' ? '#22c55e' : '#3b82f6', borderRadius: 4 }} /></div>
-              <span style={{ fontWeight: 800, fontSize: 14 }}>{count}</span>
+              <span style={{ fontWeight: 800, fontSize: 'calc(18px + 0.5vw)' }}>{count}</span>
             </div>);
           })}
         </div>
@@ -39,8 +39,8 @@ export default function OwnerAnalytics() {
           trainers.map(t => {
             const tClients = members.filter(m => m.trainerId === t.id).length;
             return (<div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
-              <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: '#fff' }}>{t.avatar}</div>
-              <div style={{ flex: 1 }}><div style={{ fontWeight: 700, fontSize: 13 }}>{t.name}</div><div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{t.specialization}</div></div>
+              <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'calc(15px + 0.5vw)', fontWeight: 800, color: '#fff' }}>{t.avatar}</div>
+              <div style={{ flex: 1 }}><div style={{ fontWeight: 700, fontSize: 'calc(17px + 0.5vw)' }}>{t.name}</div><div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)' }}>{t.specialization}</div></div>
               <span className="badge badge-green">{tClients} clients</span>
             </div>);
           })}

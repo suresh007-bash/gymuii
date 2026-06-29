@@ -18,9 +18,9 @@ export default function DeliveryDashboard() {
   return (
     <DashboardLayout title="Dashboard">
       <div style={{ borderRadius: 20, overflow: 'hidden', marginBottom: 20, background: `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url(${deliveryDashboard}) center/cover`, padding: '48px 40px', color: '#fff' }}>
-        <div style={{ fontSize: 11, fontWeight: 800, background: '#8b5cf6', display: 'inline-block', padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}> DELIVERY PARTNER</div>
+        <div style={{ fontSize: 'calc(15px + 0.5vw)', fontWeight: 800, background: '#8b5cf6', display: 'inline-block', padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}> DELIVERY PARTNER</div>
         <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 900, lineHeight: 1.15, marginBottom: 12 }}>Welcome, {user?.name?.split(' ')[0]}!</h1>
-        <p style={{ fontSize: 14, opacity: 0.85 }}>{user?.vehicleType} •  {user?.rating || '4.8'} rating</p>
+        <p style={{ fontSize: 'calc(18px + 0.5vw)', opacity: 0.85 }}>{user?.vehicleType} •  {user?.rating || '4.8'} rating</p>
       </div>
 
       {/* Stats */}
@@ -42,18 +42,18 @@ export default function DeliveryDashboard() {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 16, marginBottom: 20 }}>
         <div className="card" style={{ borderLeft: '4px solid #f97316' }}>
-          <h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}> Pending Requests</h4>
-          <p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>
+          <h4 style={{ fontWeight: 800, fontSize: 'calc(18px + 0.5vw)', marginBottom: 6 }}> Pending Requests</h4>
+          <p style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>
             You have {pending.length} delivery request{pending.length !== 1 ? 's' : ''} waiting for your acceptance.
           </p>
-          <Link to="/delivery/my-deliveries" style={{ fontSize: 11, color: 'var(--accent-orange)', fontWeight: 700 }}>Accept/Reject →</Link>
+          <Link to="/delivery/my-deliveries" style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--accent-orange)', fontWeight: 700 }}>Accept/Reject →</Link>
         </div>
         <div className="card" style={{ borderLeft: '4px solid #22c55e' }}>
-          <h4 style={{ fontWeight: 800, fontSize: 14, marginBottom: 6 }}> Earnings & History</h4>
-          <p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>
+          <h4 style={{ fontWeight: 800, fontSize: 'calc(18px + 0.5vw)', marginBottom: 6 }}> Earnings & History</h4>
+          <p style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 6 }}>
             ₹{earnings} earned from {delivered.length} deliveries. View your full history.
           </p>
-          <Link to="/delivery/history" style={{ fontSize: 11, color: 'var(--accent-green)', fontWeight: 700 }}>View History →</Link>
+          <Link to="/delivery/history" style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--accent-green)', fontWeight: 700 }}>View History →</Link>
         </div>
       </div>
 
@@ -64,13 +64,13 @@ export default function DeliveryDashboard() {
         <div className="card" style={{ marginTop: 20 }}>
           <div className="card-header">
             <h3 className="card-title"> Pending Requests</h3>
-            <Link to="/delivery/my-deliveries" style={{ color: 'var(--accent-orange)', fontSize: 13, fontWeight: 700 }}>View All →</Link>
+            <Link to="/delivery/my-deliveries" style={{ color: 'var(--accent-orange)', fontSize: 'calc(17px + 0.5vw)', fontWeight: 700 }}>View All →</Link>
           </div>
           {pending.slice(0, 3).map(o => (
             <div key={o.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
               <div>
                 <span style={{ fontWeight: 700 }}>#{o.id}</span>
-                <span style={{ marginLeft: 8, fontSize: 12, color: 'var(--text-muted)' }}>{o.customerName} • {o.customerAddress}</span>
+                <span style={{ marginLeft: 8, fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)' }}>{o.customerName} • {o.customerAddress}</span>
               </div>
               <div style={{ display: 'flex', gap: 6 }}>
                 <span style={{ fontWeight: 700, color: 'var(--accent-green)' }}>₹{o.total}</span>
@@ -86,13 +86,13 @@ export default function DeliveryDashboard() {
         <div className="card" style={{ marginTop: 16 }}>
           <div className="card-header">
             <h3 className="card-title"> Active Deliveries</h3>
-            <Link to="/delivery/my-deliveries" style={{ color: 'var(--accent-purple)', fontSize: 13, fontWeight: 700 }}>View All →</Link>
+            <Link to="/delivery/my-deliveries" style={{ color: 'var(--accent-purple)', fontSize: 'calc(17px + 0.5vw)', fontWeight: 700 }}>View All →</Link>
           </div>
           {active.map(o => (
             <div key={o.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
               <div>
                 <span style={{ fontWeight: 700 }}>#{o.id}</span>
-                <span style={{ marginLeft: 8, fontSize: 12, color: 'var(--text-muted)' }}>{o.customerName} •  {o.customerAddress}</span>
+                <span style={{ marginLeft: 8, fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)' }}>{o.customerName} •  {o.customerAddress}</span>
               </div>
               <span className="badge badge-purple">IN TRANSIT</span>
             </div>

@@ -98,13 +98,13 @@ export default function DeliveryHistory() {
       {bestDay && (
         <div style={{ padding: '14px 20px', marginBottom: 16, background: 'linear-gradient(135deg, rgba(249,115,22,0.08), rgba(234,179,8,0.08))', borderRadius: 14, border: '1px solid rgba(249,115,22,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: 22 }}></span>
+            <span style={{ fontSize: 'calc(26px + 0.5vw)' }}></span>
             <div>
-              <div style={{ fontWeight: 800, fontSize: 13, fontFamily: 'Outfit' }}>Best Day — {formatDate(bestDay.date)}</div>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{bestDay.deliveries} deliveries • {getHours(bestDay.deliveries)} active</div>
+              <div style={{ fontWeight: 800, fontSize: 'calc(17px + 0.5vw)', fontFamily: 'Outfit' }}>Best Day — {formatDate(bestDay.date)}</div>
+              <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)' }}>{bestDay.deliveries} deliveries • {getHours(bestDay.deliveries)} active</div>
             </div>
           </div>
-          <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 18, color: '#22c55e' }}>₹{bestDay.earnings}</div>
+          <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'calc(22px + 0.5vw)', color: '#22c55e' }}>₹{bestDay.earnings}</div>
         </div>
       )}
 
@@ -134,23 +134,23 @@ export default function DeliveryHistory() {
                 return (
                   <tr key={d.date}>
                     <td>
-                      <div style={{ fontWeight: 700, fontSize: 13 }}>{formatDate(d.date)}</div>
-                      <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>{d.date}</div>
+                      <div style={{ fontWeight: 700, fontSize: 'calc(17px + 0.5vw)' }}>{formatDate(d.date)}</div>
+                      <div style={{ fontSize: 'calc(14px + 0.5vw)', color: 'var(--text-muted)' }}>{d.date}</div>
                     </td>
                     <td>
-                      <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 16, color: 'var(--text-primary)' }}>{d.deliveries}</span>
-                      <span style={{ fontSize: 11, color: 'var(--text-muted)', marginLeft: 4 }}>orders</span>
+                      <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'calc(20px + 0.5vw)', color: 'var(--text-primary)' }}>{d.deliveries}</span>
+                      <span style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', marginLeft: 4 }}>orders</span>
                     </td>
-                    <td style={{ fontWeight: 700, fontSize: 13 }}>⏱ {getHours(d.deliveries)}</td>
-                    <td style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 15, color: '#22c55e' }}>₹{d.earnings}</td>
+                    <td style={{ fontWeight: 700, fontSize: 'calc(17px + 0.5vw)' }}>⏱ {getHours(d.deliveries)}</td>
+                    <td style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'calc(19px + 0.5vw)', color: '#22c55e' }}>₹{d.earnings}</td>
                     <td>
                       {d.codCollected > 0 ? (
-                        <span style={{ fontWeight: 700, fontSize: 13, color: '#f97316' }}>₹{d.codCollected}</span>
+                        <span style={{ fontWeight: 700, fontSize: 'calc(17px + 0.5vw)', color: '#f97316' }}>₹{d.codCollected}</span>
                       ) : (
-                        <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>—</span>
+                        <span style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)' }}>—</span>
                       )}
                     </td>
-                    <td><span style={{ fontSize: 11, fontWeight: 700, color: perf.color }}>{perf.label}</span></td>
+                    <td><span style={{ fontSize: 'calc(15px + 0.5vw)', fontWeight: 700, color: perf.color }}>{perf.label}</span></td>
                   </tr>
                 );
               })}
@@ -164,24 +164,24 @@ export default function DeliveryHistory() {
         <div className="card-header"><h3 className="card-title"> Earnings Summary</h3></div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: 12 }}>
           <div style={{ padding: 16, background: 'rgba(34,197,94,0.06)', borderRadius: 12, textAlign: 'center' }}>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700 }}>Delivery Fees</div>
-            <div style={{ fontFamily: 'Outfit', fontSize: 24, fontWeight: 900, color: '#22c55e' }}>₹{totalEarnings}</div>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>₹{RATE_PER_DELIVERY} × {totalDeliveries}</div>
+            <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 700 }}>Delivery Fees</div>
+            <div style={{ fontFamily: 'Outfit', fontSize: 'calc(28px + 0.5vw)', fontWeight: 900, color: '#22c55e' }}>₹{totalEarnings}</div>
+            <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)' }}>₹{RATE_PER_DELIVERY} × {totalDeliveries}</div>
           </div>
           <div style={{ padding: 16, background: 'rgba(249,115,22,0.06)', borderRadius: 12, textAlign: 'center' }}>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700 }}>COD Collected</div>
-            <div style={{ fontFamily: 'Outfit', fontSize: 24, fontWeight: 900, color: '#f97316' }}>₹{totalCOD}</div>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>To deposit to kitchen</div>
+            <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 700 }}>COD Collected</div>
+            <div style={{ fontFamily: 'Outfit', fontSize: 'calc(28px + 0.5vw)', fontWeight: 900, color: '#f97316' }}>₹{totalCOD}</div>
+            <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)' }}>To deposit to kitchen</div>
           </div>
           <div style={{ padding: 16, background: 'rgba(59,130,246,0.06)', borderRadius: 12, textAlign: 'center' }}>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700 }}>Working Days</div>
-            <div style={{ fontFamily: 'Outfit', fontSize: 24, fontWeight: 900, color: '#3b82f6' }}>{totalDays}</div>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{totalHours} hours total</div>
+            <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 700 }}>Working Days</div>
+            <div style={{ fontFamily: 'Outfit', fontSize: 'calc(28px + 0.5vw)', fontWeight: 900, color: '#3b82f6' }}>{totalDays}</div>
+            <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)' }}>{totalHours} hours total</div>
           </div>
           <div style={{ padding: 16, background: 'rgba(139,92,246,0.06)', borderRadius: 12, textAlign: 'center' }}>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700 }}>Net Payout</div>
-            <div style={{ fontFamily: 'Outfit', fontSize: 24, fontWeight: 900, color: '#8b5cf6' }}>₹{totalEarnings}</div>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Your total earnings</div>
+            <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 700 }}>Net Payout</div>
+            <div style={{ fontFamily: 'Outfit', fontSize: 'calc(28px + 0.5vw)', fontWeight: 900, color: '#8b5cf6' }}>₹{totalEarnings}</div>
+            <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)' }}>Your total earnings</div>
           </div>
         </div>
       </div>

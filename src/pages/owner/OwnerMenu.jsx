@@ -49,10 +49,10 @@ export default function OwnerMenu() {
             <img src={item.image} alt={item.name} style={{ width: '100%', height: 140, objectFit: 'cover' }} />
             <div style={{ padding: 14 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: 4 }}>
-                <div style={{ fontWeight: 800, fontSize: 14 }}>{item.name}</div>
+                <div style={{ fontWeight: 800, fontSize: 'calc(18px + 0.5vw)' }}>{item.name}</div>
                 <span style={{ fontFamily: 'Outfit', fontWeight: 900, color: 'var(--accent-green)' }}>₹{item.price}</span>
               </div>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 8 }}>
+              <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 8 }}>
                 <Flame size={12} style={{marginRight:2}} /> {item.calories} kcal • <Beef size={12} style={{marginRight:2}} /> {item.protein}g • {item.category}
               </div>
               <button className="btn btn-primary btn-sm" style={{ width: '100%' }} onClick={() => addToCart(item)}><ShoppingCart size={14} style={{marginRight:4}} /> Add to Cart</button>

@@ -76,8 +76,8 @@ export default function MyOwner() {
   };
 
   const cardStyle = { background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderRadius: 16, padding: 20 };
-  const labelStyle = { fontSize: 11, color: 'var(--text-muted)', fontWeight: 600, marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px' };
-  const valueStyle = { fontSize: 14, fontWeight: 700, color: 'var(--text-primary)' };
+  const labelStyle = { fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 600, marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px' };
+  const valueStyle = { fontSize: 'calc(18px + 0.5vw)', fontWeight: 700, color: 'var(--text-primary)' };
 
   // ═══ NO GYM — BROWSE & REQUEST VIEW ═══
   if (!user?.gymId) {
@@ -92,7 +92,7 @@ export default function MyOwner() {
           {/* Back */}
           <button onClick={() => { setView('browse'); setSelectedGym(null); setImageIndex(0); }} style={{
             background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-primary)',
-            fontSize: 14, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6, marginBottom: 16, padding: 0,
+            fontSize: 'calc(18px + 0.5vw)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6, marginBottom: 16, padding: 0,
           }}>
             ← Back to Gyms
           </button>
@@ -109,12 +109,12 @@ export default function MyOwner() {
                   <button onClick={() => setImageIndex(i => (i - 1 + selectedGym.images.length) % selectedGym.images.length)} style={{
                     position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)',
                     width: 36, height: 36, borderRadius: '50%', border: 'none', cursor: 'pointer',
-                    background: 'rgba(0,0,0,0.5)', color: '#fff', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: 'rgba(0,0,0,0.5)', color: '#fff', fontSize: 'calc(20px + 0.5vw)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>‹</button>
                   <button onClick={() => setImageIndex(i => (i + 1) % selectedGym.images.length)} style={{
                     position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)',
                     width: 36, height: 36, borderRadius: '50%', border: 'none', cursor: 'pointer',
-                    background: 'rgba(0,0,0,0.5)', color: '#fff', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: 'rgba(0,0,0,0.5)', color: '#fff', fontSize: 'calc(20px + 0.5vw)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>›</button>
                 </>
               )}
@@ -129,8 +129,8 @@ export default function MyOwner() {
               </div>
               {/* Gym Name Overlay */}
               <div style={{ position: 'absolute', bottom: 20, left: 20 }}>
-                <h2 style={{ color: '#fff', fontFamily: 'Outfit', fontWeight: 900, fontSize: 24, margin: 0 }}>{selectedGym.name}</h2>
-                <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 13, marginTop: 4 }}><Icon icon={MapPin} size={13} style={{marginRight:4}} /> {selectedGym.location}</div>
+                <h2 style={{ color: '#fff', fontFamily: 'Outfit', fontWeight: 900, fontSize: 'calc(28px + 0.5vw)', margin: 0 }}>{selectedGym.name}</h2>
+                <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 'calc(17px + 0.5vw)', marginTop: 4 }}><Icon icon={MapPin} size={13} style={{marginRight:4}} /> {selectedGym.location}</div>
               </div>
             </div>
           )}
@@ -138,39 +138,39 @@ export default function MyOwner() {
           {/* Stats Row */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: 12, marginBottom: 20 }}>
             <div className="card" style={{ textAlign: 'center', padding: 14 }}>
-              <div style={{ fontSize: 22, fontWeight: 900, color: '#f97316' }}><Icon icon={Star} size={20} color="#f97316" style={{marginRight:4}} /> {selectedGym.rating}</div>
-              <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 600 }}>Rating</div>
+              <div style={{ fontSize: 'calc(26px + 0.5vw)', fontWeight: 900, color: '#f97316' }}><Icon icon={Star} size={20} color="#f97316" style={{marginRight:4}} /> {selectedGym.rating}</div>
+              <div style={{ fontSize: 'calc(14px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 600 }}>Rating</div>
             </div>
             <div className="card" style={{ textAlign: 'center', padding: 14 }}>
-              <div style={{ fontSize: 22, fontWeight: 900, color: '#3b82f6' }}><Icon icon={Users} size={20} color="#3b82f6" style={{marginRight:4}} /> {gymClientsForGym.length || selectedGym.members}</div>
-              <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 600 }}>Members</div>
+              <div style={{ fontSize: 'calc(26px + 0.5vw)', fontWeight: 900, color: '#3b82f6' }}><Icon icon={Users} size={20} color="#3b82f6" style={{marginRight:4}} /> {gymClientsForGym.length || selectedGym.members}</div>
+              <div style={{ fontSize: 'calc(14px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 600 }}>Members</div>
             </div>
             <div className="card" style={{ textAlign: 'center', padding: 14 }}>
-              <div style={{ fontSize: 22, fontWeight: 900, color: '#22c55e' }}><Icon icon={Dumbbell} size={20} color="#22c55e" style={{marginRight:4}} /> {gymTrainersForGym.length || selectedGym.trainers}</div>
-              <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 600 }}>Trainers</div>
+              <div style={{ fontSize: 'calc(26px + 0.5vw)', fontWeight: 900, color: '#22c55e' }}><Icon icon={Dumbbell} size={20} color="#22c55e" style={{marginRight:4}} /> {gymTrainersForGym.length || selectedGym.trainers}</div>
+              <div style={{ fontSize: 'calc(14px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 600 }}>Trainers</div>
             </div>
             <div className="card" style={{ textAlign: 'center', padding: 14 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-primary)' }}><Icon icon={Clock} size={14} /></div>
-              <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 600, marginTop: 4 }}>{selectedGym.hours || 'N/A'}</div>
+              <div style={{ fontSize: 'calc(16px + 0.5vw)', fontWeight: 700, color: 'var(--text-primary)' }}><Icon icon={Clock} size={14} /></div>
+              <div style={{ fontSize: 'calc(14px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 600, marginTop: 4 }}>{selectedGym.hours || 'N/A'}</div>
             </div>
           </div>
 
           {/* About */}
           {selectedGym.description && (
             <div className="card" style={{ marginBottom: 20 }}>
-              <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 16, marginBottom: 10 }}><Icon icon={FileText} size={16} style={{marginRight:6}} /> About</h3>
-              <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.7 }}>{selectedGym.description}</p>
+              <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(20px + 0.5vw)', marginBottom: 10 }}><Icon icon={FileText} size={16} style={{marginRight:6}} /> About</h3>
+              <p style={{ fontSize: 'calc(17px + 0.5vw)', color: 'var(--text-secondary)', lineHeight: 1.7 }}>{selectedGym.description}</p>
             </div>
           )}
 
           {/* Amenities */}
           {selectedGym.amenities && (
             <div className="card" style={{ marginBottom: 20 }}>
-              <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 16, marginBottom: 12 }}><Icon icon={Target} size={16} style={{marginRight:6}} /> Amenities</h3>
+              <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(20px + 0.5vw)', marginBottom: 12 }}><Icon icon={Target} size={16} style={{marginRight:6}} /> Amenities</h3>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                 {selectedGym.amenities.map((a, i) => (
                   <span key={i} style={{
-                    padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 600,
+                    padding: '6px 14px', borderRadius: 20, fontSize: 'calc(16px + 0.5vw)', fontWeight: 600,
                     background: 'var(--bg-tertiary)', border: '1px solid var(--border)', color: 'var(--text-secondary)',
                   }}><Icon icon={CheckCircle2} size={12} style={{marginRight:4}} /> {a}</span>
                 ))}
@@ -181,7 +181,7 @@ export default function MyOwner() {
           {/* Current Trainers */}
           {gymTrainersForGym.length > 0 && (
             <div className="card" style={{ marginBottom: 20 }}>
-              <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 16, marginBottom: 12 }}><Icon icon={Dumbbell} size={16} style={{marginRight:6}} /> Current Trainers</h3>
+              <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(20px + 0.5vw)', marginBottom: 12 }}><Icon icon={Dumbbell} size={16} style={{marginRight:6}} /> Current Trainers</h3>
               <div style={{ display: 'grid', gap: 10 }}>
                 {gymTrainersForGym.map(t => (
                   <div key={t.id} style={{
@@ -192,11 +192,11 @@ export default function MyOwner() {
                       width: 42, height: 42, borderRadius: '50%',
                       background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 14, fontWeight: 800, color: '#fff', flexShrink: 0,
+                      fontSize: 'calc(18px + 0.5vw)', fontWeight: 800, color: '#fff', flexShrink: 0,
                     }}>{t.avatar}</div>
                     <div>
-                      <div style={{ fontWeight: 700, fontSize: 14 }}>{t.name}</div>
-                      <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{t.specialization || 'Trainer'}</div>
+                      <div style={{ fontWeight: 700, fontSize: 'calc(18px + 0.5vw)' }}>{t.name}</div>
+                      <div style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)' }}>{t.specialization || 'Trainer'}</div>
                     </div>
                   </div>
                 ))}
@@ -210,7 +210,7 @@ export default function MyOwner() {
               <div style={{
                 width: '100%', padding: '14px 20px', borderRadius: 14, textAlign: 'center',
                 background: 'rgba(251,191,36,0.1)', border: '1px solid rgba(251,191,36,0.3)',
-                color: '#f59e0b', fontWeight: 700, fontSize: 14,
+                color: '#f59e0b', fontWeight: 700, fontSize: 'calc(18px + 0.5vw)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
               }}>
                 <span style={{ animation: 'pulse 2s infinite' }}></span> Join Request Pending — Awaiting Owner Approval
@@ -219,7 +219,7 @@ export default function MyOwner() {
               <div style={{
                 width: '100%', padding: '14px 20px', borderRadius: 14, textAlign: 'center',
                 background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)',
-                color: '#22c55e', fontWeight: 700, fontSize: 14,
+                color: '#22c55e', fontWeight: 700, fontSize: 'calc(18px + 0.5vw)',
               }}>
                  Request Accepted — Welcome!
               </div>
@@ -229,7 +229,7 @@ export default function MyOwner() {
                 style={{
                   width: '100%', padding: '14px 20px', borderRadius: 14, border: 'none',
                   background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                  color: '#fff', fontWeight: 800, fontSize: 15, cursor: 'pointer',
+                  color: '#fff', fontWeight: 800, fontSize: 'calc(19px + 0.5vw)', cursor: 'pointer',
                   fontFamily: 'Outfit', transition: 'all 0.3s ease',
                   boxShadow: '0 4px 18px rgba(34,197,94,0.3)',
                 }}
@@ -254,10 +254,10 @@ export default function MyOwner() {
           borderColor: 'rgba(34,197,94,0.2)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <div style={{ fontSize: 36 }}><Icon icon={Building2} size={36} color="#22c55e" /></div>
+            <div style={{ fontSize: 'calc(40px + 0.5vw)' }}><Icon icon={Building2} size={36} color="#22c55e" /></div>
             <div>
-              <h3 style={{ fontWeight: 800, fontSize: 18, marginBottom: 4 }}>Browse Available Gyms</h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>
+              <h3 style={{ fontWeight: 800, fontSize: 'calc(22px + 0.5vw)', marginBottom: 4 }}>Browse Available Gyms</h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: 'calc(17px + 0.5vw)' }}>
                 You're not currently assigned to a gym. Browse available gyms below and send a join request to the gym owner.
               </p>
             </div>
@@ -269,7 +269,7 @@ export default function MyOwner() {
           <div style={{
             padding: '12px 16px', borderRadius: 12, marginBottom: 16,
             background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)',
-            fontSize: 13, color: '#f59e0b', fontWeight: 600,
+            fontSize: 'calc(17px + 0.5vw)', color: '#f59e0b', fontWeight: 600,
             display: 'flex', alignItems: 'center', gap: 8,
           }}>
              You have {joinRequests.filter(r => r.trainerId === user?.id && r.status === 'pending').length} pending join request(s)
@@ -292,26 +292,26 @@ export default function MyOwner() {
                 {gymItem.images && gymItem.images[0] && (
                   <div style={{ height: 160, overflow: 'hidden', position: 'relative' }}>
                     <img src={gymItem.images[0]} alt={gymItem.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    <div style={{ position: 'absolute', top: 10, right: 10, padding: '4px 10px', borderRadius: 8, background: 'rgba(0,0,0,0.6)', color: '#fbbf24', fontSize: 12, fontWeight: 700 }}>
+                    <div style={{ position: 'absolute', top: 10, right: 10, padding: '4px 10px', borderRadius: 8, background: 'rgba(0,0,0,0.6)', color: '#fbbf24', fontSize: 'calc(16px + 0.5vw)', fontWeight: 700 }}>
                        {gymItem.rating}
                     </div>
                     {reqStatus === 'pending' && (
-                      <div style={{ position: 'absolute', top: 10, left: 10, padding: '4px 10px', borderRadius: 8, background: 'rgba(251,191,36,0.9)', color: '#fff', fontSize: 10, fontWeight: 700 }}>
+                      <div style={{ position: 'absolute', top: 10, left: 10, padding: '4px 10px', borderRadius: 8, background: 'rgba(251,191,36,0.9)', color: '#fff', fontSize: 'calc(14px + 0.5vw)', fontWeight: 700 }}>
                          PENDING
                       </div>
                     )}
                   </div>
                 )}
                 <div style={{ padding: 16 }}>
-                  <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 17, marginBottom: 6 }}>{gymItem.name}</h4>
-                  <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(21px + 0.5vw)', marginBottom: 6 }}>{gymItem.name}</h4>
+                  <div style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 4 }}>
                     <Icon icon={MapPin} size={12} style={{marginRight:4}} /> {gymItem.location}
                   </div>
                   <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
-                    <div style={{ padding: '6px 12px', borderRadius: 8, background: 'var(--bg-tertiary)', fontSize: 12, fontWeight: 600 }}>
+                    <div style={{ padding: '6px 12px', borderRadius: 8, background: 'var(--bg-tertiary)', fontSize: 'calc(16px + 0.5vw)', fontWeight: 600 }}>
                       <Icon icon={Users} size={12} style={{marginRight:4}} /> {gymItem.members} Members
                     </div>
-                    <div style={{ padding: '6px 12px', borderRadius: 8, background: 'var(--bg-tertiary)', fontSize: 12, fontWeight: 600 }}>
+                    <div style={{ padding: '6px 12px', borderRadius: 8, background: 'var(--bg-tertiary)', fontSize: 'calc(16px + 0.5vw)', fontWeight: 600 }}>
                       <Icon icon={Dumbbell} size={12} style={{marginRight:4}} /> {gymItem.trainers} Trainers
                     </div>
                   </div>
@@ -320,7 +320,7 @@ export default function MyOwner() {
                     background: reqStatus === 'pending' ? 'rgba(251,191,36,0.1)' : 'linear-gradient(135deg, #22c55e, #16a34a)',
                     color: reqStatus === 'pending' ? '#f59e0b' : '#fff',
                     border: reqStatus === 'pending' ? '1px solid rgba(251,191,36,0.3)' : 'none',
-                    fontWeight: 700, fontSize: 13,
+                    fontWeight: 700, fontSize: 'calc(17px + 0.5vw)',
                   }}>
                     {reqStatus === 'pending' ? ' Request Pending' : <><Icon icon={Eye} size={14} style={{marginRight:4}} /> View Details & Join</>}
                   </div>
@@ -340,9 +340,9 @@ export default function MyOwner() {
       {confirm && (
         <div className="modal-overlay" onClick={() => setConfirm(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 420, textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 12 }}>️</div>
-            <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
-            <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
+            <div style={{ fontSize: 'calc(52px + 0.5vw)', marginBottom: 12 }}>️</div>
+            <h3 style={{ fontSize: 'calc(22px + 0.5vw)', fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
+            <p style={{ fontSize: 'calc(17px + 0.5vw)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
               <button className="btn btn-outline" onClick={() => setConfirm(null)}>Cancel</button>
               <button className="btn" style={{ background: confirm.color, color: '#fff', border: 'none', padding: '10px 24px', borderRadius: 10, fontWeight: 700, cursor: 'pointer' }} onClick={confirm.action}>Yes, Leave Gym</button>
@@ -358,26 +358,26 @@ export default function MyOwner() {
             width: 60, height: 60, borderRadius: 16,
             background: 'linear-gradient(135deg, #22c55e, #4ade80)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 28
+            fontSize: 'calc(32px + 0.5vw)'
           }}><Icon icon={Dumbbell} size={28} color="#fff" /></div>
           <div>
-            <h2 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 22, margin: 0 }}>{gym?.name || 'My Gym'}</h2>
-            <p style={{ color: 'var(--text-muted)', fontSize: 12, margin: 0 }}>Your current gym</p>
+            <h2 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'calc(26px + 0.5vw)', margin: 0 }}>{gym?.name || 'My Gym'}</h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: 'calc(16px + 0.5vw)', margin: 0 }}>Your current gym</p>
           </div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12 }}>
           <div style={{ background: 'var(--bg-secondary)', borderRadius: 12, padding: 14, textAlign: 'center', border: '1px solid var(--border)' }}>
-            <div style={{ fontSize: 24, fontWeight: 900, color: '#22c55e' }}>{gymTrainers.length}</div>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 600 }}>Trainers</div>
+            <div style={{ fontSize: 'calc(28px + 0.5vw)', fontWeight: 900, color: '#22c55e' }}>{gymTrainers.length}</div>
+            <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 600 }}>Trainers</div>
           </div>
           <div style={{ background: 'var(--bg-secondary)', borderRadius: 12, padding: 14, textAlign: 'center', border: '1px solid var(--border)' }}>
-            <div style={{ fontSize: 24, fontWeight: 900, color: '#3b82f6' }}>{gymClients.length}</div>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 600 }}>Members</div>
+            <div style={{ fontSize: 'calc(28px + 0.5vw)', fontWeight: 900, color: '#3b82f6' }}>{gymClients.length}</div>
+            <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 600 }}>Members</div>
           </div>
           {gym?.gst && (
             <div style={{ background: 'var(--bg-secondary)', borderRadius: 12, padding: 14, textAlign: 'center', border: '1px solid var(--border)' }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-primary)' }}>{gym.gst}</div>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 600 }}>GST No.</div>
+              <div style={{ fontSize: 'calc(16px + 0.5vw)', fontWeight: 700, color: 'var(--text-primary)' }}>{gym.gst}</div>
+              <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 600 }}>GST No.</div>
             </div>
           )}
         </div>
@@ -386,18 +386,18 @@ export default function MyOwner() {
       {/* Owner Profile Card */}
       {owner && (
         <div style={{ ...cardStyle, marginBottom: 20 }}>
-          <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 16, marginBottom: 16 }}><Icon icon={Crown} size={16} style={{marginRight:6}} /> Gym Owner</h3>
+          <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(20px + 0.5vw)', marginBottom: 16 }}><Icon icon={Crown} size={16} style={{marginRight:6}} /> Gym Owner</h3>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
             <div style={{
               width: 64, height: 64, borderRadius: '50%',
               background: 'linear-gradient(135deg, #eab308, #f59e0b)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 22, fontWeight: 900, color: '#fff',
+              fontSize: 'calc(26px + 0.5vw)', fontWeight: 900, color: '#fff',
               boxShadow: '0 4px 16px rgba(234,179,8,0.3)'
             }}>{owner.avatar}</div>
             <div>
-              <div style={{ fontWeight: 800, fontSize: 18, fontFamily: 'Outfit' }}>{owner.name}</div>
-              <span className="badge badge-orange" style={{ fontSize: 10 }}>GYM OWNER</span>
+              <div style={{ fontWeight: 800, fontSize: 'calc(22px + 0.5vw)', fontFamily: 'Outfit' }}>{owner.name}</div>
+              <span className="badge badge-orange" style={{ fontSize: 'calc(14px + 0.5vw)' }}>GYM OWNER</span>
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 16 }}>
@@ -423,8 +423,8 @@ export default function MyOwner() {
 
       {/* Leave Gym Section */}
       <div style={{ ...cardStyle, border: '1px solid rgba(239,68,68,0.2)', background: 'rgba(239,68,68,0.02)' }}>
-        <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 16, marginBottom: 8, color: '#ef4444' }}><Icon icon={LogOut} size={16} style={{marginRight:6}} /> Leave Gym</h3>
-        <p style={{ color: 'var(--text-muted)', fontSize: 13, marginBottom: 16, lineHeight: 1.6 }}>
+        <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'calc(20px + 0.5vw)', marginBottom: 8, color: '#ef4444' }}><Icon icon={LogOut} size={16} style={{marginRight:6}} /> Leave Gym</h3>
+        <p style={{ color: 'var(--text-muted)', fontSize: 'calc(17px + 0.5vw)', marginBottom: 16, lineHeight: 1.6 }}>
           If you leave this gym, you will lose access to all your assigned clients, schedules, and gym-specific features. You can then browse and request to join another gym.
         </p>
         <button className="btn" style={{

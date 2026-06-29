@@ -38,7 +38,7 @@ export default function ClientFavorites() {
         <>
           {favItems.length === 0 ? (
             <div className="card" style={{ textAlign: 'center', padding: 50, color: 'var(--text-muted)' }}>
-              <div style={{ fontSize: 48, marginBottom: 12 }}>️</div>
+              <div style={{ fontSize: 'calc(52px + 0.5vw)', marginBottom: 12 }}>️</div>
               <h3 style={{ fontWeight: 700, marginBottom: 8 }}>No favorites yet</h3>
               <p>Browse the menu and tap ️ to save your favorite meals</p>
             </div>
@@ -48,13 +48,13 @@ export default function ClientFavorites() {
                 <div key={item.id} className="card" style={{ overflow: 'hidden', animation: 'fadeInUp 0.3s ease' }}>
                   <div style={{ position: 'relative' }}>
                     <img src={item.image} alt={item.name} style={{ width: '100%', height: 140, objectFit: 'cover' }} />
-                    <button onClick={() => toggle(item.id)} style={{ position: 'absolute', top: 8, right: 8, width: 32, height: 32, borderRadius: '50%', background: '#fff', border: 'none', fontSize: 16, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>️</button>
+                    <button onClick={() => toggle(item.id)} style={{ position: 'absolute', top: 8, right: 8, width: 32, height: 32, borderRadius: '50%', background: '#fff', border: 'none', fontSize: 'calc(20px + 0.5vw)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>️</button>
                   </div>
                   <div style={{ padding: 14 }}>
-                    <div style={{ fontWeight: 800, fontSize: 14, marginBottom: 4 }}>{item.name}</div>
-                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 8 }}> {item.calories} kcal •  {item.protein}g •  {item.rating}</div>
+                    <div style={{ fontWeight: 800, fontSize: 'calc(18px + 0.5vw)', marginBottom: 4 }}>{item.name}</div>
+                    <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 8 }}> {item.calories} kcal •  {item.protein}g •  {item.rating}</div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontWeight: 900, color: 'var(--accent-green)', fontSize: 16 }}>₹{item.price}</span>
+                      <span style={{ fontWeight: 900, color: 'var(--accent-green)', fontSize: 'calc(20px + 0.5vw)' }}>₹{item.price}</span>
                       <button className="btn btn-primary btn-sm" onClick={() => addToCart(item)}>+ Add to Cart</button>
                     </div>
                   </div>
@@ -71,10 +71,10 @@ export default function ClientFavorites() {
             <div key={item.id} className="card" style={{ display: 'flex', gap: 12, padding: 14, alignItems: 'center' }}>
               <img src={item.image} alt={item.name} style={{ width: 64, height: 64, borderRadius: 12, objectFit: 'cover' }} />
               <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: 700, fontSize: 13 }}>{item.name}</div>
-                <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>₹{item.price} • {item.calories}</div>
+                <div style={{ fontWeight: 700, fontSize: 'calc(17px + 0.5vw)' }}>{item.name}</div>
+                <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)' }}>₹{item.price} • {item.calories}</div>
               </div>
-              <button onClick={() => toggle(item.id)} style={{ background: 'none', border: 'none', fontSize: 18, cursor: 'pointer' }}>{favorites.includes(item.id) ? '️' : ''}</button>
+              <button onClick={() => toggle(item.id)} style={{ background: 'none', border: 'none', fontSize: 'calc(22px + 0.5vw)', cursor: 'pointer' }}>{favorites.includes(item.id) ? '️' : ''}</button>
             </div>
           ))}
         </div>

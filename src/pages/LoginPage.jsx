@@ -29,13 +29,13 @@ export default function LoginPage() {
             background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(24px)',
             borderRadius: 20, padding: 32, border: '1px solid rgba(255,255,255,0.12)',
           }}>
-            <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'linear-gradient(135deg, #f97316, #22c55e)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 22, fontWeight: 900, color: '#fff' }}>{user.avatar || '?'}</div>
-            <h2 style={{ color: '#fff', fontSize: 20, fontWeight: 800, marginBottom: 4 }}>Welcome back, {user.name?.split(' ')[0]}!</h2>
-            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, marginBottom: 24 }}>You're signed in as <span style={{ color: '#f97316', fontWeight: 700 }}>{user.role?.toUpperCase()}</span></p>
-            <button onClick={() => navigate(roleMap[user.role])} style={{ width: '100%', padding: 14, background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 12, fontSize: 15, fontWeight: 800, cursor: 'pointer', border: 'none', marginBottom: 10, boxShadow: '0 4px 20px rgba(249,115,22,0.4)' }}>
+            <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'linear-gradient(135deg, #f97316, #22c55e)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 'calc(26px + 0.5vw)', fontWeight: 900, color: '#fff' }}>{user.avatar || '?'}</div>
+            <h2 style={{ color: '#fff', fontSize: 'calc(24px + 0.5vw)', fontWeight: 800, marginBottom: 4 }}>Welcome back, {user.name?.split(' ')[0]}!</h2>
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'calc(17px + 0.5vw)', marginBottom: 24 }}>You're signed in as <span style={{ color: '#f97316', fontWeight: 700 }}>{user.role?.toUpperCase()}</span></p>
+            <button onClick={() => navigate(roleMap[user.role])} style={{ width: '100%', padding: 14, background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 12, fontSize: 'calc(19px + 0.5vw)', fontWeight: 800, cursor: 'pointer', border: 'none', marginBottom: 10, boxShadow: '0 4px 20px rgba(249,115,22,0.4)' }}>
               Continue to Dashboard →
             </button>
-            <button onClick={() => { logout(); }} style={{ width: '100%', padding: 12, background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.6)', borderRadius: 12, fontSize: 13, fontWeight: 700, cursor: 'pointer', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <button onClick={() => { logout(); }} style={{ width: '100%', padding: 12, background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.6)', borderRadius: 12, fontSize: 'calc(17px + 0.5vw)', fontWeight: 700, cursor: 'pointer', border: '1px solid rgba(255,255,255,0.1)' }}>
               Switch Account / Sign Out
             </button>
           </div>
@@ -64,7 +64,7 @@ export default function LoginPage() {
         position: 'absolute', top: 24, left: 24, zIndex: 10,
         display: 'flex', alignItems: 'center', gap: 8,
         color: 'rgba(255,255,255,0.7)', textDecoration: 'none',
-        fontSize: 14, fontWeight: 700, padding: '10px 18px',
+        fontSize: 'calc(18px + 0.5vw)', fontWeight: 700, padding: '10px 18px',
         background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)',
         borderRadius: 30, backdropFilter: 'blur(24px)', transition: 'all 0.2s',
         boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
@@ -102,13 +102,13 @@ export default function LoginPage() {
             width: 56, height: 56, borderRadius: 16, margin: '0 auto 14px',
             background: 'linear-gradient(135deg, #f97316, #22c55e)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 26, boxShadow: '0 8px 32px rgba(249,115,22,0.3)',
+            fontSize: 'calc(30px + 0.5vw)', boxShadow: '0 8px 32px rgba(249,115,22,0.3)',
             animation: 'float 3s ease-in-out infinite',
           }}>️</div>
-          <h1 style={{ fontFamily: 'Outfit', fontSize: 26, fontWeight: 900, color: '#fff', marginBottom: 4 }}>
+          <h1 style={{ fontFamily: 'Outfit', fontSize: 'calc(30px + 0.5vw)', fontWeight: 900, color: '#fff', marginBottom: 4 }}>
             <span style={{ color: '#22c55e' }}>Fit</span>Bites
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>Sign in to your account</p>
+          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'calc(17px + 0.5vw)' }}>Sign in to your account</p>
         </div>
 
         {/* Form Card - Glassmorphism */}
@@ -119,21 +119,21 @@ export default function LoginPage() {
         }}>
           <form onSubmit={handleLogin}>
             <div style={{ marginBottom: 16 }}>
-              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.6)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Email</label>
-              <input type="email" value={email} onChange={e => { setEmail(e.target.value); setError(''); }} placeholder="Enter your email" required style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 12, color: '#fff', fontSize: 14, outline: 'none', transition: 'border 0.3s' }} onFocus={e => e.target.style.borderColor = 'rgba(249,115,22,0.6)'} onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.12)'} />
+              <label style={{ display: 'block', fontSize: 'calc(15px + 0.5vw)', fontWeight: 700, color: 'rgba(255,255,255,0.6)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Email</label>
+              <input type="email" value={email} onChange={e => { setEmail(e.target.value); setError(''); }} placeholder="Enter your email" required style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 12, color: '#fff', fontSize: 'calc(18px + 0.5vw)', outline: 'none', transition: 'border 0.3s' }} onFocus={e => e.target.style.borderColor = 'rgba(249,115,22,0.6)'} onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.12)'} />
             </div>
             <div style={{ marginBottom: 20 }}>
-              <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.6)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Password</label>
-              <input type="password" value={password} onChange={e => { setPassword(e.target.value); setError(''); }} placeholder="Enter your password" required style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 12, color: '#fff', fontSize: 14, outline: 'none', transition: 'border 0.3s' }} onFocus={e => e.target.style.borderColor = 'rgba(249,115,22,0.6)'} onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.12)'} />
+              <label style={{ display: 'block', fontSize: 'calc(15px + 0.5vw)', fontWeight: 700, color: 'rgba(255,255,255,0.6)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Password</label>
+              <input type="password" value={password} onChange={e => { setPassword(e.target.value); setError(''); }} placeholder="Enter your password" required style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 12, color: '#fff', fontSize: 'calc(18px + 0.5vw)', outline: 'none', transition: 'border 0.3s' }} onFocus={e => e.target.style.borderColor = 'rgba(249,115,22,0.6)'} onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.12)'} />
             </div>
-            {error && <p style={{ color: '#fca5a5', fontSize: 13, marginBottom: 12, textAlign: 'center', background: 'rgba(239,68,68,0.15)', padding: '8px 12px', borderRadius: 10, border: '1px solid rgba(239,68,68,0.25)' }}> {error}</p>}
-            <button type="submit" style={{ width: '100%', padding: 14, background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 12, fontSize: 15, fontWeight: 800, cursor: 'pointer', border: 'none', boxShadow: '0 4px 20px rgba(249,115,22,0.4)', transition: 'all 0.3s' }}
+            {error && <p style={{ color: '#fca5a5', fontSize: 'calc(17px + 0.5vw)', marginBottom: 12, textAlign: 'center', background: 'rgba(239,68,68,0.15)', padding: '8px 12px', borderRadius: 10, border: '1px solid rgba(239,68,68,0.25)' }}> {error}</p>}
+            <button type="submit" style={{ width: '100%', padding: 14, background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 12, fontSize: 'calc(19px + 0.5vw)', fontWeight: 800, cursor: 'pointer', border: 'none', boxShadow: '0 4px 20px rgba(249,115,22,0.4)', transition: 'all 0.3s' }}
               onMouseEnter={e => { e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 8px 30px rgba(249,115,22,0.5)'; }}
               onMouseLeave={e => { e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 4px 20px rgba(249,115,22,0.4)'; }}
             >Sign In →</button>
           </form>
 
-          <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.4)', fontSize: 13, marginTop: 16 }}>Don't have an account? <Link to="/register" style={{ color: '#f97316', fontWeight: 700 }}>Register</Link></p>
+          <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.4)', fontSize: 'calc(17px + 0.5vw)', marginTop: 16 }}>Don't have an account? <Link to="/register" style={{ color: '#f97316', fontWeight: 700 }}>Register</Link></p>
         </div>
 
         {/* Compact Demo Buttons */}
@@ -141,7 +141,7 @@ export default function LoginPage() {
           {demoCredentials.map(d => (
             <button key={d.role} onClick={() => fillDemo(d)} style={{
               padding: '5px 10px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: 8, color: 'rgba(255,255,255,0.5)', fontSize: 10, fontWeight: 700, cursor: 'pointer',
+              borderRadius: 8, color: 'rgba(255,255,255,0.5)', fontSize: 'calc(14px + 0.5vw)', fontWeight: 700, cursor: 'pointer',
               display: 'flex', alignItems: 'center', gap: 4, transition: 'all 0.2s',
               backdropFilter: 'blur(10px)',
             }}

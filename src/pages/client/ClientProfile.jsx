@@ -21,15 +21,15 @@ export default function ClientProfile() {
   };
 
   const handleLogout = () => { logout(); navigate('/'); };
-  const inp = { width: '100%', padding: '10px 14px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 12, color: 'var(--text-primary)', fontSize: 14 };
+  const inp = { width: '100%', padding: '10px 14px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 12, color: 'var(--text-primary)', fontSize: 'calc(18px + 0.5vw)' };
 
   return (
     <DashboardLayout title="My Profile">
       <div style={{ maxWidth: 600, margin: '0 auto' }}>
         <div className="card" style={{ textAlign: 'center', padding: 32, marginBottom: 20 }}>
-          <div style={{ width: 72, height: 72, borderRadius: '50%', background: 'linear-gradient(135deg, #f97316, #22c55e)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, fontWeight: 900, color: '#fff', margin: '0 auto 12px' }}>{user?.avatar}</div>
+          <div style={{ width: 72, height: 72, borderRadius: '50%', background: 'linear-gradient(135deg, #f97316, #22c55e)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'calc(28px + 0.5vw)', fontWeight: 900, color: '#fff', margin: '0 auto 12px' }}>{user?.avatar}</div>
           <h2 style={{ fontFamily: 'Outfit', fontWeight: 800, marginBottom: 4 }}>{user?.name}</h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>{user?.email} • <Package size={13} style={{marginRight:3, verticalAlign:'middle'}} /> {totalOrders} orders</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: 'calc(17px + 0.5vw)' }}>{user?.email} • <Package size={13} style={{marginRight:3, verticalAlign:'middle'}} /> {totalOrders} orders</p>
         </div>
         <div className="card" style={{ padding: 24 }}>
           <h3 className="card-title" style={{ marginBottom: 16, display:'flex', alignItems:'center', gap:6 }}><Edit size={16} /> Edit Profile</h3>

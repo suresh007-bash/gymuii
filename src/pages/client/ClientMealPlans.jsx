@@ -29,12 +29,12 @@ export default function ClientMealPlans() {
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               border: '2px dashed rgba(99,102,241,0.3)',
             }}>
-              <span style={{ fontSize: 40 }}></span>
+              <span style={{ fontSize: 'calc(44px + 0.5vw)' }}></span>
             </div>
-            <h3 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 20, marginBottom: 8 }}>
+            <h3 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'calc(24px + 0.5vw)', marginBottom: 8 }}>
               Trainer Required
             </h3>
-            <p style={{ color: 'var(--text-muted)', fontSize: 14, lineHeight: 1.7, marginBottom: 24 }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: 'calc(18px + 0.5vw)', lineHeight: 1.7, marginBottom: 24 }}>
               Trainer Recommendations are only available when you have a personal trainer. 
               Join a gym and hire a trainer to unlock personalized meal plans and recommendations.
             </p>
@@ -44,7 +44,7 @@ export default function ClientMealPlans() {
               style={{
                 background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                 border: 'none', padding: '12px 32px', borderRadius: 12,
-                fontWeight: 700, fontSize: 14, cursor: 'pointer',
+                fontWeight: 700, fontSize: 'calc(18px + 0.5vw)', cursor: 'pointer',
                 boxShadow: '0 4px 14px rgba(99,102,241,0.3)',
                 transition: 'all 0.3s ease',
               }}
@@ -170,11 +170,11 @@ export default function ClientMealPlans() {
               <button className="modal-close" onClick={() => setConfirmDelete(null)}></button>
             </div>
             <div style={{ padding: '16px 0', textAlign: 'center' }}>
-              <div style={{ fontSize: 48, marginBottom: 12 }}>️</div>
-              <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: 8 }}>
+              <div style={{ fontSize: 'calc(52px + 0.5vw)', marginBottom: 12 }}>️</div>
+              <p style={{ fontSize: 'calc(18px + 0.5vw)', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: 8 }}>
                 Are you sure you want to delete <strong>"{confirmDelete.name}"</strong>?
               </p>
-              <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>
+              <p style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)' }}>
                 This action cannot be undone. The plan will be permanently removed.
               </p>
             </div>
@@ -205,7 +205,7 @@ export default function ClientMealPlans() {
               <button className="modal-close" onClick={() => { setShowOrder(null); setSelectedDates([]); }}></button>
             </div>
 
-            <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 12 }}>
+            <p style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 12 }}>
               {showOrder.schedule
                 ? 'This meal schedule has been assigned by your trainer and cannot be modified.'
                 : 'Click dates to select multiple delivery days. You can reschedule until delivery.'}
@@ -218,7 +218,7 @@ export default function ClientMealPlans() {
                 <div style={{ display: 'flex', gap: 8 }}>
                   {[['morning', ' Breakfast', '8:00 AM'], ['noon', '️ Lunch', '12:30 PM'], ['evening', ' Dinner', '7:00 PM']].map(([k, label, time]) => (
                     <button key={k} className={`btn btn-sm ${timing === k ? 'btn-primary' : 'btn-outline'}`} onClick={() => setTiming(k)} style={{ flex: 1 }}>
-                      {label}<br /><span style={{ fontSize: 10, opacity: 0.7 }}>{time}</span>
+                      {label}<br /><span style={{ fontSize: 'calc(14px + 0.5vw)', opacity: 0.7 }}>{time}</span>
                     </button>
                   ))}
                 </div>
@@ -234,18 +234,18 @@ export default function ClientMealPlans() {
                   if (!hasItems) return null;
                   return (
                     <div key={dateStr} style={{ marginBottom: 10, padding: 10, background: 'var(--bg-tertiary)', borderRadius: 10 }}>
-                      <div style={{ fontWeight: 800, fontSize: 12, borderBottom: '1px solid var(--border)', paddingBottom: 4, marginBottom: 6 }}>
+                      <div style={{ fontWeight: 800, fontSize: 'calc(16px + 0.5vw)', borderBottom: '1px solid var(--border)', paddingBottom: 4, marginBottom: 6 }}>
                          {new Date(dateStr).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })}
                       </div>
                       {slots.filter(s => s.items && s.items.length > 0).map((slot, idx) => (
-                        <div key={slot.id || idx} style={{ fontSize: 12, marginBottom: 4, paddingLeft: 6 }}>
+                        <div key={slot.id || idx} style={{ fontSize: 'calc(16px + 0.5vw)', marginBottom: 4, paddingLeft: 6 }}>
                           <span style={{ fontWeight: 700, color: 'var(--accent-orange)' }}>
                             {slot.label} ({(() => {
                               const [h, m] = slot.time.split(':').map(Number);
                               return `${h % 12 || 12}:${String(m).padStart(2, '0')} ${h >= 12 ? 'PM' : 'AM'}`;
                             })()})
                           </span>
-                          <div style={{ color: 'var(--text-muted)', fontSize: 11, paddingLeft: 8 }}>
+                          <div style={{ color: 'var(--text-muted)', fontSize: 'calc(15px + 0.5vw)', paddingLeft: 8 }}>
                             {slot.items.map(item => `${item.qty}x ${item.name}`).join(', ')}
                           </div>
                         </div>
@@ -263,7 +263,7 @@ export default function ClientMealPlans() {
               </label>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(40px, 1fr))', gap: 4 }}>
                 {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
-                  <div key={d} style={{ textAlign: 'center', fontSize: 10, fontWeight: 800, color: 'var(--text-muted)', padding: 4 }}>{d}</div>
+                  <div key={d} style={{ textAlign: 'center', fontSize: 'calc(14px + 0.5vw)', fontWeight: 800, color: 'var(--text-muted)', padding: 4 }}>{d}</div>
                 ))}
                 {Array.from({ length: new Date(calendarDays[0]).getDay() }, (_, i) => (
                   <div key={'empty' + i} />
@@ -281,7 +281,7 @@ export default function ClientMealPlans() {
                         borderRadius: 8,
                         border: 'none',
                         cursor: showOrder.schedule ? 'default' : 'pointer',
-                        fontSize: 12,
+                        fontSize: 'calc(16px + 0.5vw)',
                         fontWeight: 700,
                         transition: 'all 0.2s',
                         background: isSelected ? 'var(--accent-orange)' : isToday ? 'rgba(249,115,22,0.1)' : 'var(--bg-tertiary)',
@@ -297,7 +297,7 @@ export default function ClientMealPlans() {
             </div>
 
             {selectedDates.length > 0 && (
-              <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 12, fontSize: 12 }}>
+              <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 12, fontSize: 'calc(16px + 0.5vw)' }}>
                 <strong> {selectedDates.length} dates:</strong> {selectedDates.sort().map(d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })).join(', ')}
               </div>
             )}
@@ -315,7 +315,7 @@ export default function ClientMealPlans() {
       {/* Assigned Plans */}
       {myPlans.length > 0 && (
         <div style={{ marginBottom: 24 }}>
-          <h3 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 18, marginBottom: 14 }}> Plans Assigned to You</h3>
+          <h3 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'calc(22px + 0.5vw)', marginBottom: 14 }}> Plans Assigned to You</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
             {myPlans.map(plan => {
               const items = (plan.items || []).map(id => MENU_ITEMS.find(m => m.id === id)).filter(Boolean);
@@ -333,7 +333,7 @@ export default function ClientMealPlans() {
                       background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(4px)',
                       border: '1px solid rgba(255,255,255,0.3)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      cursor: 'pointer', fontSize: 14, transition: 'all 0.2s ease',
+                      cursor: 'pointer', fontSize: 'calc(18px + 0.5vw)', transition: 'all 0.2s ease',
                     }}
                     onMouseEnter={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.9)'; e.currentTarget.style.transform = 'scale(1.1)'; }}
                     onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.2)'; e.currentTarget.style.transform = 'scale(1)'; }}
@@ -343,15 +343,15 @@ export default function ClientMealPlans() {
                   </button>
 
                   <div style={{ background: 'var(--gradient-primary)', padding: '14px 16px', marginBottom: 0 }}>
-                    <div style={{ color: '#fff', fontWeight: 800, fontSize: 15 }}>{plan.name}</div>
-                    <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 11 }}>By: {plan.trainerName || 'Trainer'}</div>
+                    <div style={{ color: '#fff', fontWeight: 800, fontSize: 'calc(19px + 0.5vw)' }}>{plan.name}</div>
+                    <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 'calc(15px + 0.5vw)' }}>By: {plan.trainerName || 'Trainer'}</div>
                   </div>
                   <div style={{ padding: 14 }}>
                     <div style={{ display: 'flex', gap: 12, marginBottom: 10 }}>
                       {[['', totalCal, 'kcal'], ['', totalPro + 'g', 'protein'], ['₹', totalPrice, 'price']].map(([icon, val, label], i) => (
                         <div key={i} style={{ flex: 1, textAlign: 'center', padding: 8, background: 'var(--bg-tertiary)', borderRadius: 8 }}>
-                          <div style={{ fontSize: 14, fontWeight: 900 }}>{icon} {val}</div>
-                          <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>{label}</div>
+                          <div style={{ fontSize: 'calc(18px + 0.5vw)', fontWeight: 900 }}>{icon} {val}</div>
+                          <div style={{ fontSize: 'calc(14px + 0.5vw)', color: 'var(--text-muted)' }}>{label}</div>
                         </div>
                       ))}
                     </div>
@@ -359,11 +359,11 @@ export default function ClientMealPlans() {
                       {items.slice(0, 3).map((item, i) => (
                         <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'center', padding: '4px 0' }}>
                           <img src={item.image} alt="" style={{ width: 28, height: 28, borderRadius: 6, objectFit: 'cover' }} />
-                          <span style={{ fontSize: 12, fontWeight: 600 }}>{item.name}</span>
-                          <span style={{ fontSize: 10, color: 'var(--text-muted)', marginLeft: 'auto' }}>₹{item.price}</span>
+                          <span style={{ fontSize: 'calc(16px + 0.5vw)', fontWeight: 600 }}>{item.name}</span>
+                          <span style={{ fontSize: 'calc(14px + 0.5vw)', color: 'var(--text-muted)', marginLeft: 'auto' }}>₹{item.price}</span>
                         </div>
                       ))}
-                      {items.length > 3 && <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>+{items.length - 3} more items</div>}
+                      {items.length > 3 && <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)' }}>+{items.length - 3} more items</div>}
                     </div>
                     <button className="btn btn-primary" style={{ width: '100%' }} onClick={() => handleShowOrder(plan)}> Schedule & Order</button>
                   </div>
@@ -385,12 +385,12 @@ export default function ClientMealPlans() {
               border: '2px dashed rgba(249,115,22,0.25)',
               animation: 'float 4s ease-in-out infinite',
             }}>
-              <span style={{ fontSize: 44 }}></span>
+              <span style={{ fontSize: 'calc(48px + 0.5vw)' }}></span>
             </div>
-            <h3 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 20, marginBottom: 8 }}>
+            <h3 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'calc(24px + 0.5vw)', marginBottom: 8 }}>
               Waiting for Trainer Recommendation
             </h3>
-            <p style={{ color: 'var(--text-muted)', fontSize: 14, lineHeight: 1.7, marginBottom: 20 }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: 'calc(18px + 0.5vw)', lineHeight: 1.7, marginBottom: 20 }}>
               Your trainer hasn't scheduled any meals for you yet. Once your trainer creates a personalized diet plan or schedules foods, it will appear right here.
             </p>
 
@@ -398,7 +398,7 @@ export default function ClientMealPlans() {
               background: 'var(--bg-tertiary)', borderRadius: 14, padding: 16, marginBottom: 20,
               border: '1px solid var(--border)', textAlign: 'left',
             }}>
-              <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--text-secondary)', marginBottom: 10 }}> What to expect:</div>
+              <div style={{ fontSize: 'calc(16px + 0.5vw)', fontWeight: 800, color: 'var(--text-secondary)', marginBottom: 10 }}> What to expect:</div>
               {[
                 ['️', 'Personalized meal plans based on your fitness goals'],
                 ['', 'Scheduled meals for breakfast, lunch & dinner'],
@@ -406,19 +406,19 @@ export default function ClientMealPlans() {
                 ['', 'One-click ordering for trainer-assigned meals'],
               ].map(([icon, text], i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 0' }}>
-                  <span style={{ fontSize: 16 }}>{icon}</span>
-                  <span style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.5 }}>{text}</span>
+                  <span style={{ fontSize: 'calc(20px + 0.5vw)' }}>{icon}</span>
+                  <span style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{text}</span>
                 </div>
               ))}
             </div>
 
-            <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 16 }}>
+            <p style={{ fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 16 }}>
               In the meantime, you can browse the menu and order your own meals!
             </p>
             <button
               className="btn btn-primary"
               onClick={() => navigate('/client/menu')}
-              style={{ padding: '12px 28px', borderRadius: 12, fontWeight: 700, fontSize: 14 }}
+              style={{ padding: '12px 28px', borderRadius: 12, fontWeight: 700, fontSize: 'calc(18px + 0.5vw)' }}
             >
                Browse Menu
             </button>

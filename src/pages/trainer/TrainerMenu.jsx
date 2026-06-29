@@ -75,11 +75,11 @@ export default function TrainerMenu() {
             <div style={{ padding: 14, display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: 6, gap: 8 }}>
-                  <div style={{ fontWeight: 800, fontSize: 14, lineHeight: 1.2 }}>{item.name}</div>
+                  <div style={{ fontWeight: 800, fontSize: 'calc(18px + 0.5vw)', lineHeight: 1.2 }}>{item.name}</div>
                   <span style={{ fontFamily: 'Outfit', fontWeight: 900, color: 'var(--accent-green)', whiteSpace: 'nowrap' }}>₹{item.price}</span>
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 12 }}>
-                  <Icon icon={Flame} size={12} style={{marginRight:2}} /> {item.calories} kcal • <Icon icon={Beef} size={12} style={{marginRight:2}} /> {item.protein}g • {item.category}
+                <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', marginBottom: 12 }}>
+                  <Icon icon={Flame} size={12} style={{marginRight:2}} /> {item.calories} kcal • <Icon icon={Beef} size={12} style={{marginRight:2}} /> {item.protein}g Protein • {item.category}
                 </div>
               </div>
               <button className="btn btn-primary btn-sm" style={{ width: '100%', marginTop: 'auto' }} onClick={() => addToCart(item)}><Icon icon={ShoppingCart} size={14} style={{marginRight:4}} /> Add to Cart</button>
