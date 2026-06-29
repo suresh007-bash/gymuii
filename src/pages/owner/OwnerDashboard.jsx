@@ -8,8 +8,25 @@ import { useOrders } from '../../context/OrderContext';
 import { useNotifications } from '../../context/NotificationContext';
 import { getMenuItems } from '../../data/menuHelper';
 
+import gymUsers from '../../assets/gym_users.png';
+import trainerWorkout from '../../assets/trainer_workout.png';
+import saladPrep from '../../assets/salad_prep.png';
+import foodGeneral from '../../assets/food_general.png';
+import workoutSchedule from '../../assets/workout_schedule.png';
+import healthyBowl from '../../assets/healthy_bowl.png';
+import roastedChicken from '../../assets/roasted_chicken.png';
+import sweetDessert from '../../assets/sweet_dessert.png';
 
-const MIND_CATS = [{ label: 'Members', img: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=150&q=80' },{ label: 'Trainers', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=150&q=80' },{ label: 'Browse Menu', img: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=150&q=80' },{ label: 'My Orders', img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=150&q=80' },{ label: 'Schedule', img: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=150&q=80' },{ label: 'Nutrition', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=150&q=80' },{ label: 'Meal Plans', img: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=150&q=80' },{ label: 'Analytics', img: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=150&q=80' }];
+const MIND_CATS = [
+  { label: 'Members', img: gymUsers },
+  { label: 'Trainers', img: trainerWorkout },
+  { label: 'Browse Menu', img: saladPrep },
+  { label: 'My Orders', img: foodGeneral },
+  { label: 'Schedule', img: workoutSchedule },
+  { label: 'Nutrition', img: healthyBowl },
+  { label: 'Meal Plans', img: roastedChicken },
+  { label: 'Analytics', img: sweetDessert }
+];
 
 export default function OwnerDashboard() {
   const MENU_ITEMS = getMenuItems();
@@ -50,7 +67,7 @@ export default function OwnerDashboard() {
         </div>
       )}
 
-      <div style={{ borderRadius: 20, overflow: 'hidden', marginBottom: 20, background: 'linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&q=80") center/cover', padding: '48px 40px', color: '#fff' }}>
+      <div style={{ borderRadius: 20, overflow: 'hidden', marginBottom: 20, background: `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url(${trainerWorkout}) center/cover`, padding: '48px 40px', color: '#fff' }}>
         <div style={{ fontSize: 11, fontWeight: 800, background: '#22c55e', display: 'inline-block', padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}><Crown size={14} style={{marginRight:4}} /> GYM OWNER</div>
         <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 900, lineHeight: 1.15, marginBottom: 12, maxWidth: 450 }}>{user?.gymName}</h1>
         <p style={{ fontSize: 14, opacity: 0.85 }}><MapPin size={14} style={{marginRight:2}} /> {user?.gymLocation} • {members.length} members • {trainers.length} trainers • ₹{memberRevenue.toLocaleString()} revenue</p>

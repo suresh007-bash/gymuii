@@ -4,6 +4,7 @@ import DashboardLayout from '../../components/DashboardLayout';
 import FoodMarquee from '../../components/FoodMarquee';
 import { useAuth } from '../../context/AuthContext';
 import { getMenuItems } from '../../data/menuHelper';
+import foodGeneral from '../../assets/food_general.png';
 
 export default function ClientDashboard() {
   const MENU_ITEMS = getMenuItems();
@@ -14,7 +15,7 @@ export default function ClientDashboard() {
       {/* ═══ HERO BANNER ═══ */}
       <div style={{
         borderRadius: 20, overflow: 'hidden', position: 'relative', marginBottom: 20,
-        background: 'linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80") center/cover',
+        background: `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url(${foodGeneral}) center/cover`,
         padding: '48px 40px', color: '#fff',
       }}>
         <div style={{ fontSize: 11, fontWeight: 800, background: '#f97316', display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}><Utensils size={12} /> FOOD DELIVERY</div>

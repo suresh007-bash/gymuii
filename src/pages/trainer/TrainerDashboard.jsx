@@ -8,15 +8,24 @@ import { useNotifications } from '../../context/NotificationContext';
 import { getMenuItems } from '../../data/menuHelper';
 import { Icon, SectionIcon, Dumbbell, Calendar, Salad, Users, Target, CheckCircle2 } from '../../components/Icons';
 
+import saladPrep from '../../assets/salad_prep.png';
+import gymUsers from '../../assets/gym_users.png';
+import workoutSchedule from '../../assets/workout_schedule.png';
+import healthyBowl from '../../assets/healthy_bowl.png';
+import foodGeneral from '../../assets/food_general.png';
+import trainerWorkout from '../../assets/trainer_workout.png';
+import supplement from '../../assets/supplement.png';
+import recovery from '../../assets/recovery.png';
+
 const MIND_CATS = [
-  { label: 'Diet Plans', img: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=150&q=80' },
-  { label: 'Clients', img: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=150&q=80' },
-  { label: 'Protein', img: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=150&q=80' },
-  { label: 'Meal Prep', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=150&q=80' },
-  { label: 'Scheduling', img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=150&q=80' },
-  { label: 'Workouts', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=150&q=80' },
-  { label: 'Supplements', img: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=150&q=80' },
-  { label: 'Recovery', img: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=150&q=80' },
+  { label: 'Diet Plans', img: saladPrep },
+  { label: 'Clients', img: gymUsers },
+  { label: 'Protein', img: workoutSchedule },
+  { label: 'Meal Prep', img: healthyBowl },
+  { label: 'Scheduling', img: foodGeneral },
+  { label: 'Workouts', img: trainerWorkout },
+  { label: 'Supplements', img: supplement },
+  { label: 'Recovery', img: recovery },
 ];
 
 export default function TrainerDashboard() {
@@ -94,7 +103,7 @@ export default function TrainerDashboard() {
       )}
 
       {/* ═══ HERO BANNER ═══ */}
-      <div style={{ borderRadius: 20, overflow: 'hidden', position: 'relative', marginBottom: 24, background: 'linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&q=80") center/cover', padding: '48px 40px', color: '#fff', width: '100%', boxSizing: 'border-box' }}>
+      <div style={{ borderRadius: 20, overflow: 'hidden', position: 'relative', marginBottom: 24, background: `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url(${trainerWorkout}) center/cover`, padding: '48px 40px', color: '#fff', width: '100%', boxSizing: 'border-box' }}>
         <div style={{ fontSize: 11, fontWeight: 800, background: '#22c55e', display: 'inline-block', padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}><Icon icon={Dumbbell} size={12} style={{marginRight:4}} /> TRAINER PORTAL</div>
         <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 900, lineHeight: 1.15, marginBottom: 12, maxWidth: 450 }}>Welcome, {user?.name?.split(' ')[0]}!</h1>
         <p style={{ fontSize: 14, opacity: 0.85, maxWidth: 420, lineHeight: 1.6 }}>{user?.specialization} • {clients.length} active clients • {plans.length} diet plans created</p>

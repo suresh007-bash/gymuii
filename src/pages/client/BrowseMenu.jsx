@@ -10,6 +10,7 @@ import { useOrders } from '../../context/OrderContext';
 import { useNotifications } from '../../context/NotificationContext';
 import { MagicFoodCard, FoodSpotlight, getGlowColor } from '../../components/MagicFoodCard';
 import GlareHover from '../../components/GlareHover';
+import healthyBowl from '../../assets/healthy_bowl.png';
 
 // Auto-calculate nutrition targets from body data (Mifflin-St Jeor)
 function calcTargets(profile) {
@@ -393,7 +394,7 @@ export default function BrowseMenu() {
               boxShadow: '0 20px 50px rgba(249,115,22,0.25), 0 0 80px rgba(249,115,22,0.08)',
             }}>
               <img
-                src={bannerCfg?.imageUrl || 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=90'}
+                src={bannerCfg?.imageUrl || healthyBowl}
                 alt="Healthy nutrient bowl"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scale(1.1)' }}
               />

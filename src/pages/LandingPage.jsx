@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { NUTRIENT_PACKS, CATEGORIES } from '../data/mockMenu';
 import { getMenuItems } from '../data/menuHelper';
 import StatIcon from '../components/StatIcon';
+import foodGeneral from '../assets/food_general.png';
 
 const STATS = [{ val: '500+', label: 'Meals Delivered' }, { val: '30 min', label: 'Avg Delivery' }, { val: '4.8 ⭐', label: 'User Rating' }, { val: '50+', label: 'Gym Partners' }];
 
@@ -153,7 +154,7 @@ export default function LandingPage() {
       </nav>
 
       {/* ═══ HERO ═══ */}
-      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: 'clamp(100px, 15vw, 120px) clamp(16px, 4vw, 40px) clamp(40px, 6vw, 60px)', position: 'relative', overflow: 'hidden', background: 'linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.65)), url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&q=80") center/cover no-repeat' }}>
+      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: 'clamp(100px, 15vw, 120px) clamp(16px, 4vw, 40px) clamp(40px, 6vw, 60px)', position: 'relative', overflow: 'hidden', background: `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.65)), url(${foodGeneral}) center/cover no-repeat` }}>
         <div style={{ fontSize: 16, fontWeight: 800, color: '#22c55e', letterSpacing: 2, marginBottom: 16 }}>
           <span style={{ color: '#22c55e' }}>Fit</span><span style={{ color: '#fff' }}>Bites</span>
         </div>

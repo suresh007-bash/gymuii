@@ -3,6 +3,7 @@ import DashboardLayout from '../../components/DashboardLayout';
 import FoodMarquee from '../../components/FoodMarquee';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
+import kitchenGeneral from '../../assets/kitchen_general.png';
 
 
 
@@ -17,7 +18,7 @@ export default function KitchenDashboard() {
 
   return (
     <DashboardLayout title="Dashboard">
-      <div style={{ borderRadius: 20, overflow: 'hidden', marginBottom: 20, background: 'linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url("https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=80") center/cover', padding: '48px 40px', color: '#fff' }}>
+      <div style={{ borderRadius: 20, overflow: 'hidden', marginBottom: 20, background: `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url(${kitchenGeneral}) center/cover`, padding: '48px 40px', color: '#fff' }}>
         <div style={{ fontSize: 11, fontWeight: 800, background: '#14b8a6', display: 'inline-block', padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}>👨‍🍳 KITCHEN PORTAL</div>
         <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 900, lineHeight: 1.15, marginBottom: 12 }}>{user?.kitchenName || 'Kitchen Dashboard'}</h1>
         <p style={{ fontSize: 14, opacity: 0.85 }}>{stats.pending} pending • {stats.preparing} preparing • ₹{stats.revenue.toLocaleString()} total revenue</p>

@@ -6,15 +6,24 @@ import FoodMarquee from '../../components/FoodMarquee';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
 
+import gymUsers from '../../assets/gym_users.png';
+import foodGeneral from '../../assets/food_general.png';
+import saladPrep from '../../assets/salad_prep.png';
+import pizzaDelivery from '../../assets/pizza_delivery.png';
+import kitchenGeneral from '../../assets/kitchen_general.png';
+import trainerWorkout from '../../assets/trainer_workout.png';
+import roastedChicken from '../../assets/roasted_chicken.png';
+import sweetDessert from '../../assets/sweet_dessert.png';
+
 const MIND_CATS = [
-  { label: 'Users', img: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=150&q=80' },
-  { label: 'Orders', img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80' },
-  { label: 'Analytics', img: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=150&q=80' },
-  { label: 'Delivery', img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=150&q=80' },
-  { label: 'Kitchen', img: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=150&q=80' },
-  { label: 'Promote', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=150&q=80' },
-  { label: 'Revenue', img: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=150&q=80' },
-  { label: 'Settings', img: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=150&q=80' }
+  { label: 'Users', img: gymUsers },
+  { label: 'Orders', img: foodGeneral },
+  { label: 'Analytics', img: saladPrep },
+  { label: 'Delivery', img: pizzaDelivery },
+  { label: 'Kitchen', img: kitchenGeneral },
+  { label: 'Promote', img: trainerWorkout },
+  { label: 'Revenue', img: roastedChicken },
+  { label: 'Settings', img: sweetDessert }
 ];
 
 export default function AdminDashboard() {
@@ -71,7 +80,7 @@ export default function AdminDashboard() {
         {/* Hero Banner */}
         <div className="hero-banner" style={{
           overflow: 'hidden',
-          background: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80") center/cover',
+          background: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url(${foodGeneral}) center/cover`,
           color: '#fff', boxShadow: '0 8px 30px rgba(0,0,0,0.12)'
         }}>
           <div className="hero-tag" style={{ fontWeight: 900, background: '#f97316' }}>

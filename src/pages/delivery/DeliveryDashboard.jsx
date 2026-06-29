@@ -4,6 +4,7 @@ import DashboardLayout from '../../components/DashboardLayout';
 import FoodMarquee from '../../components/FoodMarquee';
 import { useAuth } from '../../context/AuthContext';
 import { useOrders } from '../../context/OrderContext';
+import deliveryDashboard from '../../assets/delivery_dashboard.png';
 
 export default function DeliveryDashboard() {
   const { user } = useAuth();
@@ -16,7 +17,7 @@ export default function DeliveryDashboard() {
 
   return (
     <DashboardLayout title="Dashboard">
-      <div style={{ borderRadius: 20, overflow: 'hidden', marginBottom: 20, background: 'linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url("https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1200&q=80") center/cover', padding: '48px 40px', color: '#fff' }}>
+      <div style={{ borderRadius: 20, overflow: 'hidden', marginBottom: 20, background: `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url(${deliveryDashboard}) center/cover`, padding: '48px 40px', color: '#fff' }}>
         <div style={{ fontSize: 11, fontWeight: 800, background: '#8b5cf6', display: 'inline-block', padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}>🚗 DELIVERY PARTNER</div>
         <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 900, lineHeight: 1.15, marginBottom: 12 }}>Welcome, {user?.name?.split(' ')[0]}!</h1>
         <p style={{ fontSize: 14, opacity: 0.85 }}>{user?.vehicleType} • ⭐ {user?.rating || '4.8'} rating</p>

@@ -1,13 +1,18 @@
-import React from 'react';
+import salad from '../assets/salad.png';
+import food_general from '../assets/food_general.png';
+import healthy_bowl from '../assets/healthy_bowl.png';
+import salad_prep from '../assets/salad_prep.png';
+import roasted_chicken from '../assets/roasted_chicken.png';
+import sweet_dessert from '../assets/sweet_dessert.png';
 
 const FOOD_IMAGES = [
-  'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80',
-  'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80',
-  'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80',
-  'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600&q=80',
-  'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=600&q=80',
-  'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=600&q=80',
-];
+  salad,
+  food_general,
+  healthy_bowl,
+  salad_prep,
+  roasted_chicken,
+  sweet_dessert,
+          ];
 
 export default function FoodMarquee() {
   return (

@@ -3,6 +3,12 @@ import DashboardLayout from '../../components/DashboardLayout';
 import { MENU_ITEMS } from '../../data/mockMenu';
 import { useNotifications } from '../../context/NotificationContext';
 
+import kitchenMenu1 from '../../assets/kitchen_menu1.png';
+import kitchenMenu2 from '../../assets/kitchen_menu2.png';
+import kitchenMenu3 from '../../assets/kitchen_menu3.png';
+import kitchenMenu4 from '../../assets/kitchen_menu4.png';
+import kitchenMenu5 from '../../assets/kitchen_menu5.png';
+
 export default function KitchenMenu() {
   const { showToast } = useNotifications();
   const [menu, setMenu] = useState(() => {
@@ -27,7 +33,7 @@ export default function KitchenMenu() {
           prepTime: 10,
           rating: 4.7,
           tags: ['Healthy Fats', 'Breakfast'],
-          image: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=500&q=80',
+          image: kitchenMenu1,
           available: true,
           description: 'Toasted whole wheat sourdough spread with fresh mashed avocado and topped with sunny-side-up eggs.'
         },
@@ -46,7 +52,7 @@ export default function KitchenMenu() {
           rating: 4.6,
           tags: ['High Protein', 'Post-Workout'],
           // FIXED: Replaced the non-loading image with a valid food photography asset URL for chicken wraps
-          image: 'https://images.unsplash.com/photo-1626700051175-6518c4793f4f?w=500&q=80',
+          image: kitchenMenu2,
           available: true,
           description: 'Grilled protein-packed chicken breast strips packed inside a whole wheat tortilla with Greek yogurt dressing.'
         },
@@ -64,7 +70,7 @@ export default function KitchenMenu() {
           prepTime: 5,
           rating: 4.8,
           tags: ['Energy Boost', 'Smoothies'],
-          image: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=500&q=80',
+          image: kitchenMenu3,
           available: true,
           description: 'Creamy high-protein blend of peanut butter, ripe bananas, almond milk, and whey protein isolate.'
         },
@@ -82,7 +88,7 @@ export default function KitchenMenu() {
           prepTime: 15,
           rating: 4.9,
           tags: ['Omega-3', 'Lean Protein'],
-          image: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&q=80',
+          image: kitchenMenu4,
           available: true,
           description: 'Premium grilled Atlantic salmon fillet served over a bed of wild brown rice with steamed broccoli florets.'
         },
@@ -100,7 +106,7 @@ export default function KitchenMenu() {
           prepTime: 14,
           rating: 4.7,
           tags: ['Low Carb', 'Keto Friendly'],
-          image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&q=80',
+          image: kitchenMenu5,
           available: true,
           description: 'Low-carb personal pizza prepared on an almond flour crust, topped with fresh marinara, shredded mozzarella, and grilled bell peppers.'
         }
@@ -123,7 +129,7 @@ export default function KitchenMenu() {
           prepTime: 14,
           rating: 4.7,
           tags: ['Low Carb', 'Keto Friendly'],
-          image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&q=80',
+          image: kitchenMenu5,
           available: true,
           description: 'Low-carb personal pizza prepared on an almond flour crust, topped with fresh marinara, shredded mozzarella, and grilled bell peppers.'
         }
