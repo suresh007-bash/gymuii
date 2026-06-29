@@ -130,8 +130,8 @@ export default function OrderQueue() {
         </div>
       </div>
 
-      {/* Mobile Column Select Tabs */}
-      <div className="tabs mobile-only" style={{ marginBottom: 16 }}>
+      {/* Column Select Tabs */}
+      <div className="tabs" style={{ marginBottom: 16 }}>
         <button className={`tab ${activeTab === 'pending' ? 'active' : ''}`} onClick={() => setActiveTab('pending')}> Queue ({pending.length})</button>
         <button className={`tab ${activeTab === 'preparing' ? 'active' : ''}`} onClick={() => setActiveTab('preparing')}>‍ Prep ({preparing.length})</button>
         <button className={`tab ${activeTab === 'ready' ? 'active' : ''}`} onClick={() => setActiveTab('ready')}> Ready ({ready.length})</button>
@@ -140,7 +140,8 @@ export default function OrderQueue() {
       {/* KDS Kanban Board Grid */}
       <div className="kds-kanban-grid">
         {/* Column 1: Order Queue (Pending) */}
-        <div className={`kds-column ${activeTab !== 'pending' ? 'mobile-hidden' : ''}`}>
+        {activeTab === 'pending' && (
+        <div className="kds-column">
           <div className="kds-column-header" style={{ borderTop: '4px solid var(--accent-orange)' }}>
             <span style={{ fontSize: 'calc(20px + 0.5vw)' }}></span>
             <span style={{ fontWeight: 800 }}>Order Queue ({pending.length})</span>
@@ -182,9 +183,11 @@ export default function OrderQueue() {
             )}
           </div>
         </div>
+        )}
 
         {/* Column 2: Preparing */}
-        <div className={`kds-column ${activeTab !== 'preparing' ? 'mobile-hidden' : ''}`}>
+        {activeTab === 'preparing' && (
+        <div className="kds-column">
           <div className="kds-column-header" style={{ borderTop: '4px solid #3b82f6' }}>
             <span style={{ fontSize: 'calc(20px + 0.5vw)' }}>‍</span>
             <span style={{ fontWeight: 800 }}>Preparing ({preparing.length})</span>
@@ -226,9 +229,11 @@ export default function OrderQueue() {
             )}
           </div>
         </div>
+        )}
 
         {/* Column 3: Ready */}
-        <div className={`kds-column ${activeTab !== 'ready' ? 'mobile-hidden' : ''}`}>
+        {activeTab === 'ready' && (
+        <div className="kds-column">
           <div className="kds-column-header" style={{ borderTop: '4px solid var(--accent-green)' }}>
             <span style={{ fontSize: 'calc(20px + 0.5vw)' }}></span>
             <span style={{ fontWeight: 800 }}>Ready ({ready.length})</span>
@@ -267,6 +272,7 @@ export default function OrderQueue() {
             )}
           </div>
         </div>
+        )}
       </div>
     </DashboardLayout>
   );

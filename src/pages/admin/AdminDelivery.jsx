@@ -28,7 +28,7 @@ export default function AdminDelivery() {
       </div>
 
       {/* Driver Cards */}
-      <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(16px, 2.5vw, 20px)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 6 }}>
+      <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(22px, 3vw, 28px)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 6 }}>
         <Car size={20} /> Delivery Drivers
       </h3>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: 16, marginBottom: 28 }}>
@@ -55,7 +55,7 @@ export default function AdminDelivery() {
       </div>
 
       {/* Active Deliveries */}
-      <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(16px, 2.5vw, 20px)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 6 }}>
+      <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(22px, 3vw, 28px)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 6 }}>
         <Package size={20} /> Live Deliveries
       </h3>
       <div className="card">

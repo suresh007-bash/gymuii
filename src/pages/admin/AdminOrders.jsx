@@ -57,7 +57,7 @@ export default function AdminOrders() {
             <thead>
               <tr>
                 <th>Order</th><th>Customer</th><th>Items</th><th>Total</th>
-                <th>Payment</th><th>Status</th><th>Driver</th><th>Actions</th>
+                <th>Payment</th><th>Status</th><th>Driver</th>
               </tr>
             </thead>
             <tbody>
@@ -73,13 +73,6 @@ export default function AdminOrders() {
                   <td><span className={`badge ${o.paymentStatus === 'Paid' ? 'badge-green' : 'badge-orange'}`} style={{ fontSize: 'calc(16px + 0.5vw)' }}>{o.paymentMethod} • {o.paymentStatus}</span></td>
                   <td><span className={`badge ${statusColors[o.status]}`} style={{ fontSize: 'calc(16px + 0.5vw)' }}>{o.status.replace('_', ' ').toUpperCase()}</span></td>
                   <td style={{ fontSize: 'calc(17px + 0.5vw)' }}>{o.driverName || '—'}</td>
-                  <td>
-                    <div style={{ display: 'flex', gap: 4 }}>
-                      {o.status === 'pending' && <button className="btn btn-primary btn-sm" onClick={() => askConfirm('‍ Start Preparing?', `Move order #${o.id} (${o.customerName}) to Preparing status?`, '#3b82f6', () => { updateOrderStatus(o.id, 'preparing'); showToast(`#${o.id} → Preparing`); })}>‍</button>}
-                      {o.status === 'preparing' && <button className="btn btn-success btn-sm" onClick={() => askConfirm(' Mark Ready?', `Mark order #${o.id} (${o.customerName}) as Ready for pickup?`, '#22c55e', () => { updateOrderStatus(o.id, 'ready'); showToast(`#${o.id} → Ready`); })}></button>}
-                      {!['delivered', 'cancelled'].includes(o.status) && <button className="btn btn-outline btn-sm" style={{ color: 'var(--accent-red)' }} onClick={() => askConfirm(' Cancel Order?', `Are you sure you want to cancel order #${o.id} for ${o.customerName}? This cannot be undone.`, '#ef4444', () => { cancelOrder(o.id, 'Admin cancelled'); showToast(`#${o.id} cancelled`, 'warning'); })}></button>}
-                    </div>
-                  </td>
                 </tr>
               ))}
             </tbody>
@@ -123,27 +116,6 @@ export default function AdminOrders() {
                 {o.driverName && <span style={{ fontSize: 'calc(17px + 0.5vw)', color: 'var(--text-muted)', fontWeight: 600 }}> {o.driverName}</span>}
               </div>
 
-              {/* Row 5: Action Buttons */}
-              {!['delivered', 'cancelled'].includes(o.status) && (
-                <div style={{ display: 'flex', gap: 8 }}>
-                  {o.status === 'pending' && (
-                    <button className="btn btn-primary btn-sm" style={{ flex: 1, fontSize: 'calc(18px + 0.5vw)', padding: '10px', fontWeight: 700 }}
-                      onClick={() => askConfirm('‍ Start Preparing?', `Move order #${o.id} to Preparing?`, '#3b82f6', () => { updateOrderStatus(o.id, 'preparing'); showToast(`#${o.id} → Preparing`); })}>
-                      ‍ Prepare
-                    </button>
-                  )}
-                  {o.status === 'preparing' && (
-                    <button className="btn btn-success btn-sm" style={{ flex: 1, fontSize: 'calc(18px + 0.5vw)', padding: '10px', fontWeight: 700 }}
-                      onClick={() => askConfirm(' Mark Ready?', `Mark #${o.id} as Ready?`, '#22c55e', () => { updateOrderStatus(o.id, 'ready'); showToast(`#${o.id} → Ready`); })}>
-                       Ready
-                    </button>
-                  )}
-                  <button className="btn btn-outline btn-sm" style={{ fontSize: 'calc(18px + 0.5vw)', padding: '10px 16px', color: '#ef4444', borderColor: 'rgba(239,68,68,0.3)', fontWeight: 700 }}
-                    onClick={() => askConfirm(' Cancel Order?', `Cancel order #${o.id}? This cannot be undone.`, '#ef4444', () => { cancelOrder(o.id, 'Admin cancelled'); showToast(`#${o.id} cancelled`, 'warning'); })}>
-                     Cancel
-                  </button>
-                </div>
-              )}
             </div>
           ))}
         </div>

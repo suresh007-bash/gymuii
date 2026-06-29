@@ -33,7 +33,7 @@ export default function AdminDashboard() {
   const recentOrders = orders.sort((a, b) => new Date(b.orderTime) - new Date(a.orderTime)).slice(0, 6);
 
   return (
-    <DashboardLayout title="Dashboard">
+    <DashboardLayout title="Home">
       <style>{`
         .admin-page-wrapper { width: 100%; box-sizing: border-box; }
 
@@ -61,7 +61,7 @@ export default function AdminDashboard() {
         /* Insight Cards */
         .insight-card { padding: clamp(18px, 3vw, 32px); border-radius: 20px; display: flex; flex-direction: column; }
         .insight-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 2px solid var(--border); }
-        .insight-title { font-size: clamp(16px, 2.5vw, 22px); font-weight: 900; margin: 0; display: flex; align-items: center; gap: 8px; }
+        .insight-title { font-size: clamp(22px, 3vw, 28px); font-weight: 900; margin: 0; display: flex; align-items: center; gap: 8px; }
         .insight-link { font-size: clamp(14px, 1.6vw, 17px); color: var(--accent-orange); font-weight: 800; text-decoration: none; white-space: nowrap; }
 
         .recent-row { display: flex; justify-content: space-between; align-items: center; padding: clamp(12px, 2vw, 16px) 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 8px; }
@@ -132,7 +132,7 @@ export default function AdminDashboard() {
           <h3 className="mind-title">What's on your mind?</h3>
           <div className="mind-scroll">
             {MIND_CATS.map((cat, i) => (
-              <Link key={i} to={['/admin/users','/admin/orders','/admin/analytics','/admin/delivery','/admin/settings','/admin/settings','/admin/analytics','/admin/settings'][i]} className="mind-item">
+              <Link key={i} to={['/admin/users', '/admin/orders', '/admin/analytics', '/admin/delivery', '/admin/settings', '/admin/settings', '/admin/analytics', '/admin/settings'][i]} className="mind-item">
                 <div className="mind-img-wrapper">
                   <img src={cat.img} alt={cat.label} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
@@ -152,17 +152,20 @@ export default function AdminDashboard() {
               <Link to="/admin/orders" className="insight-link">View All →</Link>
             </div>
             <div style={{ flex: 1 }}>
-              {recentOrders.map(o => (
-                <div key={o.id} className="recent-row">
-                  <div>
-                    <span className="recent-id">#{o.id}</span>
-                    <span className="recent-name">{o.customerName}</span>
+              {recentOrders.map(o => {
+                const formattedId = 'ord' + o.id.toString().replace('ord', '').slice(-5).padStart(5, '0');
+                return (
+                  <div key={o.id} className="recent-row">
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <span className="recent-id" style={{ display: 'inline-block', minWidth: 110 }}>#{formattedId}</span>
+                      <span className="recent-name">{o.customerName}</span>
+                    </div>
+                    <span className={`badge recent-badge ${o.status === 'pending' ? 'badge-orange' : o.status === 'preparing' ? 'badge-blue' : o.status === 'delivered' ? 'badge-green' : 'badge-purple'}`}>
+                      {o.status.replace('_', ' ').toUpperCase()}
+                    </span>
                   </div>
-                  <span className={`badge recent-badge ${o.status === 'pending' ? 'badge-orange' : o.status === 'preparing' ? 'badge-blue' : o.status === 'delivered' ? 'badge-green' : 'badge-purple'}`}>
-                    {o.status.replace('_', ' ').toUpperCase()}
-                  </span>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 

@@ -66,7 +66,7 @@ export default function AssignedClients() {
 
   // Add Member modal state
   const [showAddMember, setShowAddMember] = useState(false);
-  const [memberForm, setMemberForm] = useState({ name: '', email: '', phone: '' });
+  const [memberForm, setMemberForm] = useState({ name: '', email: '', phone: '', gender: 'Male', age: '', height: '', weight: '', foodType: 'Non-veg', allergies: '' });
   const updMember = (k, v) => setMemberForm(p => ({ ...p, [k]: v }));
   const memberInp = { width: '100%', padding: '10px 14px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 12, color: 'var(--text-primary)', fontSize: 'calc(18px + 0.5vw)', fontFamily: 'Outfit' };
   const memberLbl = { display: 'block', fontSize: 'calc(15px + 0.5vw)', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 0.5 };
@@ -83,16 +83,16 @@ export default function AssignedClients() {
       gymId: user.gymId,
       password: '12345678',
       requirePasswordChange: true,
-      age: '',
-      gender: 'Male',
-      height: '',
-      weight: '',
-      goal: 'Weight Loss',
-      diet: 'Non-Veg',
-      allergies: ''
+      age: memberForm.age ? Number(memberForm.age) : '',
+      gender: memberForm.gender,
+      height: memberForm.height ? Number(memberForm.height) : '',
+      weight: memberForm.weight ? Number(memberForm.weight) : '',
+      diet: memberForm.foodType,
+      allergies: memberForm.allergies,
+      profileComplete: true
     });
     showToast(` ${memberForm.name} added as a new member!`);
-    setMemberForm({ name: '', email: '', phone: '' });
+    setMemberForm({ name: '', email: '', phone: '', gender: 'Male', age: '', height: '', weight: '', foodType: 'Non-veg', allergies: '' });
     setShowAddMember(false);
   };
 
@@ -132,7 +132,7 @@ export default function AssignedClients() {
       {/* Add Member Modal */}
       {showAddMember && (
         <div className="modal-overlay" onClick={() => setShowAddMember(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 460 }}>
+          <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 500, maxHeight: '90vh', overflowY: 'auto' }}>
             <div className="modal-header">
               <h3 className="modal-title"><Icon icon={UserPlus} size={16} style={{marginRight:6}} /> New Member Registration</h3>
               <button className="modal-close" onClick={() => setShowAddMember(false)}></button>
@@ -141,6 +141,44 @@ export default function AssignedClients() {
               <div><label style={memberLbl}>Full Name *</label><input style={memberInp} value={memberForm.name} onChange={e => updMember('name', e.target.value)} placeholder="John Doe" /></div>
               <div><label style={memberLbl}>Email *</label><input style={memberInp} type="email" value={memberForm.email} onChange={e => updMember('email', e.target.value)} placeholder="john@email.com" /></div>
               <div><label style={memberLbl}>Phone</label><input style={memberInp} value={memberForm.phone} onChange={e => updMember('phone', e.target.value)} placeholder="9876543210" /></div>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div>
+                  <label style={memberLbl}>Gender</label>
+                  <select style={{...memberInp, cursor: 'pointer'}} value={memberForm.gender} onChange={e => updMember('gender', e.target.value)}>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={memberLbl}>Age</label>
+                  <input style={memberInp} type="number" value={memberForm.age} onChange={e => updMember('age', e.target.value)} placeholder="e.g. 25" />
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div>
+                  <label style={memberLbl}>Height (cm)</label>
+                  <input style={memberInp} type="number" value={memberForm.height} onChange={e => updMember('height', e.target.value)} placeholder="e.g. 175" />
+                </div>
+                <div>
+                  <label style={memberLbl}>Weight (kg)</label>
+                  <input style={memberInp} type="number" value={memberForm.weight} onChange={e => updMember('weight', e.target.value)} placeholder="e.g. 70" />
+                </div>
+              </div>
+
+              <div>
+                <label style={memberLbl}>Food Type</label>
+                <select style={{...memberInp, cursor: 'pointer'}} value={memberForm.foodType} onChange={e => updMember('foodType', e.target.value)}>
+                  <option value="Non-veg">Non-veg</option>
+                  <option value="Vegetarian">Vegetarian</option>
+                  <option value="Vegan">Vegan</option>
+                  <option value="Keto">Keto</option>
+                </select>
+              </div>
+
+              <div><label style={memberLbl}>Allergies (Optional)</label><input style={memberInp} value={memberForm.allergies} onChange={e => updMember('allergies', e.target.value)} placeholder="e.g. Peanuts, Dairy" /></div>
             </div>
             <div className="modal-footer" style={{ marginTop: 16 }}>
               <button className="btn btn-outline" onClick={() => setShowAddMember(false)}>Cancel</button>

@@ -17,7 +17,7 @@ export default function KitchenDashboard() {
 
 
   return (
-    <DashboardLayout title="Dashboard">
+    <DashboardLayout title="Home">
       <div style={{ borderRadius: 20, overflow: 'hidden', marginBottom: 20, background: `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url(${kitchenGeneral}) center/cover`, padding: '48px 40px', color: '#fff' }}>
         <div style={{ fontSize: 'calc(15px + 0.5vw)', fontWeight: 800, background: '#14b8a6', display: 'inline-block', padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}>‍ KITCHEN PORTAL</div>
         <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 900, lineHeight: 1.15, marginBottom: 12 }}>{user?.kitchenName || 'Kitchen Dashboard'}</h1>
@@ -36,12 +36,15 @@ export default function KitchenDashboard() {
 
       <div className="card">
         <div className="card-header"><h3 className="card-title"> Recent Orders</h3><Link to="/kitchen/queue" style={{ color: 'var(--accent-orange)', fontSize: 'calc(16px + 0.5vw)', fontWeight: 700 }}>View All →</Link></div>
-        {recentOrders.map(o => (
-          <div key={o.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
-            <div><span style={{ fontWeight: 700 }}>#{o.id}</span><span style={{ marginLeft: 8, fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)' }}>{o.customerName} • {o.items.map(i => i.name).join(', ')}</span></div>
-            <span className={`badge ${o.status === 'pending' ? 'badge-orange' : o.status === 'preparing' ? 'badge-blue' : o.status === 'ready' ? 'badge-green' : 'badge-purple'}`}>{o.status.replace('_', ' ').toUpperCase()}</span>
-          </div>
-        ))}
+        {recentOrders.map(o => {
+          const formattedId = 'ord' + o.id.toString().replace('ord', '').slice(-5).padStart(5, '0');
+          return (
+            <div key={o.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
+              <div><span style={{ fontWeight: 700, display: 'inline-block', width: 90 }}>#{formattedId}</span><span style={{ marginLeft: 8, fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)' }}>{o.customerName} • {o.items.map(i => i.name).join(', ')}</span></div>
+              <span className={`badge ${o.status === 'pending' ? 'badge-orange' : o.status === 'preparing' ? 'badge-blue' : o.status === 'ready' ? 'badge-green' : 'badge-purple'}`}>{o.status.replace('_', ' ').toUpperCase()}</span>
+            </div>
+          );
+        })}
       </div>
     </DashboardLayout>
   );

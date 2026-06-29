@@ -16,7 +16,7 @@ export default function DeliveryDashboard() {
   const earnings = delivered.length * 85;
 
   return (
-    <DashboardLayout title="Dashboard">
+    <DashboardLayout title="Home">
       <div style={{ borderRadius: 20, overflow: 'hidden', marginBottom: 20, background: `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url(${deliveryDashboard}) center/cover`, padding: '48px 40px', color: '#fff' }}>
         <div style={{ fontSize: 'calc(15px + 0.5vw)', fontWeight: 800, background: '#8b5cf6', display: 'inline-block', padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}> DELIVERY PARTNER</div>
         <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 900, lineHeight: 1.15, marginBottom: 12 }}>Welcome, {user?.name?.split(' ')[0]}!</h1>

@@ -624,69 +624,7 @@ export default function BrowseMenu() {
                     Based on your <strong>[{userGoal}]</strong> goal and body profile, here are options rated for balanced macros.
                   </div>
 
-                  {/* Recommended Functional Add-ons — full width now that Live Analyzer is removed */}
-                  {suggested[1] && (
-                    <div className="card" style={{ padding: 16, border: '1px solid var(--border)', background: 'var(--bg-secondary)', borderRadius: 12 }}>
-                      <div style={{ fontWeight: 800, fontSize: 'calc(19px + 0.5vw)', marginBottom: 14 }}>Recommended Functional Add-ons</div>
 
-                      {/* Current suggested item */}
-                      <div style={{ border: '1px solid var(--border)', borderRadius: 10, padding: 14, background: 'var(--bg-primary)', marginBottom: showAlternatives ? 12 : 0 }}>
-                        <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
-                          <img src={suggested[1].image} alt={suggested[1].name} style={{ width: 72, height: 72, borderRadius: 12, objectFit: 'cover' }} />
-                          <div style={{ flex: 1 }}>
-                            <div style={{ fontWeight: 800, fontSize: 'calc(20px + 0.5vw)' }}>{suggested[1].name}</div>
-                            <div style={{ fontSize: 'calc(17px + 0.5vw)', color: 'var(--text-muted)', margin: '4px 0' }}>Built for {userGoal.toLowerCase()}, fueled for results.</div>
-                            <div style={{ display: 'flex', gap: 12, fontSize: 'calc(16px + 0.5vw)', color: 'var(--text-muted)' }}>
-                              <span>{suggested[1].calories} kcal</span>
-                              <span>{suggested[1].protein}g prot.</span>
-                              <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>Score 9.5</span>
-                            </div>
-                          </div>
-                          <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
-                            <button className="btn btn-primary btn-sm" style={{ padding: '8px 18px', fontSize: 'calc(17px + 0.5vw)' }} onClick={() => addToCart(suggested[1])}>Order</button>
-                            <button
-                              className="btn btn-outline btn-sm"
-                              style={{ padding: '8px 14px', fontSize: 'calc(16px + 0.5vw)', background: showAlternatives ? 'rgba(249,115,22,0.08)' : 'transparent', borderColor: showAlternatives ? 'var(--accent-orange)' : undefined, color: showAlternatives ? 'var(--accent-orange)' : undefined }}
-                              onClick={() => setShowAlternatives(v => !v)}
-                            >
-                              {showAlternatives ? ' Close' : 'Not right?\nAlternatives'}
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Alternatives panel — appears when "Not right?" is clicked */}
-                      {showAlternatives && (
-                        <div style={{ animation: 'fadeInUp 0.25s ease' }}>
-                          <div style={{ fontSize: 'calc(16px + 0.5vw)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 8 }}> Alternative Suggestions for <strong>{userGoal}</strong></div>
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                            {suggested.filter((_, i) => i !== 1).map((alt) => (
-                              <div key={alt.id} style={{
-                                display: 'flex', gap: 10, alignItems: 'center',
-                                padding: '10px 12px', borderRadius: 10,
-                                border: '1.5px solid var(--border)', background: 'var(--bg-primary)',
-                                transition: 'all 0.2s',
-                              }}
-                                onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--accent-orange)'}
-                                onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
-                              >
-                                <img src={alt.image} alt={alt.name} style={{ width: 48, height: 48, borderRadius: 8, objectFit: 'cover' }} />
-                                <div style={{ flex: 1 }}>
-                                  <div style={{ fontWeight: 800, fontSize: 'calc(17px + 0.5vw)' }}>{alt.name}</div>
-                                  <div style={{ display: 'flex', gap: 8, fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)', marginTop: 2 }}>
-                                    <span> {alt.calories} kcal</span>
-                                    <span> {alt.protein}g</span>
-                                    <span style={{ color: 'var(--accent-green)', fontWeight: 700 }}>₹{alt.price}</span>
-                                  </div>
-                                </div>
-                                <button className="btn btn-primary btn-sm" style={{ padding: '6px 14px', fontSize: 'calc(16px + 0.5vw)', whiteSpace: 'nowrap' }} onClick={() => { addToCart(alt); setShowAlternatives(false); }}>+ Add</button>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
                 </div>
               )}
 
@@ -827,7 +765,7 @@ export default function BrowseMenu() {
               <div style={{ fontSize: 'calc(15px + 0.5vw)', color: 'var(--text-muted)' }}>₹{cart.reduce((a, c) => a + c.price * c.qty, 0)}</div>
             </div>
           </div>
-          <button className="btn btn-primary btn-sm" onClick={() => navigate('/client/cart')} style={{ fontWeight: 800, fontSize: 'calc(16px + 0.5vw)', padding: '8px 20px', borderRadius: 10 }}>
+          <button className="btn btn-primary btn-sm" onClick={() => navigate(`/${user?.role === 'owner' ? 'owner' : user?.role === 'trainer' ? 'trainer' : 'client'}/cart`)} style={{ fontWeight: 800, fontSize: 'calc(16px + 0.5vw)', padding: '8px 20px', borderRadius: 10 }}>
             View Cart →
           </button>
         </div>
