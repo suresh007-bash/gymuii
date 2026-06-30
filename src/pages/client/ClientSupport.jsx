@@ -41,14 +41,14 @@ export default function ClientSupport() {
           <div className="card-header"><h3 className="card-title"> Frequently Asked Questions</h3></div>
           {FAQs.map((faq, i) => (
             <div key={i} style={{ borderBottom: '1px solid var(--border)' }}>
-              <button onClick={() => setOpenFAQ(openFAQ === i ? null : i)} style={{ width: '100%', padding: '14px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', fontSize: 'clamp(13px, 1.0vw, 15px)', fontWeight: 700, color: 'var(--text-primary)', textAlign: 'left' }}>
-                {faq.q} <span style={{ fontSize: 'clamp(16px, 1.0vw, 19px)', transition: 'transform 0.3s', transform: openFAQ === i ? 'rotate(45deg)' : 'none' }}>+</span>
+              <button onClick={() => setOpenFAQ(openFAQ === i ? null : i)} style={{ width: '100%', padding: '14px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', fontSize: 'var(--fs-xs)', fontWeight: 700, color: 'var(--text-primary)', textAlign: 'left' }}>
+                {faq.q} <span style={{ fontSize: 'var(--fs-sm)', transition: 'transform 0.3s', transform: openFAQ === i ? 'rotate(45deg)' : 'none' }}>+</span>
               </button>
-              {openFAQ === i && <p style={{ padding: '0 0 14px', fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', lineHeight: 1.6 }}>{faq.a}</p>}
+              {openFAQ === i && <p style={{ padding: '0 0 14px', fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', lineHeight: 1.6 }}>{faq.a}</p>}
             </div>
           ))}
           <div style={{ marginTop: 16, padding: 16, background: 'rgba(249,115,22,0.06)', borderRadius: 12, textAlign: 'center' }}>
-            <p style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-secondary)', marginBottom: 8 }}>Didn't find your answer?</p>
+            <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-secondary)', marginBottom: 8 }}>Didn't find your answer?</p>
             <button className="btn btn-primary btn-sm" onClick={() => setTab('ticket')}> Create Support Ticket</button>
           </div>
         </div>
@@ -61,9 +61,9 @@ export default function ClientSupport() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 12 }}>
           {[{ icon: '', label: 'Email', val: 'support@fitbites.com' }, { icon: '', label: 'Phone', val: '+91 98765 43210' }, { icon: '', label: 'Chat', val: 'Available 9AM-9PM' }].map((c, i) => (
             <div key={i} style={{ textAlign: 'center', padding: 16, background: 'var(--bg-tertiary)', borderRadius: 12 }}>
-              <div style={{ fontSize: 'clamp(21px, 1.0vw, 25px)', marginBottom: 6 }}>{c.icon}</div>
-              <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 1.0vw, 14px)' }}>{c.label}</div>
-              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>{c.val}</div>
+              <div style={{ fontSize: 'var(--fs-subheading)', marginBottom: 6 }}>{c.icon}</div>
+              <div style={{ fontWeight: 700, fontSize: 'var(--fs-xs)' }}>{c.label}</div>
+              <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>{c.val}</div>
             </div>
           ))}
         </div>

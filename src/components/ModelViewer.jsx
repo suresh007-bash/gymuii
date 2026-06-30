@@ -24,7 +24,7 @@ const Loader = ({ placeholderSrc }) => {
       {placeholderSrc ? (
         <img src={placeholderSrc} width={128} height={128} style={{ filter: 'blur(8px)', borderRadius: 8 }} />
       ) : (
-        <div style={{ color: '#f97316', fontWeight: 700, fontSize: 'clamp(13px, 1.0vw, 15px)' }}>{Math.round(progress)}%</div>
+        <div style={{ color: '#f97316', fontWeight: 700, fontSize: 'var(--fs-xs)' }}>{Math.round(progress)}%</div>
       )}
     </Html>
   );

@@ -42,9 +42,9 @@ export default function TrainerOrders() {
               ))}
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(40px, 1fr))', gap: 4, marginBottom: 12 }}>
-              {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={i} style={{ textAlign: 'center', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, color: 'var(--text-muted)', padding: 4 }}>{d}</div>)}
+              {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={i} style={{ textAlign: 'center', fontSize: 'var(--fs-xs)', fontWeight: 800, color: 'var(--text-muted)', padding: 4 }}>{d}</div>)}
               {Array.from({ length: new Date(calendarDays[0]).getDay() }, (_, i) => <div key={'e' + i} />)}
-              {calendarDays.map(ds => <button key={ds} onClick={() => toggleDate(ds)} style={{ padding: '8px 4px', borderRadius: 8, border: 'none', cursor: 'pointer', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, background: newDates.includes(ds) ? 'var(--accent-orange)' : 'var(--bg-tertiary)', color: newDates.includes(ds) ? '#fff' : 'var(--text-primary)' }}>{new Date(ds).getDate()}</button>)}
+              {calendarDays.map(ds => <button key={ds} onClick={() => toggleDate(ds)} style={{ padding: '8px 4px', borderRadius: 8, border: 'none', cursor: 'pointer', fontSize: 'var(--fs-xs)', fontWeight: 700, background: newDates.includes(ds) ? 'var(--accent-orange)' : 'var(--bg-tertiary)', color: newDates.includes(ds) ? '#fff' : 'var(--text-primary)' }}>{new Date(ds).getDate()}</button>)}
             </div>
             <div className="modal-footer"><button className="btn btn-outline" onClick={() => { setRescheduleOrder(null); setNewDates([]); }}>Cancel</button><button className="btn btn-success" onClick={handleReschedule} disabled={newDates.length === 0}><Icon icon={CheckCircle2} size={14} style={{marginRight:4}} /> Reschedule</button></div>
           </div>
@@ -60,24 +60,24 @@ export default function TrainerOrders() {
           {filtered.map(order => (
             <div key={order.id} className="card">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                <div><span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(15px, 1.0vw, 18px)' }}>#{order.id}</span><span style={{ marginLeft: 8, fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>{new Date(order.orderTime).toLocaleString()}</span></div>
+                <div><span style={{ fontWeight: 800, fontSize: 'var(--fs-sm)' }}>#{order.id}</span><span style={{ marginLeft: 8, fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>{new Date(order.orderTime).toLocaleString()}</span></div>
                 <span className={`badge ${statusColors[order.status] || 'badge-blue'}`}>{order.status.replace('_', ' ').toUpperCase()}</span>
               </div>
               {['pending', 'preparing', 'ready', 'in_transit'].includes(order.status) && (
                 <div style={{ display: 'flex', alignItems: 'center', margin: '12px 0' }}>
-                  {stages.map((s, i) => { const cs = stageMap[order.status] || 0; return (<div key={i} style={{ display: 'flex', alignItems: 'center', flex: 1 }}><div style={{ width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, background: i <= cs ? (i === cs ? 'var(--accent-orange)' : 'var(--accent-green)') : 'var(--bg-tertiary)', color: i <= cs ? '#fff' : 'var(--text-muted)', flexShrink: 0 }}>{i < cs ? '' : i + 1}</div>{i < stages.length - 1 && <div style={{ flex: 1, height: 3, background: i < cs ? 'var(--accent-green)' : 'var(--bg-tertiary)', margin: '0 -2px' }} />}</div>); })}
+                  {stages.map((s, i) => { const cs = stageMap[order.status] || 0; return (<div key={i} style={{ display: 'flex', alignItems: 'center', flex: 1 }}><div style={{ width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--fs-xs)', fontWeight: 800, background: i <= cs ? (i === cs ? 'var(--accent-orange)' : 'var(--accent-green)') : 'var(--bg-tertiary)', color: i <= cs ? '#fff' : 'var(--text-muted)', flexShrink: 0 }}>{i < cs ? '' : i + 1}</div>{i < stages.length - 1 && <div style={{ flex: 1, height: 3, background: i < cs ? 'var(--accent-green)' : 'var(--bg-tertiary)', margin: '0 -2px' }} />}</div>); })}
                 </div>
               )}
               {order.otp && ['pending', 'preparing', 'ready', 'in_transit'].includes(order.status) && (
                 <div style={{ background: 'rgba(249,115,22,0.08)', borderRadius: 10, padding: '8px 14px', marginBottom: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 600 }}>Delivery OTP</span>
-                  <span style={{ fontFamily: 'Outfit', fontSize: 'clamp(18px, 1.0vw, 21px)', fontWeight: 900, color: 'var(--accent-orange)', letterSpacing: 4 }}>{order.otp}</span>
+                  <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 600 }}>Delivery OTP</span>
+                  <span style={{ fontSize: 'var(--fs-body)', fontWeight: 900, color: 'var(--accent-orange)', letterSpacing: 4 }}>{order.otp}</span>
                 </div>
               )}
-              {order.scheduledDates?.length > 0 && <div style={{ padding: '6px 12px', background: 'rgba(34,197,94,0.06)', borderRadius: 8, marginBottom: 10, fontSize: 'clamp(12px, 1.0vw, 14px)' }}><Icon icon={Calendar} size={12} style={{marginRight:4}} /> {order.scheduledDates.map(d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })).join(', ')}</div>}
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 8 }}>{order.items.map((item, i) => <span key={i} style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', padding: '4px 10px', background: 'var(--bg-tertiary)', borderRadius: 8 }} className="text-truncate">{item.name} × {item.qty}</span>)}</div>
+              {order.scheduledDates?.length > 0 && <div style={{ padding: '6px 12px', background: 'rgba(34,197,94,0.06)', borderRadius: 8, marginBottom: 10, fontSize: 'var(--fs-xs)' }}><Icon icon={Calendar} size={12} style={{marginRight:4}} /> {order.scheduledDates.map(d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })).join(', ')}</div>}
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 8 }}>{order.items.map((item, i) => <span key={i} style={{ fontSize: 'var(--fs-xs)', padding: '4px 10px', background: 'var(--bg-tertiary)', borderRadius: 8 }} className="text-truncate">{item.name} × {item.qty}</span>)}</div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontFamily: 'Outfit', fontWeight: 800, color: 'var(--accent-green)' }}>₹{order.total}</span>
+                <span style={{ fontWeight: 800, color: 'var(--accent-green)' }}>₹{order.total}</span>
                 <div style={{ display: 'flex', gap: 8 }}>
                   {['pending', 'preparing', 'ready'].includes(order.status) && <button className="btn btn-outline btn-sm" onClick={() => { setRescheduleOrder(order); setNewDates(order.scheduledDates || []); setNewTiming(order.timing || 'noon'); }}><Icon icon={Calendar} size={13} style={{marginRight:4}} /> Reschedule</button>}
                   {order.status === 'pending' && <button className="btn btn-outline btn-sm" style={{ color: 'var(--accent-red)' }} onClick={() => cancelOrder(order.id, 'Cancelled')}>Cancel</button>}

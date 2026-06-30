@@ -117,7 +117,7 @@ export default function FoodScheduling() {
               <h3 className="modal-title">{MEALS.find(m => m.key === editCell.meal)?.icon} Set {MEALS.find(m => m.key === editCell.meal)?.label} — {DAYS[editCell.dayIdx]}</h3>
               <button className="modal-close" onClick={() => { setEditCell(null); setSelectedItems([]); setSearch(''); setCustomTime(''); }}></button>
             </div>
-            <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+            <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
               <span><Icon icon={Calendar} size={11} style={{marginRight:2}} /> {editCell.date}</span>
               <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 
@@ -127,8 +127,8 @@ export default function FoodScheduling() {
                   onChange={e => setCustomTime(e.target.value)}
                   style={{
                     padding: '4px 8px', borderRadius: 8, border: '1.5px solid var(--border)',
-                    background: 'var(--bg-input)', color: 'var(--text-primary)', fontSize: 'clamp(12px, 1.0vw, 14px)',
-                    fontFamily: 'Outfit', fontWeight: 600, cursor: 'pointer',
+                    background: 'var(--bg-input)', color: 'var(--text-primary)', fontSize: 'var(--fs-xs)',
+                    fontWeight: 600, cursor: 'pointer',
                   }}
                 />
               </span>
@@ -148,8 +148,8 @@ export default function FoodScheduling() {
                   <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                     <img src={item.image} alt="" style={{ width: 36, height: 36, borderRadius: 8, objectFit: 'cover' }} />
                     <div>
-                      <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 1.0vw, 14px)' }}>{selectedItems.includes(item.id) ? <><Icon icon={CheckCircle2} size={11} style={{marginRight:3}} /> </> : ''}{item.name}</div>
-                      <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}><Icon icon={Flame} size={10} style={{marginRight:1}} />{item.calories} <Icon icon={Beef} size={10} style={{marginRight:1}} />{item.protein}g • ₹{item.price}</div>
+                      <div style={{ fontWeight: 700, fontSize: 'var(--fs-xs)' }}>{selectedItems.includes(item.id) ? <><Icon icon={CheckCircle2} size={11} style={{marginRight:3}} /> </> : ''}{item.name}</div>
+                      <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}><Icon icon={Flame} size={10} style={{marginRight:1}} />{item.calories} <Icon icon={Beef} size={10} style={{marginRight:1}} />{item.protein}g • ₹{item.price}</div>
                     </div>
                   </div>
                 </div>
@@ -157,7 +157,7 @@ export default function FoodScheduling() {
             </div>
 
             {selectedItems.length > 0 && (
-              <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 12, fontSize: 'clamp(12px, 1.0vw, 14px)' }}>
+              <div style={{ padding: 10, background: 'rgba(34,197,94,0.06)', borderRadius: 10, marginBottom: 12, fontSize: 'var(--fs-xs)' }}>
                 <strong>Selected ({selectedItems.length}):</strong>{' '}
                 {selectedItems.map(id => MENU_ITEMS.find(m => m.id === id)?.name).join(', ')}
                 <span style={{ float: 'right', fontWeight: 800 }}>
@@ -178,7 +178,7 @@ export default function FoodScheduling() {
       {/* Header Controls */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, flexWrap: 'wrap', gap: 10 }}>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <label className="form-label" style={{ margin: 0, fontSize: 'clamp(12px, 1.0vw, 14px)' }}>Client:</label>
+          <label className="form-label" style={{ margin: 0, fontSize: 'var(--fs-xs)' }}>Client:</label>
           <select className="form-select" style={{ minWidth: 180 }} value={clientId} onChange={e => setClientId(e.target.value)}>
             <option value="">All Clients</option>
             {clients.map(c => <option key={c.id} value={c.id}>{c.name} — {c.goal}</option>)}
@@ -186,10 +186,10 @@ export default function FoodScheduling() {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <button className="btn btn-outline btn-sm" onClick={() => setWeekOffset(w => w - 1)}>← Prev</button>
-          <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 1.0vw, 17px)', minWidth: 200, textAlign: 'center' }}><Icon icon={Calendar} size={14} style={{marginRight:4}} /> {weekLabel}</span>
+          <span style={{ fontWeight: 800, fontSize: 'var(--fs-xs)', minWidth: 200, textAlign: 'center' }}><Icon icon={Calendar} size={14} style={{marginRight:4}} /> {weekLabel}</span>
           <button className="btn btn-outline btn-sm" onClick={() => setWeekOffset(w => w + 1)}>Next →</button>
           {weekOffset !== 0 && <button className="btn btn-primary btn-sm" onClick={() => setWeekOffset(0)}>Today</button>}
-          <input type="date" style={{ padding: '5px 10px', borderRadius: 8, border: '1px solid var(--border)', background: 'var(--bg-input)', color: 'var(--text-primary)', fontSize: 'clamp(12px, 1.0vw, 14px)' }}
+          <input type="date" style={{ padding: '5px 10px', borderRadius: 8, border: '1px solid var(--border)', background: 'var(--bg-input)', color: 'var(--text-primary)', fontSize: 'var(--fs-xs)' }}
             onChange={e => {
               const picked = new Date(e.target.value);
               const now = new Date();
@@ -219,18 +219,18 @@ export default function FoodScheduling() {
         <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 4 }}>
           <thead>
             <tr>
-              <th style={{ width: 80, padding: 10, fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, color: 'var(--text-muted)' }}></th>
+              <th style={{ width: 80, padding: 10, fontSize: 'var(--fs-xs)', fontWeight: 800, color: 'var(--text-muted)' }}></th>
               {DAYS.map((day, i) => {
                 const date = weekDates[i];
                 const isToday = date === new Date().toISOString().split('T')[0];
                 return (
                   <th key={day} style={{
-                    padding: '10px 6px', textAlign: 'center', fontSize: 'clamp(12px, 1.0vw, 14px)',
+                    padding: '10px 6px', textAlign: 'center', fontSize: 'var(--fs-xs)',
                     background: isToday ? 'rgba(249,115,22,0.08)' : 'transparent',
                     borderRadius: 10,
                   }}>
-                    <div style={{ fontWeight: 900, fontSize: 'clamp(12px, 1.0vw, 14px)', color: isToday ? 'var(--accent-orange)' : 'var(--text-primary)' }}>{day.slice(0, 3)}</div>
-                    <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>{new Date(date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</div>
+                    <div style={{ fontWeight: 900, fontSize: 'var(--fs-xs)', color: isToday ? 'var(--accent-orange)' : 'var(--text-primary)' }}>{day.slice(0, 3)}</div>
+                    <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>{new Date(date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</div>
                   </th>
                 );
               })}
@@ -242,10 +242,10 @@ export default function FoodScheduling() {
                 {/* Meal label */}
                 <td style={{ padding: '8px 6px', verticalAlign: 'top' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <span style={{ fontSize: 'clamp(16px, 1.0vw, 19px)' }}>{meal.icon}</span>
+                    <span style={{ fontSize: 'var(--fs-sm)' }}>{meal.icon}</span>
                     <div>
-                      <div style={{ fontWeight: 800, fontSize: 'clamp(12px, 1.0vw, 14px)', color: meal.color }}>{meal.label}</div>
-                      <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>{meal.time}</div>
+                      <div style={{ fontWeight: 800, fontSize: 'var(--fs-xs)', color: meal.color }}>{meal.label}</div>
+                      <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>{meal.time}</div>
                     </div>
                   </div>
                 </td>
@@ -285,16 +285,16 @@ export default function FoodScheduling() {
                             {items.slice(0, 2).map((item, idx) => (
                               <div key={idx} style={{ display: 'flex', gap: 4, alignItems: 'center', marginBottom: 4 }}>
                                 <img src={item.image} alt="" style={{ width: 22, height: 22, borderRadius: 5, objectFit: 'cover' }} />
-                                <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} className="text-truncate">{item.name}</span>
+                                <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} className="text-truncate">{item.name}</span>
                               </div>
                             ))}
-                            {items.length > 2 && <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>+{items.length - 2} more</div>}
-                            <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: meal.color, fontWeight: 800, marginTop: 4 }}><Icon icon={Flame} size={9} style={{marginRight:1}} /> {totalMealCal} kcal</div>
+                            {items.length > 2 && <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>+{items.length - 2} more</div>}
+                            <div style={{ fontSize: 'var(--fs-xs)', color: meal.color, fontWeight: 800, marginTop: 4 }}><Icon icon={Flame} size={9} style={{marginRight:1}} /> {totalMealCal} kcal</div>
                             <button onClick={e => { e.stopPropagation(); handleRemove(key); }} style={{ position: 'absolute', display: 'none' }}>×</button>
                           </>
                         ) : (
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: 70 }}>
-                            <span style={{ fontSize: 'clamp(18px, 1.0vw, 21px)', opacity: 0.2 }}>+</span>
+                            <span style={{ fontSize: 'var(--fs-body)', opacity: 0.2 }}>+</span>
                           </div>
                         )}
                       </div>
@@ -310,12 +310,12 @@ export default function FoodScheduling() {
       {/* Legend */}
       <div style={{ display: 'flex', gap: 20, marginTop: 12, justifyContent: 'center' }}>
         {MEALS.map(m => (
-          <div key={m.key} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 'clamp(12px, 1.0vw, 14px)' }}>
+          <div key={m.key} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 'var(--fs-xs)' }}>
             <div style={{ width: 10, height: 10, borderRadius: 3, background: m.color }} />
             <span style={{ fontWeight: 600 }}>{m.icon} {m.label}</span>
           </div>
         ))}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 'clamp(12px, 1.0vw, 14px)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 'var(--fs-xs)' }}>
           <div style={{ width: 10, height: 10, borderRadius: 3, border: '1.5px dashed #ccc' }} />
           <span style={{ color: 'var(--text-muted)' }}>Empty — click to add</span>
         </div>

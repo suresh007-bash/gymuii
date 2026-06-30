@@ -38,7 +38,7 @@ export default function ClientFavorites() {
         <>
           {favItems.length === 0 ? (
             <div className="card" style={{ textAlign: 'center', padding: 50, color: 'var(--text-muted)' }}>
-              <div style={{ fontSize: 'clamp(39px, 1.0vw, 45px)', marginBottom: 12 }}></div>
+              <div style={{ fontSize: 'var(--fs-hero)', marginBottom: 12 }}></div>
               <h3 style={{ fontWeight: 700, marginBottom: 8 }}>No favorites yet</h3>
               <p>Browse the menu and tap to save your favorite meals</p>
             </div>
@@ -48,13 +48,13 @@ export default function ClientFavorites() {
                 <div key={item.id} className="card" style={{ overflow: 'hidden', animation: 'fadeInUp 0.3s ease' }}>
                   <div style={{ position: 'relative' }}>
                     <img src={item.image} alt={item.name} style={{ width: '100%', height: 140, objectFit: 'cover' }} />
-                    <button onClick={() => toggle(item.id)} style={{ position: 'absolute', top: 8, right: 8, width: 32, height: 32, borderRadius: '50%', background: '#fff', border: 'none', fontSize: 'clamp(15px, 1.0vw, 18px)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}></button>
+                    <button onClick={() => toggle(item.id)} style={{ position: 'absolute', top: 8, right: 8, width: 32, height: 32, borderRadius: '50%', background: '#fff', border: 'none', fontSize: 'var(--fs-sm)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}></button>
                   </div>
                   <div style={{ padding: 14 }}>
-                    <div style={{ fontWeight: 800, fontSize: 'clamp(13px, 1.0vw, 15px)', marginBottom: 4 }} className="text-truncate">{item.name}</div>
-                    <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', marginBottom: 8 }}> {item.calories} kcal • {item.protein}g • {item.rating}</div>
+                    <div style={{ fontWeight: 800, fontSize: 'var(--fs-xs)', marginBottom: 4 }} className="text-truncate">{item.name}</div>
+                    <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', marginBottom: 8 }}> {item.calories} kcal • {item.protein}g • {item.rating}</div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontWeight: 900, color: 'var(--accent-green)', fontSize: 'clamp(15px, 1.0vw, 18px)' }}>₹{item.price}</span>
+                      <span style={{ fontWeight: 900, color: 'var(--accent-green)', fontSize: 'var(--fs-sm)' }}>₹{item.price}</span>
                       <button className="btn btn-primary btn-sm" onClick={() => addToCart(item)}>+ Add to Cart</button>
                     </div>
                   </div>
@@ -71,10 +71,10 @@ export default function ClientFavorites() {
             <div key={item.id} className="card" style={{ display: 'flex', gap: 12, padding: 14, alignItems: 'center' }}>
               <img src={item.image} alt={item.name} style={{ width: 64, height: 64, borderRadius: 12, objectFit: 'cover' }} />
               <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 1.0vw, 14px)' }} className="text-truncate">{item.name}</div>
-                <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>₹{item.price} • {item.calories}</div>
+                <div style={{ fontWeight: 700, fontSize: 'var(--fs-xs)' }} className="text-truncate">{item.name}</div>
+                <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>₹{item.price} • {item.calories}</div>
               </div>
-              <button onClick={() => toggle(item.id)} style={{ background: 'none', border: 'none', fontSize: 'clamp(16px, 1.0vw, 19px)', cursor: 'pointer' }}>{favorites.includes(item.id) ? '' : ''}</button>
+              <button onClick={() => toggle(item.id)} style={{ background: 'none', border: 'none', fontSize: 'var(--fs-sm)', cursor: 'pointer' }}>{favorites.includes(item.id) ? '' : ''}</button>
             </div>
           ))}
         </div>

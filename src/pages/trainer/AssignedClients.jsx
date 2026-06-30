@@ -68,8 +68,8 @@ export default function AssignedClients() {
   const [showAddMember, setShowAddMember] = useState(false);
   const [memberForm, setMemberForm] = useState({ name: '', email: '', phone: '', gender: 'Male', age: '', height: '', weight: '', foodType: 'Non-veg', allergies: '' });
   const updMember = (k, v) => setMemberForm(p => ({ ...p, [k]: v }));
-  const memberInp = { width: '100%', padding: '10px 14px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 12, color: 'var(--text-primary)', fontSize: 'clamp(13px, 1.0vw, 15px)', fontFamily: 'Outfit' };
-  const memberLbl = { display: 'block', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 0.5 };
+  const memberInp = { width: '100%', padding: '10px 14px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 12, color: 'var(--text-primary)', fontSize: 'var(--fs-xs)' };
+  const memberLbl = { display: 'block', fontSize: 'var(--fs-xs)', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 0.5 };
 
   const saveMember = () => {
     if (!memberForm.name || !memberForm.email) { showToast('Name and email required', 'error'); return; }
@@ -202,13 +202,13 @@ export default function AssignedClients() {
                 width: 60, height: 60, borderRadius: '50%',
                 background: 'linear-gradient(135deg,#4f46e5,#7c3aed)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 'clamp(18px, 1.0vw, 21px)', fontWeight: 800, color: '#fff'
+                fontSize: 'var(--fs-body)', fontWeight: 800, color: '#fff'
               }}>
                 {profileForm.avatar}
               </div>
               <div>
-                <h4 style={{ margin: 0, fontSize: 'clamp(16px, 1.0vw, 19px)', fontWeight: 800 }} className="text-truncate">{profileForm.name}</h4>
-                <p style={{ margin: 0, fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>Joined: {profileForm.joinDate || 'N/A'}</p>
+                <h4 style={{ margin: 0, fontSize: 'var(--fs-sm)', fontWeight: 800 }} className="text-truncate">{profileForm.name}</h4>
+                <p style={{ margin: 0, fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>Joined: {profileForm.joinDate || 'N/A'}</p>
               </div>
             </div>
 
@@ -310,17 +310,17 @@ export default function AssignedClients() {
             </div>
             <div style={{ maxHeight: 300, overflowY: 'auto', marginBottom: 12, padding: 8 }}>
               {(messages[msgClient.id] || []).length === 0 ? (
-                <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 'clamp(12px, 1.0vw, 14px)' }}>No messages yet. Start a conversation!</div>
+                <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 'var(--fs-xs)' }}>No messages yet. Start a conversation!</div>
               ) : (
                 (messages[msgClient.id] || []).map((msg, i) => (
                   <div key={i} style={{ display: 'flex', justifyContent: msg.sender === 'trainer' ? 'flex-end' : 'flex-start', marginBottom: 8 }}>
                     <div style={{
-                      maxWidth: '70%', padding: '8px 12px', borderRadius: 12, fontSize: 'clamp(12px, 1.0vw, 14px)',
+                      maxWidth: '70%', padding: '8px 12px', borderRadius: 12, fontSize: 'var(--fs-xs)',
                       background: msg.sender === 'trainer' ? 'var(--accent-orange)' : 'var(--bg-tertiary)',
                       color: msg.sender === 'trainer' ? '#fff' : 'var(--text-primary)',
                     }}>
                       {msg.text}
-                      <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', opacity: 0.7, marginTop: 2 }}>{msg.time}</div>
+                      <div style={{ fontSize: 'var(--fs-xs)', opacity: 0.7, marginTop: 2 }}>{msg.time}</div>
                     </div>
                   </div>
                 ))
@@ -354,16 +354,16 @@ export default function AssignedClients() {
                   width: 46, height: 46, borderRadius: 14, flexShrink: 0,
                   background: 'linear-gradient(135deg, #f97316, #fb923c)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 'clamp(14px, 1.0vw, 17px)', fontWeight: 800, color: '#fff',
+                  fontSize: 'var(--fs-xs)', fontWeight: 800, color: '#fff',
                   boxShadow: '0 4px 12px rgba(249,115,22,0.25)',
                 }}>{req.clientAvatar}</div>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 800, fontSize: 'clamp(13px, 1.0vw, 15px)', marginBottom: 2 }}>{req.clientName}</div>
-                  <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  <div style={{ fontWeight: 800, fontSize: 'var(--fs-xs)', marginBottom: 2 }}>{req.clientName}</div>
+                  <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                     <span><Icon icon={Mail} size={11} style={{marginRight:2}} /> {req.clientEmail}</span>
                     <span><Icon icon={Target} size={11} style={{marginRight:2}} /> {req.clientGoal}</span>
                   </div>
-                  <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', marginTop: 2 }}>
+                  <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', marginTop: 2 }}>
                     <Icon icon={Clock} size={11} style={{marginRight:2}} /> Requested {new Date(req.requestedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </div>
                 </div>
@@ -373,9 +373,8 @@ export default function AssignedClients() {
                     onClick={() => acceptRequest(req.id)}
                     style={{
                       background: 'linear-gradient(135deg, #22c55e, #16a34a)', border: 'none',
-                      color: '#fff', fontWeight: 700, fontSize: 'clamp(12px, 1.0vw, 14px)', padding: '8px 16px',
-                      borderRadius: 10, cursor: 'pointer', fontFamily: 'Outfit',
-                      boxShadow: '0 3px 10px rgba(34,197,94,0.3)',
+                      color: '#fff', fontWeight: 700, fontSize: 'var(--fs-xs)', padding: '8px 16px',
+                      borderRadius: 10, cursor: 'pointer', boxShadow: '0 3px 10px rgba(34,197,94,0.3)',
                     }}
                   ><Icon icon={CheckCircle2} size={12} style={{marginRight:4}} /> Accept</button>
                   <button
@@ -383,9 +382,8 @@ export default function AssignedClients() {
                     onClick={() => rejectRequest(req.id)}
                     style={{
                       background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)',
-                      color: '#ef4444', fontWeight: 700, fontSize: 'clamp(12px, 1.0vw, 14px)', padding: '8px 16px',
-                      borderRadius: 10, cursor: 'pointer', fontFamily: 'Outfit',
-                    }}
+                      color: '#ef4444', fontWeight: 700, fontSize: 'var(--fs-xs)', padding: '8px 16px',
+                      borderRadius: 10, cursor: 'pointer', }}
                   ><Icon icon={XCircle} size={12} style={{marginRight:4}} /> Decline</button>
                 </div>
               </div>
@@ -412,16 +410,16 @@ export default function AssignedClients() {
             <tr key={c.id}>
               <td>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }} onClick={() => openClientProfile(c)}>
-                  <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, color: '#fff' }}>{c.avatar}</div>
+                  <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--fs-xs)', fontWeight: 800, color: '#fff' }}>{c.avatar}</div>
                   <div>
-                    <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 1.0vw, 14px)', textDecoration: 'underline' }} className="text-truncate">{c.name}</div>
-                    <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>{c.email}</div>
+                    <div style={{ fontWeight: 700, fontSize: 'var(--fs-xs)', textDecoration: 'underline' }} className="text-truncate">{c.name}</div>
+                    <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>{c.email}</div>
                   </div>
                 </div>
               </td>
               <td><span className="badge badge-blue">{c.goal || 'Not Set'}</span></td>
               <td>{c.diet || 'Not Set'}</td>
-              <td style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>{c.joinDate}</td>
+              <td style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>{c.joinDate}</td>
               <td><div style={{ display: 'flex', gap: 6 }}>
                 <button className="btn btn-outline btn-sm" onClick={() => openClientProfile(c)}><Icon icon={User} size={13} style={{marginRight:4}} /> Profile</button>
                 <button className="btn btn-outline btn-sm" style={{ color: '#ef4444' }} onClick={() => setConfirm({
@@ -439,8 +437,8 @@ export default function AssignedClients() {
       {confirm && (
         <div className="modal-overlay" onClick={() => setConfirm(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 420, textAlign: 'center' }}>
-            <h3 style={{ fontSize: 'clamp(16px, 1.0vw, 19px)', fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
-            <p style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
+            <h3 style={{ fontSize: 'var(--fs-sm)', fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
+            <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
               <button className="btn btn-outline" onClick={() => setConfirm(null)}>Cancel</button>
               <button className="btn" style={{ background: confirm.color, color: '#fff', border: 'none', padding: '10px 24px', borderRadius: 10, fontWeight: 700, cursor: 'pointer' }} onClick={confirm.action}>Confirm</button>

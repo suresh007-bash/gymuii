@@ -44,11 +44,11 @@ const Ring = ({ value, target, color, size = 72, stroke = 7, icon, label, unit }
           {pct > 3 && <circle cx={size/2 + r * Math.cos(dotAngle)} cy={size/2 + r * Math.sin(dotAngle)} r={stroke/2 + 1} fill={isOver ? '#ef4444' : color} style={{ filter: `drop-shadow(0 0 3px ${isOver ? '#ef4444' : color})`, opacity: 0.8 }} />}
         </svg>
         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center' }}>
-          <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(12px, 1.0vw, 14px)', color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{displayed}</div>
+          <div style={{ fontWeight: 900, fontSize: 'var(--fs-xs)', color: isOver ? '#ef4444' : color, lineHeight: 1 }}>{displayed}</div>
         </div>
       </div>
-      <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, color: 'var(--text-muted)', marginTop: 2 }}>{label}</div>
-      <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: isOver ? '#ef4444' : 'var(--text-muted)' }}>
+      <div style={{ fontSize: 'var(--fs-xs)', fontWeight: 700, color: 'var(--text-muted)', marginTop: 2 }}>{label}</div>
+      <div style={{ fontSize: 'var(--fs-xs)', color: isOver ? '#ef4444' : 'var(--text-muted)' }}>
         {isOver ? `+${value - target} over` : `${target - value} ${unit} left`}
       </div>
     </div>
@@ -368,14 +368,14 @@ export default function ScheduleFoods() {
   if (orderPlaced) return (
     <DashboardLayout title="Schedule Foods">
       <div style={{ textAlign: 'center', padding: 60 }}>
-        <div style={{ fontSize: 'clamp(57px, 1.0vw, 66px)', marginBottom: 16 }}></div>
-        <h2 style={{ fontFamily: 'Outfit', fontSize: 'clamp(24px, 1.0vw, 28px)', fontWeight: 800, marginBottom: 8 }}>Order Placed!</h2>
+        <div style={{ fontSize: 'var(--fs-hero)', marginBottom: 16 }}></div>
+        <h2 style={{ fontSize: 'var(--fs-subheading)', fontWeight: 800, marginBottom: 8 }}>Order Placed!</h2>
         <p style={{ color: 'var(--text-muted)', marginBottom: 4 }}>Order #{orderPlaced.id}</p>
         <div style={{ background: 'rgba(249,115,22,0.08)', borderRadius: 16, padding: '16px 32px', display: 'inline-block', marginBottom: 16 }}>
-          <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 700 }}>YOUR OTP</div>
-          <div style={{ fontFamily: 'Outfit', fontSize: 'clamp(30px, 1.0vw, 35px)', fontWeight: 900, color: 'var(--accent-orange)', letterSpacing: 6 }}>{orderPlaced.otp}</div>
+          <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', fontWeight: 700 }}>YOUR OTP</div>
+          <div style={{ fontSize: 'var(--fs-heading)', fontWeight: 900, color: 'var(--accent-orange)', letterSpacing: 6 }}>{orderPlaced.otp}</div>
         </div>
-        <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: 'clamp(12px, 1.0vw, 14px)' }}> {(orderPlaced.scheduledDates || []).map(d => fmtDate(d)).join(' • ')}</p>
+        <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: 'var(--fs-xs)' }}> {(orderPlaced.scheduledDates || []).map(d => fmtDate(d)).join(' • ')}</p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
           <button className="btn btn-primary btn-lg" onClick={() => navigate(`${rolePrefix}/orders`)}> Track Order</button>
           <button className="btn btn-outline btn-lg" onClick={() => navigate(`${rolePrefix}/menu`)}> Order More</button>
@@ -397,9 +397,9 @@ export default function ScheduleFoods() {
             display: 'flex', alignItems: 'center', gap: 8, padding: '10px 18px', borderRadius: 12, cursor: 'pointer',
             background: step === s.num ? 'var(--accent-orange)' : step > s.num ? 'rgba(34,197,94,0.1)' : 'var(--bg-tertiary)',
             color: step === s.num ? '#fff' : step > s.num ? 'var(--accent-green)' : 'var(--text-muted)',
-            fontWeight: 700, fontSize: 'clamp(12px, 1.0vw, 14px)', transition: 'all 0.3s',
+            fontWeight: 700, fontSize: 'var(--fs-xs)', transition: 'all 0.3s',
           }}>
-            <span style={{ fontSize: 'clamp(15px, 1.0vw, 18px)' }}>{step > s.num ? '' : s.icon}</span><span>{s.label}</span>
+            <span style={{ fontSize: 'var(--fs-sm)' }}>{step > s.num ? '' : s.icon}</span><span>{s.label}</span>
           </div>
           {i < 2 && <div style={{ width: 32, height: 2, background: step > s.num ? 'var(--accent-green)' : 'var(--border)' }} />}
         </div>
@@ -431,13 +431,13 @@ export default function ScheduleFoods() {
           <div className="card-header" style={{ marginBottom: 16 }}>
             <h3 className="card-title" style={{ fontSize: '1.4rem' }}> Step 1: Select Delivery Dates</h3>
           </div>
-          <p style={{ fontSize: 'clamp(13px, 1.0vw, 15px)', color: 'var(--text-muted)', marginBottom: 20 }}>
+          <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', marginBottom: 20 }}>
             Pick dates. For each date you can add as many time slots as you need and select food for each.
           </p>
           
           <div className="cal-grid-magic" ref={calGridRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '10px', marginBottom: 24, position: 'relative', width: '100%' }}>
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
-              <div key={d} style={{ textAlign: 'center', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, color: 'var(--text-muted)', padding: '8px 0' }}>{d}</div>
+              <div key={d} style={{ textAlign: 'center', fontSize: 'var(--fs-xs)', fontWeight: 800, color: 'var(--text-muted)', padding: '8px 0' }}>{d}</div>
             ))}
             {Array.from({ length: new Date(calendarDays[0]).getDay() }, (_, i) => <div key={'e' + i} />)}
             {calendarDays.map(dateStr => {
@@ -456,7 +456,7 @@ export default function ScheduleFoods() {
                     border: isSelected ? '2px solid var(--accent-orange)' : '2px solid transparent',
                     cursor: 'pointer', 
                     /* Increased font size from 14 to 16 for better visibility */
-                    fontSize: 'clamp(15px, 1.0vw, 18px)', 
+                    fontSize: 'var(--fs-sm)', 
                     fontWeight: 700, 
                     transition: 'all 0.2s',
                     background: isSelected ? 'var(--accent-orange)' : isToday ? 'rgba(249,115,22,0.08)' : 'var(--bg-tertiary)',
@@ -473,12 +473,12 @@ export default function ScheduleFoods() {
           </div>
 
           {selectedDates.length > 0 && (
-            <div style={{ padding: 16, background: 'rgba(34,197,94,0.06)', borderRadius: 12, marginBottom: 20, fontSize: 'clamp(13px, 1.0vw, 15px)' }}>
+            <div style={{ padding: 16, background: 'rgba(34,197,94,0.06)', borderRadius: 12, marginBottom: 20, fontSize: 'var(--fs-xs)' }}>
               <strong> {selectedDates.length} date{selectedDates.length > 1 ? 's' : ''}:</strong> {selectedDates.sort().map(d => fmtDate(d)).join(' • ')}
             </div>
           )}
 
-          <button className="btn btn-primary btn-lg" style={{ width: '100%', padding: '16px 0', fontSize: 'clamp(15px, 1.0vw, 18px)' }}
+          <button className="btn btn-primary btn-lg" style={{ width: '100%', padding: '16px 0', fontSize: 'var(--fs-sm)' }}
             onClick={() => { if (selectedDates.length === 0) { showToast('Select at least one date', 'error'); return; } selectedDates.forEach(d => { if (!schedule[d]) setSchedule(p => ({ ...p, [d]: defaultSlots() })); }); setActiveDate(selectedDates.sort()[0]); setStep(2); }}
             disabled={selectedDates.length === 0}>
             {selectedDates.length > 0 ? `Next → Set Time Slots (${selectedDates.length} date${selectedDates.length > 1 ? 's' : ''})` : 'Select dates first'}
@@ -498,13 +498,15 @@ export default function ScheduleFoods() {
                   <button className="modal-close" onClick={() => { setSchedule(prev => { const s = { ...prev }; s[activeDate] = s[activeDate].map(sl => sl.id === activeSlotId ? { ...sl, items: slotSnapshot || [] } : sl); return s; }); setShowFoodPicker(false); setSlotSnapshot(null); setSearch(''); setFoodCat('All'); setNutriSort(null); }}></button>
                 </div>
 
-                {/* Smart Meal Optimization Section */}
-                {suggested.length > 0 && (
+                {/* Scrollable Main Content */}
+                <div style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
+                  {/* Smart Meal Optimization Section */}
+                  {suggested.length > 0 && (
                   <div style={{ marginBottom: 12, padding: '16px 20px', background: 'rgba(249,115,22,0.03)', borderBottom: '1px solid var(--border)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                      <span style={{ fontWeight: 800, fontSize: 'clamp(13px, 1.0vw, 15px)', color: cfg.color }}>Smart Meal Optimization</span>
+                      <span style={{ fontWeight: 800, fontSize: 'var(--fs-xs)', color: cfg.color }}>Smart Meal Optimization</span>
                     </div>
-                    <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', marginBottom: 12 }}>
+                    <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', marginBottom: 12 }}>
                       Based on your <strong>[{userGoal}]</strong> goal and body profile, here are options rated for balanced macros.
                     </div>
 
@@ -515,19 +517,19 @@ export default function ScheduleFoods() {
                           <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
                             <img src={suggested[1].image} alt={suggested[1].name} style={{ width: 56, height: 56, borderRadius: 8, objectFit: 'cover' }} />
                             <div style={{ flex: 1 }}>
-                              <div style={{ fontWeight: 800, fontSize: 'clamp(14px, 1.0vw, 17px)' }}>{suggested[1].name}</div>
-                              <div style={{ fontSize: 'clamp(14px, 1.0vw, 17px)', color: 'var(--text-muted)', margin: '2px 0' }}>Built for {userGoal.toLowerCase()}, fueled for results.</div>
-                              <div style={{ display: 'flex', gap: 8, fontSize: 'clamp(14px, 1.0vw, 17px)', color: 'var(--text-muted)' }}>
+                              <div style={{ fontWeight: 800, fontSize: 'var(--fs-xs)' }}>{suggested[1].name}</div>
+                              <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', margin: '2px 0' }}>Built for {userGoal.toLowerCase()}, fueled for results.</div>
+                              <div style={{ display: 'flex', gap: 8, fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>
                                 <span>{suggested[1].calories} kcal</span>
                                 <span>{suggested[1].protein}g prot.</span>
                                 <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>Score 9.5</span>
                               </div>
                             </div>
                             <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
-                              <button className="btn btn-primary btn-sm" style={{ fontSize: 'clamp(12px, 1.0vw, 14px)' }} onClick={() => addItem(activeDate, activeSlotId, suggested[1])}>Order</button>
+                              <button className="btn btn-primary btn-sm" style={{ fontSize: 'var(--fs-xs)' }} onClick={() => addItem(activeDate, activeSlotId, suggested[1])}>Order</button>
                               <button
                                 className="btn btn-outline btn-sm"
-                                style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', background: showSchedAlternatives ? 'rgba(249,115,22,0.08)' : 'transparent', borderColor: showSchedAlternatives ? 'var(--accent-orange)' : undefined, color: showSchedAlternatives ? 'var(--accent-orange)' : undefined }}
+                                style={{ fontSize: 'var(--fs-xs)', background: showSchedAlternatives ? 'rgba(249,115,22,0.08)' : 'transparent', borderColor: showSchedAlternatives ? 'var(--accent-orange)' : undefined, color: showSchedAlternatives ? 'var(--accent-orange)' : undefined }}
                                 onClick={() => setShowSchedAlternatives(v => !v)}
                               >
                                 {showSchedAlternatives ? '' : 'Not right?\nAlternatives'}
@@ -539,7 +541,7 @@ export default function ScheduleFoods() {
                         {/* Alternatives panel */}
                         {showSchedAlternatives && (
                           <div style={{ animation: 'fadeInUp 0.2s ease' }}>
-                            <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 6 }}> Alternatives for <strong>{userGoal}</strong></div>
+                            <div style={{ fontSize: 'var(--fs-xs)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 6 }}> Alternatives for <strong>{userGoal}</strong></div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                               {suggested.filter((_, i) => i !== 1).map(alt => (
                                 <div key={alt.id} style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '8px 10px', borderRadius: 8, border: '1.5px solid var(--border)', background: 'var(--bg-secondary)', transition: 'all 0.2s' }}
@@ -548,14 +550,14 @@ export default function ScheduleFoods() {
                                 >
                                   <img src={alt.image} alt={alt.name} style={{ width: 40, height: 40, borderRadius: 6, objectFit: 'cover' }} />
                                   <div style={{ flex: 1 }}>
-                                    <div style={{ fontWeight: 800, fontSize: 'clamp(12px, 1.0vw, 14px)' }}>{alt.name}</div>
-                                    <div style={{ display: 'flex', gap: 6, fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', marginTop: 2 }}>
+                                    <div style={{ fontWeight: 800, fontSize: 'var(--fs-xs)' }}>{alt.name}</div>
+                                    <div style={{ display: 'flex', gap: 6, fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', marginTop: 2 }}>
                                       <span> {alt.calories} kcal</span>
                                       <span> {alt.protein}g</span>
                                       <span style={{ color: 'var(--accent-green)', fontWeight: 700 }}>₹{alt.price}</span>
                                     </div>
                                   </div>
-                                  <button className="btn btn-primary btn-sm" style={{ padding: '4px 10px', fontSize: 'clamp(12px, 1.0vw, 14px)' }} onClick={() => { addItem(activeDate, activeSlotId, alt); setShowSchedAlternatives(false); }}>+ Add</button>
+                                  <button className="btn btn-primary btn-sm" style={{ padding: '4px 10px', fontSize: 'var(--fs-xs)' }} onClick={() => { addItem(activeDate, activeSlotId, alt); setShowSchedAlternatives(false); }}>+ Add</button>
                                 </div>
                               ))}
                             </div>
@@ -589,7 +591,7 @@ export default function ScheduleFoods() {
                 <div style={{ display: 'flex', gap: 8, marginBottom: 10, alignItems: 'center' }}>
                   <div style={{ flex: 1, position: 'relative' }}>
                     <span style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)' }}></span>
-                    <input className="form-input" placeholder="Search food..." value={search} onChange={e => setSearch(e.target.value)} style={{ paddingLeft: 32, fontSize: 'clamp(13px, 1.0vw, 15px)' }} />
+                    <input className="form-input" placeholder="Search food..." value={search} onChange={e => setSearch(e.target.value)} style={{ paddingLeft: 32, fontSize: 'var(--fs-xs)' }} />
                   </div>
                 </div>
 
@@ -597,7 +599,7 @@ export default function ScheduleFoods() {
                 <div style={{ display: 'flex', gap: 4, marginBottom: 8, overflowX: 'auto', paddingBottom: 2 }}>
                   {CATEGORIES.map(c => (
                     <button key={c} onClick={() => setFoodCat(c)} style={{
-                      padding: '5px 12px', borderRadius: 20, border: 'none', cursor: 'pointer', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, whiteSpace: 'nowrap',
+                      padding: '5px 12px', borderRadius: 20, border: 'none', cursor: 'pointer', fontSize: 'var(--fs-xs)', fontWeight: 700, whiteSpace: 'nowrap',
                       background: foodCat === c ? 'var(--accent-orange)' : 'var(--bg-tertiary)',
                       color: foodCat === c ? '#fff' : 'var(--text-muted)', transition: 'all 0.2s',
                     }}>{c}</button>
@@ -613,7 +615,7 @@ export default function ScheduleFoods() {
                     { key: 'lowCarb', label: ' Low Carb', color: '#3b82f6' },
                   ].map(f => (
                     <button key={f.key} onClick={() => setNutriSort(nutriSort === f.key ? null : f.key)} style={{
-                      padding: '4px 10px', borderRadius: 8, fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, cursor: 'pointer',
+                      padding: '4px 10px', borderRadius: 8, fontSize: 'var(--fs-xs)', fontWeight: 700, cursor: 'pointer',
                       border: `1.5px solid ${nutriSort === f.key ? f.color : 'var(--border)'}`,
                       background: nutriSort === f.key ? `${f.color}15` : 'transparent',
                       color: nutriSort === f.key ? f.color : 'var(--text-muted)', transition: 'all 0.2s',
@@ -622,9 +624,9 @@ export default function ScheduleFoods() {
                 </div>
 
                 {/* Food List — Bigger cards */}
-                <div style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
+                <div style={{ flex: 'none' }}>
                   {filteredMenu.length === 0 && (
-                    <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 'clamp(12px, 1.0vw, 14px)' }}>No food items found</div>
+                    <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)', fontSize: 'var(--fs-xs)' }}>No food items found</div>
                   )}
                   {filteredMenu.map(item => {
                     const inSlot = activeSlotItems.find(i => i.id === item.id);
@@ -636,31 +638,32 @@ export default function ScheduleFoods() {
                       }}>
                         <img src={item.image} alt="" style={{ width: 56, height: 56, borderRadius: 10, objectFit: 'cover' }} />
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontWeight: 800, fontSize: 'clamp(13px, 1.0vw, 15px)' }} className="text-truncate">{item.name}</div>
-                          <div style={{ display: 'flex', gap: 10, fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', marginTop: 2 }}>
+                          <div style={{ fontWeight: 800, fontSize: 'var(--fs-xs)' }} className="text-truncate">{item.name}</div>
+                          <div style={{ display: 'flex', gap: 10, fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', marginTop: 2 }}>
                             <span style={{ color: '#f97316' }}> {item.calories}</span>
                             <span style={{ color: '#22c55e' }}> {item.protein}g</span>
                             <span style={{ color: '#3b82f6' }}> {item.carbs}g</span>
                             <span style={{ color: '#eab308' }}> {item.fat}g</span>
                           </div>
-                          <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, color: 'var(--accent-green)', marginTop: 2 }}>₹{item.price}</div>
+                          <div style={{ fontSize: 'var(--fs-xs)', fontWeight: 800, color: 'var(--accent-green)', marginTop: 2 }}>₹{item.price}</div>
                         </div>
                         {inSlot ? (
                           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                            <button className="btn btn-outline" style={{ width: 30, height: 30, padding: 0, fontSize: 'clamp(14px, 1.0vw, 17px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => { if (inSlot.qty <= 1) removeItem(activeDate, activeSlotId, item.id); else updateQty(activeDate, activeSlotId, item.id, -1); }}>−</button>
-                            <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(15px, 1.0vw, 18px)', minWidth: 22, textAlign: 'center' }}>{inSlot.qty}</span>
-                            <button className="btn btn-outline" style={{ width: 30, height: 30, padding: 0, fontSize: 'clamp(14px, 1.0vw, 17px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => updateQty(activeDate, activeSlotId, item.id, 1)}>+</button>
+                            <button className="btn btn-outline" style={{ width: 30, height: 30, padding: 0, fontSize: 'var(--fs-xs)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => { if (inSlot.qty <= 1) removeItem(activeDate, activeSlotId, item.id); else updateQty(activeDate, activeSlotId, item.id, -1); }}>−</button>
+                            <span style={{ fontWeight: 900, fontSize: 'var(--fs-sm)', minWidth: 22, textAlign: 'center' }}>{inSlot.qty}</span>
+                            <button className="btn btn-outline" style={{ width: 30, height: 30, padding: 0, fontSize: 'var(--fs-xs)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => updateQty(activeDate, activeSlotId, item.id, 1)}>+</button>
                           </div>
                         ) : (
-                          <button className="btn btn-primary" style={{ padding: '8px 18px', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800 }} onClick={() => addItem(activeDate, activeSlotId, item)}>+ Add</button>
+                          <button className="btn btn-primary" style={{ padding: '8px 18px', fontSize: 'var(--fs-xs)', fontWeight: 800 }} onClick={() => addItem(activeDate, activeSlotId, item)}>+ Add</button>
                         )}
                       </div>
                     );
                   })}
                 </div>
+                </div>
                 <div className="modal-footer" style={{ position: 'sticky', bottom: 0, marginTop: 0, padding: '10px 16px', background: 'var(--bg-primary)', borderTop: '1.5px solid var(--border)', zIndex: 5, flexShrink: 0 }}>
-                  <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>{activeSlotItems.length} items in this meal</span>
-                  <button className="btn btn-primary" style={{ fontSize: 'clamp(13px, 1.0vw, 15px)', padding: '10px 28px' }} onClick={() => { setShowFoodPicker(false); setSlotSnapshot(null); setSearch(''); setFoodCat('All'); setNutriSort(null); }}> Done</button>
+                  <span style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>{activeSlotItems.length} items in this meal</span>
+                  <button className="btn btn-primary" style={{ fontSize: 'var(--fs-xs)', padding: '10px 28px' }} onClick={() => { setShowFoodPicker(false); setSlotSnapshot(null); setSearch(''); setFoodCat('All'); setNutriSort(null); }}> Done</button>
                 </div>
               </div>
             </div>
@@ -674,7 +677,7 @@ export default function ScheduleFoods() {
                   <h3 className="modal-title"> Copy to Specific Dates</h3>
                   <button className="modal-close" onClick={() => { setShowCopyPicker(false); setCopyTargetDates([]); }}></button>
                 </div>
-                <p style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', marginBottom: 12 }}>Select which dates to paste this meal plan to:</p>
+                <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', marginBottom: 12 }}>Select which dates to paste this meal plan to:</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 16 }}>
                   {selectedDates.sort().filter(d => d !== activeDate).map(dateStr => {
                     const isChecked = copyTargetDates.includes(dateStr);
@@ -685,12 +688,12 @@ export default function ScheduleFoods() {
                         background: isChecked ? 'rgba(249,115,22,0.08)' : 'var(--bg-tertiary)',
                         border: `1.5px solid ${isChecked ? 'var(--accent-orange)' : 'var(--border)'}`,
                       }}>
-                        <div style={{ width: 20, height: 20, borderRadius: 4, border: `2px solid ${isChecked ? 'var(--accent-orange)' : 'var(--border)'}`, background: isChecked ? 'var(--accent-orange)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 900 }}>
+                        <div style={{ width: 20, height: 20, borderRadius: 4, border: `2px solid ${isChecked ? 'var(--accent-orange)' : 'var(--border)'}`, background: isChecked ? 'var(--accent-orange)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 'var(--fs-xs)', fontWeight: 900 }}>
                           {isChecked && ''}
                         </div>
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 1.0vw, 14px)' }}>{fmtDate(dateStr)}</div>
-                          {existingCount > 0 && <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--accent-orange)' }}> Has {existingCount} items (will be replaced)</div>}
+                          <div style={{ fontWeight: 700, fontSize: 'var(--fs-xs)' }}>{fmtDate(dateStr)}</div>
+                          {existingCount > 0 && <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--accent-orange)' }}> Has {existingCount} items (will be replaced)</div>}
                         </div>
                       </div>
                     );
@@ -723,7 +726,7 @@ export default function ScheduleFoods() {
                     padding: '10px 34px 10px 14px', borderRadius: 12, border: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
                     background: isActive ? 'var(--accent-orange)' : count > 0 ? 'rgba(34,197,94,0.1)' : 'var(--bg-tertiary)',
                     color: isActive ? '#fff' : count > 0 ? 'var(--accent-green)' : 'var(--text-muted)',
-                    fontWeight: 800, fontSize: 'clamp(12px, 1.0vw, 14px)', transition: 'all 0.2s',
+                    fontWeight: 800, fontSize: 'var(--fs-xs)', transition: 'all 0.2s',
                   }}>
                     {fmtDate(dateStr)} {count > 0 ? `(${count})` : ''} • {slotCount} slots
                   </button>
@@ -737,7 +740,7 @@ export default function ScheduleFoods() {
                     showToast(` ${fmtDate(dateStr)} removed`);
                   }} style={{
                     position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)',
-                    width: 20, height: 20, borderRadius: '50%', border: 'none', cursor: 'pointer', fontSize: 'clamp(12px, 1.0vw, 14px)',
+                    width: 20, height: 20, borderRadius: '50%', border: 'none', cursor: 'pointer', fontSize: 'var(--fs-xs)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900,
                     background: isActive ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.08)',
                     color: isActive ? '#fff' : 'var(--text-muted)',
@@ -764,8 +767,8 @@ export default function ScheduleFoods() {
             return (
               <div className="card" style={{ padding: 14, marginBottom: 14 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                  <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(12px, 1.0vw, 14px)' }}> {fmtDate(activeDate)} — Nutrition</span>
-                  <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, color: calPct >= 100 ? '#22c55e' : calPct > 80 ? '#f97316' : 'var(--text-muted)' }}>
+                  <span style={{ fontWeight: 800, fontSize: 'var(--fs-xs)' }}> {fmtDate(activeDate)} — Nutrition</span>
+                  <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 700, color: calPct >= 100 ? '#22c55e' : calPct > 80 ? '#f97316' : 'var(--text-muted)' }}>
                     {calPct >= 100 ? ' Target reached!' : calPct > 80 ? ` ${calPct}% almost there` : `${calPct}%`}
                   </span>
                 </div>
@@ -792,9 +795,9 @@ export default function ScheduleFoods() {
                     {/* Slot Header */}
                     <div style={{ padding: '10px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: `${color}08` }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <div style={{ width: 28, height: 28, borderRadius: '50%', background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 900, fontSize: 'clamp(12px, 1.0vw, 14px)' }}>{idx + 1}</div>
+                        <div style={{ width: 28, height: 28, borderRadius: '50%', background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 900, fontSize: 'var(--fs-xs)' }}>{idx + 1}</div>
                         <input value={slot.label} onChange={e => setSlotLabel(activeDate, slot.id, e.target.value)}
-                          style={{ border: 'none', background: 'transparent', fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 1.0vw, 17px)', color: color, width: 140, outline: 'none' }}
+                          style={{ border: 'none', background: 'transparent', fontWeight: 800, fontSize: 'var(--fs-xs)', color: color, width: 140, outline: 'none' }}
                           placeholder="Meal name" />
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -802,8 +805,8 @@ export default function ScheduleFoods() {
                           const parsed = parseTime(slot.time);
                           const selectStyle = {
                             padding: '5px 6px', borderRadius: 8, border: `1.5px solid ${color}40`,
-                            background: 'var(--bg-input)', color: 'var(--text-primary)', fontSize: 'clamp(12px, 1.0vw, 14px)',
-                            fontFamily: 'Outfit', fontWeight: 700, cursor: 'pointer', appearance: 'auto',
+                            background: 'var(--bg-input)', color: 'var(--text-primary)', fontSize: 'var(--fs-xs)',
+                            fontWeight: 700, cursor: 'pointer', appearance: 'auto',
                           };
                           return (
                             <>
@@ -821,7 +824,7 @@ export default function ScheduleFoods() {
                             </>
                           );
                         })()}
-                        <button onClick={() => removeSlot(activeDate, slot.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 'clamp(13px, 1.0vw, 15px)', color: 'var(--accent-red)', marginLeft: 4 }} title="Remove slot"></button>
+                        <button onClick={() => removeSlot(activeDate, slot.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 'var(--fs-xs)', color: 'var(--accent-red)', marginLeft: 4 }} title="Remove slot"></button>
                       </div>
                     </div>
 
@@ -829,11 +832,11 @@ export default function ScheduleFoods() {
                     <div style={{ padding: '12px 14px' }}>
                       {/* Pack Title */}
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                        <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
+                        <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
                           {slot.items.length > 0 ? `${slot.items.reduce((a, i) => a + i.qty, 0)} Pack` : 'Empty Pack'}
                         </span>
                         {slot.items.length > 0 && (
-                          <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, color }}>
+                          <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 700, color }}>
                              {slotCal} kcal • ₹{slotTotal}
                           </span>
                         )}
@@ -867,7 +870,7 @@ export default function ScheduleFoods() {
                               width: 14, height: 14, borderRadius: '50%',
                               background: color, color: '#fff',
                               display: 'flex', alignItems: 'center', justifyContent: 'center',
-                              fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 900,
+                              fontSize: 'var(--fs-xs)', fontWeight: 900,
                               boxShadow: `0 1px 4px ${color}60`,
                             }}>{itemIdx + 1}</div>
 
@@ -875,7 +878,7 @@ export default function ScheduleFoods() {
                               position: 'absolute', top: 2, right: 2, zIndex: 2,
                               width: 12, height: 12, borderRadius: '50%',
                               background: 'rgba(239,68,68,0.85)', color: '#fff',
-                              border: 'none', cursor: 'pointer', fontSize: 'clamp(12px, 1.0vw, 14px)',
+                              border: 'none', cursor: 'pointer', fontSize: 'var(--fs-xs)',
                               display: 'flex', alignItems: 'center', justifyContent: 'center',
                               fontWeight: 900,
                             }}></button>
@@ -886,26 +889,26 @@ export default function ScheduleFoods() {
 
                             <div style={{ padding: '2px 3px', textAlign: 'center' }}>
                               <div style={{
-                                fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, color: 'var(--text-primary)',
+                                fontSize: 'var(--fs-xs)', fontWeight: 800, color: 'var(--text-primary)',
                                 lineHeight: 1.1, whiteSpace: 'nowrap',
                                 overflow: 'hidden', textOverflow: 'ellipsis',
                               }} className="text-truncate">{item.name}</div>
-                              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>
+                              <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>
                                 {item.calories * item.qty} • ₹{item.price * item.qty}
                               </div>
                               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, marginTop: 1 }}>
                                 <button onClick={() => { if (item.qty <= 1) removeItem(activeDate, slot.id, item.id); else updateQty(activeDate, slot.id, item.id, -1); }}
                                   style={{
                                     width: 13, height: 13, borderRadius: 3, border: `1px solid ${color}50`,
-                                    background: 'var(--bg-primary)', cursor: 'pointer', fontSize: 'clamp(12px, 1.0vw, 14px)',
+                                    background: 'var(--bg-primary)', cursor: 'pointer', fontSize: 'var(--fs-xs)',
                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                                     color: 'var(--text-primary)', fontWeight: 900, padding: 0,
                                   }}>−</button>
-                                <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 900, minWidth: 8, textAlign: 'center', color }}>{item.qty}</span>
+                                <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 900, minWidth: 8, textAlign: 'center', color }}>{item.qty}</span>
                                 <button onClick={() => updateQty(activeDate, slot.id, item.id, 1)}
                                   style={{
                                     width: 13, height: 13, borderRadius: 3, border: `1px solid ${color}50`,
-                                    background: 'var(--bg-primary)', cursor: 'pointer', fontSize: 'clamp(12px, 1.0vw, 14px)',
+                                    background: 'var(--bg-primary)', cursor: 'pointer', fontSize: 'var(--fs-xs)',
                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                                     color: 'var(--text-primary)', fontWeight: 900, padding: 0,
                                   }}>+</button>
@@ -935,9 +938,9 @@ export default function ScheduleFoods() {
                               width: 14, height: 14, borderRadius: '50%',
                               background: `${color}15`, color: `${color}50`,
                               display: 'flex', alignItems: 'center', justifyContent: 'center',
-                              fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 900, marginBottom: 2,
+                              fontSize: 'var(--fs-xs)', fontWeight: 900, marginBottom: 2,
                             }}>{slot.items.length + i + 1}</div>
-                            <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: `${color}35` }}>+</div>
+                            <div style={{ fontSize: 'var(--fs-xs)', color: `${color}35` }}>+</div>
                           </div>
                         ))}
                       </div>
@@ -959,14 +962,14 @@ export default function ScheduleFoods() {
                             background: `${color}08`, border: `1px solid ${color}15`,
                           }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-                              <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, color: 'var(--text-muted)' }}>
+                              <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 700, color: 'var(--text-muted)' }}>
                                 {slot.label} Total ({slot.items.reduce((a, i) => a + i.qty, 0)} items)
                               </span>
-                              <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 900, color }}>
+                              <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 900, color }}>
                                 ₹{slotTotal}
                               </span>
                             </div>
-                            <div style={{ display: 'flex', gap: 10, fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700 }}>
+                            <div style={{ display: 'flex', gap: 10, fontSize: 'var(--fs-xs)', fontWeight: 700 }}>
                               <span style={{ color: '#f97316' }}> {slotCal} kcal</span>
                               <span style={{ color: '#22c55e' }}> {mealPro}g protein</span>
                               <span style={{ color: '#3b82f6' }}> {mealCarb}g carbs</span>
@@ -1002,10 +1005,10 @@ export default function ScheduleFoods() {
                       borderBottom: '1px solid rgba(249,115,22,0.12)',
                       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                     }}>
-                      <span style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-primary)' }}>
+                      <span style={{ fontWeight: 800, fontSize: 'var(--fs-xs)', color: 'var(--text-primary)' }}>
                          {fmtDate(activeDate)} — Cost & Nutrition Summary
                       </span>
-                      <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 700 }}>
+                      <span style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', fontWeight: 700 }}>
                         {dayItems} items total
                       </span>
                     </div>
@@ -1029,20 +1032,20 @@ export default function ScheduleFoods() {
                                   width: 20, height: 20, borderRadius: '50%',
                                   background: slotColors[idx % slotColors.length],
                                   color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                  fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 900,
+                                  fontSize: 'var(--fs-xs)', fontWeight: 900,
                                 }}>{idx + 1}</div>
-                                <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, color: 'var(--text-primary)' }}>
+                                <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 700, color: 'var(--text-primary)' }}>
                                   {slot.label}
                                 </span>
-                                <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>
+                                <span style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>
                                   ({mealItems} items)
                                 </span>
                               </div>
-                              <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, color: slotColors[idx % slotColors.length] }}>
+                              <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 800, color: slotColors[idx % slotColors.length] }}>
                                 ₹{mealTotal}
                               </span>
                             </div>
-                            <div style={{ display: 'flex', gap: 8, fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 600, marginTop: 2, marginLeft: 26, color: 'var(--text-muted)' }}>
+                            <div style={{ display: 'flex', gap: 8, fontSize: 'var(--fs-xs)', fontWeight: 600, marginTop: 2, marginLeft: 26, color: 'var(--text-muted)' }}>
                               <span style={{ color: '#f97316' }}>{mCal}</span>
                               <span style={{ color: '#22c55e' }}>{mPro}g</span>
                               <span style={{ color: '#3b82f6' }}>{mCarb}g</span>
@@ -1057,17 +1060,16 @@ export default function ScheduleFoods() {
                         marginTop: 4, borderTop: '2px solid var(--accent-orange)',
                       }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <span style={{ fontSize: 'clamp(13px, 1.0vw, 15px)', fontWeight: 900, color: 'var(--text-primary)' }}>
+                          <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 900, color: 'var(--text-primary)' }}>
                              Day Total
                           </span>
                           <span style={{
-                            fontSize: 'clamp(16px, 1.0vw, 19px)', fontWeight: 900, color: 'var(--accent-orange)',
-                            fontFamily: 'Outfit',
-                          }}>
+                            fontSize: 'var(--fs-sm)', fontWeight: 900, color: 'var(--accent-orange)',
+                            }}>
                             ₹{dayTotal}
                           </span>
                         </div>
-                        <div style={{ display: 'flex', gap: 12, fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, marginTop: 4 }}>
+                        <div style={{ display: 'flex', gap: 12, fontSize: 'var(--fs-xs)', fontWeight: 800, marginTop: 4 }}>
                           <span style={{ color: '#f97316' }}> {dayCal} kcal</span>
                           <span style={{ color: '#22c55e' }}> {dayPro}g protein</span>
                           <span style={{ color: '#3b82f6' }}> {dayCarb}g carbs</span>
@@ -1081,17 +1083,17 @@ export default function ScheduleFoods() {
 
               {/* Add new time slot */}
               <button className="btn btn-outline" onClick={() => addSlot(activeDate)}
-                style={{ width: '100%', padding: 14, borderStyle: 'dashed', fontSize: 'clamp(13px, 1.0vw, 15px)', fontWeight: 700 }}>
+                style={{ width: '100%', padding: 14, borderStyle: 'dashed', fontSize: 'var(--fs-xs)', fontWeight: 700 }}>
                  Add Another Meal Slot
               </button>
 
               {/* Copy buttons — at bottom */}
               {selectedDates.length > 1 && getDateTotalItems(activeDate) > 0 && (
                 <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-                  <button className="btn btn-outline" style={{ flex: 1, fontSize: 'clamp(12px, 1.0vw, 14px)' }} onClick={() => copyDayToAll(activeDate)}>
+                  <button className="btn btn-outline" style={{ flex: 1, fontSize: 'var(--fs-xs)' }} onClick={() => copyDayToAll(activeDate)}>
                      Copy to ALL dates ({selectedDates.length - 1})
                   </button>
-                  <button className="btn btn-outline" style={{ flex: 1, fontSize: 'clamp(12px, 1.0vw, 14px)' }} onClick={() => { setCopyTargetDates([]); setShowCopyPicker(true); }}>
+                  <button className="btn btn-outline" style={{ flex: 1, fontSize: 'var(--fs-xs)' }} onClick={() => { setCopyTargetDates([]); setShowCopyPicker(true); }}>
                      Copy to specific dates
                   </button>
                 </div>
@@ -1119,17 +1121,17 @@ export default function ScheduleFoods() {
             const slots = (schedule[dateStr] || []).filter(s => s.items.length > 0);
             return (
               <div key={dateStr} style={{ marginBottom: 14, padding: 12, background: 'var(--bg-tertiary)', borderRadius: 12 }}>
-                <div style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(13px, 1.0vw, 15px)', marginBottom: 8 }}> {fmtDate(dateStr)}</div>
+                <div style={{ fontWeight: 800, fontSize: 'var(--fs-xs)', marginBottom: 8 }}> {fmtDate(dateStr)}</div>
                 {slots.map((slot, idx) => {
                   const color = slotColors[idx % slotColors.length];
                   const slotTotal = slot.items.reduce((a, c) => a + c.price * c.qty, 0);
                   return (
                     <div key={slot.id} style={{ marginBottom: 6, paddingLeft: 8 }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 1.0vw, 14px)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--fs-xs)' }}>
                         <span style={{ fontWeight: 700, color }}> {slot.label} — {formatTime12(slot.time)}</span>
                         <span style={{ fontWeight: 800 }}>₹{slotTotal}</span>
                       </div>
-                      <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', paddingLeft: 4 }}>
+                      <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', paddingLeft: 4 }}>
                         {slot.items.map(i => `${i.name} ×${i.qty}`).join(', ')}
                       </div>
                     </div>
@@ -1141,7 +1143,7 @@ export default function ScheduleFoods() {
 
           {/* Payment */}
           <div style={{ marginBottom: 14 }}>
-            <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 8 }}>PAYMENT METHOD</div>
+            <div style={{ fontSize: 'var(--fs-xs)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 8 }}>PAYMENT METHOD</div>
             <div style={{ display: 'flex', gap: 6 }}>
               {['COD', 'UPI', 'Card'].map(p => (
                 <button key={p} onClick={() => setPayment(p)} className={`btn btn-sm ${payment === p ? 'btn-primary' : 'btn-outline'}`} style={{ flex: 1 }}>
@@ -1153,7 +1155,7 @@ export default function ScheduleFoods() {
 
           {/* Tip */}
           <div style={{ marginBottom: 14 }}>
-            <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 8 }}>TIP</div>
+            <div style={{ fontSize: 'var(--fs-xs)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 8 }}>TIP</div>
             <div style={{ display: 'flex', gap: 6 }}>
               {[0, 20, 30, 50].map(t => (<button key={t} onClick={() => setTip(t)} className={`btn btn-sm ${tip === t ? 'btn-primary' : 'btn-outline'}`}>₹{t}</button>))}
             </div>
@@ -1161,19 +1163,19 @@ export default function ScheduleFoods() {
 
           {/* Price */}
           <div style={{ padding: 14, background: 'rgba(249,115,22,0.04)', borderRadius: 12, marginBottom: 16 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 1.0vw, 14px)', marginBottom: 6 }}><span style={{ color: 'var(--text-muted)' }}>Subtotal ({allItems.reduce((a, c) => a + c.qty, 0)} items)</span><span>₹{subtotal}</span></div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 1.0vw, 14px)', marginBottom: 6 }}><span style={{ color: 'var(--text-muted)' }}>Delivery (×{filledDates.length} days)</span><span>₹{deliveryFee}</span></div>
-            {tip > 0 && <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 1.0vw, 14px)', marginBottom: 6 }}><span style={{ color: 'var(--text-muted)' }}>Tip</span><span>₹{tip}</span></div>}
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--fs-xs)', marginBottom: 6 }}><span style={{ color: 'var(--text-muted)' }}>Subtotal ({allItems.reduce((a, c) => a + c.qty, 0)} items)</span><span>₹{subtotal}</span></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--fs-xs)', marginBottom: 6 }}><span style={{ color: 'var(--text-muted)' }}>Delivery (×{filledDates.length} days)</span><span>₹{deliveryFee}</span></div>
+            {tip > 0 && <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--fs-xs)', marginBottom: 6 }}><span style={{ color: 'var(--text-muted)' }}>Tip</span><span>₹{tip}</span></div>}
             <hr style={{ border: 'none', borderTop: '1px solid var(--border)', margin: '8px 0' }} />
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(22px, 1.0vw, 26px)', fontWeight: 900, fontFamily: 'Outfit' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--fs-subheading)', fontWeight: 900 }}>
               <span>Total</span><span style={{ color: 'var(--accent-green)' }}>₹{total}</span>
             </div>
           </div>
 
-          <button className="btn btn-success btn-lg" style={{ width: '100%', fontSize: 'clamp(15px, 1.0vw, 18px)' }} onClick={handlePlaceOrder}>
+          <button className="btn btn-success btn-lg" style={{ width: '100%', fontSize: 'var(--fs-sm)' }} onClick={handlePlaceOrder}>
              Place Order • ₹{total}
           </button>
-          <p style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', textAlign: 'center', marginTop: 8 }}>OTP will be generated for delivery verification</p>
+          <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', textAlign: 'center', marginTop: 8 }}>OTP will be generated for delivery verification</p>
         </div>
       )}
     </DashboardLayout>

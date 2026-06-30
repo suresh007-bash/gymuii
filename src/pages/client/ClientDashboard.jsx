@@ -18,11 +18,11 @@ export default function ClientDashboard() {
         background: `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url(${foodGeneral}) center/cover`,
         padding: '48px 40px', color: '#fff',
       }}>
-        <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, background: '#f97316', display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}><Utensils size={12} /> FOOD DELIVERY</div>
-        <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(28px, 1.4vw, 33px)', fontWeight: 900, lineHeight: 1.15, marginBottom: 12, maxWidth: 450, color: '#fff' }}>
+        <div style={{ fontSize: 'var(--fs-xs)', fontWeight: 800, background: '#f97316', display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}><Utensils size={12} /> FOOD DELIVERY</div>
+        <h1 style={{ fontSize: 'var(--fs-heading)', fontWeight: 900, lineHeight: 1.15, marginBottom: 12, maxWidth: 450, color: '#fff' }}>
           Make a Better Life
         </h1>
-        <p style={{ fontSize: 'clamp(13px, 1.0vw, 15px)', opacity: 0.85, maxWidth: 420, lineHeight: 1.6, color: '#fff' }}>
+        <p style={{ fontSize: 'var(--fs-xs)', opacity: 0.85, maxWidth: 420, lineHeight: 1.6, color: '#fff' }}>
           Fuel your body with chef-crafted, nutrient-rich meals — designed for your fitness goals and delivered fresh to your door.
         </p>
       </div>
@@ -48,10 +48,10 @@ export default function ClientDashboard() {
 
       {/* ═══ SECTION HEADER TITLE ═══ */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 800, fontSize: 'clamp(13px, 1.0vw, 15px)', color: 'var(--text-primary)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 800, fontSize: 'var(--fs-xs)', color: 'var(--text-primary)' }}>
           <span style={{ color: '#f97316' }}></span> Daily Nutrition
         </div>
-        <button style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '6px 12px', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 600, cursor: 'pointer', color: 'var(--text-primary)' }}>
+        <button style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8, padding: '6px 12px', fontSize: 'var(--fs-xs)', fontWeight: 600, cursor: 'pointer', color: 'var(--text-primary)' }}>
            Edit Targets
         </button>
       </div>
@@ -119,8 +119,8 @@ export default function ClientDashboard() {
                   position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', lineHeight: 1.1
                 }}>
-                  <span style={{ fontWeight: 800, fontSize: 'clamp(15px, 1.0vw, 18px)', color: '#1e293b', fontFamily: 'Outfit' }}>{item.value}</span>
-                  <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: '#94a3b8', fontWeight: 600 }}>{item.unit}</span>
+                  <span style={{ fontWeight: 800, fontSize: 'var(--fs-sm)', color: '#1e293b' }}>{item.value}</span>
+                  <span style={{ fontSize: 'var(--fs-xs)', color: '#94a3b8', fontWeight: 600 }}>{item.unit}</span>
                 </div>
               </div>
             </div>
@@ -138,38 +138,38 @@ export default function ClientDashboard() {
       }}>
         <div className="card" style={{ borderLeft: '4px solid #f97316', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', boxSizing: 'border-box', padding: '24px 20px', minHeight: '190px' }}>
           <div style={{ marginBottom: 12 }}>
-            <h4 style={{ fontWeight: 800, fontSize: 'clamp(13px, 1.0vw, 15px)', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <h4 style={{ fontWeight: 800, fontSize: 'var(--fs-xs)', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
               <Clock size={14} color="#f97316" /> Breakfast order timing
             </h4>
-            <p style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>
               Order breakfast by 8:00 AM to receive it fresh by 9:00 AM. Best for early training and morning recovery.
             </p>
           </div>
-          <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--accent-orange)', fontWeight: 700, marginTop: 'auto' }}>Recommended order window: 7:45 AM - 8:15 AM</span>
+          <span style={{ fontSize: 'var(--fs-xs)', color: 'var(--accent-orange)', fontWeight: 700, marginTop: 'auto' }}>Recommended order window: 7:45 AM - 8:15 AM</span>
         </div>
 
         <div className="card" style={{ borderLeft: '4px solid #22c55e', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', boxSizing: 'border-box', padding: '24px 20px', minHeight: '190px' }}>
           <div style={{ marginBottom: 12 }}>
-            <h4 style={{ fontWeight: 800, fontSize: 'clamp(13px, 1.0vw, 15px)', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <h4 style={{ fontWeight: 800, fontSize: 'var(--fs-xs)', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
               <Sun size={14} color="#22c55e" /> Lunch order timing
             </h4>
-            <p style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>
               Place your lunch order by 12:30 PM to get it delivered by 1:30 PM. Ideal for a mid-day nutrition reset.
             </p>
           </div>
-          <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--accent-green)', fontWeight: 700, marginTop: 'auto' }}>Recommended order window: 12:00 PM - 12:30 PM</span>
+          <span style={{ fontSize: 'var(--fs-xs)', color: 'var(--accent-green)', fontWeight: 700, marginTop: 'auto' }}>Recommended order window: 12:00 PM - 12:30 PM</span>
         </div>
 
         <div className="card" style={{ borderLeft: '4px solid #a855f7', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', boxSizing: 'border-box', padding: '24px 20px', minHeight: '190px' }}>
           <div style={{ marginBottom: 12 }}>
-            <h4 style={{ fontWeight: 800, fontSize: 'clamp(13px, 1.0vw, 15px)', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <h4 style={{ fontWeight: 800, fontSize: 'var(--fs-xs)', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
               <Moon size={14} color="#a855f7" /> Dinner order timing
             </h4>
-            <p style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>
               Secure your dinner by 7:30 PM for arrival by 8:30 PM. Perfect fueling for overnight post-workout repair.
             </p>
           </div>
-          <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: '#a855f7', fontWeight: 700, marginTop: 'auto' }}>Recommended order window: 7:00 PM - 7:30 PM</span>
+          <span style={{ fontSize: 'var(--fs-xs)', color: '#a855f7', fontWeight: 700, marginTop: 'auto' }}>Recommended order window: 7:00 PM - 7:30 PM</span>
         </div>
       </div>
 
@@ -179,8 +179,8 @@ export default function ClientDashboard() {
       {/* ═══ QUICK BROWSE & CATEGORIES ═══ */}
       <div style={{ marginBottom: 20 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-          <h3 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(16px, 1.0vw, 19px)', display: 'flex', alignItems: 'center', gap: 6 }}><Flame size={18} color="#f97316" /> Popular Items</h3>
-          <Link to="/client/menu" style={{ color: 'var(--accent-orange)', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700 }}>See all →</Link>
+          <h3 style={{ fontWeight: 900, fontSize: 'var(--fs-sm)', display: 'flex', alignItems: 'center', gap: 6 }}><Flame size={18} color="#f97316" /> Popular Items</h3>
+          <Link to="/client/menu" style={{ color: 'var(--accent-orange)', fontSize: 'var(--fs-xs)', fontWeight: 700 }}>See all →</Link>
         </div>
 
         {/* CATEGORIES */}
@@ -201,8 +201,8 @@ export default function ClientDashboard() {
                 onMouseLeave={e => e.currentTarget.style.transform = 'none'}>
                 <img src={item.image} alt={item.name} style={{ width: '100%', height: 100, objectFit: 'cover' }} />
                 <div style={{ padding: 10 }}>
-                  <div style={{ fontWeight: 800, fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-primary)', marginBottom: 2 }} className="text-truncate">{item.name}</div>
-                  <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 2 }}><Flame size={10} />{item.calories} • ₹{item.price}</div>
+                  <div style={{ fontWeight: 800, fontSize: 'var(--fs-xs)', color: 'var(--text-primary)', marginBottom: 2 }} className="text-truncate">{item.name}</div>
+                  <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 2 }}><Flame size={10} />{item.calories} • ₹{item.price}</div>
                 </div>
               </div>
             </Link>

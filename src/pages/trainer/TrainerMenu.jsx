@@ -72,9 +72,9 @@ export default function TrainerMenu() {
             <img src={item.image} alt={item.name} style={{ width: '100%', height: 160, objectFit: 'cover', display: 'block' }} />
             <div style={{ padding: '12px 14px', display: 'flex', flexDirection: 'column', flex: 1 }}>
               {/* Name — single line, truncated */}
-              <div style={{ fontWeight: 700, fontSize: 'clamp(13px, 0.3vw, 15px)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: 6 }} className="text-truncate">{item.name}</div>
+              <div style={{ fontWeight: 700, fontSize: 'var(--fs-xs)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: 6 }} className="text-truncate">{item.name}</div>
               {/* Macros — compact single row */}
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 10, display: 'flex', gap: 8, flexWrap: 'nowrap', overflow: 'hidden' }}>
+              <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', marginBottom: 10, display: 'flex', gap: 8, flexWrap: 'nowrap', overflow: 'hidden' }}>
                 <span><Icon icon={Flame} size={10} style={{marginRight:2}} />{item.calories} kcal</span>
                 <span>·</span>
                 <span>{item.protein}g Prot</span>
@@ -85,7 +85,7 @@ export default function TrainerMenu() {
               </div>
               {/* Price + Button — always at bottom */}
               <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontFamily: 'Outfit', fontWeight: 900, color: 'var(--accent-green)', fontSize: 15 }}>₹{item.price}</span>
+                <span style={{ fontWeight: 900, color: 'var(--accent-green)', fontSize: 'var(--fs-sm)' }}>₹{item.price}</span>
                 <button className="btn btn-primary btn-sm" onClick={() => addToCart(item)}>
                   <Icon icon={ShoppingCart} size={13} style={{marginRight:4}} /> Add
                 </button>

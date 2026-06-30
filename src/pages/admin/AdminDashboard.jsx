@@ -86,7 +86,7 @@ export default function AdminDashboard() {
           <div className="hero-tag" style={{ fontWeight: 900, background: '#f97316' }}>
             <SettingsIcon size={16} style={{ marginRight: 8 }} /> ADMIN PANEL
           </div>
-          <h1 className="hero-title" style={{ fontFamily: 'Outfit', fontWeight: 950, letterSpacing: '-0.5px' }}>
+          <h1 className="hero-title" style={{ fontWeight: 950, letterSpacing: '-0.5px' }}>
             System Overview
           </h1>
           <p className="hero-sub">
@@ -104,8 +104,8 @@ export default function AdminDashboard() {
           ].map((s, i) => (
             <div key={i} className="stat-card">
               <div className="stat-icon">{s.icon}</div>
-              <div className="stat-value" style={{ color: s.color, fontSize: 'clamp(18px, 1.0vw, 21px)' }}>{s.val}</div>
-              <div className="stat-label" style={{ fontSize: 'clamp(11px, 0.5vw, 13px)' }}>{s.label}</div>
+              <div className="stat-value" style={{ color: s.color, fontSize: 'var(--fs-body)' }}>{s.val}</div>
+              <div className="stat-label" style={{ fontSize: 'var(--fs-xs)' }}>{s.label}</div>
             </div>
           ))}
         </div>

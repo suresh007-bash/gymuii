@@ -39,8 +39,8 @@ export default function AdminAnalytics() {
         ].map((s, i) => (
           <div key={i} className="stat-card">
             <div className="stat-icon">{s.icon}</div>
-            <div className="stat-value" style={{ color: s.color, fontSize: 'clamp(20px, 1.0vw, 23px)' }}>{s.val}</div>
-            <div className="stat-label" style={{ fontSize: 'clamp(12px, 0.6vw, 14px)' }}>{s.label}</div>
+            <div className="stat-value" style={{ color: s.color, fontSize: 'var(--fs-body)' }}>{s.val}</div>
+            <div className="stat-label" style={{ fontSize: 'var(--fs-xs)' }}>{s.label}</div>
           </div>
         ))}
       </div>
@@ -51,18 +51,18 @@ export default function AdminAnalytics() {
         {/* Orders by Status */}
         <div className="card" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
           <div className="card-header">
-            <h3 className="card-title" style={{ fontSize: 'clamp(15px, 1.0vw, 18px)', fontWeight: 800 }}>
+            <h3 className="card-title" style={{ fontSize: 'var(--fs-sm)', fontWeight: 800 }}>
               <BarChartIcon size={18} style={{ marginRight: 6 }} /> Orders by Status
             </h3>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, flex: 1, justifyContent: 'space-between' }}>
             {byStatus.map(([label, val, color]) => (
               <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 12, minHeight: 36 }}>
-                <span style={{ fontSize: 'clamp(13px, 1.0vw, 15px)', minWidth: 84, fontWeight: 700, color: 'var(--text-primary)' }}>{label}</span>
+                <span style={{ fontSize: 'var(--fs-xs)', minWidth: 84, fontWeight: 700, color: 'var(--text-primary)' }}>{label}</span>
                 <div style={{ flex: 1, height: 12, background: 'var(--bg-tertiary)', borderRadius: 6, overflow: 'hidden' }}>
                   <div style={{ width: `${stats.total ? (val / stats.total) * 100 : 0}%`, height: '100%', background: color, borderRadius: 6, transition: 'width 1s ease' }} />
                 </div>
-                <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(16px, 1.0vw, 19px)', minWidth: 32, color, textAlign: 'right' }}>{val}</span>
+                <span style={{ fontWeight: 900, fontSize: 'var(--fs-sm)', minWidth: 32, color, textAlign: 'right' }}>{val}</span>
               </div>
             ))}
           </div>
@@ -71,7 +71,7 @@ export default function AdminAnalytics() {
         {/* Users by Role */}
         <div className="card" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
           <div className="card-header">
-            <h3 className="card-title" style={{ fontSize: 'clamp(15px, 1.0vw, 18px)', fontWeight: 800 }}>
+            <h3 className="card-title" style={{ fontSize: 'var(--fs-sm)', fontWeight: 800 }}>
               <Users size={18} style={{ marginRight: 6 }} /> Users by Role
             </h3>
           </div>
@@ -80,12 +80,12 @@ export default function AdminAnalytics() {
               const count = allUsers.filter(u => u.role === role.toLowerCase()).length;
               return (
                 <div key={role} style={{ display: 'flex', alignItems: 'center', gap: 12, minHeight: 36 }}>
-                  <span style={{ fontSize: 'clamp(18px, 1.0vw, 21px)', display: 'flex', alignItems: 'center', flexShrink: 0 }}>{icon}</span>
-                  <span style={{ fontSize: 'clamp(13px, 1.0vw, 15px)', minWidth: 64, fontWeight: 700, color: 'var(--text-primary)' }}>{role}</span>
+                  <span style={{ fontSize: 'var(--fs-body)', display: 'flex', alignItems: 'center', flexShrink: 0 }}>{icon}</span>
+                  <span style={{ fontSize: 'var(--fs-xs)', minWidth: 64, fontWeight: 700, color: 'var(--text-primary)' }}>{role}</span>
                   <div style={{ flex: 1, height: 12, background: 'var(--bg-tertiary)', borderRadius: 6, overflow: 'hidden' }}>
                     <div style={{ width: `${allUsers.length ? (count / allUsers.length) * 100 : 0}%`, height: '100%', background: color, borderRadius: 6, transition: 'width 1s ease' }} />
                   </div>
-                  <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(16px, 1.0vw, 19px)', minWidth: 32, color, textAlign: 'right' }}>{count}</span>
+                  <span style={{ fontWeight: 900, fontSize: 'var(--fs-sm)', minWidth: 32, color, textAlign: 'right' }}>{count}</span>
                 </div>
               );
             })}
@@ -96,7 +96,7 @@ export default function AdminAnalytics() {
       {/* Key Metrics Section */}
       <div className="card">
         <div className="card-header">
-          <h3 className="card-title" style={{ fontSize: 'clamp(15px, 1.0vw, 18px)', fontWeight: 800 }}>
+          <h3 className="card-title" style={{ fontSize: 'var(--fs-sm)', fontWeight: 800 }}>
             <TrendingUp size={18} style={{ marginRight: 6 }} /> Key Metrics
           </h3>
         </div>
@@ -107,8 +107,8 @@ export default function AdminAnalytics() {
             ['Active Rate', stats.total > 0 ? `${Math.round(((stats.pending + stats.preparing + stats.inTransit) / stats.total) * 100)}%` : '0%', '#3b82f6']
           ].map(([label, val, color]) => (
             <div key={label} style={{ textAlign: 'center', padding: '20px 16px', background: 'var(--bg-tertiary)', borderRadius: 16 }}>
-              <div style={{ fontFamily: 'Outfit', fontSize: 'clamp(28px, 1.7vw, 33px)', fontWeight: 900, color, marginBottom: 6 }}>{val}</div>
-              <div style={{ fontSize: 'clamp(12px, 0.6vw, 14px)', color: 'var(--text-muted)', fontWeight: 700 }}>{label}</div>
+              <div style={{ fontSize: 'var(--fs-heading)', fontWeight: 900, color, marginBottom: 6 }}>{val}</div>
+              <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', fontWeight: 700 }}>{label}</div>
             </div>
           ))}
         </div>

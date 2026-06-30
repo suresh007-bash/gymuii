@@ -14,8 +14,8 @@ export default function WorkoutPlans() {
         <div style={{display:'grid',gridTemplateColumns:'repeat(7,1fr)',gap:8}}>
           {['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d,i)=>(
             <div key={i} style={{padding:14,background:'var(--bg-tertiary)',borderRadius:12,textAlign:'center',border:'1px solid var(--border)'}}>
-              <div style={{fontSize: 'clamp(12px, 1.0vw, 14px)',fontWeight:800,color:'var(--text-muted)',marginBottom:6}}>{d}</div>
-              <div style={{fontSize: 'clamp(12px, 1.0vw, 14px)',fontWeight:700,color:programs[sel].days[i]==='Rest'?'var(--text-muted)':programs[sel].color}}>{programs[sel].days[i]}</div>
+              <div style={{fontSize: 'var(--fs-xs)',fontWeight:800,color:'var(--text-muted)',marginBottom:6}}>{d}</div>
+              <div style={{fontSize: 'var(--fs-xs)',fontWeight:700,color:programs[sel].days[i]==='Rest'?'var(--text-muted)':programs[sel].color}}>{programs[sel].days[i]}</div>
             </div>
           ))}
         </div>

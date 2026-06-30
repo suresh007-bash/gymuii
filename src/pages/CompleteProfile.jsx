@@ -23,10 +23,10 @@ export default function CompleteProfile() {
   const inputStyle = {
     width: '100%', padding: '12px 16px',
     background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)',
-    borderRadius: 12, color: '#fff', fontSize: 'clamp(13px, 1.0vw, 15px)', outline: 'none', transition: 'border 0.3s',
+    borderRadius: 12, color: '#fff', fontSize: 'var(--fs-xs)', outline: 'none', transition: 'border 0.3s',
   };
   const labelStyle = {
-    display: 'block', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700,
+    display: 'block', fontSize: 'var(--fs-xs)', fontWeight: 700,
     color: 'rgba(255,255,255,0.6)', marginBottom: 6,
     textTransform: 'uppercase', letterSpacing: 0.5,
   };
@@ -36,7 +36,7 @@ export default function CompleteProfile() {
     backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center',
   };
   const sectionStyle = {
-    fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, color: '#f97316', letterSpacing: 1,
+    fontSize: 'var(--fs-xs)', fontWeight: 800, color: '#f97316', letterSpacing: 1,
     textTransform: 'uppercase', marginBottom: 8, paddingBottom: 6,
     borderBottom: '1px solid rgba(255,255,255,0.08)',
   };
@@ -83,14 +83,14 @@ export default function CompleteProfile() {
             width: 72, height: 72, borderRadius: '50%',
             background: 'linear-gradient(135deg, #f97316, #22c55e)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 'clamp(24px, 1.0vw, 28px)', fontWeight: 900, color: '#fff', margin: '0 auto 14px',
+            fontSize: 'var(--fs-subheading)', fontWeight: 900, color: '#fff', margin: '0 auto 14px',
             boxShadow: '0 8px 32px rgba(249,115,22,0.3)',
             animation: 'float 3s ease-in-out infinite',
           }}>{user.avatar}</div>
-          <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(22px, 1.0vw, 26px)', fontWeight: 900, color: '#fff', marginBottom: 4 }} className="text-truncate">
+          <h1 style={{ fontSize: 'var(--fs-subheading)', fontWeight: 900, color: '#fff', marginBottom: 4 }} className="text-truncate">
             Welcome, {user.name}! 
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'clamp(12px, 1.0vw, 14px)' }}>Complete your profile to get the best experience</p>
+          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'var(--fs-xs)' }}>Complete your profile to get the best experience</p>
         </div>
 
         {/* Glassmorphism Form */}
@@ -275,8 +275,8 @@ export default function CompleteProfile() {
           {/* ═══ ADMIN ═══ */}
           {user.role === 'admin' && (
             <div style={{ textAlign: 'center', padding: 24 }}>
-              <div style={{ fontSize: 'clamp(33px, 1.0vw, 38px)', marginBottom: 8 }}></div>
-              <p style={{ fontSize: 'clamp(13px, 1.0vw, 15px)', color: 'rgba(255,255,255,0.5)' }}>You're all set! No additional info needed for admin accounts.</p>
+              <div style={{ fontSize: 'var(--fs-hero)', marginBottom: 8 }}></div>
+              <p style={{ fontSize: 'var(--fs-xs)', color: 'rgba(255,255,255,0.5)' }}>You're all set! No additional info needed for admin accounts.</p>
             </div>
           )}
 
@@ -285,7 +285,7 @@ export default function CompleteProfile() {
             <button onClick={handleSkip} style={{
               flex: 1, padding: 14, background: 'rgba(255,255,255,0.06)',
               border: '1px solid rgba(255,255,255,0.15)', borderRadius: 12,
-              color: 'rgba(255,255,255,0.6)', fontSize: 'clamp(13px, 1.0vw, 15px)', fontWeight: 700, cursor: 'pointer',
+              color: 'rgba(255,255,255,0.6)', fontSize: 'var(--fs-xs)', fontWeight: 700, cursor: 'pointer',
               transition: 'all 0.2s',
             }}
               onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; }}
@@ -294,7 +294,7 @@ export default function CompleteProfile() {
             <button onClick={handleSave} style={{
               flex: 1, padding: 14,
               background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-              color: '#fff', borderRadius: 12, fontSize: 'clamp(13px, 1.0vw, 15px)', fontWeight: 800, cursor: 'pointer',
+              color: '#fff', borderRadius: 12, fontSize: 'var(--fs-xs)', fontWeight: 800, cursor: 'pointer',
               border: 'none', boxShadow: '0 4px 20px rgba(34,197,94,0.4)',
               transition: 'all 0.3s',
             }}

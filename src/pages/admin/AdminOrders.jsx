@@ -24,8 +24,8 @@ export default function AdminOrders() {
       {confirm && (
         <div className="modal-overlay" onClick={() => setConfirm(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 420, textAlign: 'center' }}>
-            <h3 style={{ fontSize: 'clamp(18px, 1.0vw, 21px)', fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
-            <p style={{ fontSize: 'clamp(14px, 1.0vw, 17px)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
+            <h3 style={{ fontSize: 'var(--fs-body)', fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
+            <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
               <button className="btn btn-outline" onClick={() => setConfirm(null)}>Cancel</button>
               <button className="btn" style={{ background: confirm.color, color: '#fff', border: 'none', padding: '10px 24px', borderRadius: 10, fontWeight: 700, cursor: 'pointer' }} onClick={confirm.action}>Confirm</button>
@@ -36,15 +36,15 @@ export default function AdminOrders() {
 
       <div style={{ display: 'flex', gap: 12, marginBottom: 16, alignItems: 'center' }}>
         <div style={{ flex: 1, position: 'relative' }}>
-          <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', fontSize: 'clamp(15px, 1.0vw, 18px)' }}></span>
-          <input className="form-input" style={{ paddingLeft: 38, fontSize: 'clamp(14px, 1.0vw, 17px)' }} placeholder="Search by order ID or customer..." value={search} onChange={e => setSearch(e.target.value)} />
+          <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', fontSize: 'var(--fs-sm)' }}></span>
+          <input className="form-input" style={{ paddingLeft: 38, fontSize: 'var(--fs-xs)' }} placeholder="Search by order ID or customer..." value={search} onChange={e => setSearch(e.target.value)} />
         </div>
-        <span style={{ fontSize: 'clamp(13px, 1.0vw, 15px)', color: 'var(--text-muted)', fontWeight: 600 }}>{filtered.length} orders</span>
+        <span style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', fontWeight: 600 }}>{filtered.length} orders</span>
       </div>
 
       <div className="tabs" style={{ marginBottom: 16 }}>
         {['all', 'pending', 'preparing', 'ready', 'in_transit', 'delivered', 'cancelled'].map(t => (
-          <button key={t} className={`tab ${tab === t ? 'active' : ''}`} onClick={() => setTab(t)} style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700 }}>
+          <button key={t} className={`tab ${tab === t ? 'active' : ''}`} onClick={() => setTab(t)} style={{ fontSize: 'var(--fs-xs)', fontWeight: 700 }}>
             {t === 'all' ? `All (${orders.length})` : t === 'in_transit' ? 'In Transit' : t.charAt(0).toUpperCase() + t.slice(1)}
           </button>
         ))}
@@ -64,15 +64,15 @@ export default function AdminOrders() {
               {filtered.map(o => (
                 <tr key={o.id}>
                   <td>
-                    <div style={{ fontWeight: 800, fontSize: 'clamp(14px, 1.0vw, 17px)' }}>#{o.id}</div>
-                    <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', marginTop: 2 }}>{new Date(o.orderTime).toLocaleString()}</div>
+                    <div style={{ fontWeight: 800, fontSize: 'var(--fs-xs)' }}>#{o.id}</div>
+                    <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', marginTop: 2 }}>{new Date(o.orderTime).toLocaleString()}</div>
                   </td>
-                  <td style={{ fontWeight: 600, fontSize: 'clamp(13px, 1.0vw, 15px)' }}>{o.customerName}</td>
-                  <td style={{ fontSize: 'clamp(12px, 1.0vw, 14px)' }}>{o.items.map(i => `${i.name} ×${i.qty}`).join(', ')}</td>
-                  <td style={{ fontWeight: 900, fontSize: 'clamp(15px, 1.0vw, 18px)', color: 'var(--accent-green)' }}>₹{o.total}</td>
-                  <td><span className={`badge ${o.paymentStatus === 'Paid' ? 'badge-green' : 'badge-orange'}`} style={{ fontSize: 'clamp(12px, 1.0vw, 14px)' }}>{o.paymentMethod} • {o.paymentStatus}</span></td>
-                  <td><span className={`badge ${statusColors[o.status]}`} style={{ fontSize: 'clamp(12px, 1.0vw, 14px)' }}>{o.status.replace('_', ' ').toUpperCase()}</span></td>
-                  <td style={{ fontSize: 'clamp(12px, 1.0vw, 14px)' }}>{o.driverName || '—'}</td>
+                  <td style={{ fontWeight: 600, fontSize: 'var(--fs-xs)' }}>{o.customerName}</td>
+                  <td style={{ fontSize: 'var(--fs-xs)' }}>{o.items.map(i => `${i.name} ×${i.qty}`).join(', ')}</td>
+                  <td style={{ fontWeight: 900, fontSize: 'var(--fs-sm)', color: 'var(--accent-green)' }}>₹{o.total}</td>
+                  <td><span className={`badge ${o.paymentStatus === 'Paid' ? 'badge-green' : 'badge-orange'}`} style={{ fontSize: 'var(--fs-xs)' }}>{o.paymentMethod} • {o.paymentStatus}</span></td>
+                  <td><span className={`badge ${statusColors[o.status]}`} style={{ fontSize: 'var(--fs-xs)' }}>{o.status.replace('_', ' ').toUpperCase()}</span></td>
+                  <td style={{ fontSize: 'var(--fs-xs)' }}>{o.driverName || '—'}</td>
                 </tr>
               ))}
             </tbody>
@@ -87,33 +87,33 @@ export default function AdminOrders() {
               {/* Row 1: Order ID + Status */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                  <div style={{ fontWeight: 900, fontSize: 'clamp(16px, 1.0vw, 19px)', color: 'var(--text-primary)' }}>#{o.id}</div>
-                  <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', marginTop: 2 }}>{new Date(o.orderTime).toLocaleString()}</div>
+                  <div style={{ fontWeight: 900, fontSize: 'var(--fs-sm)', color: 'var(--text-primary)' }}>#{o.id}</div>
+                  <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', marginTop: 2 }}>{new Date(o.orderTime).toLocaleString()}</div>
                 </div>
-                <span className={`badge ${statusColors[o.status]}`} style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', padding: '6px 12px', fontWeight: 800 }}>
+                <span className={`badge ${statusColors[o.status]}`} style={{ fontSize: 'var(--fs-xs)', padding: '6px 12px', fontWeight: 800 }}>
                   {o.status.replace('_', ' ').toUpperCase()}
                 </span>
               </div>
 
               {/* Row 2: Customer + Price */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ fontSize: 'clamp(15px, 1.0vw, 18px)', fontWeight: 700, color: 'var(--text-primary)' }}>
+                <div style={{ fontSize: 'var(--fs-sm)', fontWeight: 700, color: 'var(--text-primary)' }}>
                    {o.customerName}
                 </div>
-                <div style={{ fontWeight: 900, fontSize: 'clamp(18px, 1.0vw, 21px)', color: '#22c55e' }}>₹{o.total}</div>
+                <div style={{ fontWeight: 900, fontSize: 'var(--fs-body)', color: '#22c55e' }}>₹{o.total}</div>
               </div>
 
               {/* Row 3: Items */}
-              <div style={{ fontSize: 'clamp(13px, 1.0vw, 15px)', color: 'var(--text-secondary)', lineHeight: 1.6, background: 'var(--bg-tertiary)', borderRadius: 10, padding: '10px 12px' }}>
+              <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-secondary)', lineHeight: 1.6, background: 'var(--bg-tertiary)', borderRadius: 10, padding: '10px 12px' }}>
                  {o.items.map(i => `${i.name} ×${i.qty}`).join(' • ')}
               </div>
 
               {/* Row 4: Payment + Driver */}
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
-                <span className={`badge ${o.paymentStatus === 'Paid' ? 'badge-green' : 'badge-orange'}`} style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', padding: '5px 10px' }}>
+                <span className={`badge ${o.paymentStatus === 'Paid' ? 'badge-green' : 'badge-orange'}`} style={{ fontSize: 'var(--fs-xs)', padding: '5px 10px' }}>
                   {o.paymentMethod} • {o.paymentStatus}
                 </span>
-                {o.driverName && <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 600 }}> {o.driverName}</span>}
+                {o.driverName && <span style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', fontWeight: 600 }}> {o.driverName}</span>}
               </div>
 
             </div>
@@ -121,8 +121,8 @@ export default function AdminOrders() {
         </div>
 
         {filtered.length === 0 && (
-          <div style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)', fontSize: 'clamp(14px, 1.0vw, 17px)' }}>
-            <div style={{ fontSize: 'clamp(33px, 1.0vw, 38px)', marginBottom: 12 }}></div>
+          <div style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)', fontSize: 'var(--fs-xs)' }}>
+            <div style={{ fontSize: 'var(--fs-hero)', marginBottom: 12 }}></div>
             No orders found
           </div>
         )}

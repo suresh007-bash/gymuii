@@ -12,7 +12,7 @@ export default function AdminUsers() {
   const [selRole, setSelRole] = useState('');
   const [form, setForm] = useState({ name: '', email: '', phone: '', gymName: '', gst: '', specialization: '', gymId: '', trainerId: '', kitchenName: '', kitchenLocation: '', vehicleType: 'Bike', licenseNo: '' });
   const upd = (k, v) => setForm(p => ({ ...p, [k]: v }));
-  const inp = { width: '100%', padding: '10px 14px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 12, color: 'var(--text-primary)', fontSize: 'clamp(15px, 1.0vw, 18px)' };
+  const inp = { width: '100%', padding: '10px 14px', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: 12, color: 'var(--text-primary)', fontSize: 'var(--fs-sm)' };
 
   // Confirmation modal state
   const [confirm, setConfirm] = useState(null);
@@ -110,8 +110,8 @@ export default function AdminUsers() {
       {confirm && (
         <div className="modal-overlay" onClick={() => setConfirm(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 420, textAlign: 'center' }}>
-            <h3 style={{ fontSize: 'clamp(16px, 1.0vw, 19px)', fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
-            <p style={{ fontSize: 'clamp(14px, 1.0vw, 17px)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
+            <h3 style={{ fontSize: 'var(--fs-sm)', fontWeight: 800, marginBottom: 12 }}>{confirm.title}</h3>
+            <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>{confirm.msg}</p>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
               <button className="btn btn-outline" onClick={() => setConfirm(null)}>Cancel</button>
               <button className="btn" style={{ background: confirm.color, color: '#fff', border: 'none', padding: '10px 24px', borderRadius: 10, fontWeight: 700, cursor: 'pointer' }} onClick={confirm.action}>Confirm</button>
@@ -128,13 +128,13 @@ export default function AdminUsers() {
               <h3 className="modal-title"> Change Role — {promoteModal.name}</h3>
               <button className="modal-close" onClick={() => setPromoteModal(null)}></button>
             </div>
-            <p style={{ fontSize: 'clamp(13px, 1.0vw, 15px)', color: 'var(--text-muted)', marginBottom: 16 }}>
+            <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', marginBottom: 16 }}>
               Current role: <span className={`badge ${roleBadge[promoteModal.role]}`}>{promoteModal.role.toUpperCase()}</span>
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
               {roleOptions.map(r => (
                 <button key={r} onClick={() => setNewRole(r)} style={{
-                  padding: '12px 16px', borderRadius: 10, cursor: 'pointer', fontWeight: 700, fontSize: 'clamp(14px, 1.0vw, 17px)', textAlign: 'left', transition: 'all 0.2s',
+                  padding: '12px 16px', borderRadius: 10, cursor: 'pointer', fontWeight: 700, fontSize: 'var(--fs-xs)', textAlign: 'left', transition: 'all 0.2s',
                   background: newRole === r ? 'rgba(59,130,246,0.1)' : 'var(--bg-tertiary)',
                   border: `2px solid ${newRole === r ? '#3b82f6' : 'var(--border)'}`,
                   color: newRole === r ? '#3b82f6' : 'var(--text-primary)',
@@ -165,7 +165,7 @@ export default function AdminUsers() {
             {!selRole ? (
               /* Role Selection */
               <div>
-                <p style={{ fontSize: 'clamp(14px, 1.0vw, 17px)', color: 'var(--text-muted)', marginBottom: 16 }}>Select User Type:</p>
+                <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', marginBottom: 16 }}>Select User Type:</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {[{ id: 'owner', icon: '', label: 'Gym Owner', desc: 'Manage gym, trainers, and members' },
                     { id: 'trainer', icon: '', label: 'Gym Trainer', desc: 'Train and manage assigned clients' },
@@ -174,8 +174,8 @@ export default function AdminUsers() {
                     { id: 'delivery', icon: '', label: 'Delivery Driver', desc: 'Fulfill deliveries to clients' }
                   ].map(r => (
                     <button key={r.id} onClick={() => setSelRole(r.id)} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', background: 'var(--bg-tertiary)', border: '1px solid var(--border)', borderRadius: 12, cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s', color: 'var(--text-primary)' }}>
-                      <span style={{ fontSize: 'clamp(24px, 1.0vw, 28px)' }}>{r.icon}</span>
-                      <div><div style={{ fontWeight: 700, fontSize: 'clamp(15px, 1.0vw, 18px)' }}>{r.label}</div><div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>{r.desc}</div></div>
+                      <span style={{ fontSize: 'var(--fs-subheading)' }}>{r.icon}</span>
+                      <div><div style={{ fontWeight: 700, fontSize: 'var(--fs-sm)' }}>{r.label}</div><div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>{r.desc}</div></div>
                       <span style={{ marginLeft: 'auto', color: 'var(--text-muted)' }}>→</span>
                     </button>
                   ))}
@@ -286,18 +286,18 @@ export default function AdminUsers() {
                 <tr key={u.id}>
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(15px, 1.0vw, 18px)', fontWeight: 800, color: '#fff' }}>{u.avatar}</div>
-                      <div style={{ fontWeight: 800, fontSize: 'clamp(15px, 1.0vw, 18px)' }} className="text-truncate">{u.name}</div>
+                      <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--fs-sm)', fontWeight: 800, color: '#fff' }}>{u.avatar}</div>
+                      <div style={{ fontWeight: 800, fontSize: 'var(--fs-sm)' }} className="text-truncate">{u.name}</div>
                     </div>
                   </td>
-                  <td style={{ fontSize: 'clamp(15px, 1.0vw, 18px)', fontWeight: 600 }}>{u.email}</td>
-                  <td><span className={`badge ${roleBadge[u.role] || 'badge-blue'}`} style={{ fontSize: 'clamp(13px, 1.0vw, 15px)', padding: '4px 10px' }}>{u.role.toUpperCase()}</span></td>
-                  <td style={{ fontSize: 'clamp(15px, 1.0vw, 18px)', color: 'var(--text-secondary)' }}>{u.gymName || GYMS.find(g => g.id === u.gymId)?.name || u.kitchenName || (u.vehicleType ? `${u.vehicleType} (${u.licenseNo || 'No License'})` : '') || '—'}</td>
-                  <td style={{ fontSize: 'clamp(14px, 1.0vw, 17px)', color: 'var(--text-muted)' }}>{u.joinDate || '—'}</td>
+                  <td style={{ fontSize: 'var(--fs-sm)', fontWeight: 600 }}>{u.email}</td>
+                  <td><span className={`badge ${roleBadge[u.role] || 'badge-blue'}`} style={{ fontSize: 'var(--fs-xs)', padding: '4px 10px' }}>{u.role.toUpperCase()}</span></td>
+                  <td style={{ fontSize: 'var(--fs-sm)', color: 'var(--text-secondary)' }}>{u.gymName || GYMS.find(g => g.id === u.gymId)?.name || u.kitchenName || (u.vehicleType ? `${u.vehicleType} (${u.licenseNo || 'No License'})` : '') || '—'}</td>
+                  <td style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>{u.joinDate || '—'}</td>
                   <td>
                     <div style={{ display: 'flex', gap: 6 }}>
-                      <button className="btn btn-outline btn-sm" style={{ fontSize: 'clamp(14px, 1.0vw, 17px)' }} title="Change Role" onClick={() => openPromoteModal(u)}> Role</button>
-                      <button className="btn btn-outline btn-sm" style={{ color: '#ef4444', fontSize: 'clamp(14px, 1.0vw, 17px)' }} title="Block User" onClick={() => handleBlock(u)}> Block</button>
+                      <button className="btn btn-outline btn-sm" style={{ fontSize: 'var(--fs-xs)' }} title="Change Role" onClick={() => openPromoteModal(u)}> Role</button>
+                      <button className="btn btn-outline btn-sm" style={{ color: '#ef4444', fontSize: 'var(--fs-xs)' }} title="Block User" onClick={() => handleBlock(u)}> Block</button>
                     </div>
                   </td>
                 </tr>
@@ -314,20 +314,20 @@ export default function AdminUsers() {
               display: 'flex', flexDirection: 'column', gap: 12,
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(15px, 1.0vw, 18px)', fontWeight: 800, color: '#fff', flexShrink: 0 }}>{u.avatar}</div>
+                <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--fs-sm)', fontWeight: 800, color: '#fff', flexShrink: 0 }}>{u.avatar}</div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontWeight: 900, fontSize: 'clamp(15px, 1.0vw, 18px)', marginBottom: 2 }} className="text-truncate">{u.name}</div>
-                  <div style={{ fontSize: 'clamp(14px, 1.0vw, 17px)', color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{u.email}</div>
+                  <div style={{ fontWeight: 900, fontSize: 'var(--fs-sm)', marginBottom: 2 }} className="text-truncate">{u.name}</div>
+                  <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{u.email}</div>
                 </div>
-                <span className={`badge ${roleBadge[u.role] || 'badge-blue'}`} style={{ flexShrink: 0, fontSize: 'clamp(13px, 1.0vw, 15px)', padding: '5px 10px', fontWeight: 800 }}>{u.role.toUpperCase()}</span>
+                <span className={`badge ${roleBadge[u.role] || 'badge-blue'}`} style={{ flexShrink: 0, fontSize: 'var(--fs-xs)', padding: '5px 10px', fontWeight: 800 }}>{u.role.toUpperCase()}</span>
               </div>
-              <div style={{ display: 'flex', gap: 12, fontSize: 'clamp(14px, 1.0vw, 17px)', color: 'var(--text-secondary)', flexWrap: 'wrap', fontWeight: 600 }}>
+              <div style={{ display: 'flex', gap: 12, fontSize: 'var(--fs-xs)', color: 'var(--text-secondary)', flexWrap: 'wrap', fontWeight: 600 }}>
                 <span> {u.gymName || GYMS.find(g => g.id === u.gymId)?.name || u.kitchenName || (u.vehicleType ? `${u.vehicleType}` : '—')}</span>
                 <span> {u.joinDate || '—'}</span>
               </div>
               <div style={{ display: 'flex', gap: 10 }}>
-                <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 'clamp(15px, 1.0vw, 18px)', padding: '10px' }} onClick={() => openPromoteModal(u)}> Change Role</button>
-                <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 'clamp(15px, 1.0vw, 18px)', padding: '10px', color: '#ef4444', borderColor: 'rgba(239,68,68,0.3)' }} onClick={() => handleBlock(u)}> Block</button>
+                <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 'var(--fs-sm)', padding: '10px' }} onClick={() => openPromoteModal(u)}> Change Role</button>
+                <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 'var(--fs-sm)', padding: '10px', color: '#ef4444', borderColor: 'rgba(239,68,68,0.3)' }} onClick={() => handleBlock(u)}> Block</button>
               </div>
             </div>
           ))}
@@ -350,16 +350,16 @@ export default function AdminUsers() {
                   <tr key={u.id} style={{ opacity: 0.7 }}>
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#6b7280', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, color: '#fff' }}>{u.avatar}</div>
+                        <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#6b7280', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--fs-xs)', fontWeight: 800, color: '#fff' }}>{u.avatar}</div>
                         <div>
-                          <div style={{ fontWeight: 700, fontSize: 'clamp(14px, 1.0vw, 17px)' }} className="text-truncate">{u.name}</div>
-                          <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: '#ef4444', fontWeight: 600 }}>BLOCKED</div>
+                          <div style={{ fontWeight: 700, fontSize: 'var(--fs-xs)' }} className="text-truncate">{u.name}</div>
+                          <div style={{ fontSize: 'var(--fs-xs)', color: '#ef4444', fontWeight: 600 }}>BLOCKED</div>
                         </div>
                       </div>
                     </td>
-                    <td style={{ fontSize: 'clamp(13px, 1.0vw, 15px)' }}>{u.email}</td>
+                    <td style={{ fontSize: 'var(--fs-xs)' }}>{u.email}</td>
                     <td><span className={`badge ${roleBadge[u.role] || 'badge-blue'}`}>{u.role.toUpperCase()}</span></td>
-                    <td style={{ fontSize: 'clamp(13px, 1.0vw, 15px)', color: 'var(--text-muted)' }}>{u.blockedAt || '—'}</td>
+                    <td style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>{u.blockedAt || '—'}</td>
                     <td>
                       <div style={{ display: 'flex', gap: 4 }}>
                         <button className="btn btn-outline btn-sm" style={{ color: '#22c55e' }} title="Unblock" onClick={() => handleUnblock(u)}> Restore</button>
@@ -380,19 +380,19 @@ export default function AdminUsers() {
                 display: 'flex', flexDirection: 'column', gap: 10, opacity: 0.8,
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#6b7280', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(14px, 1.0vw, 17px)', fontWeight: 800, color: '#fff', flexShrink: 0 }}>{u.avatar}</div>
+                  <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#6b7280', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--fs-xs)', fontWeight: 800, color: '#fff', flexShrink: 0 }}>{u.avatar}</div>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontWeight: 800, fontSize: 'clamp(15px, 1.0vw, 18px)' }} className="text-truncate">{u.name}</div>
-                    <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: '#ef4444', fontWeight: 700 }}> BLOCKED</div>
+                    <div style={{ fontWeight: 800, fontSize: 'var(--fs-sm)' }} className="text-truncate">{u.name}</div>
+                    <div style={{ fontSize: 'var(--fs-xs)', color: '#ef4444', fontWeight: 700 }}> BLOCKED</div>
                   </div>
                   <span className={`badge ${roleBadge[u.role] || 'badge-blue'}`} style={{ flexShrink: 0 }}>{u.role.toUpperCase()}</span>
                 </div>
-                <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>
+                <div style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)' }}>
                   {u.email} • Blocked: {u.blockedAt || '—'}
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
-                  <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 'clamp(13px, 1.0vw, 15px)', color: '#22c55e', borderColor: 'rgba(34,197,94,0.3)' }} onClick={() => handleUnblock(u)}> Restore</button>
-                  <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 'clamp(13px, 1.0vw, 15px)', color: '#ef4444', borderColor: 'rgba(239,68,68,0.3)' }} onClick={() => handleDeletePermanent(u)}> Delete</button>
+                  <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 'var(--fs-xs)', color: '#22c55e', borderColor: 'rgba(34,197,94,0.3)' }} onClick={() => handleUnblock(u)}> Restore</button>
+                  <button className="btn btn-outline btn-sm" style={{ flex: 1, fontSize: 'var(--fs-xs)', color: '#ef4444', borderColor: 'rgba(239,68,68,0.3)' }} onClick={() => handleDeletePermanent(u)}> Delete</button>
                 </div>
               </div>
             ))}

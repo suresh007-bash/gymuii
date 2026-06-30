@@ -16,13 +16,13 @@ export default function TrainerSubscriptions() {
         {PLANS.map(plan => (
           <div key={plan.id} className="card" style={{ overflow: 'hidden', padding: 0 }}>
             <div style={{ background: 'var(--gradient-primary)', padding: '20px 16px', color: '#fff' }}>
-              <div style={{ fontWeight: 900, fontSize: 'clamp(16px, 1.0vw, 19px)', fontFamily: 'Outfit' }} className="text-truncate">{plan.name}</div>
-              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', opacity: 0.85 }}>{plan.duration} • {plan.meals}</div>
+              <div style={{ fontWeight: 900, fontSize: 'var(--fs-sm)' }} className="text-truncate">{plan.name}</div>
+              <div style={{ fontSize: 'var(--fs-xs)', opacity: 0.85 }}>{plan.duration} • {plan.meals}</div>
             </div>
             <div style={{ padding: 16 }}>
-              <p style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', marginBottom: 12, lineHeight: 1.5 }}>{plan.desc}</p>
+              <p style={{ fontSize: 'var(--fs-xs)', color: 'var(--text-muted)', marginBottom: 12, lineHeight: 1.5 }}>{plan.desc}</p>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(19px, 1.0vw, 22px)', color: 'var(--accent-green)' }}>₹{plan.price}</span>
+                <span style={{ fontWeight: 900, fontSize: 'var(--fs-body)', color: 'var(--accent-green)' }}>₹{plan.price}</span>
                 <button className="btn btn-primary">Subscribe</button>
               </div>
             </div>
