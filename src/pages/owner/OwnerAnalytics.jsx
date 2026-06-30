@@ -27,9 +27,9 @@ export default function OwnerAnalytics() {
           {['Weight Loss', 'Muscle Gain', 'Maintenance'].map(goal => {
             const count = members.filter(m => m.goal === goal).length;
             return (<div key={goal} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-              <span style={{ fontSize: 'clamp(12px, 3vw, 16px)', minWidth: 100 }}>{goal}</span>
+              <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', minWidth: 100 }}>{goal}</span>
               <div style={{ flex: 1, height: 8, background: 'var(--bg-tertiary)', borderRadius: 4, overflow: 'hidden' }}><div style={{ width: `${members.length ? (count / members.length) * 100 : 0}%`, height: '100%', background: goal === 'Weight Loss' ? '#f97316' : goal === 'Muscle Gain' ? '#22c55e' : '#3b82f6', borderRadius: 4 }} /></div>
-              <span style={{ fontWeight: 800, fontSize: 'clamp(13px, 3vw, 18px)' }}>{count}</span>
+              <span style={{ fontWeight: 800, fontSize: 'clamp(13px, 1.0vw, 15px)' }}>{count}</span>
             </div>);
           })}
         </div>
@@ -39,8 +39,8 @@ export default function OwnerAnalytics() {
           trainers.map(t => {
             const tClients = members.filter(m => m.trainerId === t.id).length;
             return (<div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
-              <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 800, color: '#fff' }}>{t.avatar}</div>
-              <div style={{ flex: 1 }}><div style={{ fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)' }}>{t.name}</div><div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)' }}>{t.specialization}</div></div>
+              <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, color: '#fff' }}>{t.avatar}</div>
+              <div style={{ flex: 1 }}><div style={{ fontWeight: 700, fontSize: 'clamp(12px, 1.0vw, 14px)' }} className="text-truncate">{t.name}</div><div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>{t.specialization}</div></div>
               <span className="badge badge-green">{tClients} clients</span>
             </div>);
           })}

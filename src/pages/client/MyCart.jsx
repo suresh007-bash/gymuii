@@ -70,13 +70,13 @@ export default function MyCart() {
   if (orderPlaced) return (
     <DashboardLayout title="My Cart">
       <div style={{ textAlign: 'center', padding: 60 }}>
-        <div style={{ fontSize: 'clamp(57px, 3vw, 76px)', marginBottom: 16 }}><Sparkles size={72} color="#f97316" /></div>
-        <h2 style={{ fontFamily: 'Outfit', fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 800, marginBottom: 8 }}>Order Placed!</h2>
+        <div style={{ fontSize: 'clamp(57px, 1.0vw, 66px)', marginBottom: 16 }}><Sparkles size={72} color="#f97316" /></div>
+        <h2 style={{ fontFamily: 'Outfit', fontSize: 'clamp(24px, 1.0vw, 28px)', fontWeight: 800, marginBottom: 8 }}>Order Placed!</h2>
         <p style={{ color: 'var(--text-muted)', marginBottom: 4 }}>Order #{orderPlaced.id}</p>
         <div style={{ background: 'rgba(249,115,22,0.08)', borderRadius: 16, padding: '16px 32px', display: 'inline-block', marginBottom: 16 }}>
-          <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', fontWeight: 700 }}>YOUR OTP</div>
-          <div style={{ fontFamily: 'Outfit', fontSize: 'clamp(30px, 3vw, 40px)', fontWeight: 900, color: 'var(--accent-orange)', letterSpacing: 6 }}>{orderPlaced.otp}</div>
-          <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)' }}>Share with delivery person</div>
+          <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 700 }}>YOUR OTP</div>
+          <div style={{ fontFamily: 'Outfit', fontSize: 'clamp(30px, 1.0vw, 35px)', fontWeight: 900, color: 'var(--accent-orange)', letterSpacing: 6 }}>{orderPlaced.otp}</div>
+          <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>Share with delivery person</div>
         </div>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 16 }}>
           <button className="btn btn-primary btn-lg" onClick={() => navigate(`${rolePrefix}/orders`)}><Icon icon={Package} size={16} style={{marginRight:6}} /> Track Order</button>
@@ -111,8 +111,8 @@ export default function MyCart() {
       <DashboardLayout title="My Cart">
         {cart.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 60 }}>
-          <div style={{ fontSize: 'clamp(51px, 3vw, 68px)', marginBottom: 16 }}><ShoppingCart size={64} color="var(--text-muted)" /></div>
-          <h2 style={{ fontFamily: 'Outfit', fontSize: 'clamp(21px, 3vw, 28px)', fontWeight: 800, marginBottom: 8 }}>Your cart is empty</h2>
+          <div style={{ fontSize: 'clamp(51px, 1.0vw, 59px)', marginBottom: 16 }}><ShoppingCart size={64} color="var(--text-muted)" /></div>
+          <h2 style={{ fontFamily: 'Outfit', fontSize: 'clamp(21px, 1.0vw, 25px)', fontWeight: 800, marginBottom: 8 }}>Your cart is empty</h2>
           <p style={{ color: 'var(--text-muted)', marginBottom: 20 }}>Browse the menu to add food items</p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
             <button className="btn btn-primary btn-lg" onClick={() => navigate(`${rolePrefix}/menu`)}><Icon icon={Utensils} size={16} style={{marginRight:6}} /> Browse Menu</button>
@@ -130,31 +130,31 @@ export default function MyCart() {
 
             {/* Nutrition summary */}
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', padding: '10px 0', marginBottom: 8, borderBottom: '1px solid var(--border)' }}>
-              <span style={{ fontSize: 'clamp(14px, 3vw, 18px)', color: '#f97316', fontWeight: 700, display:'flex', alignItems:'center', gap:3 }}><Flame size={14} /> {cartCal} kcal</span>
-              <span style={{ fontSize: 'clamp(14px, 3vw, 18px)', color: '#22c55e', fontWeight: 700, display:'flex', alignItems:'center', gap:3 }}><Beef size={14} /> {cartPro}g protein</span>
-              <span style={{ fontSize: 'clamp(14px, 3vw, 18px)', color: '#3b82f6', fontWeight: 700, display:'flex', alignItems:'center', gap:3 }}><Wheat size={14} /> {cartCarb}g carbs</span>
-              <span style={{ fontSize: 'clamp(14px, 3vw, 18px)', color: '#eab308', fontWeight: 700, display:'flex', alignItems:'center', gap:3 }}><Droplets size={14} /> {cartFat}g fats</span>
-              <span style={{ fontSize: 'clamp(14px, 3vw, 18px)', color: 'var(--text-muted)' }}>({cart.reduce((a, c) => a + c.qty, 0)} items)</span>
+              <span style={{ fontSize: 'clamp(14px, 1.0vw, 17px)', color: '#f97316', fontWeight: 700, display:'flex', alignItems:'center', gap:3 }}><Flame size={14} /> {cartCal} kcal</span>
+              <span style={{ fontSize: 'clamp(14px, 1.0vw, 17px)', color: '#22c55e', fontWeight: 700, display:'flex', alignItems:'center', gap:3 }}><Beef size={14} /> {cartPro}g protein</span>
+              <span style={{ fontSize: 'clamp(14px, 1.0vw, 17px)', color: '#3b82f6', fontWeight: 700, display:'flex', alignItems:'center', gap:3 }}><Wheat size={14} /> {cartCarb}g carbs</span>
+              <span style={{ fontSize: 'clamp(14px, 1.0vw, 17px)', color: '#eab308', fontWeight: 700, display:'flex', alignItems:'center', gap:3 }}><Droplets size={14} /> {cartFat}g fats</span>
+              <span style={{ fontSize: 'clamp(14px, 1.0vw, 17px)', color: 'var(--text-muted)' }}>({cart.reduce((a, c) => a + c.qty, 0)} items)</span>
             </div>
 
             {cart.map(item => (
               <div key={item.id} style={{ display: 'flex', gap: 12, alignItems: 'center', padding: '12px 0', borderBottom: '1px solid var(--border)', flexWrap: 'wrap' }}>
                 <img src={item.image} alt="" style={{ width: 56, height: 56, borderRadius: 10, objectFit: 'cover' }} />
                 <div style={{ flex: '1 1 200px', minWidth: 0 }}>
-                  <div style={{ fontWeight: 800, fontSize: 'clamp(13px, 3vw, 18px)' }}>{item.name}</div>
-                  <div style={{ fontSize: 'clamp(14px, 2.5vw, 18px)', color: 'var(--text-muted)', margin: '6px 0', lineHeight: 1.5 }}>
+                  <div style={{ fontWeight: 800, fontSize: 'clamp(13px, 1.0vw, 15px)' }} className="text-truncate">{item.name}</div>
+                  <div style={{ fontSize: 'clamp(14px, 0.9vw, 17px)', color: 'var(--text-muted)', margin: '6px 0', lineHeight: 1.5 }}>
                     <Flame size={14} style={{marginRight:1}} />{(item.calories || 0) * item.qty} kcal • <Beef size={14} style={{marginRight:1}} />{(item.protein || 0) * item.qty}g Prot. • <Wheat size={14} style={{marginRight:1}} />{(item.carbs || 0) * item.qty}g Carb. • <Droplets size={14} style={{marginRight:1}} />{(item.fat || 0) * item.qty}g Fat
                   </div>
-                  <div style={{ fontSize: 'clamp(12px, 3vw, 17px)', fontWeight: 800, color: 'var(--accent-green)' }}>₹{item.price} each</div>
+                  <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, color: 'var(--accent-green)' }}>₹{item.price} each</div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginLeft: 'auto' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <button className="btn btn-outline" style={{ width: 32, height: 32, padding: 0, fontSize: 'clamp(15px, 3vw, 20px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => { if (item.qty <= 1) remove(item.id); else updateQty(item.id, -1); }}>−</button>
-                    <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(15px, 3vw, 20px)', minWidth: 24, textAlign: 'center' }}>{item.qty}</span>
-                    <button className="btn btn-outline" style={{ width: 32, height: 32, padding: 0, fontSize: 'clamp(15px, 3vw, 20px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => updateQty(item.id, 1)}>+</button>
+                    <button className="btn btn-outline" style={{ width: 32, height: 32, padding: 0, fontSize: 'clamp(15px, 1.0vw, 18px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => { if (item.qty <= 1) remove(item.id); else updateQty(item.id, -1); }}>−</button>
+                    <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(15px, 1.0vw, 18px)', minWidth: 24, textAlign: 'center' }}>{item.qty}</span>
+                    <button className="btn btn-outline" style={{ width: 32, height: 32, padding: 0, fontSize: 'clamp(15px, 1.0vw, 18px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => updateQty(item.id, 1)}>+</button>
                   </div>
-                  <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(14px, 3vw, 19px)', minWidth: 50, textAlign: 'right' }}>₹{item.price * item.qty}</span>
-                  <button onClick={() => remove(item.id)} style={{ color: 'var(--accent-red)', fontSize: 'clamp(15px, 3vw, 20px)', cursor: 'pointer', background: 'none', border: 'none' }}><Trash2 size={18}/></button>
+                  <span style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(14px, 1.0vw, 17px)', minWidth: 50, textAlign: 'right' }}>₹{item.price * item.qty}</span>
+                  <button onClick={() => remove(item.id)} style={{ color: 'var(--accent-red)', fontSize: 'clamp(15px, 1.0vw, 18px)', cursor: 'pointer', background: 'none', border: 'none' }}><Trash2 size={18}/></button>
                 </div>
               </div>
             ))}
@@ -167,7 +167,7 @@ export default function MyCart() {
 
               {/* Payment */}
               <div style={{ marginBottom: 14 }}>
-                <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 6 }}>PAYMENT</div>
+                <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 6 }}>PAYMENT</div>
                 <div style={{ display: 'flex', gap: 6 }}>
                   {['COD', 'UPI', 'Card'].map(p => (
                     <button key={p} onClick={() => setPayment(p)} className={`btn btn-sm ${payment === p ? 'btn-primary' : 'btn-outline'}`} style={{ flex: 1 }}>
@@ -179,7 +179,7 @@ export default function MyCart() {
 
               {/* Tip */}
               <div style={{ marginBottom: 14 }}>
-                <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 6 }}>TIP</div>
+                <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 6 }}>TIP</div>
                 <div style={{ display: 'flex', gap: 6 }}>
                   {[0, 20, 30, 50].map(t => (<button key={t} onClick={() => setTip(t)} className={`btn btn-sm ${tip === t ? 'btn-primary' : 'btn-outline'}`}>₹{t}</button>))}
                 </div>
@@ -187,23 +187,23 @@ export default function MyCart() {
 
               {/* Price */}
               <div style={{ padding: 14, background: 'var(--bg-tertiary)', borderRadius: 12 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 3vw, 17px)', marginBottom: 4 }}><span style={{ color: 'var(--text-muted)' }}>Subtotal</span><span>₹{subtotal}</span></div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 3vw, 17px)', marginBottom: 4 }}><span style={{ color: 'var(--text-muted)' }}>Delivery</span><span>₹{deliveryFee}</span></div>
-                {tip > 0 && <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 3vw, 17px)', marginBottom: 4 }}><span style={{ color: 'var(--text-muted)' }}>Tip</span><span>₹{tip}</span></div>}
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 1.0vw, 14px)', marginBottom: 4 }}><span style={{ color: 'var(--text-muted)' }}>Subtotal</span><span>₹{subtotal}</span></div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 1.0vw, 14px)', marginBottom: 4 }}><span style={{ color: 'var(--text-muted)' }}>Delivery</span><span>₹{deliveryFee}</span></div>
+                {tip > 0 && <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(12px, 1.0vw, 14px)', marginBottom: 4 }}><span style={{ color: 'var(--text-muted)' }}>Tip</span><span>₹{tip}</span></div>}
                 <hr style={{ border: 'none', borderTop: '1px solid var(--border)', margin: '8px 0' }} />
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(18px, 3vw, 24px)', fontWeight: 900, fontFamily: 'Outfit' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'clamp(18px, 1.0vw, 21px)', fontWeight: 900, fontFamily: 'Outfit' }}>
                   <span>Total</span><span style={{ color: 'var(--accent-green)' }}>₹{total}</span>
                 </div>
               </div>
 
-              <button className="btn btn-success btn-lg" style={{ width: '100%', marginTop: 14, fontSize: 'clamp(15px, 3vw, 20px)' }} onClick={handlePlaceOrder}>
+              <button className="btn btn-success btn-lg" style={{ width: '100%', marginTop: 14, fontSize: 'clamp(15px, 1.0vw, 18px)' }} onClick={handlePlaceOrder}>
                 <CheckCircle2 size={16} style={{marginRight:6}} /> Order Now • ₹{total}
               </button>
-              <p style={{ fontSize: 'clamp(12px, 3vw, 14px)', color: 'var(--text-muted)', textAlign: 'center', marginTop: 6 }}>OTP will be generated for delivery verification</p>
+              <p style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', textAlign: 'center', marginTop: 6 }}>OTP will be generated for delivery verification</p>
             </div>
 
             {/* Schedule option */}
-            <button className="btn btn-outline" style={{ width: '100%', fontSize: 'clamp(12px, 3vw, 17px)' }} onClick={() => navigate(`${rolePrefix}/schedule`)}>
+            <button className="btn btn-outline" style={{ width: '100%', fontSize: 'clamp(12px, 1.0vw, 14px)' }} onClick={() => navigate(`${rolePrefix}/schedule`)}>
               <Icon icon={Calendar} size={14} style={{marginRight:6}} /> Want to schedule for specific dates? → Schedule Foods
             </button>
           </div>

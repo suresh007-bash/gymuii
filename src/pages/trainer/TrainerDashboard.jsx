@@ -104,22 +104,22 @@ export default function TrainerDashboard() {
 
       {/* ═══ HERO BANNER ═══ */}
       <div style={{ borderRadius: 20, overflow: 'hidden', position: 'relative', marginBottom: 24, background: `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url(${trainerWorkout}) center/cover`, padding: '48px 40px', color: '#fff', width: '100%', boxSizing: 'border-box' }}>
-        <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 800, background: '#22c55e', display: 'inline-block', padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}><Icon icon={Dumbbell} size={12} style={{marginRight:4}} /> TRAINER PORTAL</div>
-        <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 900, lineHeight: 1.15, marginBottom: 12, maxWidth: 450 }}>Welcome, {user?.name?.split(' ')[0]}!</h1>
-        <p style={{ fontSize: 'clamp(13px, 3vw, 18px)', opacity: 0.85, maxWidth: 420, lineHeight: 1.6 }}>{user?.specialization} • {clients.length} active clients • {plans.length} diet plans created</p>
+        <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, background: '#22c55e', display: 'inline-block', padding: '4px 14px', borderRadius: 20, marginBottom: 12, letterSpacing: 1 }}><Icon icon={Dumbbell} size={12} style={{marginRight:4}} /> TRAINER PORTAL</div>
+        <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(28px, 1.4vw, 33px)', fontWeight: 900, lineHeight: 1.15, marginBottom: 12, maxWidth: 450 }}>Welcome, {user?.name?.split(' ')[0]}!</h1>
+        <p style={{ fontSize: 'clamp(13px, 1.0vw, 15px)', opacity: 0.85, maxWidth: 420, lineHeight: 1.6 }}>{user?.specialization} • {clients.length} active clients • {plans.length} diet plans created</p>
       </div>
 
       {/* ═══ MEAL TIMING CARDS ═══ */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: 20, marginBottom: 24, width: '100%' }}>
         <div className="card" style={{ borderLeft: '4px solid #f97316', margin: 0 }}>
-          <h4 style={{ fontWeight: 800, fontSize: 'clamp(13px, 3vw, 18px)', marginBottom: 6 }}><Icon icon={Calendar} size={14} style={{marginRight:4}} /> Client Meal Scheduling</h4>
-          <p style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 10 }}>Create and manage meal schedules for your clients. Set breakfast, lunch & dinner for any dates.</p>
-          <Link to="/trainer/meal-scheduling" style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--accent-orange)', fontWeight: 700, textDecoration: 'none' }}>Open Scheduler →</Link>
+          <h4 style={{ fontWeight: 800, fontSize: 'clamp(13px, 1.0vw, 15px)', marginBottom: 6 }}><Icon icon={Calendar} size={14} style={{marginRight:4}} /> Client Meal Scheduling</h4>
+          <p style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 10 }}>Create and manage meal schedules for your clients. Set breakfast, lunch & dinner for any dates.</p>
+          <Link to="/trainer/meal-scheduling" style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--accent-orange)', fontWeight: 700, textDecoration: 'none' }}>Open Scheduler →</Link>
         </div>
         <div className="card" style={{ borderLeft: '4px solid #22c55e', margin: 0 }}>
-          <h4 style={{ fontWeight: 800, fontSize: 'clamp(13px, 3vw, 18px)', marginBottom: 6 }}><Icon icon={Salad} size={14} style={{marginRight:4}} /> Diet Plans</h4>
-          <p style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 10 }}>Create personalized nutrient packs and send them directly to your clients for easy ordering.</p>
-          <Link to="/trainer/diet-plans" style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--accent-green)', fontWeight: 700, textDecoration: 'none' }}>Create Diet Plan →</Link>
+          <h4 style={{ fontWeight: 800, fontSize: 'clamp(13px, 1.0vw, 15px)', marginBottom: 6 }}><Icon icon={Salad} size={14} style={{marginRight:4}} /> Diet Plans</h4>
+          <p style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 10 }}>Create personalized nutrient packs and send them directly to your clients for easy ordering.</p>
+          <Link to="/trainer/diet-plans" style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--accent-green)', fontWeight: 700, textDecoration: 'none' }}>Create Diet Plan →</Link>
         </div>
       </div>
 
@@ -130,14 +130,14 @@ export default function TrainerDashboard() {
 
       {/* ═══ WHAT'S ON YOUR MIND ═══ */}
       <div style={{ marginBottom: 28, width: '100%' }}>
-        <h3 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(18px, 3vw, 24px)', marginBottom: 16 }}>What's on your mind?</h3>
+        <h3 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(18px, 1.0vw, 21px)', marginBottom: 16 }}>What's on your mind?</h3>
         <div className="mind-categories-scroller">
           {MIND_CATS.map((cat, i) => (
             <Link key={i} to={i < 2 ? '/trainer/diet-plans' : '/trainer/meal-scheduling'} style={{ textDecoration: 'none', textAlign: 'center', flexShrink: 0, width: 86 }}>
               <div className="mind-cat-circle" onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.08)'} onMouseLeave={e => e.currentTarget.style.transform = 'none'}>
                 <img src={cat.img} alt={cat.label} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
-              <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 700, color: 'var(--text-primary)', whiteSpace: 'normal', lineHeight: 1.2 }}>{cat.label}</div>
+              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, color: 'var(--text-primary)', whiteSpace: 'normal', lineHeight: 1.2 }}>{cat.label}</div>
             </Link>
           ))}
         </div>
@@ -145,12 +145,12 @@ export default function TrainerDashboard() {
 
       {/* ═══ MY CLIENTS ═══ */}
       <div className="card" style={{ marginBottom: 20, width: '100%', boxSizing: 'border-box' }}>
-        <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><h3 className="card-title" style={{ display: 'flex', alignItems: 'center' }}><Icon icon={Users} size={16} style={{marginRight:6}} /> My Clients ({clients.length})</h3><Link to="/trainer/clients" style={{ color: 'var(--accent-orange)', fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 700, textDecoration: 'none' }}>View All →</Link></div>
-        {clients.length === 0 ? <p style={{ color: 'var(--text-muted)', padding: 12, fontSize: 'clamp(12px, 3vw, 17px)' }}>No clients assigned</p> :
+        <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><h3 className="card-title" style={{ display: 'flex', alignItems: 'center' }}><Icon icon={Users} size={16} style={{marginRight:6}} /> My Clients ({clients.length})</h3><Link to="/trainer/clients" style={{ color: 'var(--accent-orange)', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, textDecoration: 'none' }}>View All →</Link></div>
+        {clients.length === 0 ? <p style={{ color: 'var(--text-muted)', padding: 12, fontSize: 'clamp(12px, 1.0vw, 14px)' }}>No clients assigned</p> :
         clients.slice(0, 5).map(c => (
           <div key={c.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 0', borderBottom: '1px solid var(--border)' }}>
-            <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 800, color: '#fff' }}>{c.avatar}</div>
-            <div style={{ flex: 1 }}><div style={{ fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)' }}>{c.name}</div><div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)' }}>{c.goal} • {c.diet}</div></div>
+            <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, color: '#fff' }}>{c.avatar}</div>
+            <div style={{ flex: 1 }}><div style={{ fontWeight: 700, fontSize: 'clamp(12px, 1.0vw, 14px)' }} className="text-truncate">{c.name}</div><div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>{c.goal} • {c.diet}</div></div>
             <button className="btn btn-outline btn-sm" onClick={() => { setTargetClient(c); setTargets({ calories: c.targetCalories || 2200, protein: c.targetProtein || 150, carbs: c.targetCarbs || 250, fat: c.targetFat || 70 }); setShowTarget(true); }}><Icon icon={Target} size={14} /></button>
           </div>
         ))}

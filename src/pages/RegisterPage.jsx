@@ -60,16 +60,16 @@ export default function RegisterPage() {
   const inputStyle = {
     width: '100%', padding: '12px 16px',
     background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)',
-    borderRadius: 12, color: '#fff', fontSize: 'clamp(13px, 3vw, 18px)', outline: 'none', transition: 'border 0.3s',
+    borderRadius: 12, color: '#fff', fontSize: 'clamp(13px, 1.0vw, 15px)', outline: 'none', transition: 'border 0.3s',
   };
   const labelStyle = {
-    display: 'block', fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 700,
+    display: 'block', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700,
     color: 'rgba(255,255,255,0.6)', marginBottom: 6,
     textTransform: 'uppercase', letterSpacing: 0.5,
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, position: 'relative', overflow: 'hidden' }}>
+    <div style={{ minHeight: '112vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, position: 'relative', overflow: 'hidden' }}>
 
       {/* Back to Dashboard Button */}
       {step === 1 && (
@@ -116,13 +116,13 @@ export default function RegisterPage() {
             width: 56, height: 56, borderRadius: 16, margin: '0 auto 14px',
             background: 'linear-gradient(135deg, #f97316, #22c55e)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 'clamp(22px, 3vw, 30px)', boxShadow: '0 8px 32px rgba(249,115,22,0.3)',
+            fontSize: 'clamp(22px, 1.0vw, 26px)', boxShadow: '0 8px 32px rgba(249,115,22,0.3)',
             animation: 'float 3s ease-in-out infinite',
           }}></div>
-          <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(22px, 3vw, 30px)', fontWeight: 900, color: '#fff', marginBottom: 4 }}>
+          <h1 style={{ fontFamily: 'Outfit', fontSize: 'clamp(22px, 1.0vw, 26px)', fontWeight: 900, color: '#fff', marginBottom: 4 }}>
             {step === 1 ? 'Create Account' : 'Welcome to FitBites'}
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'clamp(12px, 3vw, 17px)' }}>
+          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'clamp(12px, 1.0vw, 14px)' }}>
             {step === 1 ? 'Join FitBites in seconds' : "Let's personalize your experience"}
           </p>
         </div>
@@ -171,9 +171,9 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              {error && <p style={{ color: '#fca5a5', fontSize: 'clamp(12px, 3vw, 17px)', marginBottom: 12, textAlign: 'center', background: 'rgba(239,68,68,0.15)', padding: '8px 12px', borderRadius: 10, border: '1px solid rgba(239,68,68,0.25)' }}> {error}</p>}
+              {error && <p style={{ color: '#fca5a5', fontSize: 'clamp(12px, 1.0vw, 14px)', marginBottom: 12, textAlign: 'center', background: 'rgba(239,68,68,0.15)', padding: '8px 12px', borderRadius: 10, border: '1px solid rgba(239,68,68,0.25)' }}> {error}</p>}
 
-              <button type="submit" style={{ width: '100%', padding: 14, background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 12, fontSize: 'clamp(14px, 3vw, 19px)', fontWeight: 800, cursor: 'pointer', border: 'none', boxShadow: '0 4px 20px rgba(249,115,22,0.4)', transition: 'all 0.3s' }}
+              <button type="submit" style={{ width: '100%', padding: 14, background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 12, fontSize: 'clamp(14px, 1.0vw, 17px)', fontWeight: 800, cursor: 'pointer', border: 'none', boxShadow: '0 4px 20px rgba(249,115,22,0.4)', transition: 'all 0.3s' }}
                 onMouseEnter={e => { e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 8px 30px rgba(249,115,22,0.5)'; }}
                 onMouseLeave={e => { e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 4px 20px rgba(249,115,22,0.4)'; }}
               >Continue →</button>
@@ -245,7 +245,7 @@ export default function RegisterPage() {
                 />
               </div>
 
-              <button type="submit" style={{ width: '100%', padding: 14, background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 12, fontSize: 'clamp(14px, 3vw, 19px)', fontWeight: 800, cursor: 'pointer', border: 'none', boxShadow: '0 4px 20px rgba(249,115,22,0.4)', transition: 'all 0.3s' }}
+              <button type="submit" style={{ width: '100%', padding: 14, background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', borderRadius: 12, fontSize: 'clamp(14px, 1.0vw, 17px)', fontWeight: 800, cursor: 'pointer', border: 'none', boxShadow: '0 4px 20px rgba(249,115,22,0.4)', transition: 'all 0.3s' }}
                 onMouseEnter={e => { e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 8px 30px rgba(249,115,22,0.5)'; }}
                 onMouseLeave={e => { e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 4px 20px rgba(249,115,22,0.4)'; }}
               >Go to Dashboard →</button>
@@ -253,7 +253,7 @@ export default function RegisterPage() {
           )}
 
           {step === 1 && (
-            <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.4)', fontSize: 'clamp(12px, 3vw, 17px)', marginTop: 16 }}>Already have an account? <Link to="/login" style={{ color: '#f97316', fontWeight: 700 }}>Sign In</Link></p>
+            <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.4)', fontSize: 'clamp(12px, 1.0vw, 14px)', marginTop: 16 }}>Already have an account? <Link to="/login" style={{ color: '#f97316', fontWeight: 700 }}>Sign In</Link></p>
           )}
         </div>
       </div>

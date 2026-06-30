@@ -87,13 +87,13 @@ export default function ClientCommunity() {
             width: 56, height: 56, borderRadius: 16,
             background: 'linear-gradient(135deg, #f97316, #fb923c)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 'clamp(24px, 3vw, 32px)', boxShadow: '0 6px 20px rgba(249,115,22,0.3)',
+            fontSize: 'clamp(24px, 1.0vw, 28px)', boxShadow: '0 6px 20px rgba(249,115,22,0.3)',
           }}></div>
           <div>
-            <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(18px, 3vw, 24px)', marginBottom: 4 }}>
+            <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(18px, 1.0vw, 21px)', marginBottom: 4 }}>
               Find Your Perfect Gym
             </h3>
-            <p style={{ color: 'var(--text-muted)', fontSize: 'clamp(12px, 3vw, 17px)', lineHeight: 1.5 }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: 'clamp(12px, 1.0vw, 14px)', lineHeight: 1.5 }}>
               Browse premium fitness centers, compare plans, and join with a single tap. Your fitness journey starts here!
             </p>
           </div>
@@ -139,14 +139,14 @@ export default function ClientCommunity() {
                 position: 'absolute', top: 12, right: 12,
                 background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)',
                 padding: '5px 10px', borderRadius: 20,
-                color: '#fff', fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 700,
+                color: '#fff', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700,
                 display: 'flex', alignItems: 'center', gap: 4,
               }}>
                  {gym.rating}
               </div>
               <div style={{
                 position: 'absolute', bottom: 12, left: 14,
-                color: '#fff', fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 600,
+                color: '#fff', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 600,
                 display: 'flex', alignItems: 'center', gap: 4,
               }}>
                  {gym.location}
@@ -155,20 +155,20 @@ export default function ClientCommunity() {
 
             {/* Content */}
             <div style={{ padding: '16px 18px 18px' }}>
-              <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(15px, 3vw, 21px)', marginBottom: 10 }}>
+              <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(15px, 1.0vw, 18px)', marginBottom: 10 }}>
                 {gym.name}
               </h4>
 
               <div style={{ display: 'flex', gap: 12, marginBottom: 14 }}>
                 <div style={{
                   display: 'flex', alignItems: 'center', gap: 5,
-                  fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', fontWeight: 600,
+                  fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 600,
                 }}>
                    {gym.members} members
                 </div>
                 <div style={{
                   display: 'flex', alignItems: 'center', gap: 5,
-                  fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', fontWeight: 600,
+                  fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 600,
                 }}>
                    {gym.trainers} trainers
                 </div>
@@ -178,20 +178,20 @@ export default function ClientCommunity() {
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               }}>
                 <div>
-                  <span style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)', fontWeight: 600 }}>From </span>
+                  <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 600 }}>From </span>
                   <span style={{
-                    fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(15px, 3vw, 21px)',
+                    fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(15px, 1.0vw, 18px)',
                     background: 'linear-gradient(135deg, #f97316, #fb923c)',
                     WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
                   }}>₹1,000</span>
-                  <span style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)', fontWeight: 600 }}>/mo</span>
+                  <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 600 }}>/mo</span>
                 </div>
                 <button
                   className="btn btn-primary btn-sm"
                   style={{
                     background: 'linear-gradient(135deg, #f97316, #fb923c)',
                     border: 'none', fontFamily: 'Outfit', fontWeight: 700,
-                    fontSize: 'clamp(12px, 3vw, 16px)', padding: '8px 16px', borderRadius: 10,
+                    fontSize: 'clamp(12px, 1.0vw, 14px)', padding: '8px 16px', borderRadius: 10,
                   }}
                   onClick={(e) => { e.stopPropagation(); setSelectedGym(gym); setSelectedPlan(gym.plans.find(p => p.popular) || gym.plans[0]); setView('detail'); }}
                 >
@@ -218,7 +218,7 @@ export default function ClientCommunity() {
           onClick={() => { setView('browse'); setSelectedGym(null); setSelectedPlan(null); }}
           style={{
             background: 'none', border: 'none', cursor: 'pointer',
-            color: 'var(--text-muted)', fontSize: 'clamp(12px, 3vw, 17px)', fontWeight: 700,
+            color: 'var(--text-muted)', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700,
             display: 'flex', alignItems: 'center', gap: 6,
             marginBottom: 16, padding: 0, fontFamily: 'Outfit',
           }}
@@ -249,7 +249,7 @@ export default function ClientCommunity() {
                 position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)',
                 width: 36, height: 36, borderRadius: '50%',
                 background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(6px)',
-                border: 'none', cursor: 'pointer', color: '#fff', fontSize: 'clamp(15px, 3vw, 20px)',
+                border: 'none', cursor: 'pointer', color: '#fff', fontSize: 'clamp(15px, 1.0vw, 18px)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 transition: 'background 0.2s',
               }}
@@ -260,7 +260,7 @@ export default function ClientCommunity() {
                 position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)',
                 width: 36, height: 36, borderRadius: '50%',
                 background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(6px)',
-                border: 'none', cursor: 'pointer', color: '#fff', fontSize: 'clamp(15px, 3vw, 20px)',
+                border: 'none', cursor: 'pointer', color: '#fff', fontSize: 'clamp(15px, 1.0vw, 18px)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 transition: 'background 0.2s',
               }}
@@ -290,14 +290,14 @@ export default function ClientCommunity() {
         <div className="card" style={{ marginBottom: 16 }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 12 }}>
             <div>
-              <h2 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(19px, 3vw, 26px)', marginBottom: 6 }}>
+              <h2 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(19px, 1.0vw, 22px)', marginBottom: 6 }}>
                 {selectedGym.name}
               </h2>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-                <span style={{ fontSize: 'clamp(12px, 3vw, 17px)', color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
+                <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
                    {selectedGym.location}
                 </span>
-                <span style={{ fontSize: 'clamp(12px, 3vw, 17px)', color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
+                <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
                    {selectedGym.rating}
                 </span>
               </div>
@@ -306,7 +306,7 @@ export default function ClientCommunity() {
           <div style={{
             display: 'flex', alignItems: 'center', gap: 6,
             padding: '8px 14px', borderRadius: 10,
-            background: 'var(--bg-tertiary)', fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', fontWeight: 600,
+            background: 'var(--bg-tertiary)', fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 600,
           }}>
              {selectedGym.hours}
           </div>
@@ -314,17 +314,17 @@ export default function ClientCommunity() {
 
         {/* About */}
         <div className="card" style={{ marginBottom: 16 }}>
-          <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 3vw, 19px)', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 1.0vw, 17px)', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 8 }}>
              About
           </h4>
-          <p style={{ fontSize: 'clamp(12px, 3vw, 17px)', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
+          <p style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
             {selectedGym.description}
           </p>
         </div>
 
         {/* Amenities */}
         <div className="card" style={{ marginBottom: 16 }}>
-          <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 3vw, 19px)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 1.0vw, 17px)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
              Amenities
           </h4>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
@@ -337,7 +337,7 @@ export default function ClientCommunity() {
                   padding: '8px 14px', borderRadius: 12,
                   background: hoveredAmenity === i ? 'rgba(249,115,22,0.1)' : 'var(--bg-tertiary)',
                   border: hoveredAmenity === i ? '1px solid rgba(249,115,22,0.3)' : '1px solid var(--border)',
-                  fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6,
+                  fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6,
                   transition: 'all 0.2s ease', cursor: 'default',
                 }}
               >
@@ -349,7 +349,7 @@ export default function ClientCommunity() {
 
         {/* Membership Plans */}
         <div className="card" style={{ marginBottom: 16 }}>
-          <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 3vw, 19px)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 1.0vw, 17px)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
              Membership Plans
           </h4>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
@@ -374,7 +374,7 @@ export default function ClientCommunity() {
                   {plan.popular && (
                     <div style={{
                       position: 'absolute', top: -10, left: '50%', transform: 'translateX(-50%)',
-                      padding: '3px 12px', borderRadius: 20, fontSize: 'clamp(12px, 3vw, 13px)', fontWeight: 800,
+                      padding: '3px 12px', borderRadius: 20, fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800,
                       background: 'linear-gradient(135deg, #f97316, #fb923c)',
                       color: '#fff', textTransform: 'uppercase', letterSpacing: 0.5,
                       whiteSpace: 'nowrap',
@@ -382,23 +382,23 @@ export default function ClientCommunity() {
                        Most Popular
                     </div>
                   )}
-                  <div style={{ fontSize: 'clamp(12px, 3vw, 17px)', fontWeight: 700, marginBottom: 8, color: 'var(--text-secondary)' }}>
+                  <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, marginBottom: 8, color: 'var(--text-secondary)' }} className="text-truncate">
                     {plan.name}
                   </div>
                   <div style={{
-                    fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(21px, 3vw, 28px)', marginBottom: 4,
+                    fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(21px, 1.0vw, 25px)', marginBottom: 4,
                     background: isSelected ? 'linear-gradient(135deg, #f97316, #fb923c)' : 'none',
                     WebkitBackgroundClip: isSelected ? 'text' : 'unset',
                     WebkitTextFillColor: isSelected ? 'transparent' : 'inherit',
                   }}>
                     ₹{plan.price.toLocaleString()}
                   </div>
-                  <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)', fontWeight: 600 }}>
+                  <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 600 }}>
                     {plan.duration}
                   </div>
                   {isSelected && (
                     <div style={{
-                      marginTop: 10, fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 700,
+                      marginTop: 10, fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700,
                       color: '#f97316', textTransform: 'uppercase', letterSpacing: 0.5,
                     }}>
                        Selected
@@ -413,7 +413,7 @@ export default function ClientCommunity() {
         {/* Trainers at this Gym */}
         {gymTrainers.length > 0 && (
           <div className="card" style={{ marginBottom: 16 }}>
-            <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 3vw, 19px)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 1.0vw, 17px)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
                Available Trainers
             </h4>
             <div style={{ display: 'grid', gap: 10 }}>
@@ -428,16 +428,16 @@ export default function ClientCommunity() {
                     width: 44, height: 44, borderRadius: 14, flexShrink: 0,
                     background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 'clamp(14px, 3vw, 19px)', fontWeight: 800, color: '#fff',
+                    fontSize: 'clamp(14px, 1.0vw, 17px)', fontWeight: 800, color: '#fff',
                     boxShadow: '0 4px 12px rgba(99,102,241,0.25)',
                   }}>{trainer.avatar}</div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 800, fontSize: 'clamp(13px, 3vw, 18px)' }}>{trainer.name}</div>
-                    <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', fontWeight: 600 }}>
+                    <div style={{ fontWeight: 800, fontSize: 'clamp(13px, 1.0vw, 15px)' }}>{trainer.name}</div>
+                    <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 600 }}>
                       {trainer.specialization}
                     </div>
                   </div>
-                  <span className="badge badge-purple" style={{ fontSize: 'clamp(12px, 3vw, 14px)' }}>Trainer</span>
+                  <span className="badge badge-purple" style={{ fontSize: 'clamp(12px, 1.0vw, 14px)' }}>Trainer</span>
                 </div>
               ))}
             </div>
@@ -452,7 +452,7 @@ export default function ClientCommunity() {
             width: '100%', padding: '15px 24px', borderRadius: 14, border: 'none',
             background: selectedPlan ? 'linear-gradient(135deg, #f97316, #fb923c)' : 'var(--bg-tertiary)',
             color: selectedPlan ? '#fff' : 'var(--text-muted)',
-            fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(15px, 3vw, 20px)', cursor: selectedPlan ? 'pointer' : 'not-allowed',
+            fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(15px, 1.0vw, 18px)', cursor: selectedPlan ? 'pointer' : 'not-allowed',
             boxShadow: selectedPlan ? '0 6px 24px rgba(249,115,22,0.35)' : 'none',
             transition: 'all 0.3s ease', marginBottom: 20,
           }}
@@ -469,9 +469,9 @@ export default function ClientCommunity() {
     if (!gym) {
       return (
         <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center', padding: 40 }}>
-          <div style={{ fontSize: 'clamp(45px, 3vw, 60px)', marginBottom: 16 }}></div>
-          <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(18px, 3vw, 24px)', marginBottom: 8 }}>No Gym Yet</h3>
-          <p style={{ color: 'var(--text-muted)', fontSize: 'clamp(12px, 3vw, 17px)', marginBottom: 20 }}>Browse and join a gym to get started!</p>
+          <div style={{ fontSize: 'clamp(45px, 1.0vw, 52px)', marginBottom: 16 }}></div>
+          <h3 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(18px, 1.0vw, 21px)', marginBottom: 8 }}>No Gym Yet</h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: 'clamp(12px, 1.0vw, 14px)', marginBottom: 20 }}>Browse and join a gym to get started!</p>
           <button className="btn btn-primary" onClick={() => setView('browse')}
             style={{ background: 'linear-gradient(135deg, #f97316, #fb923c)', border: 'none', fontFamily: 'Outfit', fontWeight: 700 }}
           >
@@ -504,13 +504,13 @@ export default function ClientCommunity() {
               <div style={{
                 display: 'inline-block', padding: '4px 12px', borderRadius: 20,
                 background: 'rgba(34,197,94,0.9)', color: '#fff',
-                fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 800, letterSpacing: 0.5, marginBottom: 8,
+                fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, letterSpacing: 0.5, marginBottom: 8,
                 textTransform: 'uppercase',
               }}> Your Current Gym</div>
-              <h2 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(19px, 3vw, 26px)', color: '#fff', marginBottom: 4 }}>
+              <h2 style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(19px, 1.0vw, 22px)', color: '#fff', marginBottom: 4 }}>
                 {gym.name}
               </h2>
-              <div style={{ fontSize: 'clamp(12px, 3vw, 17px)', color: 'rgba(255,255,255,0.8)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'rgba(255,255,255,0.8)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
                  {gym.location} <span style={{ opacity: 0.5 }}>•</span> {gym.rating}
               </div>
             </div>
@@ -523,27 +523,27 @@ export default function ClientCommunity() {
                 flex: 1, minWidth: 100, textAlign: 'center', padding: '10px 8px',
                 background: 'var(--bg-tertiary)', borderRadius: 12,
               }}>
-                <div style={{ fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 800 }}> {gym.members}</div>
-                <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', color: 'var(--text-muted)', fontWeight: 600 }}>Members</div>
+                <div style={{ fontSize: 'clamp(16px, 1.0vw, 19px)', fontWeight: 800 }}> {gym.members}</div>
+                <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 600 }}>Members</div>
               </div>
               <div style={{
                 flex: 1, minWidth: 100, textAlign: 'center', padding: '10px 8px',
                 background: 'var(--bg-tertiary)', borderRadius: 12,
               }}>
-                <div style={{ fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 800 }}> {gym.trainers}</div>
-                <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', color: 'var(--text-muted)', fontWeight: 600 }}>Trainers</div>
+                <div style={{ fontSize: 'clamp(16px, 1.0vw, 19px)', fontWeight: 800 }}> {gym.trainers}</div>
+                <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 600 }}>Trainers</div>
               </div>
               <div style={{
                 flex: 1, minWidth: 100, textAlign: 'center', padding: '10px 8px',
                 background: 'var(--bg-tertiary)', borderRadius: 12,
               }}>
-                <div style={{ fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 800 }}> {gym.rating}</div>
-                <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', color: 'var(--text-muted)', fontWeight: 600 }}>Rating</div>
+                <div style={{ fontSize: 'clamp(16px, 1.0vw, 19px)', fontWeight: 800 }}> {gym.rating}</div>
+                <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 600 }}>Rating</div>
               </div>
             </div>
             <div style={{
               padding: '8px 14px', borderRadius: 10,
-              background: 'var(--bg-tertiary)', fontSize: 'clamp(12px, 3vw, 16px)',
+              background: 'var(--bg-tertiary)', fontSize: 'clamp(12px, 1.0vw, 14px)',
               color: 'var(--text-muted)', fontWeight: 600,
             }}>
                {gym.hours}
@@ -553,17 +553,17 @@ export default function ClientCommunity() {
 
         {/* About */}
         <div className="card" style={{ marginBottom: 16 }}>
-          <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 3vw, 19px)', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 1.0vw, 17px)', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 8 }}>
              About
           </h4>
-          <p style={{ fontSize: 'clamp(12px, 3vw, 17px)', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
+          <p style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
             {gym.description}
           </p>
         </div>
 
         {/* Amenities */}
         <div className="card" style={{ marginBottom: 16 }}>
-          <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 3vw, 19px)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 1.0vw, 17px)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
              Amenities
           </h4>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
@@ -571,7 +571,7 @@ export default function ClientCommunity() {
               <div key={i} style={{
                 padding: '8px 14px', borderRadius: 12,
                 background: 'var(--bg-tertiary)', border: '1px solid var(--border)',
-                fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6,
+                fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6,
               }}>
                 <span>{AMENITY_ICONS[a] || ''}</span> {a}
               </div>
@@ -582,7 +582,7 @@ export default function ClientCommunity() {
         {/* Available Trainers */}
         {gymTrainers.length > 0 && (
           <div className="card" style={{ marginBottom: 20 }}>
-            <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 3vw, 19px)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <h4 style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(14px, 1.0vw, 17px)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
                Available Trainers
             </h4>
             <div style={{ display: 'grid', gap: 12 }}>
@@ -610,7 +610,7 @@ export default function ClientCommunity() {
                         ? 'linear-gradient(135deg, #22c55e, #4ade80)'
                         : 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 'clamp(15px, 3vw, 21px)', fontWeight: 800, color: '#fff',
+                      fontSize: 'clamp(15px, 1.0vw, 18px)', fontWeight: 800, color: '#fff',
                       boxShadow: isMyTrainer
                         ? '0 4px 14px rgba(34,197,94,0.3)'
                         : '0 4px 14px rgba(99,102,241,0.25)',
@@ -618,18 +618,18 @@ export default function ClientCommunity() {
                       {trainer.avatar}
                     </div>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontWeight: 800, fontSize: 'clamp(13px, 3vw, 18px)', marginBottom: 2 }}>
+                      <div style={{ fontWeight: 800, fontSize: 'clamp(13px, 1.0vw, 15px)', marginBottom: 2 }}>
                         {trainer.name}
                         {isMyTrainer && (
                           <span style={{
-                            marginLeft: 8, fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 700, color: '#22c55e',
+                            marginLeft: 8, fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, color: '#22c55e',
                           }}> Your Trainer</span>
                         )}
                       </div>
-                      <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', fontWeight: 600, marginBottom: 4 }}>
+                      <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 600, marginBottom: 4 }}>
                         {trainer.specialization}
                       </div>
-                      <div style={{ display: 'flex', gap: 12, fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)' }}>
+                      <div style={{ display: 'flex', gap: 12, fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>
                         <span> {studentCount} students</span>
                         <span> {trainer.certifications}</span>
                       </div>
@@ -638,7 +638,7 @@ export default function ClientCommunity() {
                       <div style={{
                         padding: '8px 14px', borderRadius: 10,
                         background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)',
-                        color: '#22c55e', fontWeight: 700, fontSize: 'clamp(12px, 3vw, 15px)', whiteSpace: 'nowrap',
+                        color: '#22c55e', fontWeight: 700, fontSize: 'clamp(12px, 1.0vw, 14px)', whiteSpace: 'nowrap',
                       }}>
                          Hired
                       </div>
@@ -648,7 +648,7 @@ export default function ClientCommunity() {
                         style={{
                           padding: '9px 14px', borderRadius: 10, border: 'none',
                           background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                          color: '#fff', fontWeight: 700, fontSize: 'clamp(12px, 3vw, 15px)', cursor: 'pointer',
+                          color: '#fff', fontWeight: 700, fontSize: 'clamp(12px, 1.0vw, 14px)', cursor: 'pointer',
                           fontFamily: 'Outfit', whiteSpace: 'nowrap',
                           boxShadow: '0 4px 12px rgba(99,102,241,0.25)',
                           transition: 'all 0.2s ease',
@@ -690,22 +690,22 @@ export default function ClientCommunity() {
               background: 'linear-gradient(135deg, rgba(249,115,22,0.06), rgba(251,146,60,0.04))',
               border: '1px solid rgba(249,115,22,0.15)',
             }}>
-              <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', fontWeight: 600, marginBottom: 4, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 600, marginBottom: 4, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                 Joining
               </div>
-              <div style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(15px, 3vw, 20px)', marginBottom: 2 }}>
+              <div style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 'clamp(15px, 1.0vw, 18px)', marginBottom: 2 }}>
                 {selectedGym.name}
               </div>
-              <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', fontWeight: 600 }}>
+              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', fontWeight: 600 }}>
                  {selectedGym.location}
               </div>
               <div style={{
                 marginTop: 12, paddingTop: 12, borderTop: '1px solid var(--border)',
                 display: 'flex', justifyContent: 'space-between', alignItems: 'center',
               }}>
-                <span style={{ fontSize: 'clamp(12px, 3vw, 17px)', fontWeight: 700 }}>{selectedPlan.name} Plan ({selectedPlan.duration})</span>
+                <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700 }}>{selectedPlan.name} Plan ({selectedPlan.duration})</span>
                 <span style={{
-                  fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(18px, 3vw, 24px)',
+                  fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(18px, 1.0vw, 21px)',
                   background: 'linear-gradient(135deg, #f97316, #fb923c)',
                   WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
                 }}>₹{selectedPlan.price.toLocaleString()}</span>
@@ -714,7 +714,7 @@ export default function ClientCommunity() {
 
             {/* Payment Methods */}
             <div style={{ marginBottom: 20 }}>
-              <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                 Payment Method
               </div>
               <div style={{ display: 'flex', gap: 10 }}>
@@ -729,8 +729,8 @@ export default function ClientCommunity() {
                       textAlign: 'center', transition: 'all 0.2s ease',
                     }}
                   >
-                    <div style={{ fontSize: 'clamp(19px, 3vw, 26px)', marginBottom: 4 }}>{m.icon}</div>
-                    <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 700, color: paymentMethod === m.key ? '#f97316' : 'var(--text-secondary)' }}>
+                    <div style={{ fontSize: 'clamp(19px, 1.0vw, 22px)', marginBottom: 4 }}>{m.icon}</div>
+                    <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, color: paymentMethod === m.key ? '#f97316' : 'var(--text-secondary)' }}>
                       {m.label}
                     </div>
                   </button>
@@ -798,13 +798,13 @@ export default function ClientCommunity() {
                 width: 64, height: 64, borderRadius: 18, margin: '0 auto 12px',
                 background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 'clamp(19px, 3vw, 26px)', fontWeight: 800, color: '#fff',
+                fontSize: 'clamp(19px, 1.0vw, 22px)', fontWeight: 800, color: '#fff',
                 boxShadow: '0 6px 20px rgba(99,102,241,0.3)',
               }}>
                 {selectedTrainer.avatar}
               </div>
-              <h3 style={{ fontWeight: 800, fontSize: 'clamp(15px, 3vw, 21px)', marginBottom: 4 }}>{selectedTrainer.name}</h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: 'clamp(12px, 3vw, 17px)' }}>{selectedTrainer.specialization}</p>
+              <h3 style={{ fontWeight: 800, fontSize: 'clamp(15px, 1.0vw, 18px)', marginBottom: 4 }}>{selectedTrainer.name}</h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: 'clamp(12px, 1.0vw, 14px)' }}>{selectedTrainer.specialization}</p>
             </div>
 
             {/* Price */}
@@ -814,9 +814,9 @@ export default function ClientCommunity() {
               border: '1px solid rgba(99,102,241,0.15)',
               display: 'flex', justifyContent: 'space-between', alignItems: 'center',
             }}>
-              <span style={{ fontSize: 'clamp(12px, 3vw, 17px)', fontWeight: 700 }}>Personal Training (Monthly)</span>
+              <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700 }}>Personal Training (Monthly)</span>
               <span style={{
-                fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(18px, 3vw, 24px)',
+                fontFamily: 'Outfit', fontWeight: 900, fontSize: 'clamp(18px, 1.0vw, 21px)',
                 background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                 WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
               }}>₹1,500</span>
@@ -824,7 +824,7 @@ export default function ClientCommunity() {
 
             {/* Payment Methods */}
             <div style={{ marginBottom: 8 }}>
-              <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                 Payment Method
               </div>
               <div style={{ display: 'flex', gap: 10 }}>
@@ -839,8 +839,8 @@ export default function ClientCommunity() {
                       textAlign: 'center', transition: 'all 0.2s ease',
                     }}
                   >
-                    <div style={{ fontSize: 'clamp(19px, 3vw, 26px)', marginBottom: 4 }}>{m.icon}</div>
-                    <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', fontWeight: 700, color: paymentMethod === m.key ? '#6366f1' : 'var(--text-secondary)' }}>
+                    <div style={{ fontSize: 'clamp(19px, 1.0vw, 22px)', marginBottom: 4 }}>{m.icon}</div>
+                    <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, color: paymentMethod === m.key ? '#6366f1' : 'var(--text-secondary)' }}>
                       {m.label}
                     </div>
                   </button>
@@ -904,7 +904,7 @@ export default function ClientCommunity() {
                   ? 'linear-gradient(135deg, #f97316, #fb923c)'
                   : 'var(--bg-tertiary)',
                 color: view === t.key || (view === 'detail' && t.key === 'browse') ? '#fff' : 'var(--text-secondary)',
-                fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)', cursor: 'pointer',
+                fontWeight: 700, fontSize: 'clamp(12px, 1.0vw, 14px)', cursor: 'pointer',
                 fontFamily: 'Outfit', transition: 'all 0.25s ease',
                 boxShadow: view === t.key || (view === 'detail' && t.key === 'browse')
                   ? '0 4px 14px rgba(249,115,22,0.3)'

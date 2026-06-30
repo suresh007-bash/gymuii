@@ -72,7 +72,7 @@ export default function TrainerMenu() {
             <img src={item.image} alt={item.name} style={{ width: '100%', height: 160, objectFit: 'cover', display: 'block' }} />
             <div style={{ padding: '12px 14px', display: 'flex', flexDirection: 'column', flex: 1 }}>
               {/* Name — single line, truncated */}
-              <div style={{ fontWeight: 700, fontSize: 'clamp(13px, 1.1vw, 15px)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: 6 }}>{item.name}</div>
+              <div style={{ fontWeight: 700, fontSize: 'clamp(13px, 0.3vw, 15px)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: 6 }} className="text-truncate">{item.name}</div>
               {/* Macros — compact single row */}
               <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 10, display: 'flex', gap: 8, flexWrap: 'nowrap', overflow: 'hidden' }}>
                 <span><Icon icon={Flame} size={10} style={{marginRight:2}} />{item.calories} kcal</span>

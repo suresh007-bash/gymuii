@@ -37,13 +37,13 @@ export default function ClientReviews() {
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 420 }}>
             <div className="modal-header"><h3 className="modal-title"> Rate Order #{showForm.id}</h3><button className="modal-close" onClick={() => setShowForm(null)}></button></div>
             <div style={{ textAlign: 'center', marginBottom: 16 }}>
-              <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', marginBottom: 8 }}>{showForm.items.map(i => i.name).join(', ')}</div>
+              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', marginBottom: 8 }}>{showForm.items.map(i => i.name).join(', ')}</div>
               <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
                 {[1, 2, 3, 4, 5].map(s => (
-                  <button key={s} onClick={() => setRating(s)} style={{ fontSize: 'clamp(27px, 3vw, 36px)', background: 'none', border: 'none', cursor: 'pointer', transition: 'transform 0.2s', transform: s <= rating ? 'scale(1.2)' : 'scale(1)', filter: s <= rating ? 'none' : 'grayscale(1) opacity(0.3)' }}></button>
+                  <button key={s} onClick={() => setRating(s)} style={{ fontSize: 'clamp(27px, 1.0vw, 32px)', background: 'none', border: 'none', cursor: 'pointer', transition: 'transform 0.2s', transform: s <= rating ? 'scale(1.2)' : 'scale(1)', filter: s <= rating ? 'none' : 'grayscale(1) opacity(0.3)' }}></button>
                 ))}
               </div>
-              <div style={{ fontSize: 'clamp(13px, 3vw, 18px)', fontWeight: 700, marginTop: 4, color: rating >= 4 ? 'var(--accent-green)' : rating >= 3 ? 'var(--accent-orange)' : 'var(--accent-red)' }}>{['', 'Poor', 'Below Average', 'Good', 'Very Good', 'Excellent'][rating]}</div>
+              <div style={{ fontSize: 'clamp(13px, 1.0vw, 15px)', fontWeight: 700, marginTop: 4, color: rating >= 4 ? 'var(--accent-green)' : rating >= 3 ? 'var(--accent-orange)' : 'var(--accent-red)' }}>{['', 'Poor', 'Below Average', 'Good', 'Very Good', 'Excellent'][rating]}</div>
             </div>
             <div style={{ marginBottom: 16 }}>
               <label className="form-label">Your Review</label>
@@ -61,8 +61,8 @@ export default function ClientReviews() {
           {unreviewed.map(o => (
             <div key={o.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
               <div>
-                <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)' }}>#{o.id} — {o.items.map(i => i.name).join(', ')}</div>
-                <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)' }}>{new Date(o.orderTime).toLocaleDateString()} • ₹{o.total}</div>
+                <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 1.0vw, 14px)' }}>#{o.id} — {o.items.map(i => i.name).join(', ')}</div>
+                <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>{new Date(o.orderTime).toLocaleDateString()} • ₹{o.total}</div>
               </div>
               <button className="btn btn-primary btn-sm" onClick={() => setShowForm(o)}> Rate</button>
             </div>
@@ -78,11 +78,11 @@ export default function ClientReviews() {
           {reviews.sort((a, b) => new Date(b.date) - new Date(a.date)).map(r => (
             <div key={r.id} style={{ padding: 14, background: 'var(--bg-tertiary)', borderRadius: 12 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                <span style={{ fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)' }}>Order #{r.orderId}</span>
+                <span style={{ fontWeight: 700, fontSize: 'clamp(12px, 1.0vw, 14px)' }}>Order #{r.orderId}</span>
                 <span style={{ color: '#f97316' }}>{''.repeat(r.rating)}</span>
               </div>
-              <p style={{ fontSize: 'clamp(12px, 3vw, 17px)', color: 'var(--text-secondary)', marginBottom: 4 }}>{r.comment}</p>
-              <span style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)' }}>{new Date(r.date).toLocaleDateString()}</span>
+              <p style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-secondary)', marginBottom: 4 }}>{r.comment}</p>
+              <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>{new Date(r.date).toLocaleDateString()}</span>
             </div>
           ))}
         </div>}

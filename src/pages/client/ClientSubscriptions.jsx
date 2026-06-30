@@ -96,12 +96,12 @@ export default function ClientSubscriptions() {
               <button className="modal-close" onClick={() => setShowPayment(null)}></button>
             </div>
             <div style={{ textAlign: 'center', margin: '16px 0' }}>
-              <div style={{ fontSize: 'clamp(30px, 3vw, 40px)', fontWeight: 900, color: 'var(--accent-orange)' }}>
-                ₹{showPayment.price}<span style={{ fontSize: 'clamp(13px, 3vw, 18px)', color: 'var(--text-muted)' }}>/{showPayment.period}</span>
+              <div style={{ fontSize: 'clamp(30px, 1.0vw, 35px)', fontWeight: 900, color: 'var(--accent-orange)' }}>
+                ₹{showPayment.price}<span style={{ fontSize: 'clamp(13px, 1.0vw, 15px)', color: 'var(--text-muted)' }}>/{showPayment.period}</span>
               </div>
             </div>
             <div style={{ marginBottom: 16 }}>
-              <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 8 }}>PAYMENT METHOD</div>
+              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 8 }}>PAYMENT METHOD</div>
               <div style={{ display: 'flex', gap: 8 }}>
                 {['UPI', 'Card', 'Net Banking'].map(p => (
                   <button 
@@ -132,20 +132,20 @@ export default function ClientSubscriptions() {
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
-              <div style={{ fontFamily: 'Outfit', fontSize: 'clamp(19px, 3vw, 26px)', fontWeight: 900 }}>{currentPlan.name} Plan</div>
-              <div style={{ fontSize: 'clamp(12px, 3vw, 17px)', color: 'var(--text-muted)' }}>{currentPlan.desc}</div>
+              <div style={{ fontFamily: 'Outfit', fontSize: 'clamp(19px, 1.0vw, 22px)', fontWeight: 900 }}>{currentPlan.name} Plan</div>
+              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>{currentPlan.desc}</div>
               
-              <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', marginTop: 4 }}>
+              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', marginTop: 4 }}>
                 {currentPlan.meals === 'Unlimited' ? 'Unlimited Meals' : `${currentPlan.meals} meals/week`}
               </div>
               
-              <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', marginTop: 4 }}>
+              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', marginTop: 4 }}>
                 Renews: {new Date(user?.subscriptionExpiry || Date.now()).toLocaleDateString()}
               </div>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontFamily: 'Outfit', fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 900, color: 'var(--accent-green)' }}>
-                ₹{currentPlan.price}<span style={{ fontSize: 'clamp(12px, 3vw, 17px)', color: 'var(--text-muted)' }}>/mo</span>
+              <div style={{ fontFamily: 'Outfit', fontSize: 'clamp(24px, 1.0vw, 28px)', fontWeight: 900, color: 'var(--accent-green)' }}>
+                ₹{currentPlan.price}<span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>/mo</span>
               </div>
               <button className="btn btn-outline btn-sm" style={{ color: 'var(--accent-red)', marginTop: 8 }} onClick={cancel}>Cancel Plan</button>
             </div>
@@ -158,23 +158,23 @@ export default function ClientSubscriptions() {
         {PLANS.map(plan => (
           <div key={plan.id} className="card" style={{ position: 'relative', border: plan.popular ? '2px solid var(--accent-orange)' : undefined }}>
             {plan.popular && (
-              <div style={{ position: 'absolute', top: -10, left: '50%', transform: 'translateX(-50%)', background: 'var(--gradient-primary)', color: '#fff', padding: '3px 16px', borderRadius: 20, fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 800 }}>
+              <div style={{ position: 'absolute', top: -10, left: '50%', transform: 'translateX(-50%)', background: 'var(--gradient-primary)', color: '#fff', padding: '3px 16px', borderRadius: 20, fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800 }}>
                 MOST POPULAR
               </div>
             )}
             <div style={{ textAlign: 'center', marginBottom: 16 }}>
-              <h3 style={{ fontFamily: 'Outfit', fontSize: 'clamp(18px, 3vw, 24px)', fontWeight: 900, marginBottom: 4 }}>{plan.name}</h3>
+              <h3 style={{ fontFamily: 'Outfit', fontSize: 'clamp(18px, 1.0vw, 21px)', fontWeight: 900, marginBottom: 4 }} className="text-truncate">{plan.name}</h3>
               <div>
-                <span style={{ fontSize: 'clamp(27px, 3vw, 36px)', fontWeight: 900, color: 'var(--accent-orange)' }}>₹{plan.price}</span>
-                <span style={{ fontSize: 'clamp(12px, 3vw, 17px)', color: 'var(--text-muted)' }}>/{plan.period}</span>
+                <span style={{ fontSize: 'clamp(27px, 1.0vw, 32px)', fontWeight: 900, color: 'var(--accent-orange)' }}>₹{plan.price}</span>
+                <span style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>/{plan.period}</span>
               </div>
-              <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)' }}>
+              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>
                 {plan.meals === 'Unlimited' ? 'Unlimited Meals' : `${plan.meals} meals/week`}
               </div>
             </div>
             <ul style={{ listStyle: 'none', padding: 0, marginBottom: 16 }}>
               {plan.features.map((f, i) => (
-                <li key={i} style={{ fontSize: 'clamp(12px, 3vw, 17px)', padding: '5px 0', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <li key={i} style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', padding: '5px 0', display: 'flex', alignItems: 'center', gap: 8 }}>
                   <CheckCircle2 size={13} color="#22c55e" /> {f}
                 </li>
               ))}
@@ -203,11 +203,11 @@ export default function ClientSubscriptions() {
             { IconComp: Target, label: 'AI Suggestions', desc: 'Personalized meals' }
           ].map((b, i) => (
             <div key={i} style={{ textAlign: 'center', padding: 16, background: 'var(--bg-tertiary)', borderRadius: 12 }}>
-              <div style={{ fontSize: 'clamp(24px, 3vw, 32px)', marginBottom: 6 }}>
+              <div style={{ fontSize: 'clamp(24px, 1.0vw, 28px)', marginBottom: 6 }}>
                 <Icon icon={b.IconComp} size={28} color="#f97316" />
               </div>
-              <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)' }}>{b.label}</div>
-              <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)' }}>{b.desc}</div>
+              <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 1.0vw, 14px)' }}>{b.label}</div>
+              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>{b.desc}</div>
             </div>
           ))}
         </div>

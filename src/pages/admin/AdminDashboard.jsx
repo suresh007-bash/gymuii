@@ -38,41 +38,41 @@ export default function AdminDashboard() {
         .admin-page-wrapper { width: 100%; box-sizing: border-box; }
 
         /* Hero */
-        .hero-banner { padding: clamp(28px, 5vw, 72px) clamp(20px, 5vw, 56px); border-radius: 20px; margin-bottom: 24px; }
-        .hero-tag { font-size: clamp(13px, 1.5vw, 15px); padding: 8px 18px; margin-bottom: 14px; display: inline-flex; align-items: center; border-radius: 20px; letterSpacing: 1.5px; }
-        .hero-title { font-size: clamp(28px, 5vw, 54px); margin-bottom: 12px; line-height: 1.1; }
-        .hero-sub { font-size: clamp(15px, 2.5vw, 22px); opacity: 0.92; font-weight: 600; }
+        .hero-banner { padding: clamp(28px, 1.7vw, 51px) clamp(20px, 1.7vw, 40px); border-radius: 20px; margin-bottom: 24px; }
+        .hero-tag { font-size: clamp(13px, 0.6vw, 15px); padding: 8px 18px; margin-bottom: 14px; display: inline-flex; align-items: center; border-radius: 20px; letterSpacing: 1.5px; }
+        .hero-title { font-size: clamp(28px, 1.7vw, 38px); margin-bottom: 12px; line-height: 1.1; }
+        .hero-sub { font-size: clamp(15px, 0.9vw, 18px); opacity: 0.92; font-weight: 600; }
 
         /* Module Cards */
         .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px; margin-bottom: 24px; }
-        .module-card { padding: clamp(20px, 3vw, 32px); border-radius: 18px; }
-        .module-title { font-size: clamp(18px, 2.5vw, 24px); margin-bottom: 12px; font-weight: 900; display: flex; align-items: center; gap: 10px; }
-        .module-desc { font-size: clamp(14px, 1.8vw, 17px); margin-bottom: 16px; color: var(--text-muted); line-height: 1.6; }
-        .module-link { font-size: clamp(15px, 1.8vw, 18px); font-weight: 800; text-decoration: none; }
+        .module-card { padding: clamp(20px, 1.0vw, 23px); border-radius: 18px; }
+        .module-title { font-size: clamp(18px, 0.9vw, 21px); margin-bottom: 12px; font-weight: 900; display: flex; align-items: center; gap: 10px; }
+        .module-desc { font-size: clamp(14px, 0.7vw, 17px); margin-bottom: 16px; color: var(--text-muted); line-height: 1.6; }
+        .module-link { font-size: clamp(15px, 0.7vw, 18px); font-weight: 800; text-decoration: none; }
 
         /* Mind Panel */
-        .mind-panel { padding: clamp(20px, 3vw, 36px) clamp(16px, 3vw, 32px); margin-bottom: 24px; border-radius: 20px; }
-        .mind-title { font-size: clamp(20px, 3vw, 28px); margin-bottom: 20px; font-weight: 950; }
-        .mind-scroll { display: flex; align-items: flex-start; overflow-x: auto; gap: clamp(16px, 2.5vw, 32px); padding-bottom: 12px; -webkit-overflow-scrolling: touch; }
-        .mind-item { flex: 0 0 clamp(80px, 12vw, 120px); text-align: center; display: flex; flex-direction: column; align-items: center; text-decoration: none; }
-        .mind-img-wrapper { width: clamp(80px, 12vw, 120px); height: clamp(80px, 12vw, 120px); border-radius: 50%; overflow: hidden; border: 3px solid var(--border); box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin-bottom: 10px; }
-        .mind-label { font-size: clamp(13px, 1.6vw, 16px); font-weight: 800; color: var(--text-primary); white-space: normal; word-wrap: break-word; line-height: 1.2; }
+        .mind-panel { padding: clamp(20px, 1.0vw, 26px) clamp(16px, 1.0vw, 23px); margin-bottom: 24px; border-radius: 20px; }
+        .mind-title { font-size: clamp(20px, 1.0vw, 23px); margin-bottom: 20px; font-weight: 950; }
+        .mind-scroll { display: flex; align-items: flex-start; overflow-x: auto; gap: clamp(16px, 0.9vw, 23px); padding-bottom: 12px; -webkit-overflow-scrolling: touch; }
+        .mind-item { flex: 0 0 clamp(80px, 4.1vw, 92px); text-align: center; display: flex; flex-direction: column; align-items: center; text-decoration: none; }
+        .mind-img-wrapper { width: clamp(80px, 4.1vw, 92px); height: clamp(80px, 4.1vw, 92px); border-radius: 50%; overflow: hidden; border: 3px solid var(--border); box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin-bottom: 10px; }
+        .mind-label { font-size: clamp(13px, 0.6vw, 15px); font-weight: 800; color: var(--text-primary); white-space: normal; word-wrap: break-word; line-height: 1.2; }
 
         /* Insight Cards */
-        .insight-card { padding: clamp(18px, 3vw, 32px); border-radius: 20px; display: flex; flex-direction: column; }
+        .insight-card { padding: clamp(18px, 1.0vw, 23px); border-radius: 20px; display: flex; flex-direction: column; }
         .insight-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 2px solid var(--border); }
-        .insight-title { font-size: clamp(22px, 3vw, 28px); font-weight: 900; margin: 0; display: flex; align-items: center; gap: 8px; }
-        .insight-link { font-size: clamp(14px, 1.6vw, 17px); color: var(--accent-orange); font-weight: 800; text-decoration: none; white-space: nowrap; }
+        .insight-title { font-size: clamp(22px, 1.0vw, 26px); font-weight: 900; margin: 0; display: flex; align-items: center; gap: 8px; }
+        .insight-link { font-size: clamp(14px, 0.6vw, 17px); color: var(--accent-orange); font-weight: 800; text-decoration: none; white-space: nowrap; }
 
-        .recent-row { display: flex; justify-content: space-between; align-items: center; padding: clamp(12px, 2vw, 16px) 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 8px; }
-        .recent-id { font-weight: 900; font-size: clamp(15px, 2vw, 18px); }
-        .recent-name { font-size: clamp(13px, 1.8vw, 16px); color: var(--text-muted); margin-left: 8px; }
-        .recent-badge { font-size: clamp(11px, 1.4vw, 13px); padding: 5px 12px; font-weight: 800; }
+        .recent-row { display: flex; justify-content: space-between; align-items: center; padding: clamp(12px, 0.7vw, 14px) 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 8px; }
+        .recent-id { font-weight: 900; font-size: clamp(15px, 0.7vw, 18px); }
+        .recent-name { font-size: clamp(13px, 0.7vw, 15px); color: var(--text-muted); margin-left: 8px; }
+        .recent-badge { font-size: clamp(11px, 0.5vw, 13px); padding: 5px 12px; font-weight: 800; }
 
-        .role-row { display: flex; align-items: center; padding: clamp(12px, 2vw, 16px) 0; border-bottom: 1px solid var(--border); gap: clamp(12px, 2vw, 18px); }
-        .role-icon { font-size: clamp(22px, 3vw, 28px); display: flex; align-items: center; flex-shrink: 0; }
-        .role-name { flex: 1; font-weight: 700; text-transform: capitalize; font-size: clamp(15px, 2vw, 18px); }
-        .role-count { font-family: Outfit; font-weight: 950; font-size: clamp(20px, 3vw, 26px); }
+        .role-row { display: flex; align-items: center; padding: clamp(12px, 0.7vw, 14px) 0; border-bottom: 1px solid var(--border); gap: clamp(12px, 0.7vw, 14px); }
+        .role-icon { font-size: clamp(22px, 1.0vw, 26px); display: flex; align-items: center; flex-shrink: 0; }
+        .role-name { flex: 1; font-weight: 700; text-transform: capitalize; font-size: clamp(15px, 0.7vw, 18px); }
+        .role-count { font-family: Outfit; font-weight: 950; font-size: clamp(20px, 1.0vw, 23px); }
       `}</style>
 
       <div className="admin-page-wrapper">
@@ -104,8 +104,8 @@ export default function AdminDashboard() {
           ].map((s, i) => (
             <div key={i} className="stat-card">
               <div className="stat-icon">{s.icon}</div>
-              <div className="stat-value" style={{ color: s.color, fontSize: 'clamp(18px, 3vw, 26px)' }}>{s.val}</div>
-              <div className="stat-label" style={{ fontSize: 'clamp(11px, 1.4vw, 13px)' }}>{s.label}</div>
+              <div className="stat-value" style={{ color: s.color, fontSize: 'clamp(18px, 1.0vw, 21px)' }}>{s.val}</div>
+              <div className="stat-label" style={{ fontSize: 'clamp(11px, 0.5vw, 13px)' }}>{s.label}</div>
             </div>
           ))}
         </div>

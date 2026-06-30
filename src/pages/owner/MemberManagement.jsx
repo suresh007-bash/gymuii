@@ -17,11 +17,11 @@ export default function MemberManagement() {
       <div className="card"><table className="data-table"><thead><tr><th>Member</th><th>Goal</th><th>Trainer</th><th>Diet</th><th>Joined</th><th>Actions</th></tr></thead>
         <tbody>{shown.map(c=>(
           <tr key={c.id}>
-            <td><div style={{display:'flex',alignItems:'center',gap:10}}><div style={{width:32,height:32,borderRadius:'50%',background:'var(--gradient-primary)',display:'flex',alignItems:'center',justifyContent:'center',fontSize: 'clamp(12px, 3vw, 15px)',fontWeight:800,color:'#fff'}}>{c.avatar}</div><div><div style={{fontWeight:700,fontSize: 'clamp(12px, 3vw, 17px)'}}>{c.name}</div><div style={{fontSize: 'clamp(12px, 3vw, 15px)',color:'var(--text-muted)'}}>{c.email}</div></div></div></td>
+            <td><div style={{display:'flex',alignItems:'center',gap:10}}><div style={{width:32,height:32,borderRadius:'50%',background:'var(--gradient-primary)',display:'flex',alignItems:'center',justifyContent:'center',fontSize: 'clamp(12px, 1.0vw, 14px)',fontWeight:800,color:'#fff'}}>{c.avatar}</div><div><div style={{fontWeight:700,fontSize: 'clamp(12px, 1.0vw, 14px)'}} className="text-truncate">{c.name}</div><div style={{fontSize: 'clamp(12px, 1.0vw, 14px)',color:'var(--text-muted)'}}>{c.email}</div></div></div></td>
             <td><span className="badge badge-blue">{c.goal}</span></td>
             <td><span className={`badge ${c.trainerId ? 'badge-purple' : 'badge-orange'}`}>{getTrainerName(c.trainerId)}</span></td>
-            <td style={{fontSize: 'clamp(12px, 3vw, 16px)'}}>{c.diet}</td>
-            <td style={{fontSize: 'clamp(12px, 3vw, 16px)',color:'var(--text-muted)'}}>{c.joinDate}</td>
+            <td style={{fontSize: 'clamp(12px, 1.0vw, 14px)'}}>{c.diet}</td>
+            <td style={{fontSize: 'clamp(12px, 1.0vw, 14px)',color:'var(--text-muted)'}}>{c.joinDate}</td>
             <td><button className="btn btn-outline btn-sm">View</button></td>
           </tr>
         ))}</tbody>

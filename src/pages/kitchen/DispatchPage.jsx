@@ -61,22 +61,22 @@ export default function DispatchPage() {
         <div>
           {displayOrders.length === 0 ? (
             <div className="card" style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)' }}>
-              <div style={{ fontSize: 'clamp(39px, 3vw, 52px)', marginBottom: 8 }}>{tab === 'ready' ? '' : tab === 'pending' ? '' : ''}</div>
+              <div style={{ fontSize: 'clamp(39px, 1.0vw, 45px)', marginBottom: 8 }}>{tab === 'ready' ? '' : tab === 'pending' ? '' : ''}</div>
               No {tab === 'ready' ? 'ready' : tab === 'pending' ? 'pending driver' : 'in transit'} orders
             </div>
           ) : displayOrders.map(o => (
             <div key={o.id} className="card" style={{ marginBottom: 12 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                <span style={{ fontWeight: 800, fontFamily: 'Outfit', fontSize: 'clamp(14px, 3vw, 19px)' }}>#{o.id}</span>
+                <span style={{ fontWeight: 800, fontFamily: 'Outfit', fontSize: 'clamp(14px, 1.0vw, 17px)' }}>#{o.id}</span>
                 <span className={`badge ${o.status === 'ready' ? 'badge-green' : o.status === 'driver_pending' ? 'badge-orange' : 'badge-purple'}`}>
                   {o.status === 'driver_pending' ? ' PENDING DRIVER' : o.status === 'in_transit' ? ' IN TRANSIT' : ' READY'}
                 </span>
               </div>
 
-              <div style={{ fontSize: 'clamp(12px, 3vw, 17px)', marginBottom: 4 }}> {o.customerName}</div>
-              <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', marginBottom: 4 }}> {o.customerAddress}</div>
-              <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)', marginBottom: 4 }}> {o.items.map(i => i.name).join(', ')}</div>
-              <div style={{ display: 'flex', gap: 12, fontSize: 'clamp(12px, 3vw, 16px)', marginBottom: 8 }}>
+              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', marginBottom: 4 }}> {o.customerName}</div>
+              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', marginBottom: 4 }}> {o.customerAddress}</div>
+              <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', marginBottom: 4 }}> {o.items.map(i => i.name).join(', ')}</div>
+              <div style={{ display: 'flex', gap: 12, fontSize: 'clamp(12px, 1.0vw, 14px)', marginBottom: 8 }}>
                 <span style={{ fontWeight: 800, color: 'var(--accent-green)' }}>₹{o.total}</span>
                 <span> {o.paymentMethod}</span>
                 <span>{o.paymentStatus}</span>
@@ -85,14 +85,14 @@ export default function DispatchPage() {
 
               {/* Scheduled dates */}
               {o.scheduledDates?.length > 0 && (
-                <div style={{ fontSize: 'clamp(12px, 3vw, 15px)', color: 'var(--text-muted)', marginBottom: 8 }}>
+                <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)', marginBottom: 8 }}>
                    Scheduled: {o.scheduledDates.map(d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })).join(', ')}
                 </div>
               )}
 
               {/* Driver info for pending/transit */}
               {o.driverName && (
-                <div style={{ padding: '6px 12px', background: o.status === 'driver_pending' ? 'rgba(249,115,22,0.06)' : 'rgba(34,197,94,0.06)', borderRadius: 8, marginBottom: 8, fontSize: 'clamp(12px, 3vw, 16px)' }}>
+                <div style={{ padding: '6px 12px', background: o.status === 'driver_pending' ? 'rgba(249,115,22,0.06)' : 'rgba(34,197,94,0.06)', borderRadius: 8, marginBottom: 8, fontSize: 'clamp(12px, 1.0vw, 14px)' }}>
                    Assigned to: <strong>{o.driverName}</strong>
                   {o.status === 'driver_pending' && <span style={{ color: 'var(--accent-orange)', marginLeft: 8 }}>• Waiting for acceptance</span>}
                   {o.status === 'in_transit' && <span style={{ color: 'var(--accent-green)', marginLeft: 8 }}>• Accepted & delivering</span>}
@@ -129,7 +129,7 @@ export default function DispatchPage() {
 
         {/* Drivers Panel */}
         <div>
-          <h3 style={{ fontFamily: 'Outfit', fontWeight: 700, marginBottom: 12, fontSize: 'clamp(14px, 3vw, 19px)' }}> Drivers ({drivers.length})</h3>
+          <h3 style={{ fontFamily: 'Outfit', fontWeight: 700, marginBottom: 12, fontSize: 'clamp(14px, 1.0vw, 17px)' }}> Drivers ({drivers.length})</h3>
           {drivers.map(d => {
             const activeCount = getDriverActiveCount(d.id);
             const pendingCount = orders.filter(o => o.driverId === d.id && o.status === 'driver_pending').length;
@@ -137,16 +137,16 @@ export default function DispatchPage() {
             return (
               <div key={d.id} className="card" style={{ marginBottom: 10, padding: 12 }}>
                 <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                  <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg,#f97316,#22c55e)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(12px, 3vw, 16px)', fontWeight: 800, color: '#fff' }}>{d.avatar}</div>
+                  <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg,#f97316,#22c55e)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(12px, 1.0vw, 14px)', fontWeight: 800, color: '#fff' }}>{d.avatar}</div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 3vw, 17px)' }}>{d.name}</div>
-                    <div style={{ fontSize: 'clamp(12px, 3vw, 14px)', color: 'var(--text-muted)' }}>{d.vehicleType} • {d.licenseNo}</div>
+                    <div style={{ fontWeight: 700, fontSize: 'clamp(12px, 1.0vw, 14px)' }}>{d.name}</div>
+                    <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>{d.vehicleType} • {d.licenseNo}</div>
                   </div>
-                  <span className={`badge ${activeCount === 0 ? 'badge-green' : 'badge-orange'}`} style={{ fontSize: 'clamp(12px, 3vw, 14px)' }}>
+                  <span className={`badge ${activeCount === 0 ? 'badge-green' : 'badge-orange'}`} style={{ fontSize: 'clamp(12px, 1.0vw, 14px)' }}>
                     {activeCount === 0 ? ' Free' : ` ${activeCount}`}
                   </span>
                 </div>
-                <div style={{ display: 'flex', gap: 8, marginTop: 6, fontSize: 'clamp(12px, 3vw, 14px)', color: 'var(--text-muted)' }}>
+                <div style={{ display: 'flex', gap: 8, marginTop: 6, fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>
                   <span> {d.rating}</span>
                   <span> {pendingCount} pending</span>
                   <span> {deliveredCount} done</span>

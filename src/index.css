@@ -105,7 +105,7 @@ body {
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: clamp(16px, 1.5vw + 12px, 20px);
+  font-size: clamp(16px, 0.6vw, 19px);
   line-height: 1.6;
 }
 
@@ -488,7 +488,7 @@ img {
 
 .sidebar-brand-name {
   font-family: var(--font-heading);
-  font-size: clamp(20px, 2vw + 16px, 28px);
+  font-size: clamp(20px, 0.7vw, 23px);
   font-weight: 800;
   background: var(--gradient-primary);
   -webkit-background-clip: text;
@@ -525,13 +525,13 @@ img {
 }
 
 .sidebar-user-name {
-  font-size: clamp(14px, 1.2vw + 10px, 18px);
+  font-size: clamp(14px, 0.3vw, 17px);
   font-weight: 700;
   color: var(--text-primary);
 }
 
 .sidebar-user-role {
-  font-size: clamp(11px, 0.8vw + 8px, 14px);
+  font-size: clamp(11px, 0.2vw, 13px);
   color: var(--accent-orange);
   font-weight: 600;
   text-transform: uppercase;
@@ -564,7 +564,7 @@ img {
   margin: 2px 8px;
   border-radius: var(--radius-md);
   color: var(--sidebar-text);
-  font-size: clamp(14px, 1.2vw + 10px, 18px);
+  font-size: clamp(14px, 0.3vw, 17px);
   font-weight: 600;
   transition: var(--transition);
   cursor: pointer;
@@ -668,7 +668,7 @@ img {
 
 .topbar-title {
   font-family: var(--font-heading);
-  font-size: clamp(18px, 1.5vw + 14px, 26px);
+  font-size: clamp(18px, 0.6vw, 21px);
   font-weight: 700;
 }
 
@@ -1530,7 +1530,7 @@ img {
 
 .food-card-name {
   font-family: var(--font-heading);
-  font-size: clamp(13px, 1.1vw, 15px);
+  font-size: clamp(13px, 0.3vw, 15px);
   font-weight: 700;
   margin-bottom: 4px;
   white-space: nowrap;
@@ -1691,7 +1691,7 @@ img {
 .dashboard-topbar {
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border);
-  padding: 0 clamp(16px, 3vw, 28px);
+  padding: 0 clamp(16px, 1.0vw, 21px);
   height: 56px;
   display: flex;
   align-items: center;
@@ -1713,7 +1713,7 @@ img {
 .topbar-title {
   font-family: 'Outfit';
   font-weight: 800;
-  font-size: clamp(16px, 2.5vw, 20px);
+  font-size: clamp(16px, 0.9vw, 19px);
   color: var(--text-primary);
   margin: 0;
 }
@@ -1744,7 +1744,7 @@ img {
 
 .dashboard-content {
   flex: 1;
-  padding: clamp(12px, 3vw, 28px);
+  padding: clamp(12px, 1.0vw, 21px);
 }
 
 .dashboard-content.flush-top {
@@ -1937,7 +1937,7 @@ img {
   }
 
   .food-card-name {
-    font-size: clamp(16px, 2vw + 12px, 20px) !important;
+    font-size: clamp(16px, 0.7vw, 19px) !important;
   }
 
   .food-card-price {
@@ -2468,14 +2468,14 @@ img {
 /* Sticky nutrition tracker — ALL SCREENS */
 .nutrition-tracker-sticky {
   position: sticky;
-  top: calc(56px - clamp(12px, 3vw, 28px) - 2px);
+  top: calc(56px - clamp(12px, 1.0vw, 21px) - 2px);
   z-index: 50;
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   border-radius: 0;
-  margin: calc(-1 * clamp(12px, 3vw, 28px)) calc(-1 * clamp(12px, 3vw, 28px)) 16px;
-  padding: 12px clamp(12px, 3vw, 28px);
+  margin: calc(-1 * clamp(12px, 1.0vw, 21px)) calc(-1 * clamp(12px, 1.0vw, 21px)) 16px;
+  padding: 12px clamp(12px, 1.0vw, 21px);
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
@@ -2483,7 +2483,7 @@ img {
 
 /* When sticky is the first meaningful child, kill top gap */
 .dashboard-content>.nutrition-tracker-sticky:first-child {
-  margin-top: calc(-1 * clamp(12px, 3vw, 28px));
+  margin-top: calc(-1 * clamp(12px, 1.0vw, 21px));
 }
 
 .dashboard-content.flush-top .nutrition-tracker-sticky {
@@ -2550,7 +2550,7 @@ img {
   }
 
   .food-card-name {
-    font-size: clamp(18px, 1.2vw + 14px, 24px) !important;
+    font-size: clamp(18px, 0.3vw, 21px) !important;
   }
 
   .food-card-price {
@@ -2902,12 +2902,12 @@ img {
 
 .kitchen-order-id {
   font-weight: 800;
-  font-size: clamp(16px, 3vw, 22px);
+  font-size: clamp(16px, 1.0vw, 19px);
   flex-shrink: 0;
 }
 
 .kitchen-order-details {
-  font-size: clamp(14px, 3vw, 18px);
+  font-size: clamp(14px, 1.0vw, 17px);
   color: var(--text-muted);
   white-space: nowrap;
   overflow: hidden;
@@ -2915,7 +2915,7 @@ img {
 }
 
 .kitchen-order-badge {
-  font-size: clamp(12px, 3vw, 15px);
+  font-size: clamp(12px, 1.0vw, 14px);
   flex-shrink: 0;
   padding: 6px 12px;
 }
@@ -2941,5 +2941,27 @@ img {
   .kitchen-order-badge {
     font-size: 11px;
     padding: 4px 8px;
+  }
+}
+/* --- TRUNCATION FOR NAMES --- */
+.text-truncate {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: block;
+  max-width: 100%;
+}
+
+/* --- DESKTOP ZOOM REDUCTION --- */
+@media (min-width: 1024px) {
+  body {
+    zoom: 0.9;
+  }
+}
+
+/* --- COMPENSATE VH FOR ZOOM --- */
+@media (min-width: 1024px) {
+  html, body, #root, .app-layout, .app-main, .auth-container {
+    min-height: 112vh !important;
   }
 }

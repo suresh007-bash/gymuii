@@ -25,8 +25,8 @@ export default function ClientSettings() {
   const Row = ({ icon, label, desc, children }) => (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 0', borderBottom: '1px solid var(--border)' }}>
       <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-        <span style={{ fontSize: 'clamp(18px, 3vw, 24px)' }}>{icon}</span>
-        <div><div style={{ fontWeight: 700, fontSize: 'clamp(13px, 3vw, 18px)' }}>{label}</div>{desc && <div style={{ fontSize: 'clamp(12px, 3vw, 16px)', color: 'var(--text-muted)' }}>{desc}</div>}</div>
+        <span style={{ fontSize: 'clamp(18px, 1.0vw, 21px)' }}>{icon}</span>
+        <div><div style={{ fontWeight: 700, fontSize: 'clamp(13px, 1.0vw, 15px)' }}>{label}</div>{desc && <div style={{ fontSize: 'clamp(12px, 1.0vw, 14px)', color: 'var(--text-muted)' }}>{desc}</div>}</div>
       </div>
       {children}
     </div>
